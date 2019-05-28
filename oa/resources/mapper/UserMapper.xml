@@ -382,4 +382,12 @@
       modified_name = #{modifiedName,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=CHAR}
   </update>
+  <!-- 根据用户id和密码查询用户 -->
+  <select id="findUserByNameAndPwd" parameterType="com.oa.bean.User" resultType="com.oa.bean.User">
+	select uid,password from t_user where uid = #{uid} and password= #{password}
+	</select>
+	<!-- 更新密码 -->
+	<update id="updatePassword" parameterType="com.oa.bean.User" resultType="com.oa.bean.User">
+	update t_user set password=#{repwd} where uid=#{uid}
+	</update>
 </mapper>

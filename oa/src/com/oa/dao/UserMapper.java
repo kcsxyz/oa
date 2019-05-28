@@ -27,4 +27,9 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    //根据用户id和密码查询
+    User findUserByNameAndPwd(@Param("uid")String uid, @Param("password")String password);
+    //更新密码
+	User updatePassword(@Param("password")String repwd);
 }

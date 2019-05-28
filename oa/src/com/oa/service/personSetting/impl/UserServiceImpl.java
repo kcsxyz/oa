@@ -20,5 +20,17 @@ public class UserServiceImpl implements UserService {
 		User user =userMapper.selectByPrimaryKey(uid);
 		return user;
 	}
+	
+	@Override
+	public User login(String uid, String password) {
+		// TODO Auto-generated method stub
+		
+		return userMapper.findUserByNameAndPwd(uid, password);
+	}
+	@Override
+	public User updatePassword(String repwd) {
+		// TODO Auto-generated method stub
+		return userMapper.updatePassword(repwd);
+	}
 
 }
