@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oa.dao.AttendMapper">
+  <resultMap id="BaseResultMap" type="com.oa.bean.Attend">
+    <id column="attend_id" jdbcType="INTEGER" property="attendId" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="curr_date" jdbcType="TIMESTAMP" property="currDate" />
+    <result column="week" jdbcType="CHAR" property="week" />
+    <result column="attend_mor_start" jdbcType="TIMESTAMP" property="attendMorStart" />
+    <result column="attend_mor_leave" jdbcType="TIMESTAMP" property="attendMorLeave" />
+    <result column="attend_noon_start" jdbcType="TIMESTAMP" property="attendNoonStart" />
+    <result column="attend_noon_leave" jdbcType="TIMESTAMP" property="attendNoonLeave" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    attend_id, user_id, dept_id, curr_date, week, attend_mor_start, attend_mor_leave, 
+    attend_noon_start, attend_noon_leave, status
+  </sql>
+  <select id="selectByExample" parameterType="com.oa.bean.AttendExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_attend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_attend
+    where attend_id = #{attendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_attend
+    where attend_id = #{attendId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oa.bean.AttendExample">
+    delete from t_attend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oa.bean.Attend">
+    insert into t_attend (attend_id, user_id, dept_id, 
+      curr_date, week, attend_mor_start, 
+      attend_mor_leave, attend_noon_start, attend_noon_leave, 
+      status)
+    values (#{attendId,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{deptId,jdbcType=INTEGER}, 
+      #{currDate,jdbcType=TIMESTAMP}, #{week,jdbcType=CHAR}, #{attendMorStart,jdbcType=TIMESTAMP}, 
+      #{attendMorLeave,jdbcType=TIMESTAMP}, #{attendNoonStart,jdbcType=TIMESTAMP}, #{attendNoonLeave,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oa.bean.Attend">
+    insert into t_attend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attendId != null">
+        attend_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="currDate != null">
+        curr_date,
+      </if>
+      <if test="week != null">
+        week,
+      </if>
+      <if test="attendMorStart != null">
+        attend_mor_start,
+      </if>
+      <if test="attendMorLeave != null">
+        attend_mor_leave,
+      </if>
+      <if test="attendNoonStart != null">
+        attend_noon_start,
+      </if>
+      <if test="attendNoonLeave != null">
+        attend_noon_leave,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attendId != null">
+        #{attendId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=CHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="currDate != null">
+        #{currDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null">
+        #{week,jdbcType=CHAR},
+      </if>
+      <if test="attendMorStart != null">
+        #{attendMorStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendMorLeave != null">
+        #{attendMorLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendNoonStart != null">
+        #{attendNoonStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendNoonLeave != null">
+        #{attendNoonLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oa.bean.AttendExample" resultType="java.lang.Long">
+    select count(*) from t_attend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_attend
+    <set>
+      <if test="record.attendId != null">
+        attend_id = #{record.attendId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=CHAR},
+      </if>
+      <if test="record.deptId != null">
+        dept_id = #{record.deptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.currDate != null">
+        curr_date = #{record.currDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.week != null">
+        week = #{record.week,jdbcType=CHAR},
+      </if>
+      <if test="record.attendMorStart != null">
+        attend_mor_start = #{record.attendMorStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attendMorLeave != null">
+        attend_mor_leave = #{record.attendMorLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attendNoonStart != null">
+        attend_noon_start = #{record.attendNoonStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attendNoonLeave != null">
+        attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_attend
+    set attend_id = #{record.attendId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=CHAR},
+      dept_id = #{record.deptId,jdbcType=INTEGER},
+      curr_date = #{record.currDate,jdbcType=TIMESTAMP},
+      week = #{record.week,jdbcType=CHAR},
+      attend_mor_start = #{record.attendMorStart,jdbcType=TIMESTAMP},
+      attend_mor_leave = #{record.attendMorLeave,jdbcType=TIMESTAMP},
+      attend_noon_start = #{record.attendNoonStart,jdbcType=TIMESTAMP},
+      attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oa.bean.Attend">
+    update t_attend
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=CHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="currDate != null">
+        curr_date = #{currDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null">
+        week = #{week,jdbcType=CHAR},
+      </if>
+      <if test="attendMorStart != null">
+        attend_mor_start = #{attendMorStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendMorLeave != null">
+        attend_mor_leave = #{attendMorLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendNoonStart != null">
+        attend_noon_start = #{attendNoonStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendNoonLeave != null">
+        attend_noon_leave = #{attendNoonLeave,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where attend_id = #{attendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oa.bean.Attend">
+    update t_attend
+    set user_id = #{userId,jdbcType=CHAR},
+      dept_id = #{deptId,jdbcType=INTEGER},
+      curr_date = #{currDate,jdbcType=TIMESTAMP},
+      week = #{week,jdbcType=CHAR},
+      attend_mor_start = #{attendMorStart,jdbcType=TIMESTAMP},
+      attend_mor_leave = #{attendMorLeave,jdbcType=TIMESTAMP},
+      attend_noon_start = #{attendNoonStart,jdbcType=TIMESTAMP},
+      attend_noon_leave = #{attendNoonLeave,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where attend_id = #{attendId,jdbcType=INTEGER}
+  </update>
+</mapper>

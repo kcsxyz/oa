@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+  	<commentGenerator>
+        <property name="suppressAllComments" value="true" />
+    </commentGenerator>
+  	<!-- 数据库连接配置的connectionURL不能直接使用&号 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql:///oa?useUnicode=true&amp;characterEncoding=UTF-8" 
+        userId="root"
+        password="root">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+	
+	<!-- javaModelGenerator：指定javaBean的生成策略 
+	targetPackage="test.model"：目标包名
+	targetProject="\MBGTestProject\src"：目标工程
+	-->
+    <javaModelGenerator targetPackage="com.oa.bean" targetProject=".\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+	
+	<!-- sqlMapGenerator：sql映射生成策略： -->
+    <sqlMapGenerator targetPackage="mapper"  targetProject=".\resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+	<!-- javaClientGenerator:指定mapper接口所在的位置 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.oa.dao"  targetProject=".\src">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table tableName="t_attend" domainObjectName="Attend" ></table>
+	<table tableName="t_attend_count" domainObjectName="AttendCount" ></table>
+	<table tableName="t_audit" domainObjectName="Audit" ></table>
+	<table tableName="t_dept" domainObjectName="Dept" ></table>
+	<table tableName="t_file" domainObjectName="File" ></table>
+	<table tableName="t_leave" domainObjectName="Leave" ></table>
+	<table tableName="t_notice" domainObjectName="Notice" ></table>
+	<table tableName="t_permission" domainObjectName="Permission" ></table>
+	<table tableName="t_person_tel" domainObjectName="PersonTel" ></table>
+	<table tableName="t_process" domainObjectName="Process" ></table>
+	<table tableName="t_process_line" domainObjectName="ProcessLine" ></table>
+	<table tableName="t_process_node" domainObjectName="ProcessNode" ></table>
+	<table tableName="t_process_role_user" domainObjectName="ProcessRoleUser" ></table>
+	<table tableName="t_project" domainObjectName="Project" ></table>
+	<table tableName="t_role" domainObjectName="Role" ></table>
+	<table tableName="t_schedule" domainObjectName="Schedule" ></table>
+	<table tableName="t_user" domainObjectName="User" ></table>
+	<table tableName="t_work_log" domainObjectName="WorkLog" ></table>
+	<table tableName="t_work_plan" domainObjectName="WorkPlan" ></table>
+	<table tableName="t_work_time" domainObjectName="WorkTime" ></table>
+  </context>
+</generatorConfiguration>
