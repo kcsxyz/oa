@@ -16,12 +16,10 @@
     <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.min.css">
     <link rel="icon" href="<%=basePath%>/favicon.ico">
+    <script src="assets/jquery-1.9.1.js"></script>
     <script src="bootstrap/bootstrap.js"></script>
     <script src="bootstrap/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>通讯录</title>
+	<title>通讯录</title>
 </head>
 <%  
 	List list=new ArrayList();
@@ -39,10 +37,14 @@
                             <section class="panel">
                               <header class="panel-heading">
                               		<div class="select-exterior">
-                              			<input type="text" name="title" style="border-radius: 35px;" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
-                              			 <button class="layui-btn layui-btn-sm layui-btn-warm">
-                              			 	<i class="layui-icon -search">&#xe615;</i> 
-                              			 </button>
+                              			<div class="select-interior-left">
+                              				<input type="text" name="title" style="height:30px;" placeholder="请输入姓名"  class="layui-input">
+                               			 </div>
+                               			 <div class="select-interior-right">
+	                              			 <button class="layui-btn layui-btn-sm layui-btn-warm">
+	                              			 	<i class="layui-icon -search">&#xe615;</i> 
+	                              			 </button>
+                              			 </div>
                               		</div>
 			                        <div class="dropdown">
 										    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">部门
