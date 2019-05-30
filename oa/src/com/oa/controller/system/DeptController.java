@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,14 +23,19 @@ import com.oa.service.system.DeptService;
  * @author PTB
  *
  */
-@RequestMapping("system")
 @Controller
+@RequestMapping("system")
 public class DeptController {
 	
 	@Resource
 	private DeptService deptService;
 	
+	/**根据id删除部门
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping("/deleteDept/{ids}")
+	@ResponseBody
 	public ResponseResult deleteDept(@PathVariable("ids") String ids) {
 		ResponseResult rr = new ResponseResult();
 		// 批量刪除
@@ -52,7 +58,8 @@ public class DeptController {
 	 * @param dept
 	 * @return
 	 */
-	@RequestMapping
+	@RequestMapping("/updateDeptById")
+	@ResponseBody
 	public ResponseResult updateDeptById(Dept dept) {
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.saveDept(dept);
@@ -69,7 +76,8 @@ public class DeptController {
 	 * @param dept
 	 * @return
 	 */
-	@RequestMapping
+	@RequestMapping("/saveDept")
+	@ResponseBody
 	public ResponseResult saveDept(Dept dept) {
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.saveDept(dept);
@@ -85,7 +93,7 @@ public class DeptController {
 	 * @return
 	 */
 	@RequestMapping("/getDeptList")
-	public String deptManange(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+	public String deptList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
 		
 		try {
