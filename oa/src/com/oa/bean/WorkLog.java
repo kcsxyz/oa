@@ -72,4 +72,12 @@ public class WorkLog {
     public void setModifiedName(String modifiedName) {
         this.modifiedName = modifiedName == null ? null : modifiedName.trim();
     }
+
+	@Override
+	public String toString() {
+		return "WorkLog [logId=" + logId + ", title=" + title + ", content=" + content + ", createTime=" + createTime
+				+ ", createName=" + createName + ", modifiedTime=" + modifiedTime + ", modifiedName=" + modifiedName
+				+ "]";
+	}
+   
 }

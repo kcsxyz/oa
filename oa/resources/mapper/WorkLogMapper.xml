@@ -240,4 +240,5 @@
       modified_name = #{modifiedName,jdbcType=CHAR}
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
+	
 </mapper>
