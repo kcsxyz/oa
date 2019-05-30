@@ -52,6 +52,7 @@ public class DeptServiceImpl implements DeptService {
 		DeptExample de = new DeptExample();
 		Criteria ct = de.createCriteria();
 		ct.andDeptIdIn(listId);
+		deptMapper.deleteByExample(de);
 		
 	}
 
