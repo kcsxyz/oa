@@ -38,6 +38,8 @@ public class User {
     
     private Dept dept;
     
+    
+    
     private List<Permission> permissions;
 
     public String getUid() {
