@@ -9,9 +9,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="<%=basePath%>css/address.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/layui.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/admin.css">
-    <link rel="stylesheet" href="<%=basePath%>assets/css/address.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/style.min862f.css">
     <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.min.css">
@@ -33,9 +33,11 @@
 	<div class="wrapper wrapper-content">
                             <section class="panel">
                               <header class="panel-heading">
-                                 	<button class="layui-btn layui-btn-sm layui-btn-radius">
+                              <a href="addressAllList.jsp">
+                                 	<button  class="layui-btn layui-btn-sm layui-btn-radius">
   										<i class="layui-icon">&#xe608;</i> 添加
 									</button>
+							  </a>
 									<button class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger">
   										<i class="layui-icon -delete">&#xe640;</i> 删除
 									</button>
@@ -102,9 +104,8 @@
 						                      </span>条记录</span>
 									</div>
 									</div>
-									<div class="pagination-left">
-					               	<div class="pull-right pagination">
-						                 <ul class="pagination pagination-outline">
+									<div class="pagination-right">
+						                 <ul class="pagination">
 						                     <li class="page-pre">
 						                            <a href="javascript:void(0)">&lt;</a>
 						                     </li>
@@ -119,9 +120,7 @@
 						                     </li>
 						                 </ul>
 						            </div>
-						            <div class="pagination-left">
-                        </div>
-                  </div>
+                
               </section>
 
 

@@ -75,7 +75,7 @@
 			                            <dd><a href="views/form.html">工作日志</a></dd>
 			                            <dd><a href="views/form.html">工作计划</a></dd>
 			                            <dd><a href="views/form.html">个人日程</a></dd>
-			                            <dd><a href="address-list.jsp">个人通讯录</a></dd>
+			                            <dd><a href="addressPersonalList.jsp">个人通讯录</a></dd>
 			                            <!-- <dd>
 			                                <a href="javascript:;">页面</a>
 			                                <dl class="layui-nav-child">
@@ -132,5 +132,8 @@
 			
 			            </div>
 			        </div>
+	<script src="assets/layui.js"></script>
+    <script src="js/index.js" data-main="home"></script>
+    <script src="js/home.js" ></script>
 </body>
 </html>
