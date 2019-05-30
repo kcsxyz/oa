@@ -26,7 +26,49 @@ public class WorkLogServiceImpl implements WorkLogService {
 	@Override
 	public WorkLog getWorkLogByLogid(Integer logId) {
 		// TODO Auto-generated method stub
-		return workLogMapper.selectByPrimaryKey(logId);
+		WorkLog workLog=workLogMapper.selectByPrimaryKey(logId);
+		return workLog;
 	}
 
+	@Override
+	public void addWorkLog(WorkLog workLog) {
+		// TODO Auto-generated method stub
+		workLogMapper.insert(workLog);
+	}
+
+	@Override
+	public void deleteWorkLog(Integer logId) {
+		// TODO Auto-generated method stub
+		workLogMapper.deleteByPrimaryKey(logId);
+	}
+
+	@Override
+	public void deleteDeptBatch(List<Integer> listId) {
+		// TODO Auto-generated method stub
+		WorkLogExample de = new WorkLogExample();
+		Criteria ct = de.createCriteria();
+		ct.andLogIdIn(listId);
+		workLogMapper.deleteByExample(de);
+	}
+
+	@Override
+	public void updateWorkLog(WorkLog worklog) {
+		// TODO Auto-generated method stub
+		workLogMapper.updateByPrimaryKey(worklog);
+	}
+
+	@Override
+	public List<WorkLog> selectLikeWorkLog(String workLogInfo) {
+		// TODO Auto-generated method stub
+		WorkLogExample de = new WorkLogExample();
+		Criteria ct = de.createCriteria();
+		ct.andTitleLike("%"+workLogInfo+"%");
+		Criteria ct2 = de.createCriteria();
+		ct2.andContentLike("%"+workLogInfo+"%");
+		de.or(ct2);
+		return workLogMapper.selectByExample(de);
+	}
+	
+	
+	
 }

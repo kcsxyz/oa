@@ -395,7 +395,7 @@
 	select * from t_user
 	</select>
 	<!-- 模糊查询 -->
-	<select id="selectLikeUser" resultType="com.oa.bean.User"  parameterType="com.oa.bean.User">
+	<select id="selectLikeUser" resultType="com.oa.bean.User"  parameterType="String">
 	select * from t_user
 	<where>
 	   <if test=" userInfo!= null and  userInfo!= ''">

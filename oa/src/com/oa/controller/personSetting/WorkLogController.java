@@ -1,5 +1,6 @@
 package com.oa.controller.personSetting;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.oa.bean.ResponseResult;
 import com.oa.bean.User;
 import com.oa.bean.WorkLog;
 import com.oa.service.personSetting.WorkLogService;
@@ -51,12 +53,87 @@ import com.oa.utils.md5;
 			}
 			return "workLoglist";			
 		}
+		/**
+		 * @param logId
+		 * @param model
+		 * @return
+		 * 根据id查询日志
+		 */
 		@RequestMapping("/getWorkLogById")
 		@ResponseBody
-		public String getWorkLogById(@PathVariable("logId")Integer logId,Model model) {
+		public String getWorkLogById(Integer logId,Model model) {
 			WorkLog workLog=workLogService.getWorkLogByLogid(logId);
 			model.addAttribute("workLog", workLog);
+			System.out.println(workLog);
 			return "getWorkLogById";
 		}
+		/**
+		 * @param workLog
+		 * @param model
+		 * @return
+		 * 新增日志
+		 */
+		@RequestMapping("addWorkLog")
+		@ResponseBody
+		public String addWorkLog(WorkLog workLog,Model model) {
+			
+			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null) {
+				workLogService.addWorkLog(workLog);
+				model.addAttribute("workLog", workLog);
+			}
+			return "addWorkLog";
+		}
+		
+		public ResponseResult deleteWorkLog(String logId) {
+			ResponseResult rr = new ResponseResult();
+			String ids=logId;
+			//批量删除
+			if (ids.contains("-")) {
+				List<Integer> listId = new ArrayList<>();
+				String[] split_ids = ids.split("-");
+				for (String string : split_ids) {
+					listId.add(Integer.parseInt(string));
+					workLogService.deleteDeptBatch(listId);
+				}
+			// 单个删除
+			} else {
+				Integer id = Integer.parseInt(ids);
+				workLogService.deleteWorkLog(id);;
+					}
+			return rr.success();			
+		}
+		/**
+		 * @param worklog
+		 * @param model
+		 * @return
+		 * 修改日志
+		 */
+		@RequestMapping("updateWorkLog")
+		@ResponseBody
+		public String updateWorkLog(WorkLog worklog,Model model) {
+			
+			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
+				workLogService.updateWorkLog(worklog);
+			}
+			return "updateWorkLog";
+		}
+		/**
+		 * @param workLogInfo
+		 * @param model
+		 * @return
+		 * 模糊查询
+		 */
+		@RequestMapping("/selectLikeWorkLog")
+		@ResponseBody
+		public String selectLikeWorkLog(String workLogInfo,Model model) {
+			workLogInfo="刘";
+			List<WorkLog> workLoglist = workLogService.selectLikeWorkLog(workLogInfo);
+			model.addAttribute("workLoglist",workLoglist);
+	       for (WorkLog workLog : workLoglist) {
+			System.out.println(workLog);
+		}
+			return "selectLikeWorkLog";			
+		}
+		
 		
 	}
