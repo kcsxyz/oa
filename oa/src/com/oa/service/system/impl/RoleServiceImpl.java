@@ -44,11 +44,12 @@ public class RoleServiceImpl implements RoleService {
 		RoleExample re = new RoleExample();
 		Criteria ct =re.createCriteria();
 		ct.andRoleIdIn(listId);
+		roleMapper.deleteByExample(re);
 	}
 
 	@Override
-	public void deleteRole(int parseInt) {
-		// TODO Auto-generated method stub
+	public void deleteRole(Integer id) {
+		roleMapper.deleteByPrimaryKey(id);
 		
 	}
 

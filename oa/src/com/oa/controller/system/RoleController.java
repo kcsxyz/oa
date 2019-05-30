@@ -39,7 +39,8 @@ public class RoleController {
 			roleService.deleteRoleBacth(listId);
 		//单个删除
  		}else {
- 			roleService.deleteRole(Integer.parseInt(ids));
+ 			Integer id = Integer.parseInt(ids);
+ 			roleService.deleteRole(id);
  		}
 		
 		return rr;

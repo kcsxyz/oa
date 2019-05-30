@@ -16,9 +16,11 @@ public interface RoleService {
 	int updateRole(Role role);
 	
 	//删除单个角色
-	void deleteRole(int parseInt);
+	void deleteRole(Integer id);
 	
 	//批量删除
 	void deleteRoleBacth(List<Integer> listId);
+
+	
 
 }

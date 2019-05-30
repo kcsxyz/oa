@@ -62,7 +62,7 @@ public class DeptController {
 	@ResponseBody
 	public ResponseResult updateDeptById(Dept dept) {
 		ResponseResult rr = new ResponseResult();
-		int i =deptService.saveDept(dept);
+		int i =deptService.updateDept(dept);
 		if(i>0) {
 			rr.setStateCode(1);;
 		}else {
