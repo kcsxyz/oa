@@ -19,10 +19,14 @@ public class WorkLogServiceImpl implements WorkLogService {
 	@Override//查询所有工作日志
 	public List<WorkLog> selectWorkLog() {
 		// TODO Auto-generated method stub		
-		
 		List<WorkLog> workLogList=workLogMapper.selectByExample(null);
-		
 		return workLogList;
+	}
+
+	@Override
+	public WorkLog getWorkLogByLogid(Integer logId) {
+		// TODO Auto-generated method stub
+		return workLogMapper.selectByPrimaryKey(logId);
 	}
 
 }
