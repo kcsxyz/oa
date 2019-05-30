@@ -31,5 +31,10 @@ public interface UserMapper {
     //根据用户id和密码查询
     User findUserByNameAndPwd(@Param("uid")String uid, @Param("password")String password);
     //更新密码
-	User updatePassword(@Param("password")String repwd);
+	int updatePassword(User user);
+	//查询所有用户
+	List<User> selectUser();
+	//模糊查询
+	List<User> selectLikeUser(@Param("userInfo")String userInfo);
+
 }

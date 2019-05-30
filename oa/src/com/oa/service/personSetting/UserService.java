@@ -1,5 +1,7 @@
 package com.oa.service.personSetting;
 
+import java.util.List;
+
 import com.oa.bean.User;
 
 public interface UserService {
@@ -7,8 +9,20 @@ public interface UserService {
 	User getUser(String uid);
 	//登录
 	User login(String uid, String password);
-	//修改密码
-	User updatePassword(String repwd);
 	
-
+	//根据id获取密码
+	String getPasswordByUid(String uid);
+	//修改密码
+	void updatePassword(String uid, String repassword);
+	//增加用户
+	void addUser(User user);
+	//删除用户
+	void deleteUserByUid(String uid);
+	//修改用户
+	void updateUser(User user);
+	//查询所有用户
+	List<User> selectUser();
+	//模糊查询
+	List<User> selectLikeUser(String userInfo);
+	
 }
