@@ -72,4 +72,11 @@ public class Notice {
     public void setType(Integer type) {
         this.type = type;
     }
+
+	@Override
+	public String toString() {
+		return "Notice [noticeId=" + noticeId + ", title=" + title + ", content=" + content + ", browsePower="
+				+ browsePower + ", createName=" + createName + ", createTime=" + createTime + ", type=" + type + "]";
+	}
+    
 }
