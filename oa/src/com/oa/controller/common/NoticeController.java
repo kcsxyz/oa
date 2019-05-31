@@ -63,8 +63,8 @@ public class NoticeController {
 			
 			e.printStackTrace();
 		}
-		
 	}
+	
 	/**
 	 * 通过id查询
 	 * @return
