@@ -55,13 +55,13 @@ import com.oa.utils.md5;
 		User user=userService.login(uid,pwd);
 		if(user!=null){
 			session.setAttribute("user", user);
-            //System.out.println("登录成功");
+            System.out.println("登录成功");
             rr.setStateCode(1);
-                    
+            rr.setMessage("登录成功");         
         }else {
         	rr.setStateCode(0);
             rr.setMessage("登录失败");
-            //System.out.println("登录失败");
+            System.out.println("登录失败");
         }
 				
 			return rr;				
@@ -80,8 +80,8 @@ import com.oa.utils.md5;
         session.removeAttribute("user");//我这里是先取出httpsession中的user属性
         session.invalidate();  //然后是让httpsession失效
         sessionStatus.setComplete();//最后是调用sessionStatus方法
-        //System.out.println("注销成功");
-       
+        System.out.println("注销成功");
+        rr.setMessage("注销成功");
         rr.setStateCode(1);
         return rr;
     }
@@ -123,7 +123,7 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/addUser")
 		@ResponseBody
-		public ResponseResult insertUser(User user,HttpSession session) {
+		public ResponseResult insertUser(User user,Model model,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1==null) {
@@ -131,13 +131,13 @@ import com.oa.utils.md5;
 			user1.setCreateTime(new Date());	
 			//需要修改
 			user1.setCreateName((String) session.getAttribute(user1.getName()));
-			session.setAttribute("user", user1);
+			model.addAttribute("user", user1);
 			userService.addUser(user1);
 			//System.out.println("添加成功");
 			
 			rr.setStateCode(1);			
 			}else {
-				System.out.println("用户已存在");
+				//System.out.println("用户已存在");
 				rr.setMessage("用户已存在");
 				rr.setStateCode(0);
 			}
@@ -176,7 +176,7 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/updateUser")
 		@ResponseBody
-		public ResponseResult updateUser(User user,HttpSession session) {
+		public ResponseResult updateUser(User user,HttpSession session,Model model) {
 			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1!=null) {			
@@ -185,9 +185,8 @@ import com.oa.utils.md5;
 			user1.setModifiedName((String) session.getAttribute(user.getName()));
 			user1.setModifiedTime(new Date());
 			userService.updateUser(user1);
-			session.setAttribute("user", user1);
-			//System.out.println("修改成功");
-			
+			model.addAttribute("user", user1);
+			System.out.println("修改成功");			
 			rr.setStateCode(1);
 			}else {
 				//System.out.println("修改失败");
@@ -204,14 +203,14 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/rePassword")
 		@ResponseBody
-		public ResponseResult rePassword(String uid,String repassword,HttpSession session)  throws Exception{			
+		public ResponseResult rePassword(String uid,String repassword,Model model)  throws Exception{			
 			ResponseResult rr=new ResponseResult();
 			String repwd=md5.GetMD5Code(repassword);
 			User user=userService.getUser(uid);		
 			if(user!=null) {			
 				user.setPassword(repwd);
 				userService.updateUser(user);
-				session.setAttribute("user", user);
+				model.addAttribute("user", user);
 				//System.out.println("密码重置成功");
 				
 				rr.setStateCode(1);		
@@ -232,13 +231,13 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/alluser")
 		@ResponseBody
-		public ResponseResult  queryUser(HttpSession session) throws Exception{
+		public ResponseResult  queryUser(Model model) throws Exception{
 			ResponseResult rr=new ResponseResult();
 		        List<User> userlist = userService.selectUser();
-		        session.setAttribute("userlist", userlist);
-		        for(User users:userlist) {
-					//System.out.println(users);
-				}
+		       model.addAttribute("userlist", userlist);
+		       /* for(User users:userlist) {
+					System.out.println(users);
+				}*/
 		        if(userlist.size()!=0) {
 		        	rr.setStateCode(1);
 		        }else {
@@ -258,13 +257,13 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/selectLikeUser")
 		@ResponseBody
-		public ResponseResult selectLikeUser(String userInfo,HttpSession session) {
+		public ResponseResult selectLikeUser(String userInfo,Model model) {
 			ResponseResult rr=new ResponseResult();
 			List<User> userlist = userService.selectLikeUser(userInfo);
-			 session.setAttribute("userlist", userlist);
-	        for(User users:userlist) {
-				//System.out.println(users);
-			}
+			 model.addAttribute("userlist", userlist);
+	       /* for(User users:userlist) {
+				System.out.println(users);
+			}*/
 	        rr.setStateCode(1);
 			return rr;			
 		}
