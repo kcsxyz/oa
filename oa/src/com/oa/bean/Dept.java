@@ -11,7 +11,8 @@ public class Dept {
 
     private String remark;
 
-    public Integer getDeptId() {
+ 
+	public Integer getDeptId() {
         return deptId;
     }
 
@@ -50,4 +51,8 @@ public class Dept {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+
+    
+    
 }

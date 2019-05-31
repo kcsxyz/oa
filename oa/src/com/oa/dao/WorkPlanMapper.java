@@ -1,8 +1,11 @@
 package com.oa.dao;
 
+
 import com.oa.bean.WorkPlan;
 import com.oa.bean.WorkPlanExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface WorkPlanMapper {
@@ -17,6 +20,8 @@ public interface WorkPlanMapper {
     int insertSelective(WorkPlan record);
 
     List<WorkPlan> selectByExample(WorkPlanExample example);
+    
+    List<WorkPlan> selectByParams(@Param("param") Map<String, String> params);
 
     WorkPlan selectByPrimaryKey(Integer id);
 

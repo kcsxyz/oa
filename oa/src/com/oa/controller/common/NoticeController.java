@@ -195,9 +195,7 @@ public class NoticeController {
 			map.put("Info", Info);
 	        map.put("startTime",startTime);
 	        map.put("endTime",endTime);
-	       
-	    
-		
+
 	        String deptName ="办公室";
 	     	 // startPage后紧跟着的就是一个分页查询
 	    	//PageHelper.startPage(pageNo, pageSize);
