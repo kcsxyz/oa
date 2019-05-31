@@ -316,21 +316,21 @@
          <!--  t_work_plan -->
             <where>
             <if test=" param.Info!= null and  param.Info!= ''">
-                AND opinion like CONCAT('%',#{param.Info},'%')
-               or content like CONCAT('%',#{param.Info},'%')
-               or create_name like CONCAT('%',#{param.Info},'%')
+                AND wp.opinion like CONCAT('%',#{param.Info},'%')
+               or wp.content like CONCAT('%',#{param.Info},'%')
+               or wp.create_name like CONCAT('%',#{param.Info},'%')
             </if> 
             <if test="param.status !=null and param.status!=''">
-              and status = #{param.status}
+              and wp.status = #{param.status}
             </if>
              <if test="param.type !=null and param.type!=''">
-              and type = #{param.type}
+              and wp.type = #{param.type}
             </if>
          <if test="param.startTime!=null and param.startTime!=''">
-  	        <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+  	        <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
       	</if>
       	<if test="param.endTime!=null and param.endTime!=''">
-  	     <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+  	     <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
 	   </if>
       </where>
  </select>
