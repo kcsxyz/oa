@@ -34,15 +34,15 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/workLoglist")
 		@ResponseBody
-		public String selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+		public ResponseResult selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
-			
+			ResponseResult rr=new ResponseResult();
 			try {
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
 				List<WorkLog> workLoglist = workLogService.selectWorkLog();	
 				for (WorkLog workLog : workLoglist) {
-					System.out.println(workLog);
+					//System.out.println(workLog);
 				}
 				// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 				PageInfo<WorkLog> page = new PageInfo<WorkLog>(workLoglist, 3);
@@ -51,7 +51,8 @@ import com.oa.utils.md5;
 				
 				e.printStackTrace();
 			}
-			return "workLoglist";			
+			rr.setStateCode(1);
+			return rr;			
 		}
 		/**
 		 * @param logId
@@ -61,11 +62,13 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/getWorkLogById")
 		@ResponseBody
-		public String getWorkLogById(Integer logId,Model model) {
+		public ResponseResult getWorkLogById(Integer logId,Model model) {
+			ResponseResult rr=new ResponseResult();
 			WorkLog workLog=workLogService.getWorkLogByLogid(logId);
 			model.addAttribute("workLog", workLog);
-			System.out.println(workLog);
-			return "getWorkLogById";
+			//System.out.println(workLog);
+			rr.setStateCode(1);
+			return rr;
 		}
 		/**
 		 * @param workLog
@@ -75,13 +78,17 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("addWorkLog")
 		@ResponseBody
-		public String addWorkLog(WorkLog workLog,Model model) {
-			
+		public ResponseResult addWorkLog(WorkLog workLog,Model model) {
+			ResponseResult rr=new ResponseResult();
 			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null) {
 				workLogService.addWorkLog(workLog);
 				model.addAttribute("workLog", workLog);
+				rr.setStateCode(1);
+			}else {
+				rr.setMessage("添加失败");
+				rr.setStateCode(0);
 			}
-			return "addWorkLog";
+			return rr;
 		}
 		
 		public ResponseResult deleteWorkLog(String logId) {
@@ -95,12 +102,14 @@ import com.oa.utils.md5;
 					listId.add(Integer.parseInt(string));
 					workLogService.deleteDeptBatch(listId);
 				}
+				rr.setStateCode(1);
 			// 单个删除
 			} else {
 				Integer id = Integer.parseInt(ids);
 				workLogService.deleteWorkLog(id);;
+				rr.setStateCode(1);
 					}
-			return rr.success();			
+			return rr;			
 		}
 		/**
 		 * @param worklog
@@ -110,12 +119,16 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("updateWorkLog")
 		@ResponseBody
-		public String updateWorkLog(WorkLog worklog,Model model) {
-			
+		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
+			ResponseResult rr=new ResponseResult();
 			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
 				workLogService.updateWorkLog(worklog);
+				rr.setStateCode(1);
+			}else {
+				rr.setMessage("修改失败");
+				rr.setStateCode(0);
 			}
-			return "updateWorkLog";
+			return rr;
 		}
 		/**
 		 * @param workLogInfo
@@ -125,14 +138,15 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/selectLikeWorkLog")
 		@ResponseBody
-		public String selectLikeWorkLog(String workLogInfo,Model model) {
-			workLogInfo="刘";
-			List<WorkLog> workLoglist = workLogService.selectLikeWorkLog(workLogInfo);
+		public ResponseResult selectLikeWorkLog(String workLogInfo,String startTime,String endTime,Model model) {
+			ResponseResult rr=new ResponseResult();
+			List<WorkLog> workLoglist = workLogService.selectLikeWorkLog(workLogInfo,startTime,endTime);
 			model.addAttribute("workLoglist",workLoglist);
-	       for (WorkLog workLog : workLoglist) {
+	       /*for (WorkLog workLog : workLoglist) {
 			System.out.println(workLog);
-		}
-			return "selectLikeWorkLog";			
+	       }*/
+			rr.setStateCode(1);
+			return rr;			
 		}
 		
 		

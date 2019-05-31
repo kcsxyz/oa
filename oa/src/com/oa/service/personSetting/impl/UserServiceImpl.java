@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.oa.bean.User;
+import com.oa.bean.WorkLogExample;
+import com.oa.bean.WorkLogExample.Criteria;
 import com.oa.dao.UserMapper;
 import com.oa.service.personSetting.UserService;
 
@@ -69,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public List<User> selectLikeUser(String userInfo) {
-		// TODO Auto-generated method stub
+		
 		return userMapper.selectLikeUser(userInfo);
 	}
 	
