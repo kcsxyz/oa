@@ -76,8 +76,8 @@ public class ValidateCodeUtil{
             randomString = drowString(g, randomString, i);
         }
         //将生成的随机字符串保存到session中
-        session.removeAttribute(RANDOMCODEKEY);
-        session.setAttribute(RANDOMCODEKEY, randomString);
+        session.removeAttribute("code");
+        session.setAttribute("code", randomString);
         g.dispose();
         try {
             // 将内存中的图片通过流动形式输出到客户端

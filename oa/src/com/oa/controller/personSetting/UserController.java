@@ -40,9 +40,15 @@ import com.oa.utils.md5;
 		@ResponseBody
 		public ResponseResult getUser(String uid) {
 			ResponseResult rr=new ResponseResult();
+			
 			User user =userService.getUser(uid);
+			if(user!=null) {
 			//System.out.println(user.toString());
 			rr.setStateCode(1);
+			}else {
+				rr.setMessage("工号不存在");
+				rr.setStateCode(0);
+			}
 			return rr;
 		}	
 	
@@ -55,20 +61,26 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public ResponseResult Login(String uid,String password,HttpSession session){
+	public ResponseResult Login(String uid,String password,String code,HttpSession session){
 		ResponseResult rr=new ResponseResult();
+		String sessioncode = (String) session.getAttribute("code");
+		System.out.println(sessioncode);
 		String pwd=md5.GetMD5Code(password);
-		User user=userService.login(uid,pwd);
-		if(user!=null){
-			session.setAttribute("user", user);
-            //System.out.println("登录成功");
-            rr.setStateCode(1);
-            rr.setMessage("登录成功");         
-        }else {
-        	rr.setStateCode(0);
-            rr.setMessage("用户名或密码错误");
-           // System.out.println("登录失败");
-        }
+		if(sessioncode.equals(code.toUpperCase())) {
+			User user=userService.login(uid,pwd);
+			if(user!=null){
+				session.setAttribute("user", user);
+	            //System.out.println("登录成功");
+	            rr.setStateCode(1);                   
+	        }else {
+	        	rr.setStateCode(0);
+	            rr.setMessage("密码错误");
+	           // System.out.println("登录失败");
+	        }
+		}else {
+			rr.setMessage("验证码错误");
+			rr.setStateCode(0);
+		}
 				
 			return rr;				
 	}
@@ -87,8 +99,13 @@ import com.oa.utils.md5;
         session.invalidate();  //然后是让httpsession失效
         sessionStatus.setComplete();//最后是调用sessionStatus方法
         //System.out.println("注销成功");
+        if(session.getAttribute("user")==null) {
         rr.setMessage("注销成功");
         rr.setStateCode(1);
+        }else {
+        	rr.setMessage("注销失败");
+        	rr.setStateCode(0);
+        }
         return rr;
     }
 	
@@ -270,7 +287,12 @@ import com.oa.utils.md5;
 	       /* for(User users:userlist) {
 				System.out.println(users);
 			}*/
+			 if(userlist.size()>0) {
 	        rr.setStateCode(1);
+			 }else {
+				 rr.setStateCode(0);
+				 rr.setMessage("未查到数据");
+			 }
 			return rr;			
 		}
 		/**
