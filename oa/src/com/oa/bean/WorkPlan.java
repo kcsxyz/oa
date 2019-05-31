@@ -102,4 +102,12 @@ public class WorkPlan {
     public void setOpinion(String opinion) {
         this.opinion = opinion == null ? null : opinion.trim();
     }
+
+	@Override
+	public String toString() {
+		return "WorkPlan [id=" + id + ", type=" + type + ", content=" + content + ", createTime=" + createTime
+				+ ", createName=" + createName + ", modifiedTime=" + modifiedTime + ", modifiedName=" + modifiedName
+				+ ", status=" + status + ", checkedName=" + checkedName + ", opinion=" + opinion + "]";
+	}
+    
 }

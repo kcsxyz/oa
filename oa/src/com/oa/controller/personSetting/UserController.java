@@ -26,18 +26,24 @@ import com.oa.utils.md5;
 
 
 	@Controller
-	@RequestMapping("user")
+	@RequestMapping("/user")
 	public class UserController {
 		@Resource
 		private UserService userService;
 		
+		/**
+		 * @param uid
+		 * @return
+		 * 根据id查询
+		 */
 		@RequestMapping("/getUser")
 		@ResponseBody
-		public void getUser() {
-			
-			User user =userService.getUser("admin");
-			System.out.println(user.toString());
-			
+		public ResponseResult getUser(String uid) {
+			ResponseResult rr=new ResponseResult();
+			User user =userService.getUser(uid);
+			//System.out.println(user.toString());
+			rr.setStateCode(1);
+			return rr;
 		}	
 	
 	/**
@@ -55,13 +61,13 @@ import com.oa.utils.md5;
 		User user=userService.login(uid,pwd);
 		if(user!=null){
 			session.setAttribute("user", user);
-            System.out.println("登录成功");
+            //System.out.println("登录成功");
             rr.setStateCode(1);
             rr.setMessage("登录成功");         
         }else {
         	rr.setStateCode(0);
-            rr.setMessage("登录失败");
-            System.out.println("登录失败");
+            rr.setMessage("用户名或密码错误");
+           // System.out.println("登录失败");
         }
 				
 			return rr;				
@@ -80,7 +86,7 @@ import com.oa.utils.md5;
         session.removeAttribute("user");//我这里是先取出httpsession中的user属性
         session.invalidate();  //然后是让httpsession失效
         sessionStatus.setComplete();//最后是调用sessionStatus方法
-        System.out.println("注销成功");
+        //System.out.println("注销成功");
         rr.setMessage("注销成功");
         rr.setStateCode(1);
         return rr;

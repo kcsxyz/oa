@@ -76,11 +76,12 @@ import com.oa.utils.md5;
 		 * @return
 		 * 新增日志
 		 */
-		@RequestMapping("addWorkLog")
+		@RequestMapping("/addWorkLog")
 		@ResponseBody
-		public ResponseResult addWorkLog(WorkLog workLog,Model model) {
+		public ResponseResult addWorkLog(WorkLog workLog,Model model,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
 			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null) {
+				workLog.setCreateTime(new Date());				
 				workLogService.addWorkLog(workLog);
 				model.addAttribute("workLog", workLog);
 				rr.setStateCode(1);
@@ -90,7 +91,13 @@ import com.oa.utils.md5;
 			}
 			return rr;
 		}
-		
+		/**
+		 * @param logId
+		 * @return
+		 * 删除日志
+		 */
+		@RequestMapping("/deleteWorkLog")
+		@ResponseBody
 		public ResponseResult deleteWorkLog(String logId) {
 			ResponseResult rr = new ResponseResult();
 			String ids=logId;
@@ -117,7 +124,7 @@ import com.oa.utils.md5;
 		 * @return
 		 * 修改日志
 		 */
-		@RequestMapping("updateWorkLog")
+		@RequestMapping("/updateWorkLog")
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
