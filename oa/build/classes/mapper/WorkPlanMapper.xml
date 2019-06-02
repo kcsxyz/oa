@@ -318,9 +318,11 @@
             <if test=" param.Info!= null and  param.Info!= ''">
                 AND wp.opinion like CONCAT('%',#{param.Info},'%')
                or wp.content like CONCAT('%',#{param.Info},'%')
-               or wp.create_name like CONCAT('%',#{param.Info},'%')
             </if> 
-            <if test="param.status !=null and param.status!=''">
+            <if test="param.createName !=null and param.createName!=''">
+              and wp.create_name = #{param.createName}
+            </if>
+             <if test="param.status !=null and param.status!=''">
               and wp.status = #{param.status}
             </if>
              <if test="param.type !=null and param.type!=''">

@@ -26,16 +26,10 @@ public class NoticeServiceImpl implements NoticeService {
 	/**
 	 * 发布公告
 	 */
-	public void saveNotice(Notice notice) {
-	       if(notice == null) {
-	    	   System.out.println("发布数据失败，可能没发布信息");
-	       }
-		  	 try {
-				noticeMapper.insert(notice);
-			} catch (Exception e) {
-				System.out.println("发布失败");
-				e.printStackTrace();
-			}
+	public int saveNotice(Notice notice) {
+
+		int   i =noticeMapper.insert(notice);
+			return i;
 			
 	}
 
@@ -46,20 +40,28 @@ public class NoticeServiceImpl implements NoticeService {
 		Notice notice=noticeMapper.selectByPrimaryKey(noticeId);
 		return notice;
 	}
-
+	
+	
 	/**
 	 * 根据id删除单条信息
 	 */
-	public int deleteByPrimaryKey(Integer noticeId) {
-		return noticeMapper.deleteByPrimaryKey(noticeId);
+	public void deleteDept(Integer id) {
+		noticeMapper.deleteByPrimaryKey(id);
+		
 	}
 	
 	/**
 	 * 批量删除
 	 */
-	public int deleteMany(Integer[] ids) {
-		return noticeMapper.deleteMany(ids);
+	public void deleteDeptBatch(List<Integer> listId) {
+		NoticeExample de = new NoticeExample();
+		Criteria ct = de.createCriteria();
+		ct.andNoticeIdIn(listId);
+		noticeMapper.deleteByExample(de);
+		
 	}
+
+
 
 	/**
 	 * 修改
@@ -109,6 +111,21 @@ public class NoticeServiceImpl implements NoticeService {
 		return notices;
 				
 	}
+
+	
+//	/**
+//	 * 根据id删除单条信息
+//	 */
+//	public int deleteByPrimaryKey(Integer noticeId) {
+//		return noticeMapper.deleteByPrimaryKey(noticeId);
+//	}
+//	
+//	/**
+//	 * 批量删除
+//	 */
+//	public int deleteMany(Integer[] ids) {
+//		return noticeMapper.deleteMany(ids);
+//	}
 
 	
 

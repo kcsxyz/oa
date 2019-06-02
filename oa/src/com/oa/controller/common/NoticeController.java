@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Notice;
+import com.oa.bean.ResponseResult;
 import com.oa.service.common.NoticeService;
 
 @Controller
@@ -39,7 +41,7 @@ public class NoticeController {
 	 */
 	@RequestMapping("/saveNotice")
 	@ResponseBody
-	public void saveNotice(
+	public ResponseResult  saveNotice(
 			 HttpSession session,
 			 String title, //uname是输入框中的id值,把uname的值赋给username
 			 String content, 
@@ -47,6 +49,7 @@ public class NoticeController {
 			@RequestParam("browse_power") String browsePower,
 			@RequestParam("uid") String createName
 			){
+	          	ResponseResult rr = new ResponseResult();
 		      // String createName = (String) session.getAttribute("uid"); 
 			     Notice notice = new Notice();
 			     notice.setTitle(title);
@@ -55,14 +58,16 @@ public class NoticeController {
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
 			     notice.setType(type);
-		
-		try {
-			noticeService.saveNotice(notice);
-			System.out.println("发布成功");
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+				 int i = noticeService.saveNotice(notice);
+		if(i!=0) {
+			rr.setStateCode(1);
+			rr.setMessage("发布成功");
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("发布失败");
 		}
+			
+		return rr;
 	}
 	
 	/**
@@ -84,31 +89,43 @@ public class NoticeController {
 	
 	}
 	
-	/**
-	 * 根据id删除单条数据
+	/**根据id删除部门
+	 * @param ids
+	 * @return
 	 */
-
-	@RequestMapping("/deleteBynoticeId")
+	@RequestMapping("/deleteNotice")
 	@ResponseBody
-	public void deleteBynoticeId(Integer noticeId) {
-		try {
-			noticeService.deleteByPrimaryKey(noticeId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	@RequestMapping("/deleteMany")
-	@ResponseBody
-	public void deletemany(@RequestParam("ids") Integer[] ids) {
-		System.out.println(ids.toString()+"-----------"+ids.length);
-	
-			try {
-				noticeService.deleteMany(ids);
-			} catch (Exception e) {
-				e.printStackTrace();
+	public ResponseResult deleteDept(@RequestParam("ids") String ids) {
+		ResponseResult rr = new ResponseResult();
+		// 批量刪除
+		if (ids.contains("-")) {
+			List<Integer> listId = new ArrayList<>();
+			String[] split_ids = ids.split("-");
+			for (String string : split_ids) {
+				listId.add(Integer.parseInt(string));
+				noticeService.deleteDeptBatch(listId);
 			}
-		}
-		
+		// 单个删除
+		} else {
+			Integer id = Integer.parseInt(ids);
+			noticeService.deleteDept(id);
+				}
+		return rr.success();	
+	}
+	
+//	@RequestMapping("/deleteMany")
+//	@ResponseBody
+//	public ResponseResult deletemany(@RequestParam("ids") String[] ids) {
+//		System.out.println(ids.toString()+"-----------"+ids.length);
+//		  ResponseResult rr = new ResponseResult();
+//			try {
+//				noticeService.deleteMany(ids);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return rr.success();
+//		}
 	
 
 	/**
@@ -121,7 +138,7 @@ public class NoticeController {
 	 */
 	@RequestMapping("/updateNotice")
 	@ResponseBody
-	public String updateNotice(
+	public ResponseResult updateNotice(
 			 HttpSession session,
 			 Integer noticeId,
 			 String title, //uname是输入框中的id值,把uname的值赋给username
@@ -130,6 +147,7 @@ public class NoticeController {
 			@RequestParam("browse_power") String browsePower,
 			@RequestParam("uid") String createName
 			){
+	         	ResponseResult rr = new ResponseResult();
 		        // String createName = (String) session.getAttribute("uid");
 			     Notice notice = new Notice();
 			     notice.setNoticeId(noticeId);
@@ -140,15 +158,17 @@ public class NoticeController {
 			     notice.setCreateTime(new Date());
 			     notice.setType(type);
 		
-		try {
-			noticeService.updateByPrimaryKeySelective(notice);
-			System.out.println("修改成功");
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		return "修改成功";
 		
+			int i = noticeService.updateByPrimaryKeySelective(notice);
+			if(i!=0) {
+				rr.setStateCode(1);
+				rr.setMessage("修改成功");
+			}else {
+				rr.setStateCode(0);
+				rr.setMessage("修改失败");
+			}
+				
+			return rr;
 	}
 	
 	/**
@@ -183,6 +203,7 @@ public class NoticeController {
 			HttpSession session,
 			String type,
 			String Info,
+			String createName,
 			String startTime,
 			String endTime,
 			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
@@ -193,6 +214,7 @@ public class NoticeController {
 		 Map<String, String> map = new HashMap<String, String>();
 		    map.put("type", type);
 			map.put("Info", Info);
+			map.put("createName", createName);
 	        map.put("startTime",startTime);
 	        map.put("endTime",endTime);
 
