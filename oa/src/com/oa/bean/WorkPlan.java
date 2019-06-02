@@ -1,7 +1,6 @@
 package com.oa.bean;
 
 import java.util.Date;
-import java.util.List;
 
 public class WorkPlan {
     private Integer id;
@@ -24,17 +23,7 @@ public class WorkPlan {
 
     private String opinion;
 
-    private User user;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -118,11 +107,7 @@ public class WorkPlan {
 	public String toString() {
 		return "WorkPlan [id=" + id + ", type=" + type + ", content=" + content + ", createTime=" + createTime
 				+ ", createName=" + createName + ", modifiedTime=" + modifiedTime + ", modifiedName=" + modifiedName
-				+ ", status=" + status + ", checkedName=" + checkedName + ", opinion=" + opinion + ", user=" + user
-				+ "]";
+				+ ", status=" + status + ", checkedName=" + checkedName + ", opinion=" + opinion + "]";
 	}
-
-	
-    
     
 }

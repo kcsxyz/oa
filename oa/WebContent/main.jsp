@@ -1,230 +1,229 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="zh" >
+<html lang="zh">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--360浏览器优先以webkit内核解析-->
-    <title></title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="../static/css/bootstrap.min.css"  rel="stylesheet"/>
-    <link href="../static/css/font-awesome.min.css"  rel="stylesheet"/>
-    <link href="../static/css/main/animate.min.css"  rel="stylesheet"/>
-    <link href="../static/css/main/style.min862f.css"  rel="stylesheet"/>
-    <style>
-        ul li .iboxBlock {
-            float: right;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--360浏览器优先以webkit内核解析-->
+<title></title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+<link href="../static/css/font-awesome.min.css" rel="stylesheet" />
+<link href="../static/css/main/animate.min.css" rel="stylesheet" />
+<link href="../static/css/main/style.min862f.css" rel="stylesheet" />
+<style>
+ul li .iboxBlock {
+	float: right;
+}
 
-        ul li .iboxBlock span {
-            margin-right: 10px;
-        }
+ul li .iboxBlock span {
+	margin-right: 10px;
+}
 
-        ul li {
-            line-height: 2em;
-        }
+ul li {
+	line-height: 2em;
+}
 
-        .ibox-content {
-            height: 250px;
-        }
+.ibox-content {
+	height: 250px;
+}
 
-        #calendar .layui-laydate-main {
-            width: 100%;
-            height: 297px;
-        }
+#calendar .layui-laydate-main {
+	width: 100%;
+	height: 297px;
+}
 
-        #calendar .layui-laydate-content td, #test-n1 .layui-laydate-content th {
-            width: 100px;
-        }
+#calendar .layui-laydate-content td, #test-n1 .layui-laydate-content th
+	{
+	width: 100px;
+}
 
-        .calendar {
-            background-color: white;
-            height: 300px;
-        }
+.calendar {
+	background-color: white;
+	height: 300px;
+}
 
-        .Note_Main {
-            background-color: rgb(253, 244, 206);
-            width: 100%;
-            height: 100%;
-            -webkit-box-shadow: #666 0px 0px 10px;
-            -moz-box-shadow: #666 0px 0px 10px;
-            box-shadow: #666 0px 0px 10px;
+.Note_Main {
+	background-color: rgb(253, 244, 206);
+	width: 100%;
+	height: 100%;
+	-webkit-box-shadow: #666 0px 0px 10px;
+	-moz-box-shadow: #666 0px 0px 10px;
+	box-shadow: #666 0px 0px 10px;
+}
 
-        }
+.Note_Main .Note_title {
+	text-align: center;
+	padding-top: 5px;
+	border-bottom: 1px solid #ebebeb;
+}
 
-        .Note_Main .Note_title {
-            text-align: center;
-            padding-top: 5px;
-            border-bottom: 1px solid #ebebeb;
-        }
+.Note_Main .Note_content {
+	padding: 15px;
+	text-indent: 25px;
+	color: black;
+	font-size: inherit;
+	line-height: 2em;
+	border-bottom: 1px solid #ebebeb;
+}
 
-        .Note_Main .Note_content {
-            padding: 15px;
-            text-indent: 25px;
-            color: black;
-            font-size: inherit;
-            line-height: 2em;
-            border-bottom: 1px solid #ebebeb;
-        }
+.Note_Main .Note_footer {
+	padding-top: 10px;
+	padding-right: 30px;
+	text-align: right;
+}
 
-        .Note_Main .Note_footer {
-            padding-top: 10px;
-            padding-right: 30px;
-            text-align: right;
-        }
+/*时间显示*/
+#currentDate {
+	font-size: 18px;
+	color: white;
+}
 
-        /*时间显示*/
-        #currentDate {
-            font-size: 18px;
-            color: white;
-        }
+.lock {
+	text-align: center;
+}
 
-        .lock {
-            text-align: center;
-        }
+.lock img {
+	width: 100px;
+}
 
-        .lock img {
-            width: 100px;
-        }
+.lock img:hover {
+	-webkit-box-shadow: #666 0px 0px 2px;
+	-moz-box-shadow: #666 0px 0px 2px;
+	box-shadow: #666 0px 0px 2px;
+	cursor: pointer;
+}
 
-        .lock img:hover {
-            -webkit-box-shadow: #666 0px 0px 2px;
-            -moz-box-shadow: #666 0px 0px 2px;
-            box-shadow: #666 0px 0px 2px;
-            cursor: pointer;
-        }
+.WorkTime {
+	color: white;
+	font-size: 14px;
+}
 
-        .WorkTime {
-            color: white;
-            font-size: 14px;
-        }
-
-        .Attendtips {
-            color: white;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    </style>
+.Attendtips {
+	color: white;
+	font-size: 18px;
+	margin-top: 20px;
+}
+</style>
 
 </head>
 
 <body class="gray-bg">
-			<!--<div class="row  border-bottom white-bg dashboard-header">-->
-			
-			<!--</div>-->
-			<div class="wrapper wrapper-content">
-			    <div class="row">
-			        <div class="col-sm-4">
-			            <div class="ibox float-e-margins">
-			                <div class="ibox-title">
-			                    <h5>考勤</h5>
-			                </div>
-			                <div class="calendar ibox-content" style="background-image: url('/img/attendlock.jpg')">
-			                    <!--<div class="row">-->
-			                    <!--<div align="center" id="currentDate"></div>-->
-			                    <!--</div>-->
-			                    <div class="row">
-			
-			                        <div class="col-sm-5">
-			                            <div class="WorkTime" ><!-- th:object="${workShif}" --><br>
-			                                a.m 上班打卡时间：<br><!-- <span th:text="*{#dates.format(attendMorStartTime,'HH:mm:ss')}"></span>-
-			                                <span th:text="*{#dates.format(attendMorendTime,'HH:mm:ss')}"></span> --><br>
-			
-			
-			                                a.m下班打卡时间：<br><!-- <span th:text="*{#dates.format(attendMorLeaveStartTime,'HH:mm:ss')}"></span>-
-			                                               <span th:text="*{#dates.format(attendMorLeaveEndTime,'HH:mm:ss')}"> --></span><br>
-			
-			                                p.m 上班打卡时间：<br><!-- <span th:text="*{#dates.format(attendAfterNoonStartTime,'HH:mm:ss')}"></span>-
-			                                                <span th:text="*{#dates.format(attendAfterNoonendTime,'HH:mm:ss')}"></span> --><br>
-			                                p.m 下班打卡时间：<br><!-- <span th:text="*{#dates.format(attendAfterLeaveStartTime,'HH:mm:ss')}"></span>-
-			                                                 <span th:text="*{#dates.format(attendAfterLeaveEndTime,'HH:mm:ss')}"></span> --><br>
-			                            </div>
-			                        </div>
-			                        <div class="col-sm-7">
-			                            <div align="center" id="currentDate"></div>
-			                            <div class="lock">
-			                                <img onclick="attend()" src="/img/lock.png" class="img-circle">
-			                            </div>
-			                            <div align="center" class="Attendtips">
-			                                签到时间：<span  id="attendTime">无</span>
-			                            </div>
-			                            <div align="center" id="isAttend" class="Attendtips">未签</div>
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			        <div class="col-sm-4">
-			            <div class="ibox float-e-margins">
-			                <div class="ibox-title">
-			                    <h5>日程表</h5>
-			                </div>
-			                <div class="calendar">
-			                    <div id="calendar"></div>
-			                </div>
-			            </div>
-			        </div>
-			        <div class="col-sm-4">
-			            <div class="ibox float-e-margins">
-			                <div class="ibox-title">
-			                    <h5>公告内容</h5>
-			                </div>
-			                <div class="ibox-content Note calendar">
-			                    <ul>
-			                        <li th:each="notic,iterStat:${notice}" th:if="${iterStat.count}<=8">
-			                            <a href="javascript:;" th:onclick="'javascript:checkNoticeMsg('+${notic.id}+')'"
-			                               ></a>
-			                            <div class="iboxBlock">
-			                                <span ></span>
-			                                <a href="javascript:;"
-			                                   th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'">查看</a>
-			                            </div>
-			                        </li>
-			                        <li >暂无公告发布</li>
-			                    </ul>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row">
-			        <div class="col-sm-4" shiro:hasPermission="task:list">
-			            <div class="ibox float-e-margins">
-			                <div class="ibox-title">
-			                    <h5>我的待办</h5>
-			                </div>
-			                <div class="ibox-content Note calendar">
-			                    <ul>
-			                        <li th:each="task,iterStat:${Task}" th:if="${iterStat.count}<=8">
-			                            <a href="javaScript:;"
-			                               th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'"
-			                               ></a>
-			                            <div class="iboxBlock">
-			                                <span ></span>
-			                                <a href="javascript:;"
-			                                   th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'">查看</a>
-			                            </div>
-			                        </li>
-			                        <li >暂无待办事项</li>
-			                    </ul>
-			                </div>
-			            </div>
-			        </div>
-			         <div class="col-sm-4">
-			
-			            <div class="ibox float-e-margins">
-			                 <div class="ibox-title">
-			                    
-			                </div>
-			                <div class="ibox-content Note calendar">
-			                   <i class="layui-icon llayui-icon-add-circle" style="margin-left:80px;font-size: 150px; color: #ccc; text-align:right;">&#xe61f;</i> 
-			                </div>
-			            </div>
-			        </div> 
-			    </div>
+	<!--<div class="row  border-bottom white-bg dashboard-header">-->
+
+	<!--</div>-->
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>考勤</h5>
+					</div>
+					<div class="calendar ibox-content"
+						style="background-image: url('/img/attendlock.jpg')">
+						<!--<div class="row">-->
+						<!--<div align="center" id="currentDate"></div>-->
+						<!--</div>-->
+						<div class="row">
+
+							<div class="col-sm-5">
+								<div class="WorkTime">
+									<!-- th:object="${workShif}" -->
+									<br> a.m 上班打卡时间：<br>
+									<!-- <span th:text="*{#dates.format(attendMorStartTime,'HH:mm:ss')}"></span>-
+			                                <span th:text="*{#dates.format(attendMorendTime,'HH:mm:ss')}"></span> -->
+									<br> a.m下班打卡时间：<br>
+									<!-- <span th:text="*{#dates.format(attendMorLeaveStartTime,'HH:mm:ss')}"></span>-
+			                                               <span th:text="*{#dates.format(attendMorLeaveEndTime,'HH:mm:ss')}"> -->
+									</span><br> p.m 上班打卡时间：<br>
+									<!-- <span th:text="*{#dates.format(attendAfterNoonStartTime,'HH:mm:ss')}"></span>-
+			                                                <span th:text="*{#dates.format(attendAfterNoonendTime,'HH:mm:ss')}"></span> -->
+									<br> p.m 下班打卡时间：<br>
+									<!-- <span th:text="*{#dates.format(attendAfterLeaveStartTime,'HH:mm:ss')}"></span>-
+			                                                 <span th:text="*{#dates.format(attendAfterLeaveEndTime,'HH:mm:ss')}"></span> -->
+									<br>
+								</div>
+							</div>
+							<div class="col-sm-7">
+								<div align="center" id="currentDate"></div>
+								<div class="lock">
+									<img onclick="attend()" src="/img/lock.png" class="img-circle">
+								</div>
+								<div align="center" class="Attendtips">
+									签到时间：<span id="attendTime">无</span>
+								</div>
+								<div align="center" id="isAttend" class="Attendtips">未签</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div th:include="include :: footer"></div>
-			<script>
+			<div class="col-sm-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>日程表</h5>
+					</div>
+					<div class="calendar">
+						<div id="calendar"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>公告内容</h5>
+					</div>
+					<div class="ibox-content Note calendar">
+						<ul>
+							<li th:each="notic,iterStat:${notice}"
+								th:if="${iterStat.count}<=8"><a href="javascript:;"
+								th:onclick="'javascript:checkNoticeMsg('+${notic.id}+')'"></a>
+								<div class="iboxBlock">
+									<span></span> <a href="javascript:;"
+										th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'">查看</a>
+								</div></li>
+							<li>暂无公告发布</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4" shiro:hasPermission="task:list">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>我的待办</h5>
+					</div>
+					<div class="ibox-content Note calendar">
+						<ul>
+							<li th:each="task,iterStat:${Task}" th:if="${iterStat.count}<=8">
+								<a href="javaScript:;"
+								th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'"></a>
+								<div class="iboxBlock">
+									<span></span> <a href="javascript:;"
+										th:onclick="'javascript:checkTaskMsg('+${task.formKey}+','+${task.procInstId}+','+${task.id}+')'">查看</a>
+								</div>
+							</li>
+							<li>暂无待办事项</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+
+				<div class="ibox float-e-margins">
+					<div class="ibox-title"></div>
+					<div class="ibox-content Note calendar">
+						<i class="layui-icon llayui-icon-add-circle"
+							style="margin-left: 80px; font-size: 150px; color: #ccc; text-align: right;">&#xe61f;</i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script>
 			
 			    //实时时间
 			    window.onload = function () {
@@ -341,5 +340,5 @@
 			
 			    })
 			</script>
-			</body>
+</body>
 </html>

@@ -66,10 +66,10 @@ public class UserPowerController {
     
     @RequestMapping("/findByid")
     @ResponseBody
-	public String getDeptById(@RequestParam("id") String uid,Model model) {
+	public User getDeptById(@RequestParam("id") String uid,Model model) {
 		User userPower = userPowerService.selectByPrimaryKey(uid);
 		model.addAttribute("userPower", userPower);
-		return "findByid";
+		return userPower;
 	}
     
 	/**根据id删除部门

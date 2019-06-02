@@ -54,9 +54,9 @@ public class UserPowerServiceImpl implements UserPowerService {
 
 	@Override
 	public List<User> selectByParams(Map<String,String> param) {
-	//	List<User> users = userMapper.selectByParams(param);
-	//	return users;
-		return null;
+		List<User> users = userMapper.selectByParams(param);
+		return users;
+		
 	}
 
 
