@@ -81,7 +81,6 @@
 						<tbody>
 							<c:forEach items="${list}" varStatus="status" var="item">
 								<tr>
-
 									<td>
 										<div class="task-checkbox">
 											<!-- <input type="checkbox" class="list-child" value=""  /> -->
@@ -103,41 +102,41 @@
 							</c:forEach>
 						</tbody>
 					</table>
-				</div>
-				<div class="clearfix">
-					<div class="pagination-left">
-						<div class="pull-left pagination-detail">
-							<span class="pagination-info">第1到第8条，共16条记录。</span> <span
-								class="page-list"> 每页 <span class="btn-group group">
-									<button class="btn btn-default btn-outline dropdown-toggle"
-										type="button" data-toggle="dropdow">
-										<span class="page-size">8</span>&nbsp; <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li class="active"><a href="javascript:void(0)">8</a></li>
-										<li class="active"><a href="javascript:void(0)">25</a></li>
-									</ul>
-							</span>条记录
-							</span>
+					<div class="clearfix">
+						<div class="pagination-left">
+							<div class="pull-left pagination-detail">
+								<span class="pagination-info">第1到第8条，共16条记录。</span> <span
+									class="page-list"> 每页 <span class="btn-group group">
+										<button class="btn btn-default btn-outline dropdown-toggle"
+											type="button" data-toggle="dropdow">
+											<span class="page-size">8</span>&nbsp; <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li class="active"><a href="javascript:void(0)">8</a></li>
+											<li class="active"><a href="javascript:void(0)">25</a></li>
+										</ul>
+								</span>条记录
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="pagination-right">
-						<ul class="pagination">
-							<li class="page-pre"><a href="javascript:void(0)">&lt;</a></li>
-							<li class="page-number"><a href="javascript:void(0)">1</a></li>
-							<li class="page-number active"><a href="javascript:void(0)">2</a>
-							</li>
-							<li class="page-next"><a href="javascript:void(0)">&gt;</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+						<div class="pagination-right">
+							<ul class="pagination">
+								<li class="page-pre"><a href="javascript:void(0)">&lt;</a>
+								</li>
+								<li class="page-number"><a href="javascript:void(0)">1</a>
+								</li>
+								<li class="page-number active"><a href="javascript:void(0)">2</a>
+								</li>
+								<li class="page-next"><a href="javascript:void(0)">&gt;</a>
+								</li>
+							</ul>
+						</div>
 				</section>
+
+
 			</div>
-		</div>
-	</div>
-	<script src="assets/layui.js"></script>
-	<script src="js/index.js" data-main="home"></script>
-	<script src="js/home.js"></script>
+			<script src="assets/layui.js"></script>
+			<script src="js/index.js" data-main="home"></script>
+			<script src="js/home.js"></script>
 </body>
 </html>

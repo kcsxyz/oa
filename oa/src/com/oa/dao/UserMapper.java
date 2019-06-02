@@ -3,6 +3,8 @@ package com.oa.dao;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -36,5 +38,7 @@ public interface UserMapper {
 	List<User> selectUser();
 	//模糊查询
 	List<User> selectLikeUser(@Param("userInfo")String userInfo);
+	//人力资源中的查询
+	List<User> selectByParams(@Param("param") Map<String,String> param);
 
 }

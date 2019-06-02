@@ -25,4 +25,6 @@ public interface UserService {
 	//模糊查询
 	List<User> selectLikeUser(String userInfo);
 	
+	void deleteUserBatch(List<String> listId);
+	
 }

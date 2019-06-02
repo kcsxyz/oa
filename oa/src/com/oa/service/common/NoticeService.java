@@ -13,8 +13,9 @@ public interface NoticeService {
 	/**
 	  * 发布公布
 	 * @param notice
+	 * @return 
 	 */
-     void saveNotice(Notice notice);
+     int saveNotice(Notice notice);
      
      /**
            * 根据公告id查询
@@ -23,16 +24,27 @@ public interface NoticeService {
       */
      Notice selectByPrimaryKey(Integer noticeId);  
      
+//     /**
+//           * 根据id删除单条id信息
+//      * @param noticeId
+//      * @return
+//      */
+//     int deleteByPrimaryKey(Integer noticeId);
+//     /**
+//      * 批量删除
+//      */
+//     int deleteMany(Integer[] ids);
+     
      /**
-      * 根据id删除单条id信息
-      * @param noticeId
-      * @return
+           * 根据单个id删除
+      * @param id
       */
-     int deleteByPrimaryKey(Integer noticeId);
-     /**
-      * 批量删除
-      */
-     int deleteMany(Integer[] ids);
+       void deleteDept(Integer id);
+       /**
+              * 批量删除
+        * @param listId
+        */
+       void deleteDeptBatch(List<Integer> listId);
      /**
           * 修改公告
       * @param notice

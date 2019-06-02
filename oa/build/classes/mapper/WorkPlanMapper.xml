@@ -12,6 +12,24 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="checked_name" jdbcType="VARCHAR" property="checkedName" />
     <result column="opinion" jdbcType="VARCHAR" property="opinion" />
+    	<association property="user" javaType="com.oa.bean.User">
+			 <id column="uid" jdbcType="CHAR" property="uid" />
+		    <result column="password" jdbcType="VARCHAR" property="password" />
+		    <result column="name" jdbcType="VARCHAR" property="name" />
+		    <result column="sex" jdbcType="INTEGER" property="sex" />
+		    <result column="age" jdbcType="INTEGER" property="age" />
+		    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+		    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+		    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
+		    <result column="phone" jdbcType="VARCHAR" property="phone" />
+		    <result column="email" jdbcType="VARCHAR" property="email" />
+		    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+		    <result column="address" jdbcType="VARCHAR" property="address" />
+		    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+		    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+		    <result column="modified_name" jdbcType="VARCHAR" property="modifiedName" />
+		</association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -288,4 +306,38 @@
       opinion = #{opinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByParams"  resultMap="BaseResultMap"
+       parameterType="map">
+        SELECT
+            *
+        FROM
+           t_work_plan wp left join t_user u on wp.create_name=u.uid
+         <!--  t_work_plan -->
+            <where>
+            <if test=" param.Info!= null and  param.Info!= ''">
+                AND wp.opinion like CONCAT('%',#{param.Info},'%')
+               or wp.content like CONCAT('%',#{param.Info},'%')
+            </if> 
+            <if test="param.createName !=null and param.createName!=''">
+              and wp.create_name = #{param.createName}
+            </if>
+             <if test="param.status !=null and param.status!=''">
+              and wp.status = #{param.status}
+            </if>
+             <if test="param.type !=null and param.type!=''">
+              and wp.type = #{param.type}
+            </if>
+         <if test="param.startTime!=null and param.startTime!=''">
+  	        <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+      	</if>
+      	<if test="param.endTime!=null and param.endTime!=''">
+  	     <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+	   </if>
+      </where>
+ </select>
+  
+  
+  
+  
 </mapper>
