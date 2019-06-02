@@ -108,7 +108,7 @@
 									
 	                      		</div>
 	                      		<div class="centered">
-									<img src="COA/images/extent1.jpg"/>
+									<img src="/oa/images/extent1.jpg"/>
 	                      		</div>
                       		</div>
                       	</div>
