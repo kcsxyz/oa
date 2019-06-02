@@ -1,11 +1,19 @@
+﻿
 package com.oa.service.deptOffice.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestAttributeEvent;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ServletContextAware;
 
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
@@ -20,6 +28,7 @@ public class UserPowerServiceImpl implements UserPowerService {
 
 	@Override
 	public int insertSelective(User user) {
+		
 		int i = userMapper.insertSelective(user);
 		System.out.println("sevice中user的 i"+i);
 		return i;

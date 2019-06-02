@@ -1,3 +1,4 @@
+﻿
 package com.oa.service.deptOffice;
 
 import java.util.List;
@@ -45,3 +46,4 @@ public interface UserPowerService {
 	List<User> selectByParams(@Param("param")Map<String, String> param);
 	  
 }
+

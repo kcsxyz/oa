@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*"
+﻿<%@ page language="java" import="java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
@@ -81,6 +81,7 @@
 						<tbody>
 							<c:forEach items="${list}" varStatus="status" var="item">
 								<tr>
+
 									<td>
 										<div class="task-checkbox">
 											<!-- <input type="checkbox" class="list-child" value=""  /> -->
@@ -132,7 +133,6 @@
 							</ul>
 						</div>
 				</section>
-
 
 			</div>
 			<script src="assets/layui.js"></script>
