@@ -410,7 +410,8 @@
                 or name like CONCAT('%',#{userInfo},'%')  
                 or dept_id like CONCAT('%',#{userInfo},'%')            
        </if> 
-	</where> 	
+	</where>
+	 	
 	</select>
 	<select id="selectByParams"  resultMap="BaseResultMap"
        parameterType="Map">

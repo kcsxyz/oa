@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -324,5 +325,34 @@ import com.oa.utils.md5;
 			return rr;	
 		}		
 
-
+		 		/**
+		       * 上传
+		       * 
+		       * @param request
+		       * @param file
+		       * @return
+		       * @throws IllegalStateException
+		       * @throws IOException
+		       */
+		      @RequestMapping(value = "/upload")
+		      public @ResponseBody String upload(HttpServletRequest request, MultipartFile file)
+		              throws IllegalStateException, IOException {
+		          String name = file.getOriginalFilename();
+		          String path = request.getServletContext().getRealPath("/upload/");// 上传保存的路径
+		          String fileName = changeName(name);
+		          String rappendix = "upload/" + fileName;
+		          fileName = path + "\\" + fileName;
+		          File file1 = new File(fileName);
+		          file.transferTo(file1);
+		          String str = "{\"src\":\"" + rappendix + "\"}";
+		          return str;
+		      }
+		  
+		      public static String changeName(String oldName) {
+		          Random r = new Random();
+		          Date d = new Date();
+		          String newName = oldName.substring(oldName.indexOf('.'));
+		          newName = r.nextInt(99999999) + d.getTime() + newName;
+		          return newName;
+		      }
 	}
