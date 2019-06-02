@@ -289,7 +289,6 @@
              <if test="param.createName !=null and param.createName!=''">
               and create_name = #{param.createName}
             </if>
-
          <if test="param.startTime!=null and param.startTime!=''">
   	        <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
       	</if>
