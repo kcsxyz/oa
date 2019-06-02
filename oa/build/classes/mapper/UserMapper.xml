@@ -18,6 +18,13 @@
     <result column="create_name" jdbcType="VARCHAR" property="createName" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
     <result column="modified_name" jdbcType="VARCHAR" property="modifiedName" />
+     <association property="dept" javaType="com.oa.bean.Dept">
+        <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+	    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+	    <result column="dept_p_id" jdbcType="INTEGER" property="deptPId" />
+	    <result column="dept_level" jdbcType="INTEGER" property="deptLevel" />
+	    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -403,7 +410,40 @@
                 or name like CONCAT('%',#{userInfo},'%')  
                 or dept_id like CONCAT('%',#{userInfo},'%')            
        </if> 
-	</where> 
-	
+	</where> 	
 	</select>
+	<select id="selectByParams"  resultMap="BaseResultMap"
+       parameterType="Map">
+        SELECT
+            *
+        FROM
+           t_user u 
+            <where>
+            <if test=" param.Info!= null and  param.Info!= ''">
+                AND u.address like CONCAT('%',#{param.Info},'%')
+               or u.name like CONCAT('%',#{param.Info},'%')
+            </if> 
+            <if test="param.uid !=null and param.uid!=''">
+              and u.uid = #{param.uid}
+            </if>
+              <if test="param.sex !=null and param.sex!=''">
+              and u.sex = #{param.sex}
+            </if>
+             <if test="param.idCard !=null and param.idCard!=''">
+              and u.id_card = #{param.idCard}
+            </if>
+             <if test="param.deptId !=null and param.deptId!=''">
+              and u.dept_id = #{param.deptId}
+            </if>
+             <if test="param.createName !=null and param.createName!=''">
+              and u.create_name = #{param.createName}
+            </if>
+         <if test="param.startTime!=null and param.startTime!=''">
+  	        <![CDATA[  and DATE_FORMAT(u.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+      	</if>
+      	<if test="param.endTime!=null and param.endTime!=''">
+  	     <![CDATA[  and DATE_FORMAT(u.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+	   </if>
+      </where>
+ </select>
 </mapper>

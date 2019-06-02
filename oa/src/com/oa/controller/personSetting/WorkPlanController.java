@@ -43,6 +43,12 @@ public class WorkPlanController {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
 			List<WorkPlan> WorkPlanlist = workPlanService.selectWorkPlan();	
+			if(WorkPlanlist.size()>0) {
+				rr.setStateCode(1);
+			}else {
+				rr.setMessage("未查询到 数据");
+				rr.setStateCode(0);
+			}
 			/*for (WorkPlan workPlan : WorkPlanlist) {
 				System.out.println(workPlan);
 			}*/
@@ -53,7 +59,7 @@ public class WorkPlanController {
 			
 			e.printStackTrace();
 		}
-		rr.setStateCode(1);
+		
 		return rr;			
 	}
 	/**
@@ -69,7 +75,13 @@ public class WorkPlanController {
 		WorkPlan workPlan=workPlanService.getWorkPlanById(id);
 		model.addAttribute("workPlan", workPlan);
 		//System.out.println(workPlan);
-		rr.setStateCode(1);
+		if(workPlan!=null) {
+			rr.setStateCode(1);
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("未查询到数据");
+		}
+		
 		return rr;
 	}
 	/**
@@ -141,16 +153,30 @@ public class WorkPlanController {
 		}
 		return rr;
 	}
+	/**
+	 * @param workLogInfo
+	 * @param startTime
+	 * @param endTime
+	 * @param model
+	 * @return
+	 * 模糊查询
+	 */
 	@RequestMapping("/selectLikeWorkPlan")
 	@ResponseBody
 	public ResponseResult selectLikeWorkPlan(String workLogInfo,String startTime,String endTime,Model model) {
 		ResponseResult rr=new ResponseResult();		
 		List<WorkPlan> workPlanlist = workPlanService.selectLikeWorkPlan(workLogInfo,startTime,endTime);
 		model.addAttribute("workPlanlist",workPlanlist);
-       for (WorkPlan workPlans : workPlanlist) {
+       /*for (WorkPlan workPlans : workPlanlist) {
 		System.out.println(workPlans);
-       }
-		rr.setStateCode(1);
+       }*/
+		if(workPlanlist.size()>0) {
+			rr.setStateCode(1);
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("未查询到数据");
+		}
+		
 		return rr;			
 	}
 	

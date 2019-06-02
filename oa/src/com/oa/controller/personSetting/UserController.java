@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -64,7 +65,7 @@ import com.oa.utils.md5;
 	public ResponseResult Login(String uid,String password,String code,HttpSession session){
 		ResponseResult rr=new ResponseResult();
 		String sessioncode = (String) session.getAttribute("code");
-		System.out.println(sessioncode);
+		//System.out.println(sessioncode);
 		String pwd=md5.GetMD5Code(password);
 		if(sessioncode.equals(code.toUpperCase())) {
 			User user=userService.login(uid,pwd);
@@ -288,7 +289,7 @@ import com.oa.utils.md5;
 				System.out.println(users);
 			}*/
 			 if(userlist.size()>0) {
-	        rr.setStateCode(1);
+				 rr.setStateCode(1);
 			 }else {
 				 rr.setStateCode(0);
 				 rr.setMessage("未查到数据");
@@ -302,14 +303,25 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/deleteList")
 		@ResponseBody
-		public ResponseResult delete(String[] uids){
-			//循环遍历让每一个id都执行删除方法
-			ResponseResult rr=new ResponseResult();
-			for (String string : uids) {
-				userService.deleteUserByUid(string);
-			}
-			rr.setStateCode(1);
-			return rr;
+		public ResponseResult delete(String uids){
+			ResponseResult rr = new ResponseResult();
+			String ids=uids;
+			//批量删除
+			if (ids.contains("-")) {
+				List<String> listId = new ArrayList<>();
+				String[] split_ids = ids.split("-");
+				for (String string : split_ids) {
+					listId.add(string);
+					userService.deleteUserBatch(listId);
+				}
+				rr.setStateCode(1);
+			// 单个删除
+			} else {
+				Integer id1 = Integer.parseInt(ids);
+				userService.deleteUserByUid(ids);
+				rr.setStateCode(1);
+					}
+			return rr;	
 		}		
 
 

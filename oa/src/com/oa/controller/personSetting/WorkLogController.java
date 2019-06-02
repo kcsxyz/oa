@@ -41,6 +41,12 @@ import com.oa.utils.md5;
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
 				List<WorkLog> workLoglist = workLogService.selectWorkLog();	
+				if(workLoglist.size()>0) {
+					rr.setStateCode(1);
+				}else {
+					rr.setStateCode(0);
+					rr.setMessage("未查询到数据");
+				}
 				for (WorkLog workLog : workLoglist) {
 					//System.out.println(workLog);
 				}
@@ -51,7 +57,7 @@ import com.oa.utils.md5;
 				
 				e.printStackTrace();
 			}
-			rr.setStateCode(1);
+						
 			return rr;			
 		}
 		/**
@@ -67,7 +73,13 @@ import com.oa.utils.md5;
 			WorkLog workLog=workLogService.getWorkLogByLogid(logId);
 			model.addAttribute("workLog", workLog);
 			//System.out.println(workLog);
-			rr.setStateCode(1);
+			if(workLog!=null) {
+				rr.setStateCode(1);
+			}else {
+				rr.setStateCode(0);
+				rr.setMessage("未查询到数据");
+			}
+			
 			return rr;
 		}
 		/**
@@ -152,7 +164,13 @@ import com.oa.utils.md5;
 	       /*for (WorkLog workLog : workLoglist) {
 			System.out.println(workLog);
 	       }*/
-			rr.setStateCode(1);
+			if(workLoglist.size()>0) {
+				rr.setStateCode(1);
+			}else {
+				rr.setStateCode(0);
+				rr.setMessage("未查询到数据");
+			}
+			
 			return rr;			
 		}
 		
