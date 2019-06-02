@@ -1,8 +1,9 @@
-<%@ page language="java" import="java.util.*"
+﻿<%@ page language="java" import="java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String path=request.getContextPath();
-	String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -23,11 +24,11 @@
 <script src="bootstrap/bootstrap.min.js"></script>
 <title>通讯录</title>
 </head>
-<%  
-	List list=new ArrayList();
-	for(int i=0;i<10;i++){
+<%
+	List list = new ArrayList();
+	for (int i = 0; i < 10; i++) {
 		list.add(i);
-		session.setAttribute("list",list);
+		session.setAttribute("list", list);
 	}
 %>
 <body class="layui-layout-body gray-bg">
@@ -132,7 +133,6 @@
 							</ul>
 						</div>
 				</section>
-
 
 			</div>
 			<script src="assets/layui.js"></script>

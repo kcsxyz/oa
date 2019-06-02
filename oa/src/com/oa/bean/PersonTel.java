@@ -5,7 +5,7 @@ public class PersonTel {
 
     private String userId;
 
-    private Integer personId;
+    private String personId;
 
     public Integer getTelId() {
         return telId;
@@ -23,11 +23,11 @@ public class PersonTel {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Integer getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
+    public void setPersonId(String personId) {
+        this.personId = personId == null ? null : personId.trim();
     }
 }
