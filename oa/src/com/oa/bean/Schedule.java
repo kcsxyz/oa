@@ -92,4 +92,12 @@ public class Schedule {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	@Override
+	public String toString() {
+		return "Schedule [id=" + id + ", userId=" + userId + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", createName=" + createName + ", createTime=" + createTime + ", title=" + title + ", descr=" + descr
+				+ ", status=" + status + "]";
+	}
+    
 }

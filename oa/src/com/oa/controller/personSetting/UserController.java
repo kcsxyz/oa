@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -19,24 +21,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oa.bean.ResponseResult;
 import com.oa.bean.User;
 import com.oa.service.personSetting.UserService;
 import com.oa.utils.md5;
 
 
 	@Controller
-	@RequestMapping("user")
+	@RequestMapping("/user")
 	public class UserController {
 		@Resource
 		private UserService userService;
 		
+		/**
+		 * @param uid
+		 * @return
+		 * 根据id查询
+		 */
 		@RequestMapping("/getUser")
 		@ResponseBody
-		public void getUser() {
+		public ResponseResult getUser(String uid) {
+			ResponseResult rr=new ResponseResult();
 			
-			User user =userService.getUser("admin");
-			System.out.println(user.toString());
-			
+			User user =userService.getUser(uid);
+			if(user!=null) {
+			//System.out.println(user.toString());
+			rr.setStateCode(1);
+			}else {
+				rr.setMessage("工号不存在");
+				rr.setStateCode(0);
+			}
+			return rr;
 		}	
 	
 	/**
@@ -48,17 +63,28 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public String Login(
-			String uid,String password,Model model){
+	public ResponseResult Login(String uid,String password,String code,HttpSession session){
+		ResponseResult rr=new ResponseResult();
+		String sessioncode = (String) session.getAttribute("code");
+		//System.out.println(sessioncode);
 		String pwd=md5.GetMD5Code(password);
-		User user=userService.login(uid,pwd);
-		if(user!=null){
-            model.addAttribute(user);
-            System.out.println("登录成功");	
-            return "loginSuccess";         
-        }
-			System.out.println("登录失败");	
-			return "loginError";				
+		if(sessioncode.equals(code.toUpperCase())) {
+			User user=userService.login(uid,pwd);
+			if(user!=null){
+				session.setAttribute("user", user);
+	            //System.out.println("登录成功");
+	            rr.setStateCode(1);                   
+	        }else {
+	        	rr.setStateCode(0);
+	            rr.setMessage("密码错误");
+	           // System.out.println("登录失败");
+	        }
+		}else {
+			rr.setMessage("验证码错误");
+			rr.setStateCode(0);
+		}
+				
+			return rr;				
 	}
 	
 	/**
@@ -69,12 +95,20 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/outLogin")
 	@ResponseBody
-	public String outLogin(HttpSession session,SessionStatus sessionStatus){
+	public ResponseResult outLogin(HttpSession session,SessionStatus sessionStatus){
+		ResponseResult rr=new ResponseResult();
         session.removeAttribute("user");//我这里是先取出httpsession中的user属性
         session.invalidate();  //然后是让httpsession失效
         sessionStatus.setComplete();//最后是调用sessionStatus方法
-        System.out.println("注销成功");
-        return "login";
+        //System.out.println("注销成功");
+        if(session.getAttribute("user")==null) {
+        rr.setMessage("注销成功");
+        rr.setStateCode(1);
+        }else {
+        	rr.setMessage("注销失败");
+        	rr.setStateCode(0);
+        }
+        return rr;
     }
 	
 	
@@ -87,18 +121,22 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/updatePassword")
 	@ResponseBody
-	public String updatePassword(String uid,String password,String repassword) {
+	public ResponseResult updatePassword(String uid,String password,String repassword) {
+		ResponseResult rr=new ResponseResult();
 		String pwd=md5.GetMD5Code(password);
 		String repwd=md5.GetMD5Code(repassword);			
 		if(pwd.equals(userService.getPasswordByUid(uid))) {			
 			userService.updatePassword(uid,repwd);
-			System.out.println("密码修改成功");			
-			return "updatePasswordSuccess";			
+			//System.out.println("密码修改成功");			
+			
+			rr.setStateCode(1);
 		}
 		else {
-			System.out.println("密码修改失败");
-			return "updatePasswordError";
-		}			
+			//System.out.println("密码修改失败");
+			rr.setMessage("密码修改失败");
+			rr.setStateCode(0);
+		}		
+		return rr;
 	}
 	
 	
@@ -110,21 +148,25 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/addUser")
 		@ResponseBody
-		public String insertUser(User user,HttpSession session,Model model) {
+		public ResponseResult insertUser(User user,Model model,HttpSession session) {
+			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1==null) {
 			user1.setPassword(md5.GetMD5Code(user.getPassword()));			
 			user1.setCreateTime(new Date());	
 			//需要修改
-			user.setCreateName((String) session.getAttribute(user1.getName()));
-			model.addAttribute(user1);
+			user1.setCreateName((String) session.getAttribute(user1.getName()));
+			model.addAttribute("user", user1);
 			userService.addUser(user1);
-			System.out.println("添加成功");
-			return "addUserSuccess";
+			//System.out.println("添加成功");
+			
+			rr.setStateCode(1);			
 			}else {
-				System.out.println("用户已存在");
-				return "addUserError";
+				//System.out.println("用户已存在");
+				rr.setMessage("用户已存在");
+				rr.setStateCode(0);
 			}
+			return rr;
 		}
 		
 		
@@ -135,16 +177,20 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/deleteUserByUid")
 		@ResponseBody
-		public String deleteUserByUid(String uid) {
+		public ResponseResult deleteUserByUid(String uid) {
+			ResponseResult rr=new ResponseResult();
 			User user=userService.getUser(uid);
 			if(user!=null) {
 				userService.deleteUserByUid(uid);
-				System.out.println("用户已删除");
-				return "deleteUserByUidSuccess";
+				//System.out.println("用户已删除");
+				
+				rr.setStateCode(1);				
 			}else {
-				System.out.println("用户删除失败");
-				return "deleteUserByUidError";
-			}			
+				//System.out.println("用户删除失败");
+				rr.setMessage("用户删除失败");
+				rr.setStateCode(0);
+			}		
+			return rr;
 		}
 		
 		/**
@@ -155,7 +201,8 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/updateUser")
 		@ResponseBody
-		public String updateUser(User user,HttpSession session,Model model) {
+		public ResponseResult updateUser(User user,HttpSession session,Model model) {
+			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1!=null) {			
 			user1.setPassword(userService.getPasswordByUid(user.getUid()));
@@ -163,12 +210,15 @@ import com.oa.utils.md5;
 			user1.setModifiedName((String) session.getAttribute(user.getName()));
 			user1.setModifiedTime(new Date());
 			userService.updateUser(user1);
-			System.out.println("修改成功");
-			return "updateUserSuccess";
+			model.addAttribute("user", user1);
+			System.out.println("修改成功");			
+			rr.setStateCode(1);
 			}else {
-				System.out.println("修改失败");
-				return "updateUserUserError";
+				//System.out.println("修改失败");
+				rr.setMessage("修改成功");
+				rr.setStateCode(1);
 			}
+			return rr;
 		}
 		/**
 		 * @param uid
@@ -178,19 +228,24 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/rePassword")
 		@ResponseBody
-		public String rePassword(String uid,String repassword)  throws Exception{			
+		public ResponseResult rePassword(String uid,String repassword,Model model)  throws Exception{			
+			ResponseResult rr=new ResponseResult();
 			String repwd=md5.GetMD5Code(repassword);
 			User user=userService.getUser(uid);		
 			if(user!=null) {			
 				user.setPassword(repwd);
 				userService.updateUser(user);
-				System.out.println("密码重置成功");			
-				return "rePasswordSuccess";			
+				model.addAttribute("user", user);
+				//System.out.println("密码重置成功");
+				
+				rr.setStateCode(1);		
 			}
 			else {
-				System.out.println("密码重置失败");
-				return "rePasswordError";
-			}			
+				//System.out.println("密码重置失败");
+				rr.setMessage("重置密码失败");
+				rr.setStateCode(0);
+			}	
+			return rr;		
 		}
 		
 		 /**
@@ -201,13 +256,21 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/alluser")
 		@ResponseBody
-		public String  queryUser(Model model) throws Exception{
+		public ResponseResult  queryUser(Model model) throws Exception{
+			ResponseResult rr=new ResponseResult();
 		        List<User> userlist = userService.selectUser();
-		        model.addAttribute("userlist",userlist);
-		        for(User users:userlist) {
+		       model.addAttribute("userlist", userlist);
+		       /* for(User users:userlist) {
 					System.out.println(users);
-				}
-		        return "alluser";		         
+				}*/
+		        if(userlist.size()!=0) {
+		        	rr.setStateCode(1);
+		        }else {
+		        	rr.setMessage("用户查询失败");
+		        	rr.setStateCode(0);
+		        }
+		        
+		        return rr;		         
 		    }
 		/**
 		 * @param uid
@@ -219,13 +282,20 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/selectLikeUser")
 		@ResponseBody
-		public String selectLikeUser(String userInfo,Model model) {
+		public ResponseResult selectLikeUser(String userInfo,Model model) {
+			ResponseResult rr=new ResponseResult();
 			List<User> userlist = userService.selectLikeUser(userInfo);
-			model.addAttribute("userlist",userlist);
-	        for(User users:userlist) {
+			 model.addAttribute("userlist", userlist);
+	       /* for(User users:userlist) {
 				System.out.println(users);
-			}
-			return "selectLikeUser";			
+			}*/
+			 if(userlist.size()>0) {
+				 rr.setStateCode(1);
+			 }else {
+				 rr.setStateCode(0);
+				 rr.setMessage("未查到数据");
+			 }
+			return rr;			
 		}
 		/**
 		 * @param ids
@@ -234,13 +304,55 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/deleteList")
 		@ResponseBody
-		public String delete(String[] uids){
-			//循环遍历让每一个id都执行删除方法
-			for (String string : uids) {
-				userService.deleteUserByUid(string);
-			}
-			return "deleteList";
+		public ResponseResult delete(String uids){
+			ResponseResult rr = new ResponseResult();
+			String ids=uids;
+			//批量删除
+			if (ids.contains("-")) {
+				List<String> listId = new ArrayList<>();
+				String[] split_ids = ids.split("-");
+				for (String string : split_ids) {
+					listId.add(string);
+					userService.deleteUserBatch(listId);
+				}
+				rr.setStateCode(1);
+			// 单个删除
+			} else {
+				Integer id1 = Integer.parseInt(ids);
+				userService.deleteUserByUid(ids);
+				rr.setStateCode(1);
+					}
+			return rr;	
 		}		
 
-
+		 		/**
+		       * 上传
+		       * 
+		       * @param request
+		       * @param file
+		       * @return
+		       * @throws IllegalStateException
+		       * @throws IOException
+		       */
+		      @RequestMapping(value = "/upload")
+		      public @ResponseBody String upload(HttpServletRequest request, MultipartFile file)
+		              throws IllegalStateException, IOException {
+		          String name = file.getOriginalFilename();
+		          String path = request.getServletContext().getRealPath("/upload/");// 上传保存的路径
+		          String fileName = changeName(name);
+		          String rappendix = "upload/" + fileName;
+		          fileName = path + "\\" + fileName;
+		          File file1 = new File(fileName);
+		          file.transferTo(file1);
+		          String str = "{\"src\":\"" + rappendix + "\"}";
+		          return str;
+		      }
+		  
+		      public static String changeName(String oldName) {
+		          Random r = new Random();
+		          Date d = new Date();
+		          String newName = oldName.substring(oldName.indexOf('.'));
+		          newName = r.nextInt(99999999) + d.getTime() + newName;
+		          return newName;
+		      }
 	}
