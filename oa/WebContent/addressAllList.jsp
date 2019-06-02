@@ -81,6 +81,7 @@
 						<tbody>
 							<c:forEach items="${list}" varStatus="status" var="item">
 								<tr>
+<<<<<<< HEAD
 
 									<td>
 										<div class="task-checkbox">
@@ -139,5 +140,65 @@
 	<script src="assets/layui.js"></script>
 	<script src="js/index.js" data-main="home"></script>
 	<script src="js/home.js"></script>
+=======
+
+									<td>
+										<div class="task-checkbox">
+											<!-- <input type="checkbox" class="list-child" value=""  /> -->
+											<input type="checkbox" class="flat-grey list-child" />
+											<!-- <input type="checkbox" class="square-grey"/> -->
+										</div>
+									</td>
+									<td>${status.index+1}</td>
+									<td>办公室</td>
+									<td>金咏琪</td>
+									<!-- <td>Steve</td> -->
+									<td>13699551360</td>
+									<!-- <td>$1500</td> -->
+									<td>1790435361@qq.com</td>
+									<td><button class="layui-btn layui-btn-sm">
+											<i class="layui-icon">&#xe654;</i>
+										</button></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<div class="clearfix">
+						<div class="pagination-left">
+							<div class="pull-left pagination-detail">
+								<span class="pagination-info">第1到第8条，共16条记录。</span> <span
+									class="page-list"> 每页 <span class="btn-group group">
+										<button class="btn btn-default btn-outline dropdown-toggle"
+											type="button" data-toggle="dropdow">
+											<span class="page-size">8</span>&nbsp; <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li class="active"><a href="javascript:void(0)">8</a></li>
+											<li class="active"><a href="javascript:void(0)">25</a></li>
+										</ul>
+								</span>条记录
+								</span>
+							</div>
+						</div>
+						<div class="pagination-right">
+							<ul class="pagination">
+								<li class="page-pre"><a href="javascript:void(0)">&lt;</a>
+								</li>
+								<li class="page-number"><a href="javascript:void(0)">1</a>
+								</li>
+								<li class="page-number active"><a href="javascript:void(0)">2</a>
+								</li>
+								<li class="page-next"><a href="javascript:void(0)">&gt;</a>
+								</li>
+							</ul>
+						</div>
+				</section>
+
+
+			</div>
+			<script src="assets/layui.js"></script>
+			<script src="js/index.js" data-main="home"></script>
+			<script src="js/home.js"></script>
+>>>>>>> origin/NZP
 </body>
 </html>

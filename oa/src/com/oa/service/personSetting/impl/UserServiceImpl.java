@@ -2,11 +2,14 @@ package com.oa.service.personSetting.impl;
 
 import java.util.List;
 
+import com.oa.bean.UserExample.Criteria;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.oa.bean.User;
+import com.oa.bean.UserExample;
 import com.oa.dao.UserMapper;
 import com.oa.service.personSetting.UserService;
 
@@ -69,9 +72,18 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public List<User> selectLikeUser(String userInfo) {
-		// TODO Auto-generated method stub
+		
 		return userMapper.selectLikeUser(userInfo);
 	}
+	@Override
+	public void deleteUserBatch(List<String> listId) {
+		// TODO Auto-generated method stub
+		UserExample de = new UserExample();
+		Criteria ct = de.createCriteria();
+		ct.andUidIn(listId);
+		userMapper.deleteByExample(de);
+	}
+	
 	
 	
 

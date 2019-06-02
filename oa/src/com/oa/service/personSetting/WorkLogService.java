@@ -27,7 +27,7 @@ public interface WorkLogService {
 	 * @return
 	 * 模糊查询
 	 */
-	List<WorkLog> selectLikeWorkLog(String workLogInfo);
+	List<WorkLog> selectLikeWorkLog(String workLogInfo,String startTime,String endTime);
 	
 
 }
