@@ -71,6 +71,11 @@
   <sql id="Base_Column_List">
     notice_id, title, content, browse_power, create_name, create_time, type
   </sql>
+  
+  <select id="selectFindAll"  resultMap="BaseResultMap">
+     select * from t_notice
+  </select>
+  
   <select id="selectByExample" parameterType="com.oa.bean.NoticeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -85,12 +90,14 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_notice
     where notice_id = #{noticeId,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_notice
     where notice_id = #{noticeId,jdbcType=INTEGER}
@@ -101,6 +108,14 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
+  <delete id="deleteMany" parameterType="int">
+    delete from t_notice where notice_id in
+    <foreach item="ids" collection="array" open="(" separator="," close=")">
+        #{ids}
+    </foreach>
+</delete>
+
   <insert id="insert" parameterType="com.oa.bean.Notice">
     insert into t_notice (notice_id, title, content, 
       browse_power, create_name, create_time, 
@@ -240,4 +255,44 @@
       type = #{type,jdbcType=INTEGER}
     where notice_id = #{noticeId,jdbcType=INTEGER}
   </update>
+  
+
+    <select id="findByMany"  resultMap="BaseResultMap"
+       parameterType="Map">
+        SELECT
+            *
+        FROM
+           t_notice
+       
+            <where>
+             <if test="_parameter != null and _parameter != ''">
+                AND title like CONCAT('%',#{_parameter},'%')
+               or content like CONCAT('%',#{_parameter},'%')
+               or type like CONCAT('%',#{_parameter},'%')
+            </if> 
+      </where>
+ </select>
+ <select id="selectByParams"  resultMap="BaseResultMap"
+       parameterType="map">
+        SELECT
+            *
+        FROM
+           t_notice
+            <where>
+            <if test=" param.Info!= null and  param.Info!= ''">
+                AND title like CONCAT('%',#{param.Info},'%')
+               or content like CONCAT('%',#{param.Info},'%')
+            </if> 
+            <if test="param.type !=null and param.type!=''">
+              and type = #{param.type}
+            </if>
+         <if test="param.startTime!=null and param.startTime!=''">
+  	        <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+      	</if>
+      	<if test="param.endTime!=null and param.endTime!=''">
+  	     <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+	   </if>
+      </where>
+ </select>
+
 </mapper>

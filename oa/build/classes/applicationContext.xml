@@ -47,8 +47,7 @@
 	</bean>
 	
 	 <!-- 扫描所有的mapper实现的接口，让这些mapper能够自动注入 指定mapper接口的包名-->
-	 <mybatis-spring:scan base-package="com.oa.dao"/>
-	 
+	 <mybatis-spring:scan base-package="com.oa.dao" />
 	<!-- spring事务管理 -->
 	<bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
