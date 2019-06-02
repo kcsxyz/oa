@@ -244,52 +244,62 @@ public class PersonTelExample {
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdEqualTo(Integer value) {
+        public Criteria andPersonIdEqualTo(String value) {
             addCriterion("person_id =", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdNotEqualTo(Integer value) {
+        public Criteria andPersonIdNotEqualTo(String value) {
             addCriterion("person_id <>", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdGreaterThan(Integer value) {
+        public Criteria andPersonIdGreaterThan(String value) {
             addCriterion("person_id >", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPersonIdGreaterThanOrEqualTo(String value) {
             addCriterion("person_id >=", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdLessThan(Integer value) {
+        public Criteria andPersonIdLessThan(String value) {
             addCriterion("person_id <", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdLessThanOrEqualTo(Integer value) {
+        public Criteria andPersonIdLessThanOrEqualTo(String value) {
             addCriterion("person_id <=", value, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdIn(List<Integer> values) {
+        public Criteria andPersonIdLike(String value) {
+            addCriterion("person_id like", value, "personId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonIdNotLike(String value) {
+            addCriterion("person_id not like", value, "personId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonIdIn(List<String> values) {
             addCriterion("person_id in", values, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdNotIn(List<Integer> values) {
+        public Criteria andPersonIdNotIn(List<String> values) {
             addCriterion("person_id not in", values, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdBetween(Integer value1, Integer value2) {
+        public Criteria andPersonIdBetween(String value1, String value2) {
             addCriterion("person_id between", value1, value2, "personId");
             return (Criteria) this;
         }
 
-        public Criteria andPersonIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andPersonIdNotBetween(String value1, String value2) {
             addCriterion("person_id not between", value1, value2, "personId");
             return (Criteria) this;
         }

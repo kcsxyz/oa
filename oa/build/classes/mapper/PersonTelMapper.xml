@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.oa.bean.PersonTel">
     <id column="tel_id" jdbcType="INTEGER" property="telId" />
     <result column="user_id" jdbcType="CHAR" property="userId" />
-    <result column="person_id" jdbcType="INTEGER" property="personId" />
+    <result column="person_id" jdbcType="CHAR" property="personId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -100,7 +100,7 @@
   <insert id="insert" parameterType="com.oa.bean.PersonTel">
     insert into t_person_tel (tel_id, user_id, person_id
       )
-    values (#{telId,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{personId,jdbcType=INTEGER}
+    values (#{telId,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{personId,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.PersonTel">
@@ -124,7 +124,7 @@
         #{userId,jdbcType=CHAR},
       </if>
       <if test="personId != null">
-        #{personId,jdbcType=INTEGER},
+        #{personId,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -144,7 +144,7 @@
         user_id = #{record.userId,jdbcType=CHAR},
       </if>
       <if test="record.personId != null">
-        person_id = #{record.personId,jdbcType=INTEGER},
+        person_id = #{record.personId,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -155,7 +155,7 @@
     update t_person_tel
     set tel_id = #{record.telId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=CHAR},
-      person_id = #{record.personId,jdbcType=INTEGER}
+      person_id = #{record.personId,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -167,7 +167,7 @@
         user_id = #{userId,jdbcType=CHAR},
       </if>
       <if test="personId != null">
-        person_id = #{personId,jdbcType=INTEGER},
+        person_id = #{personId,jdbcType=CHAR},
       </if>
     </set>
     where tel_id = #{telId,jdbcType=INTEGER}
@@ -175,7 +175,7 @@
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.PersonTel">
     update t_person_tel
     set user_id = #{userId,jdbcType=CHAR},
-      person_id = #{personId,jdbcType=INTEGER}
+      person_id = #{personId,jdbcType=CHAR}
     where tel_id = #{telId,jdbcType=INTEGER}
   </update>
 </mapper>

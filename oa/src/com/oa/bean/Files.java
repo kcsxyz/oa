@@ -2,7 +2,7 @@ package com.oa.bean;
 
 import java.util.Date;
 
-public class File {
+public class Files {
     private String fileId;
 
     private String fileName;

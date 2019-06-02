@@ -93,21 +93,23 @@ public class DeptController {
 	 * @return
 	 */
 	@RequestMapping("/getDeptList")
-	public String deptList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+	@ResponseBody
+	public ResponseResult deptList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
 		
+		ResponseResult rr = new ResponseResult();
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
 			List<Dept> listDept = deptService.getDeptList();
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-			PageInfo<Dept> page = new PageInfo<Dept>(listDept, 3);
-			model.addAttribute("pageInfo", page);
+			PageInfo<Dept> pageInfo = new PageInfo<Dept>(listDept, 3);
+			rr.add("pageInfo", pageInfo);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
-		return "/getDeptList";
+		return rr;
 	}
 	
 	
@@ -121,5 +123,12 @@ public class DeptController {
 		return "getDept";
 	}
 	
-	
+	/**跳转到部门页面
+	 * @return
+	 */
+	@RequestMapping("/deptPage")
+	public String deptPage() {
+		
+		return "/system/dept";
+	}
 }
