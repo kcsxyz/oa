@@ -19,13 +19,13 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.ResponseResult;
 import com.oa.bean.WorkPlan;
-import com.oa.service.common.WorkPlanService;
+import com.oa.service.common.WorkplanService;
 
 @Controller
 @RequestMapping("workplanAudit")
-public class WorkPlanController {
+public class WorkplanController {
      @Resource
-	 private WorkPlanService workPlanService;
+	 private WorkplanService workplanService;
      
      /**修改部门
  	 * @param dept
@@ -45,7 +45,7 @@ public class WorkPlanController {
  		workPlan.setStatus(status);
  		workPlan.setCheckedName(checkedName);
  		workPlan.setOpinion(opinion);
- 		int i =workPlanService.updateByPrimaryKeySelective(workPlan);
+ 		int i =workplanService.updateByPrimaryKeySelective(workPlan);
  		if(i!=0) {
  			rr.setStateCode(1);
  			rr.setMessage("修改成功");
@@ -65,7 +65,7 @@ public class WorkPlanController {
 	public WorkPlan findBynoticeId(Integer id) {
 		WorkPlan workPlan = null;
 		try {
-			workPlan = workPlanService.selectByPrimaryKey(id);
+			workPlan = workplanService.selectByPrimaryKey(id);
 			System.out.println(workPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,7 +94,7 @@ public class WorkPlanController {
 			map.put("Info", Info);
 	        map.put("startTime",startTime);
 	        map.put("endTime",endTime);
-	       List<WorkPlan> workPlans = workPlanService.selectByParams(map);
+	       List<WorkPlan> workPlans = workplanService.selectByParams(map);
 	       PageHelper.startPage(pageNo, pageSize);
 	       Integer checkedDeptid = 2;
 	       List<WorkPlan> newworkPlans = new ArrayList<WorkPlan>();

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.oa.bean.WorkPlan;
 import com.oa.bean.WorkPlanExample;
 import com.oa.dao.WorkPlanMapper;
-import com.oa.service.common.WorkPlanService;
+import com.oa.service.common.WorkplanService;
 @Service
-public class WorkPlanServiceImpl implements WorkPlanService {
+public class WorkplanServiceImpl implements WorkplanService {
     @Resource
 	private WorkPlanMapper workPlanMapper;
 

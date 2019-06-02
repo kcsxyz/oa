@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.oa.bean.WorkPlan;
 import com.oa.bean.WorkPlanExample;
 
-public interface WorkPlanService {
+public interface WorkplanService {
      /**
       * 修改status来审核
       * @param record

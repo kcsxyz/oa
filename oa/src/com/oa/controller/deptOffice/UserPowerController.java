@@ -98,7 +98,7 @@ public class UserPowerController {
 	
 	@RequestMapping("/findUser")
 	@ResponseBody
-	public List<User> findUser(
+	public String findUser(
 			HttpSession session,
 		    String Info,
 			String uid,
@@ -128,14 +128,15 @@ public class UserPowerController {
 			map.put("createName",createName);
 		    map.put("startTime",startTime);
 		    map.put("endTime",endTime);
-		
-	
 	        System.out.println(map.get("uid"));
+	       
 		 List<User> users = userPowerService.selectByParams(map);
 		 for (User user : users) {
 			System.out.println(user);
 		}
-		return users;
+		 
+	        
+		return "success";
 	}
 	
 	
