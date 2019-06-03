@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
@@ -152,15 +153,20 @@ import com.oa.utils.md5;
 			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1==null) {
-			user1.setPassword(md5.GetMD5Code(user.getPassword()));			
-			user1.setCreateTime(new Date());	
-			//需要修改
-			user1.setCreateName((String) session.getAttribute(user1.getName()));
-			model.addAttribute("user", user1);
-			userService.addUser(user1);
-			//System.out.println("添加成功");
-			
-			rr.setStateCode(1);			
+				user1.setPassword(md5.GetMD5Code(user.getPassword()));			
+				user1.setCreateTime(new Date());	
+				//需要修改
+				user1.setCreateName((String) session.getAttribute(user1.getName()));				
+				int i=userService.addUser(user1);
+				if(i<0) {					
+					model.addAttribute("user", user1);
+					//System.out.println("添加成功");				
+					rr.setStateCode(1);	
+				}else {
+					rr.setMessage("添加失败");
+					rr.setStateCode(0);
+				}
+						
 			}else {
 				//System.out.println("用户已存在");
 				rr.setMessage("用户已存在");
@@ -325,34 +331,30 @@ import com.oa.utils.md5;
 			return rr;	
 		}		
 
-		 		/**
-		       * 上传
-		       * 
-		       * @param request
-		       * @param file
-		       * @return
-		       * @throws IllegalStateException
-		       * @throws IOException
-		       */
-		      @RequestMapping(value = "/upload")
-		      public @ResponseBody String upload(HttpServletRequest request, MultipartFile file)
-		              throws IllegalStateException, IOException {
-		          String name = file.getOriginalFilename();
-		          String path = request.getServletContext().getRealPath("/upload/");// 上传保存的路径
-		          String fileName = changeName(name);
-		          String rappendix = "upload/" + fileName;
-		          fileName = path + "\\" + fileName;
-		          File file1 = new File(fileName);
-		          file.transferTo(file1);
-		          String str = "{\"src\":\"" + rappendix + "\"}";
-		          return str;
-		      }
-		  
-		      public static String changeName(String oldName) {
-		          Random r = new Random();
-		          Date d = new Date();
-		          String newName = oldName.substring(oldName.indexOf('.'));
-		          newName = r.nextInt(99999999) + d.getTime() + newName;
-		          return newName;
-		      }
+		 @RequestMapping("/addProduct")
+		 @ResponseBody
+		    public String fileUpload(MultipartFile file,User user, ModelMap map) throws IOException {
+			 	user.setUid("1");
+			 	user.setPassword("1213");
+			 	user.setName("23132");
+		        /**
+		         * 上传图片
+		         */
+		        //图片上传成功后，将图片的地址写到数据库
+		        String filePath = "\\upload";//保存图片的路径
+		        //获取原始图片的拓展名
+		        String originalFilename = file.getOriginalFilename();
+		        //新的文件名字
+		        String newFileName = UUID.randomUUID()+originalFilename;
+		        //封装上传文件位置的全路径
+		        File targetFile = new File(filePath,newFileName);
+		         //把本地文件上传到封装上传文件位置的全路径
+		        file.transferTo(targetFile);
+		        user.setHeadPic(newFileName);		        
+		        /**
+		         * 保存商品
+		         */
+		        userService.updateUser(user);
+		        return "13213"; 
+		    }
 	}

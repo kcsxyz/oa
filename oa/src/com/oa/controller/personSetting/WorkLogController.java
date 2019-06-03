@@ -90,13 +90,19 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/addWorkLog")
 		@ResponseBody
-		public ResponseResult addWorkLog(WorkLog workLog,Model model,HttpSession session) {
+		public ResponseResult addWorkLog(WorkLog workLog,Model model) {
 			ResponseResult rr=new ResponseResult();
 			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null) {
 				workLog.setCreateTime(new Date());				
-				workLogService.addWorkLog(workLog);
-				model.addAttribute("workLog", workLog);
-				rr.setStateCode(1);
+				int i=workLogService.addWorkLog(workLog);
+				if(i<0) {
+					model.addAttribute("workLog", workLog);
+					rr.setStateCode(1);
+				}else {
+					rr.setMessage("添加失败");
+					rr.setStateCode(0);
+				}
+				
 			}else {
 				rr.setMessage("添加失败");
 				rr.setStateCode(0);

@@ -1,6 +1,9 @@
 
 package com.oa.service.personSetting.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,8 +32,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public void addSchedule(Schedule schedule) {
-		scheduleMapper.insert(schedule);
+	public int addSchedule(Schedule schedule) {
+		int i=scheduleMapper.insert(schedule);
+		return i;
 	}
 
 	@Override
@@ -49,5 +53,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public void updateSchedule(Schedule schedule) {
 		scheduleMapper.updateByPrimaryKey(schedule);
+	}
+
+	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) {
+		ScheduleExample de = new ScheduleExample();
+		Criteria ct = de.createCriteria();
+		ct.andTitleLike("%"+Info+"%");
+		Criteria ct2 = de.createCriteria();
+		ct2.andDescrLike("%"+Info+"%");
+		Criteria ct3 = de.createCriteria();
+		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
+		Date date1;
+		Date date2;
+		try {
+			date1 = formatter.parse(startTime);
+			date2=formatter.parse(endTime);
+			ct3.andCreateTimeBetween(date1, date2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		de.or(ct2);
+		de.or(ct3);
+		return scheduleMapper.selectByExample(de);
 	}
 }

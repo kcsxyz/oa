@@ -15,7 +15,7 @@ public interface UserService {
 	//修改密码
 	void updatePassword(String uid, String repassword);
 	//增加用户
-	void addUser(User user);
+	int addUser(User user);
 	//删除用户
 	void deleteUserByUid(String uid);
 	//修改用户

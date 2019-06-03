@@ -10,7 +10,7 @@ public interface WorkPlanService {
 	//根据id查询
 	WorkPlan getWorkPlanById(Integer id);
 	//添加工作计划
-	void addworkPlan(WorkPlan workPlan);
+	int addworkPlan(WorkPlan workPlan);
 	//删除多个
 	void deleteWorkPlanBatch(List<Integer> listId);
 	//删除一个

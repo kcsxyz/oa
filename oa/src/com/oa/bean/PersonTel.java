@@ -6,8 +6,20 @@ public class PersonTel {
     private String userId;
 
     private String personId;
+    
+    private User user;
 
-    public Integer getTelId() {
+   
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getTelId() {
         return telId;
     }
 
@@ -30,4 +42,10 @@ public class PersonTel {
     public void setPersonId(String personId) {
         this.personId = personId == null ? null : personId.trim();
     }
+
+	@Override
+	public String toString() {
+		return "PersonTel [telId=" + telId + ", userId=" + userId + ", personId=" + personId + "]";
+	}
+    
 }

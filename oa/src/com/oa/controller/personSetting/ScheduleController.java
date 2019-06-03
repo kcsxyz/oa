@@ -94,11 +94,17 @@ public class ScheduleController {
 		if(scheduleService.getScheduleById(schedule.getId())==null) {
 			
 			schedule.setCreateTime(new Date());
-			scheduleService.addSchedule(schedule);
-			model.addAttribute("schedule", schedule);
-			rr.setStateCode(1);
+			int i=scheduleService.addSchedule(schedule);
+			if(i<0) {
+				model.addAttribute("schedule", schedule);
+				rr.setStateCode(1);
+			}else {
+				rr.setStateCode(0);
+				rr.setMessage("添加失败");
+			}
+			
 		}else {
-			rr.setMessage("添加失败");
+			rr.setMessage("信息已存在");
 			rr.setStateCode(0);
 		}
 		return rr;
@@ -149,5 +155,28 @@ public class ScheduleController {
 			rr.setStateCode(0);
 		}
 		return rr;
+	}
+	/**
+	 * @param Info
+	 * @param startTime
+	 * @param endTime
+	 * @param model
+	 * @return
+	 * 模糊查询
+	 */
+	@RequestMapping("/selectLikeSchedule")
+	@ResponseBody
+	public ResponseResult selectLikeSchedule(String Info,String startTime,String endTime,Model model) {
+		ResponseResult rr=new ResponseResult();		
+		List<Schedule> schedulelist = scheduleService.selectLikeSchedule(Info,startTime,endTime);
+		model.addAttribute("schedulelist",schedulelist);
+       
+		if(schedulelist.size()>0) {
+			rr.setStateCode(1);
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("未查询到数据");
+		}		
+		return rr;			
 	}
 }

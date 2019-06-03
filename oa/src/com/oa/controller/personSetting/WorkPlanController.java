@@ -97,9 +97,15 @@ public class WorkPlanController {
 		if(workPlanService.getWorkPlanById(workPlan.getId())==null) {
 		
 			workPlan.setCreateTime(new Date());
-			workPlanService.addworkPlan(workPlan);
-			model.addAttribute("workPlan", workPlan);
-			rr.setStateCode(1);
+			int i=workPlanService.addworkPlan(workPlan);
+			if(i<0) {
+				model.addAttribute("workPlan", workPlan);
+				rr.setStateCode(1);
+			}else {
+				rr.setMessage("添加失败");
+				rr.setStateCode(0);
+			}
+			
 		}else {
 			rr.setMessage("添加失败");
 			rr.setStateCode(0);

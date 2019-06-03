@@ -36,9 +36,10 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 	}
 
 	@Override
-	public void addworkPlan(WorkPlan workPlan) {
+	public int addworkPlan(WorkPlan workPlan) {
 		// TODO Auto-generated method stub
-		workPlanMapper.insert(workPlan);
+		int i=workPlanMapper.insert(workPlan);
+		return i;
 	}
 
 	@Override
