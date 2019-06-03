@@ -1,7 +1,9 @@
 package com.oa.controller.system;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -81,10 +83,11 @@ public class DeptController {
 	public ResponseResult updateDeptById(Dept dept) {
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.updateDept(dept);
-		if(i>0) {
+		if(i<0) {
 			rr.setStateCode(1);;
 		}else {
 			rr.setStateCode(0);
+			rr.setMessage("更新失败");
 		}
 		return rr;
 	}
@@ -97,10 +100,12 @@ public class DeptController {
 	@RequestMapping("/saveDept")
 	@ResponseBody
 	public ResponseResult saveDept(Dept dept) {
+		System.out.println(dept.getDeptName());
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.saveDept(dept);
-		if(i>0) {
-			rr.setStateCode(1);;
+		System.out.println(i);
+		if(i<0) {
+			rr.setStateCode(1);
 		}else {
 			rr.setStateCode(0);
 		}
@@ -134,11 +139,16 @@ public class DeptController {
 	/**通过部门id获取部门
 	 * @param deptId
 	 */
-	@RequestMapping("/getDept/{id}")
-	public String getDeptById(@PathVariable("id") Integer id,Model model) {
+	@RequestMapping("/getDeptById")
+	@ResponseBody
+	public ResponseResult getDeptById(Integer id) {
+		ResponseResult rr = new ResponseResult();
 		Dept dept = deptService.getDeptById(id);
-		model.addAttribute("dept", dept);
-		return "getDept";
+		System.out.println(dept.getDeptName()+"");
+		Map<String,Object> map = new HashMap();
+		map.put("dept", dept);
+		rr.setExtend(map);
+		return rr;
 	}
 	
 	/**跳转到部门页面

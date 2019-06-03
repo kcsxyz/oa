@@ -31,49 +31,34 @@
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">部门名</label>
+							<label class="col-sm-2 control-label">部门名称</label>
 							<div class="col-sm-10">
-								<p class="form-control-static" id="deptName_update"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Salary</label>
-							<div class="col-sm-10">
-								<input type="text" name="salary" class="form-control"
-									id="salary_update" placeholder=""> <span
+								<input type="hidden" name="deptId" id="deptId" > 
+								<!-- <p class="form-control-static" id="deptName_update"></p> -->
+								<input type="text" name="deptName" class="form-control"
+									id="deptName_update" placeholder="部门名称"> <span
 									class="help-block"></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Email</label>
-							<div class="col-sm-10">
-								<input type="email" name="email" class="form-control"
-									id="email_update" placeholder="zcgy@163.com"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Gender</label>
-							<div class="col-sm-10">
-								<label class="radio-inline"> <input type="radio"
-									name="gender" id="gender_update" value="1" checked="checked">男
-								</label> <label class="radio-inline"> <input type="radio"
-									name="gender" id="gender_update" value="0">女
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Dept</label>
+							<label class="col-sm-2 control-label">上级部门</label>
 							<div class="col-sm-3">
-								<select class="form-control" name="dId" id="select_update_dept">
+								<select class="form-control" name="deptPId" id="select_update_dept">
 								</select>
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">描述</label>
+							<div class="col-sm-10">
+								<textarea name="remark" id="remark_update" class="form-control" rows="3" ></textarea>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="update_emp">修改</button>
+					<button type="button" class="btn btn-primary" id="update_dept">修改</button>
 				</div>
 			</div>
 		</div>
@@ -103,7 +88,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">上级部门</label>
 							<div class="col-sm-3">
-								<select class="form-control" name="deptId" id="select_add_dept">
+								<select class="form-control" name="deptPId" id="select_add_dept">
 								</select>
 							</div>
 						</div>
@@ -155,6 +140,7 @@
 						<button class="btn btn-primary btn-sm" id="dept_add">
 							<i class="glyphicon glyphicon-plus"></i>新增
 						</button>
+						<button class="btn btn-danger" id="dept_delete_all">删除</button>
 					</h4>
 					<section id="unseen">
 					<table
@@ -162,12 +148,11 @@
 						style="text-align: center;">
 						<thead>
 							<tr>
-								<th style="text-align: center;"><input type="checkbox"
+								<th style="text-align: center;"><input type="checkbox" id="check_all"
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
 								<th style="text-align: center;">部门名</th>
 								<th style="text-align: center;">部门级别</th>
-								<th style="text-align: center;">上级部门</th>
 								<th style="text-align: center;">描述</th>
 								<th style="text-align: center;">操作</th>
 							</tr>
@@ -178,8 +163,8 @@
 						<tfoot>
 							<tr>
 								<td colspan="12">
-									<div class="row">
-										<div class="col-md-6" id="pageInfo_area"></div>
+									<div class="row" style="text-align:center;">
+										<div class="col-md-6" id=""><p id="pageInfo_area" style="margin-top:30px font-size: 18px"></div>
 										<div class="col-md-6" id="nav_area"></div>
 									</div>
 								</td>
@@ -254,7 +239,7 @@
 			var firstPage = $("<li></li>").append(
 					$("<a></a>").append("首页").attr("href", "#"));
 			var prePage = $("<li></<li>").append(
-					$("<a></a>").attr("href", "#").append("&laquo;"));
+					$("<a></a>").attr("href", "#").append("<"));
 
 			//如果没有上一页，则为disabled
 			if (result.extend.pageInfo.hasPreviousPage == false) {
@@ -269,7 +254,7 @@
 				});
 			}
 			var nexPage = $("<li></<li>").append(
-					$("<a></a>").attr("href", "#").append("&raquo;"));
+					$("<a></a>").attr("href", "#").append(">"));
 			var lastPage = $("<li></li>").append(
 					$("<a></a>").append("末页").attr("href", "#"));
 
@@ -322,8 +307,8 @@
 								var idTd = $("<td></td>").append(index + 1);
 								var deptNameTd = $("<td></td>").append(
 										item.deptName);
-								var deptPIdTd = $("<td></td>").append(
-										item.deptPId);
+								/* var deptPIdTd = $("<td></td>").append(
+										item.deptPId); */
 								var deptLevelTd = $("<td></td>").append(
 										item.deptLevel);
 								var deptRemarkTd = $("<td></td>").append(
@@ -351,14 +336,14 @@
 								var btnTd = $("<td></td>").append(editBtn)
 										.append(" ").append(delBtn);
 								$("<tr></tr>").append(checkBoxTd).append(idTd)
-										.append(deptNameTd).append(deptPIdTd)
+										.append(deptNameTd)
 										.append(deptLevelTd).append(
 												deptRemarkTd).append(btnTd)
 										.appendTo("#deptData");
 							});
 		}
 		
-		/* -------------------部门添加---------------------- */
+	/* -------------------部门添加---------------------- */
 		//重置表单，清除数据
 		function clear_form(ele){
 			//重置内容
@@ -369,12 +354,15 @@
 		}
 		//创建部门下拉列表
 		function create_dept(ele){
+			
 			$(ele).empty();
 			//获取部门
 			$.ajax({
 				url: "${pageContext.request.contextPath}/system/getDeptList",
 				type: "get",
 				success:function(result){
+					var optionEl1=$("<option></option>").append('———-—').attr("value","0");
+					optionEl1.appendTo(ele);
 					$.each(result.extend.pageInfo.list,function(){
 						var optionEl=$("<option></option>").append(this.deptName).attr("value",this.deptId);
 						optionEl.appendTo(ele);
@@ -395,24 +383,22 @@
 		});
 		
 		//校验表单员工信息
-		function validate_emp_form(){
+		function validate_dept_form(){
 			var deptName=$('#deptName').val();
 			alert(deptName);
 			if(deptName == ""){
-				//alert("用户名可以是2-5位中文或6-9位英文加数字下划线的组合");
 				valate_form_msg("#deptName",'error',"部门名称不能空");
 				return false;
 			}else{
 				valate_form_msg("#deptName",'success',"");
 			}
 			
-			var empSalary=$('#remark').val();
-			var regSalary=/^[1-9][\d]*\.[\d]{2}$/;
-			if(!regSalary.test(empSalary)){
-				valate_form_msg("#salary",'error',"工资格式不正确");
+			var remark=$('#remark').val();
+			if(remark == ""){
+				valate_form_msg("#remark",'error',"描述不能为空");
 				return false;
 			}else{
-				valate_form_msg("#salary",'success',"");
+				valate_form_msg("#remark",'success',"");
 			}
 			
 			return true;
@@ -452,7 +438,7 @@
 		//保存员工操作
 		$("#save_dept").click(function(){
 			//1、对表单进行校验
-			if(!validate_emp_form()){
+			if(!validate_dept_form()){
 				return false;
 			}
 			//判断用户名是否可用
@@ -461,23 +447,15 @@
 			}
 			//3、发送请求你保存
 			$.ajax({
-				url: "${pageContext.request.contextPath}/system/insertEmp",
+				url: "/oa/system/saveDept",
 				type: "get",
-				data: $('#emp_add_model form').serialize(),
+				data: $('#dept_add_model form').serialize(),
 				success:function(result){
 					if(result.stateCode==0){
-						if(undefined !=result.extend.errorFields.deptName){
-							valate_form_msg("#deptName",'error',result.extend.errorFields.deptName);
-						}
-						if(undefined !=result.extend.errorFields.email){
-							valate_form_msg("#email",'error',result.extend.errorFields.email);	
-						}
-						if(undefined !=result.extend.errorFields.salary){
-							valate_form_msg("#salary",'error',result.extend.errorFields.salary);	
-						}
+						//alert(result.message);
 					}else if(result.stateCode==1){
 						//关闭模态框
-						$('#emp_add_model').modal('hide');
+						$('#dept_add_model').modal('hide');
 						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
 						to_page(totalRecords);
 					}
@@ -488,13 +466,130 @@
 		//添加部门
 		$("#dept_add").click(function() {
 			//重置表单，清除数据
-			/* clear_form('#dept_add_model form');
+			 clear_form('#dept_add_model form');
 			//获取部门
-			create_dept("#select_add_dept"); */
+			create_dept("#select_add_dept");
 			//显示模态框
-			$("#dept_add_model").modal({
+			("#dept_add_model").modal({
 				backdrop : 'static'
 			});
+		});
+		
+		/*--------------------修改部门----------------- */
+		//通过这个方法才能找到后添加的元素
+		$(document).on("click",".edit_btn",function(){
+			//1、查出部门
+			create_dept("#select_update_dept");
+			//2.得到员工
+			getDept($(this).attr("edit-id"));
+			//把员工id传给更新按钮
+			$("#update_dept").attr("edit-id",$(this).attr("edit-id"));
+			//打开更新模态框
+			$("#dept_update_model").modal({
+				backdrop:'static'
+			});
+		});
+		//通过id获取员工
+		function getDept(id){
+			$.ajax({
+				url: "/oa/system/getDeptById?id="+id,
+				type: "GET",
+				success:function(result){
+					var dept=result.extend.dept;
+					$('#deptId').val(dept.deptId);
+					$('#deptName_update').val(dept.deptName);
+					$('#remark_update').val(dept.remark);
+					$('#dept_update_model select').val([dept.deptPId]);
+				}
+			});
+		}
+		
+		//--------------更新部门-----------------------------
+		$('#update_dept').click(function(){
+			var deptName=$('#deptName_update').val();
+			alert(deptName);
+			if(deptName == ""){
+				valate_form_msg("#deptName_update",'error',"部门名称不能为空");
+				return false;
+			}else{
+				valate_form_msg("#deptName_update",'success',"");
+			}
+			$.ajax({
+				url: "/oa/system/updateDeptById",
+				type: "post",
+				data: $("#dept_update_model form").serialize(),			
+				success:function(result){
+					//关闭对话框
+					$("#dept_update_model").modal('hide');
+					//回到当前页
+					to_page(currentPage);
+				}
+			});
+		});
+		
+		//删除部门
+		$(document).on("click",".delete_btn",function(){
+			//1、获得当前员工的名字
+			var deptName=$(this).parents('tr').find('td:eq(2)').text();
+			var deptId = $(this).attr("delete-id");
+			//alert(deptId);
+			if(confirm("确定删除【"+deptName+"】吗")){
+				//发送请求删除
+				$.ajax({
+					url: "/oa/system/deleteDept/"+deptId,
+					type: "post",		
+					success:function(result){
+						//关闭对话框
+						alert(result.stateCode);
+						//回到当前页
+						to_page(currentPage);
+					}
+				});
+			}
+		});
+		
+		//完成全选/全部选
+		$("#check_all").click(function(){
+			//attr获取checked是undefined
+			//一般用attr获取自定义的属性，用prop获取dom原生的属性
+			$('.check_item').prop("checked",$(this).prop("checked"));
+		});
+		$(document).on("click",".check_item",function(){
+			var flag=($(".check_item:checked").length == $(".check_item").length);
+			$("#check_all").prop("checked",flag);
+		});
+		
+		//批量删除
+		$("#dept_delete_all").click(function(){
+			var deptNames="";
+			var del_id_strs="";
+			$.each($(".check_item:checked"),function(){
+				//alert(del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id'));
+				deptNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
+				del_id_strs += del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id') + "-";
+			});
+			
+			//去除最后的那个,
+			deptNames=deptNames.substring(0,deptNames.length-1);
+			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
+			if(del_id_strs == ""){
+				alert("请选择要删除的部门");
+				return false;
+			}
+			alert(del_id_strs);
+			if(confirm("确定删除【"+deptNames+"】吗?")){
+				$.ajax({
+					url: "/oa/system/deleteDept/"+del_id_strs,
+					type: "post",		
+					success:function(result){
+						//关闭对话框
+						//alert(result.stateCode);
+						//回到当前页
+						to_page(currentPage);
+					}
+				});
+			}
+
 		});
 	</script>
 </body>
