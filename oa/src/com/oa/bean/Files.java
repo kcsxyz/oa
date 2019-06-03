@@ -11,7 +11,7 @@ public class Files {
 
     private String fileSize;
 
-    private Integer uploadUser;
+    private String uploadUser;
 
     private Integer project;
 
@@ -51,12 +51,12 @@ public class Files {
         this.fileSize = fileSize == null ? null : fileSize.trim();
     }
 
-    public Integer getUploadUser() {
+    public String getUploadUser() {
         return uploadUser;
     }
 
-    public void setUploadUser(Integer uploadUser) {
-        this.uploadUser = uploadUser;
+    public void setUploadUser(String uploadUser) {
+        this.uploadUser = uploadUser == null ? null : uploadUser.trim();
     }
 
     public Integer getProject() {

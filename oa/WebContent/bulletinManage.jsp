@@ -26,7 +26,8 @@
 </head>
 <body>
  <section id="container" >
-            <%@include file="nav.jsp" %>
+       <%@include file="nav.jsp" %>
+            
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">

@@ -30,6 +30,24 @@ public class DeptController {
 	@Resource
 	private DeptService deptService;
 	
+	
+	/**验证部门明是否存在
+	 * @param deptName
+	 * @return
+	 */
+	@RequestMapping("/checkDeptName")
+	@ResponseBody
+	public ResponseResult checkDeptName(String deptName) {
+		ResponseResult rr = new ResponseResult();
+		int re= deptService.checkDeptName(deptName);
+		if(re==1) {
+			rr.setMessage("部门名称已存在");
+			rr.setStateCode(0);
+		}else {
+			rr.setStateCode(1);
+		}
+		return rr;
+	}
 	/**根据id删除部门
 	 * @param ids
 	 * @return

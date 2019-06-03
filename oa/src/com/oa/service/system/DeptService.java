@@ -23,5 +23,8 @@ public interface DeptService {
 	
 	//单个删除从部门
 	void deleteDept(Integer id);
+	
+	//验证部门名是否存在
+	int checkDeptName(String deptName);
 
 }
