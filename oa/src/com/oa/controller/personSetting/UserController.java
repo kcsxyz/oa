@@ -1,6 +1,7 @@
 package com.oa.controller.personSetting;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -216,13 +218,12 @@ import com.oa.utils.md5;
 			user1.setModifiedName((String) session.getAttribute(user.getName()));
 			user1.setModifiedTime(new Date());
 			userService.updateUser(user1);
-			model.addAttribute("user", user1);
-			System.out.println("修改成功");			
+			model.addAttribute("user", user1);					
 			rr.setStateCode(1);
 			}else {
 				//System.out.println("修改失败");
-				rr.setMessage("修改成功");
-				rr.setStateCode(1);
+				rr.setMessage("修改失败");
+				rr.setStateCode(0);
 			}
 			return rr;
 		}
@@ -331,30 +332,41 @@ import com.oa.utils.md5;
 			return rr;	
 		}		
 
-		 @RequestMapping("/addProduct")
-		 @ResponseBody
-		    public String fileUpload(MultipartFile file,User user, ModelMap map) throws IOException {
-			 	user.setUid("1");
-			 	user.setPassword("1213");
-			 	user.setName("23132");
+		 	/**
+		 	 * @param file
+		 	 * @param user
+		 	 * @param request
+		 	 * @param model
+		 	 * @return
+		 	 * @throws IOException
+		 	 * 修改头像
+		 	 */
+		 	@RequestMapping("/fileUpload")		 
+		    public ResponseResult fileUpload(MultipartFile file,User user,HttpServletRequest request,Model model) throws IOException {
+			 ResponseResult rr = new ResponseResult();
 		        /**
 		         * 上传图片
-		         */
-		        //图片上传成功后，将图片的地址写到数据库
-		        String filePath = "\\upload";//保存图片的路径
+		         */			 
+			 	String path = request.getServletContext().getRealPath("/upload/");
+			 	System.out.println(path);
+		        //图片上传成功后，将图片的地址写到数据库		        
 		        //获取原始图片的拓展名
 		        String originalFilename = file.getOriginalFilename();
 		        //新的文件名字
-		        String newFileName = UUID.randomUUID()+originalFilename;
+		        String newFileName = user.getUid()+originalFilename;
 		        //封装上传文件位置的全路径
-		        File targetFile = new File(filePath,newFileName);
+		        File targetFile = new File(path,newFileName);
 		         //把本地文件上传到封装上传文件位置的全路径
 		        file.transferTo(targetFile);
-		        user.setHeadPic(newFileName);		        
-		        /**
-		         * 保存商品
-		         */
+		        user.setHeadPic("/oa/upload/"+newFileName);	
+		        model.addAttribute(user);		        
 		        userService.updateUser(user);
-		        return "13213"; 
+		        if(user.getHeadPic()!=null) {
+		        	rr.setStateCode(1);
+		        }else {
+		        	rr.setStateCode(0);
+		        	rr.setMessage("头像修改失败");
+		        }
+		        return rr; 
 		    }
 	}
