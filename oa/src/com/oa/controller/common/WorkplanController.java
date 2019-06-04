@@ -27,7 +27,7 @@ public class WorkplanController {
      @Resource
 	 private WorkplanService workplanService;
      
-     /**修改部门
+     /**修改
  	 * @param dept
  	 * @return
  	 */
@@ -35,16 +35,10 @@ public class WorkplanController {
  	@ResponseBody
  	public ResponseResult updateWorkPlanStatus(
  			HttpSession session,
- 			Integer id,
- 			String opinion,
- 			Integer status,
  			WorkPlan workPlan) {
  		ResponseResult rr = new ResponseResult();
  		String checkedName = (String) session.getAttribute("");
- 		workPlan.setId(id);
- 		workPlan.setStatus(status);
  		workPlan.setCheckedName(checkedName);
- 		workPlan.setOpinion(opinion);
  		int i =workplanService.updateByPrimaryKeySelective(workPlan);
  		if(i!=0) {
  			rr.setStateCode(1);

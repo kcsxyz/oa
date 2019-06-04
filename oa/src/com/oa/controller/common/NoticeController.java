@@ -44,21 +44,12 @@ public class NoticeController {
 	@ResponseBody
 	public ResponseResult  saveNotice(
 			 HttpSession session,
-			 String title, //uname是输入框中的id值,把uname的值赋给username
-			 String content, 
-			 int type,      
-			@RequestParam("browse_power") String browsePower,
-			@RequestParam("uid") String createName
+			Notice notice
 			){
 	          	ResponseResult rr = new ResponseResult();
-		      // String createName = (String) session.getAttribute("uid"); 
-			     Notice notice = new Notice();
-			     notice.setTitle(title);
-			     notice.setContent(content);
-			     notice.setBrowsePower(browsePower);
+		         String createName = (String) session.getAttribute("uid"); 
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
-			     notice.setType(type);
 				 int i = noticeService.saveNotice(notice);
 		if(i!=0) {
 			rr.setStateCode(1);
@@ -138,28 +129,16 @@ public class NoticeController {
 	 * @param createName
 	 */
 	@RequestMapping("/updateNotice")
-	@ResponseBody
 	public ResponseResult updateNotice(
 			 HttpSession session,
 			 Integer noticeId,
-			 String title, //uname是输入框中的id值,把uname的值赋给username
-			 String content, 
-			 int type,
-			@RequestParam("browse_power") String browsePower,
-			@RequestParam("uid") String createName
+			 Notice notice
 			){
 	         	ResponseResult rr = new ResponseResult();
-		        // String createName = (String) session.getAttribute("uid");
-			     Notice notice = new Notice();
-			     notice.setNoticeId(noticeId);
-			     notice.setTitle(title);
-			     notice.setContent(content);
-			     notice.setBrowsePower(browsePower);
+		         String createName = (String) session.getAttribute("uid");
+			     
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
-			     notice.setType(type);
-		
-		
 			int i = noticeService.updateByPrimaryKeySelective(notice);
 			if(i!=0) {
 				rr.setStateCode(1);
@@ -172,28 +151,7 @@ public class NoticeController {
 			return rr;
 	}
 	
-	/**
-	 * 模糊查询
-	 * @return
-	 */
-	@RequestMapping("/findByMany")
-	@ResponseBody
-	public List<Notice> findByMany(
-			@RequestParam("noticeInfo") String noticeInfo,
-			
-			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-            Model model
-			) {
-		// startPage后紧跟着的就是一个分页查询
-		PageHelper.startPage(pageNo, pageSize);
-		List<Notice> notices = noticeService.selectByExample();
-		// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-		PageInfo<Notice> page = new PageInfo<Notice>(notices, 3);
-		model.addAttribute("pageInfo", page);	
-			return notices;
-		
-	}
+
 	/**
 	 * 模糊查询
 	 * @return
