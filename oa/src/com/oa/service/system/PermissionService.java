@@ -20,6 +20,8 @@ public interface PermissionService {
 	void deletePermissionBatch(List<Integer> listId);
 	//单个删除
 	void deletePermission(Integer id);
+
+	List<Permission> getParentPermissionList();
 	
 	
 

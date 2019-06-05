@@ -1,7 +1,9 @@
 package com.oa.controller.system;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,40 @@ public class PermissionController {
 	@Resource
 	private PermissionService permissionService;
 	
+	@RequestMapping("/loadPermission")
+	@ResponseBody
+	public Object loadPermission() {	
+		List<Permission> permissions = new ArrayList<Permission>();
+		
+		//获取所有的权限
+		List<Permission> ps = permissionService.getParentPermissionList();
+		
+		Map<Integer, Permission> permissionMap = new HashMap<Integer, Permission>();
+		
+		//把已查询的权限放到map中
+		for (Permission p : ps) {
+			permissionMap.put(p.getPermId(), p);
+		}
+		
+		for (Permission p : ps) {
+			Permission child = p;
+			if (child.getParentId() == 0) {
+				permissions.add(p);
+			} else {
+				Permission parent = permissionMap.get(child.getParentId());
+				parent.getChildren().add(child);	
+			}
+		}
+		return permissions;
+	}
+	/**跳转到菜单页面
+	 * @return
+	 */
+	@RequestMapping("/permissionPage")
+	public String permissionPage() {
+		
+		return "/system/permission";
+	}
 	/**
 	 * 获取权限列表
 	 * @param pageNo
@@ -32,14 +68,16 @@ public class PermissionController {
 	 * @return
 	 */
 	@RequestMapping("/permissionList")
-	public String getPermissionList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String queryStr, Model model) {
+	@ResponseBody
+	public ResponseResult getPermissionList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String queryStr) {
 		
+		ResponseResult rr =new ResponseResult();
 		PageHelper.startPage(pageNo, pageSize);
 		List<Permission>  listPermission = permissionService.getPermissionList(queryStr);
-		PageInfo<Permission> page = new PageInfo<Permission>(listPermission,3);
-		model.addAttribute("page", page);
-		return "permissionList";
+		PageInfo<Permission> pageInfo = new PageInfo<Permission>(listPermission,3);
+		rr.add("pageInfo", pageInfo);
+		return rr;
 		
 	}
 	
@@ -48,7 +86,7 @@ public class PermissionController {
 	public ResponseResult savePermission(Permission permission) {
 		ResponseResult rr =new ResponseResult();
 		int i = permissionService.savePermission(permission);
-		if(i>0) {
+		if(i<0) {
 			rr.setStateCode(1);
 		}else {
 			rr.setStateCode(0);
@@ -65,7 +103,7 @@ public class PermissionController {
 	public ResponseResult updatePermission(Permission permission) {
 		ResponseResult rr =new ResponseResult();
 		int i = permissionService.updatePermission(permission);
-		if(i>0) {
+		if(i<0) {
 			rr.setStateCode(1);
 		}else {
 			rr.setStateCode(0);

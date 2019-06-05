@@ -145,9 +145,7 @@ public class DeptController {
 		ResponseResult rr = new ResponseResult();
 		Dept dept = deptService.getDeptById(id);
 		System.out.println(dept.getDeptName()+"");
-		Map<String,Object> map = new HashMap();
-		map.put("dept", dept);
-		rr.setExtend(map);
+		rr.add("dept", dept);
 		return rr;
 	}
 	
