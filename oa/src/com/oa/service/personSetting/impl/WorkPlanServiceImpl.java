@@ -86,4 +86,20 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 		de.or(ct3);
 		return workPlanMapper.selectByExample(de);
 	}
+
+	@Override
+	public List<WorkPlan> getWorkPlanByType(String type) {
+		WorkPlanExample de = new WorkPlanExample();
+		Criteria ct = de.createCriteria();
+		ct.andTypeEqualTo(type);
+		return workPlanMapper.selectByExample(de);
+	}
+
+	@Override
+	public List<WorkPlan> getWorkPlanByStatus(Integer status) {
+		WorkPlanExample de = new WorkPlanExample();
+		Criteria ct = de.createCriteria();
+		ct.andStatusEqualTo(status);
+		return workPlanMapper.selectByExample(de);
+	}
 }
