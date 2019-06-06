@@ -11,7 +11,7 @@ public class WorkPlan {
     private String type;
 
     private String content;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+   
     private Date createTime;
 
     private String createName;

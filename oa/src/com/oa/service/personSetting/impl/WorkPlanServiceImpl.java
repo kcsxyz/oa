@@ -59,19 +59,16 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
 	@Override
 	public void updateWorkPlan(WorkPlan workPlan) {
-		// TODO Auto-generated method stub
-		workPlanMapper.updateByPrimaryKey(workPlan);
+		workPlanMapper.updateByPrimaryKeySelective(workPlan);
 	}
 
 	@Override
-	public List<WorkPlan> selectLikeWorkPlan(String workLogInfo, String startTime, String endTime) {
+	public List<WorkPlan> selectLikeWorkPlan(String Info, String startTime, String endTime) {
 		WorkPlanExample de = new WorkPlanExample();
 		Criteria ct = de.createCriteria();
-		ct.andTypeLike("%"+workLogInfo+"%");
-		Criteria ct2 = de.createCriteria();
-		ct2.andContentLike("%"+workLogInfo+"%");
+		ct.andContentLike("%"+Info+"%");		
 		Criteria ct3 = de.createCriteria();
-		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
+		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd");
 		Date date1;
 		Date date2;
 		try {
@@ -81,10 +78,10 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		de.or(ct2);
-		de.or(ct3);
+		}		
+		de.or(ct3);		
 		return workPlanMapper.selectByExample(de);
+		
 	}
 
 	@Override

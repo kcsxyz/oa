@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -46,15 +48,14 @@
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
                           
                           <!-- 上部放按钮的地方开始 -->
-                         <form class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
+                         <form action="selectLikeWorkPlan" class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
 	                          	<div class=" col-sm-5" style="float:left;">
-	                          		<a href="addWorkPlan.jsp">
-			                  	  	  <button type="button" class="btn btn-info" style="background:#fff;">
+	                          		
+			                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/workPlan/addWorkPlan'">
 				                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  增加</span>
 			                  	  	  </button>
-			                  		</a>  	  
 			                  	  	  <button type="button" class="btn btn-danger" style="background:#fff;">
 				                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  删除</span>
@@ -77,29 +78,31 @@
 						    <div class="form-group" style="border:none;">
 	                  	  	<div class=" col-sm-4" style="float:left;margin-left:8%;">
 		                  	  	 <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
-				                  	  	  <input type="text" class="form-control round-form" placeholder="起始时间" style="width:30%;height:28px;float:left;">
+				                  	  	  <input type="text" class="form-control round-form" placeholder="起始时间" value="2019-01-01" name="startTime" style="width:30%;height:28px;float:left;">
 				                  	  	 
 				                  	  	  <span class="glyphicon glyphicon-resize-horizontal" style="color: rgb(0, 0, 0);float:left;height:28px;text-align:center;line-height:28px;
 				                  	  	  font-size: 15px; margin-left:3px;margin-right:7px;text-shadow: rgb(255, 0, 0) 0px 0px 0px;">
 										  </span> 
 										  
-				                  	  	  <input type="text" class="form-control round-form" placeholder="终止时间" style="width:30%;height:28px;">
+				                  	  	  <input type="text" class="form-control round-form" placeholder="终止时间" value="2020-01-01" name="endTime"style="width:30%;height:28px;">
 	                  	  	</div>
 	                  	  	 
 						    <div class=" col-sm-4" style="float:left;">
 		                  	  	  <lable style="font-weight:bold;font-size:12px;"><div class="col-sm-3" style="float:left;margin-top:8px;">状态</div></lable>
 		                  	  	  	<div class="col-sm-6"style="float:left;">
 		                  	  	  	<select class="form-control">
-													<option>未审核</option>
+													<option>待审核</option>
 													<option>已审核</option>
+													<option>驳回</option>
 									</select>  
 									</div>
 						    </div> 
 						      
 	                  	  	  <div class=" col-sm-3" style="float:left;">
-                              		<input type="text" class="form-control" style="width:55%;height:28px;float:left;">
+                              		<input type="text" name="Info" class="form-control" style="width:55%;height:28px;float:left;">
                               		
-                              		<button type="button" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
+                              		<button type="submit" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;"
+                              			>
                               		<span class="glyphicon glyphicon-search" style="color: rgb(255,255,255); font-size: 12px;
                               		 text-shadow: rgb(255,255,255) 0px 0px 0px; ">&nbsp;搜索</span>
                               		</button>
@@ -124,15 +127,26 @@
                                   <th style="text-align:center;">操作</th>
                               </tr>
                               </thead>
-                               <c:forEach items="${WorkPlanlist }" var="workPlan">
+                               <c:forEach items="${workPlanlist }" var="workPlan">
                               <tbody>                              
                               <tr>
                                   <td style="text-align:center;"><input type="checkbox" class="list-child" value=""  /></td>
                                   <td style="text-align:center;">${workPlan.id }</td>
-                                  <td style="text-align:center;">${workPlan.type }</td>
-                                  <td style="text-align:center;">${workPlan.content }</td>
+                                  <c:if test="${workPlan.type==0 }">
+                                 	 <td style="text-align:center;">日计划</td>
+                                  </c:if>
+                                  <c:if test="${workPlan.type==1 }">
+                                 	 <td style="text-align:center;">周计划</td>
+                                  </c:if>
+                                  <c:if test="${workPlan.type==2 }">
+                                 	 <td style="text-align:center;">月计划</td>
+                                  </c:if>
+                                  <c:if test="${workPlan.type==3 }">
+                                 	 <td style="text-align:center;">年计划</td>
+                                  </c:if>
+                                  <td style="text-align:center;width:30%;text-overflow:ellipsis">${workPlan.content }</td>
                                   <td style="text-align:center;">${workPlan.createName }</td>
-                                  <td style="text-align:center;"pattern="yyyy-MM-dd">${workPlan.createTime }</td>
+                                  <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workPlan.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   	<c:if test="${workPlan.status==1 }">
                                   	<button type="button" class="btn btn-success btn-xs" >通过</button>
@@ -146,7 +160,7 @@
                                   </td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->                                  	
-                                      <button class="btn btn-primary btn-xs"onclick="window.location.href='/oa/workPlan/getWorkPlanById/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
+                                      <button class="btn btn-primary btn-xs"onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
                                      
                                       <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
                                   </td>

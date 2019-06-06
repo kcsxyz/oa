@@ -1,14 +1,19 @@
 ﻿package com.oa.controller.personSetting;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -46,20 +52,18 @@ public class WorkPlanController {
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
-			List<WorkPlan> WorkPlanlist = workPlanService.selectWorkPlan();	
-			if(WorkPlanlist.size()>0) {
+			List<WorkPlan> workPlanlist = workPlanService.selectWorkPlan();	
+			if(workPlanlist.size()>0) {
 				rr.setStateCode(1);
 			}else {
 				rr.setMessage("未查询到数据");
 				rr.setStateCode(0);
 			}
-			/*for (WorkPlan workPlan : WorkPlanlist) {
-				System.out.println(workPlan);
-			}*/
+			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(WorkPlanlist, 3);
+			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
 			model.addAttribute("pageInfo", page);
-			model.addAttribute("WorkPlanlist", WorkPlanlist);
+			model.addAttribute("workPlanlist", workPlanlist);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -85,9 +89,10 @@ public class WorkPlanController {
 			rr.setStateCode(0);
 			rr.setMessage("未查询到数据");
 		}		
-		return "personSetting/addWorkPlan";
+		return "personSetting/updateWorkPlan";
 	}
-	@RequestMapping(value="/addWorkPlan/{id}", method=RequestMethod.GET)
+	//跳转到添加页面
+	@RequestMapping(value="/addWorkPlan", method=RequestMethod.GET)
 	public String addWorkPlan(Model model) {
 		model.addAttribute(new WorkPlan());
 		return "personSetting/addWorkPlan";
@@ -97,16 +102,24 @@ public class WorkPlanController {
 	 * @param model
 	 * @return
 	 * 添加工作计划
+	 * @throws ParseException 
 	 */
-	@RequestMapping(value="/addWorkPlan/{id}", method=RequestMethod.POST)
-	public String addWorkPlan(WorkPlan workPlan,Model model,HttpSession session) {
+	@RequestMapping(value="/addWorkPlan/{workPlan}", method=RequestMethod.POST)
+	public String addWorkPlan(WorkPlan workPlan,HttpSession session) throws ParseException {
 		ResponseResult rr=new ResponseResult();
 		if(workPlanService.getWorkPlanById(workPlan.getId())==null) {
-		
-			workPlan.setCreateTime(new Date());
+			User user=(User)session.getAttribute("user");
+			Date now = new Date();
+			// java.util.Date -> java.time.LocalDate
+			LocalDate localDate=now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			// java.time.LocalDate -> java.sql.Date
+			Date newDate=java.sql.Date.valueOf(localDate);
+			System.out.println(newDate);
+			workPlan.setCreateTime(newDate);			
+			//workPlan.setCreateName(user.getName());
+			workPlan.setStatus(0);
 			int i=workPlanService.addworkPlan(workPlan);
-			if(i<0) {
-				model.addAttribute("workPlan", workPlan);
+			if(i<0) {				
 				rr.setStateCode(1);
 			}else {
 				rr.setMessage("添加失败");
@@ -147,23 +160,25 @@ public class WorkPlanController {
 		workPlanService.deleteWorkLog(id);
 		return "redirect:/workPlan/workPlanlist";			
 	}
-	
+	@RequestMapping(value="/updateWorkPlan/{id}",method=RequestMethod.GET)
+	public String updateWorkPlan(@PathVariable Integer id,Model model) {
+		WorkPlan workPlan=new WorkPlan();
+		workPlan=workPlanService.getWorkPlanById(id);
+		model.addAttribute(workPlan);		
+		return "personSetting/updateWorkPlan";
+	}
 	/**
 	 * @param workPlan
 	 * @param model
 	 * @return
 	 * 修改工作计划
 	 */
-	@RequestMapping("/updateWorkPlan/{workPlan}")
-	public String updateWorkPlan(@PathVariable("workPlan") WorkPlan workPlan) {
-		ResponseResult rr=new ResponseResult();
-		if(workPlanService.getWorkPlanById(workPlan.getId())!=null) {
-			workPlanService.updateWorkPlan(workPlan);
-			rr.setStateCode(1);
-		}else {
-			rr.setMessage("修改失败");
-			rr.setStateCode(0);
-		}
+	@RequestMapping(value="/updateWorkPlan",method=RequestMethod.POST)
+	public String updateWorkPlan(WorkPlan workPlan,HttpSession session) {
+		User user=(User) session.getAttribute("user");
+		workPlan.setModifiedName(user.getUid());
+		workPlan.setModifiedTime(new Date());
+		workPlanService.updateWorkPlan(workPlan);		
 		return "redirect:/workPlan/workPlanlist";
 	}
 	/**
@@ -174,23 +189,14 @@ public class WorkPlanController {
 	 * @return
 	 * 模糊查询
 	 */
-	@RequestMapping("/selectLikeWorkPlan")
-	@ResponseBody
-	public ResponseResult selectLikeWorkPlan(String workLogInfo,String startTime,String endTime,Model model) {
-		ResponseResult rr=new ResponseResult();		
-		List<WorkPlan> workPlanlist = workPlanService.selectLikeWorkPlan(workLogInfo,startTime,endTime);
-		model.addAttribute("workPlanlist",workPlanlist);
-       /*for (WorkPlan workPlans : workPlanlist) {
-		System.out.println(workPlans);
-       }*/
-		if(workPlanlist.size()>0) {
-			rr.setStateCode(1);
-		}else {
-			rr.setStateCode(0);
-			rr.setMessage("未查询到数据");
-		}
+	@RequestMapping(value="/selectLikeWorkPlan",method=RequestMethod.GET)
+	public String selectLikeWorkPlan(@RequestParam ("Info") String Info,
+			@RequestParam("startTime")String startTime,@RequestParam("endTime")String endTime,Model model) {
 		
-		return rr;			
+		List<WorkPlan> workPlanlist = workPlanService.selectLikeWorkPlan(Info,startTime,endTime);		
+		model.addAttribute("workPlanlist",workPlanlist);  
+		
+		return "personSetting/workPlan";			
 	}
 	
 	/**

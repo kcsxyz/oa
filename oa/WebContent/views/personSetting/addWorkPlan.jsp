@@ -40,7 +40,7 @@
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="bulletinManage.jsp">
+					                  	  	 <a href="${pageContext.request.contextPath }/workPlan/workPlanlist">
 					                  	  	   <button type="button" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  返回上一级</span>
@@ -49,64 +49,55 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form action="${pageContext.request.contextPath }/workPlan/updateWorkPlan/${workPlan }" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
-	                            	
-	                            	
+	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan/${workPlan }" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
-				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;"> 
+				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;">				                         
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
-				                                   <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="0" checked>日计划
+				                                   <input type="radio" name="type" id="optionsRadios3" value="0" checked>日计划
+				                              	</label>
+				                              </div>				                          				                           
+					                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
+					                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
+					                                   <input type="radio" name="type" id="optionsRadios4"  value="1">周计划
+					                              	</label>	
+					                              </div>	                              
+					                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
+					                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
+					                                   <input type="radio" name="type" id="optionsRadios4"  value="2">月计划
+					                              	</label>
+					                              </div>				                              
+				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
+				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
+				                                   <input type="radio" name="type" id="optionsRadios4"  value="3">年计划
 				                              	</label>
 				                              </div>
-				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
-				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
-				                                   <input type="radio" name="type" id="optionsRadios4"  value="1">周计划
-				                              	</label>	
-				                              </div>
-				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
-				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
-				                                   <input type="radio" name="type" id="optionsRadios4"  value="2">月计划
-				                              	</label>
-				                              </div>
-				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
-				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
-				                                   <input type="radio" name="type" id="optionsRadios4"  value="2">年计划
-				                              	</label>
-				                              </div>
-				                           </div>
+				                           </div>				                            
 			                         </div> 
 			                         <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" rows="18" name="content" value="${workPlan.content }"></textarea>
+				                                  <textarea class="form-control" rows="18" name="content"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">
 				                              <div class="col-sm-5" style="float:left; text-align:right;">
-							                  	  	   <button type="submit" class="btn btn-round btn-default" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan }'">
+							                  	  	   <button type="submit" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					                  	  	  	 </button>
-						                  	  	  </a>
+					                  	  	  	 </button>						                  	  	  
 				                              </div>
-				                              <div class="col-sm-5" style="float:left;text-align:center;"> 
-				                              
-					                              <a href="">
-					                              
+				                              <div class="col-sm-5" style="float:left;text-align:center;">				                              
+					                              <a href="${pageContext.request.contextPath }/workPlan/addPlanlist">					                              
 							                  	  	   <button type="button" class="btn btn-round btn-default">
-							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+							                  	  		<span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					                  	  	  	 </button>
+					                  	  	  		 </button>
 						                  	  	  </a>
 				                              </div>
-				                              
 			                        </div>
-	                           
-	                           
-	                           
 	                            </form>
                       		</div>
                       	</div>
@@ -115,15 +106,10 @@
           </section>
       </section>
 </section>
-
-
-
 	<!-- js placed at the end of the document so the pages load faster --> 
     <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="assets/js/jquery.scrollTo.min.js"></script>
     <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
-
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
 </body>

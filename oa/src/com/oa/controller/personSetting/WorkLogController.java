@@ -146,6 +146,8 @@ import com.oa.utils.md5;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
+			worklog.setLogId(1);
+			worklog.setTitle("35454");
 			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);
