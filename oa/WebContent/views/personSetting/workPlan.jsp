@@ -16,10 +16,10 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -56,7 +56,7 @@
 				                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  增加</span>
 			                  	  	  </button>
-			                  	  	  <button type="button" class="btn btn-danger" style="background:#fff;">
+			                  	  	  <button type="button" class="btn btn-danger" style="background:#fff;" id="workPlan_delete_all">
 				                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  删除</span>
 			                  	  	  </button>
@@ -65,11 +65,12 @@
 	                  	  	<div class=" col-sm-4" style="float:left;">
 		                  	  	  <lable style="font-weight:bold;font-size:12px;"><div class="col-sm-3" style="margin-top:8px;">类型</div></lable>
 		                  	  	  	<div class="col-sm-6">
-		                  	  	  	<select class="form-control">
-													<option>周计划</option>
-													<option>月计划</option>
-													<option>日计划</option>
-													<option>年计划</option>
+		                  	  	  	<select class="form-control" id="planType" onchange = "planTypeChange()">
+		                  	  	  					<option>全部</option>
+													<option value="0">日计划</option>
+													<option value="1">周计划</option>
+													<option value="2">月计划</option>
+													<option value="3">年计划</option>
 									</select>  
 									</div>
 						    </div>
@@ -90,10 +91,11 @@
 						    <div class=" col-sm-4" style="float:left;">
 		                  	  	  <lable style="font-weight:bold;font-size:12px;"><div class="col-sm-3" style="float:left;margin-top:8px;">状态</div></lable>
 		                  	  	  	<div class="col-sm-6"style="float:left;">
-		                  	  	  	<select class="form-control">
-													<option>待审核</option>
-													<option>已审核</option>
-													<option>驳回</option>
+		                  	  	  	<select class="form-control" id="planStatus" onchange = "planStatusChange()">
+													<option>全部</option>
+													<option value="0">待审核</option>
+													<option value="1">已审核</option>
+													<option value="2">驳回</option>
 									</select>  
 									</div>
 						    </div> 
@@ -117,7 +119,7 @@
                            <table class="table table-striped table-advance table-hover">
                               <thead>
                               <tr >
-                              	  <th style="text-align:center;"><input type="checkbox" class="list-child" value=""  /></th>
+                              	  <th style="text-align:center;"><input type="checkbox" class="list-child" id="check_all" value=""  /></th>
                                   <th style="text-align:center;">ID</th>
                                   <th style="text-align:center;">类型</th>
                                   <th style="text-align:center;">内容</th>
@@ -130,7 +132,7 @@
                                <c:forEach items="${workPlanlist }" var="workPlan">
                               <tbody>                              
                               <tr>
-                                  <td style="text-align:center;"><input type="checkbox" class="list-child" value=""  /></td>
+                                  <td style="text-align:center;"><input type="checkbox" class="list-child check_item" value=""  /></td>
                                   <td style="text-align:center;">${workPlan.id }</td>
                                   <c:if test="${workPlan.type==0 }">
                                  	 <td style="text-align:center;">日计划</td>
@@ -160,7 +162,7 @@
                                   </td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->                                  	
-                                      <button class="btn btn-primary btn-xs"onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
+                                      <button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
                                      
                                       <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
                                   </td>
@@ -179,10 +181,10 @@
 						<div class="col-md-6">
 							<nav aria-label="Page navigation">
 								  <ul class="pagination">
-								  	<li><a href="${APP_PATH}/emps?pn=1">首页</a></li>
+								  	<li><a href="workPlanlist?pageNo=1">首页</a></li>
 								    <li>
 								    	<c:if test="${pageInfo.hasPreviousPage}">
-								    		<a href="${APP_PATH}/emps?pn=${pageNum-1}" aria-label="Previous">
+								    		<a href="workPlanlist?pageNo=${pageInfo.pageNum-1}" aria-label="Previous">
 								        	<span aria-hidden="true">&laquo;</span>
 								      		</a>
 								    	</c:if>
@@ -192,18 +194,18 @@
 								    		<li class="active"><a href="#">${page_num}</a></li>
 								    	</c:if>
 								    	<c:if test="${page_num != pageInfo.pageNum}">
-								    		<li><a href="${APP_PATH}/emps?pn=${page_num}">${page_num}</a></li>
+								    		<li><a href="workPlanlist?pageNo=${page_num}">${page_num}</a></li>
 								    	</c:if>
 								    </c:forEach>
 								    <li>
 								   		<c:if test="${pageInfo.hasNextPage}">
-								    		<a href="${APP_PATH}/emps?pn=${pageNum+1}" aria-label="Next">
+								    		<a href="workPlanlist?pageNo=${pageInfo.pageNum+1}" aria-label="Next">
 								        		<span aria-hidden="true">&raquo;</span>
 								      		</a>
 								    	</c:if>
 								     
 								    </li>
-								    <li><a href="${APP_PATH}/emps?pn=${pageInfo.pages}">末页</a></li>
+								    <li><a href="workPlanlist?pageNo=${pageInfo.pages}">末页</a></li>
 								  </ul>
 							</nav>
 						</div>
@@ -216,18 +218,27 @@
       </section>
   </section>
    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+    <script src="oa/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
-    <script>  
+    <script>
+    function planTypeChange(){
+    	var type = $("select option:selected").val();
+    	window.location.href="/oa/workPlan/getWorkPlanByType?type="+type;
+    }
+    function planStatusChange(){
+    	var status = $("select option:selected").val();
+    	window.location.href="/oa/workPlan/getWorkPlanByStatus?status="+status;
+    	
+    }
     function displaycolor(value,row,index) {  
         var a = "";  
             if(value == "已完成") {  
@@ -244,12 +255,46 @@
 	</script>  
     
   <script>
-      //custom select box
+      $("#check_all").click(function(){
+			//attr获取checked是undefined
+			//一般用attr获取自定义的属性，用prop获取dom原生的属性
+			$('.check_item').prop("checked",$(this).prop("checked"));
+		});
+		$(document).on("click",".check_item",function(){
+			var flag=($(".check_item:checked").length == $(".check_item").length);
+			$("#check_all").prop("checked",flag);
+		});
+		
+		//批量删除
+		$("#workPlan_delete_all").click(function(){
+			var planNames="";
+			var del_id_strs="";
+			$.each($(".check_item:checked"),function(){
+				//alert(del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id'));
+				planNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
+				del_id_strs += del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id') + "-";
+			});
+			
+			//去除最后的那个,
+			planNames=planNames.substring(0,planNames.length-1);
+			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
+			if(del_id_strs == ""){
+				//alert("请选择要删除的工作计划");
+				return false;
+			}
+			//alert(del_id_strs);
+			if(confirm("确定删除吗?")){
+				$.ajax({
+					url: "/oa/workPlan/deleteWorkPlan/"+del_id_strs,
+					type: "post",		
+					success:function(result){
+						window.location.href="workPlanlist";
+					}
+				});
+			}
 
-      $(function(){
-          $('select.styled').customSelect();
-      });
-
+		});
+	
   </script>
 </body>
 </html>
