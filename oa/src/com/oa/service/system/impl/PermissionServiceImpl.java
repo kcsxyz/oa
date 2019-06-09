@@ -87,6 +87,20 @@ public class PermissionServiceImpl implements PermissionService {
 		List<Permission> listPermission = permissionMapper.selectByExample(null);
 		return listPermission;
 	}
+
+	@Override
+	public boolean checkPermName(String permName, Integer parentId) {
+		PermissionExample pe = new PermissionExample();
+		Criteria ct = pe.createCriteria();
+		ct.andPermNameEqualTo(permName);
+		ct.andParentIdEqualTo(parentId);
+		List<Permission> list = permissionMapper.selectByExample(pe);
+		if(list.size()>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
 
 	

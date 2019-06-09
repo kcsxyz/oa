@@ -3,6 +3,8 @@ package com.oa.service.system;
 import java.util.List;
 
 import com.oa.bean.Role;
+import com.oa.bean.RolePermission;
+import com.oa.bean.User;
 
 public interface RoleService {
 	
@@ -21,6 +23,14 @@ public interface RoleService {
 	//批量删除
 	void deleteRoleBacth(List<Integer> listId);
 
-	
+	boolean checkRoleName(String roleName);
+
+	Role getRoleById(Integer id);
+
+	Role getRoleByIdWithPerm(Integer id);
+
+	int updateRolePermission(Role role, Integer[] ids);
+
+	List<User> getUserList(Integer id);
 
 }

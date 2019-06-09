@@ -23,6 +23,9 @@ public interface PermissionService {
 
 	List<Permission> getParentPermissionList();
 	
+	//验证权限是否存在
+	boolean checkPermName(String permName, Integer parentId);
+	
 	
 
 }

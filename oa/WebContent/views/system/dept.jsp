@@ -149,16 +149,16 @@
 					</h4>
 					<section id="unseen">
 					<table
-						class="table table-hover table-striped table-condensed"
+						class="table table-hover "
 						style="text-align: center;">
 						<thead>
-							<tr>
+							<tr class="bg-primary">
 								<th style="text-align: center;"><input type="checkbox" id="check_all"
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
 								<th style="text-align: center;">部门名</th>
 								<th style="text-align: center;">部门级别</th>
-								<th style="text-align: center;">描述</th>
+								<th style="text-align: center;">部门职责</th>
 								<th style="text-align: center;">操作</th>
 							</tr>
 						</thead>
@@ -473,7 +473,7 @@
 			//获取部门
 			create_dept("#select_add_dept");
 			//显示模态框
-			("#dept_add_model").modal({
+			$("#dept_add_model").modal({
 				backdrop : 'static'
 			});
 		});

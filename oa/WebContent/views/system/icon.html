@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Font Awesome Ico list</title>
-    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet">
     <style type="text/css">
         .ico-list .fa{
             margin: 5px;
@@ -924,5 +923,14 @@
      <i class="fa fa-wrench" aria-hidden="true"></i>
 
 </div>
+<script type="text/javascript">
+	//点击图标获取图标class属性
+	$("i").click(function(){
+		//alert($(this).attr('class'));
+		var classStr = $(this).attr('class');
+		//将图标class值放到图标框
+		$(".icon").val(classStr);
+	})
+</script>
 </body>
 </html>

@@ -4,7 +4,32 @@
   <resultMap id="BaseResultMap" type="com.oa.bean.Role">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  
+  <resultMap id="BaseResultMapWithPerm" type="com.oa.bean.Role">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+   <collection property="permissionList" ofType="com.oa.bean.Permission">
+   		<id column="perm_id" jdbcType="INTEGER" property="permId" />
+	    <result column="perm_name" jdbcType="VARCHAR" property="permName" />
+	    <result column="url" jdbcType="VARCHAR" property="url" />
+	    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+	    <result column="is_open" jdbcType="INTEGER" property="isOpen" />
+	    <result column="checked" jdbcType="INTEGER" property="checked" />
+	    <result column="icon" jdbcType="VARCHAR" property="icon" /> 
+   </collection>
+  </resultMap>
+  <select id="selectByPrimaryKeyWithPerm" parameterType="Integer" resultMap="BaseResultMapWithPerm">
+         SELECT
+	      r.*, p.*
+         FROM
+	       t_role r
+         LEFT JOIN t_role_permission rp ON r.role_id = rp.role_id
+         LEFT JOIN t_permission p ON rp.perm_id = p.perm_id
+         WHERE r.role_id=#{id}
+   </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -64,7 +89,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, role_name
+    role_id, role_name, remark
   </sql>
   <select id="selectByExample" parameterType="com.oa.bean.RoleExample" resultMap="BaseResultMap">
     select
@@ -97,8 +122,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.oa.bean.Role">
-    insert into t_role (role_id, role_name)
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+    insert into t_role (role_id, role_name, remark
+      )
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Role">
     insert into t_role
@@ -109,6 +136,9 @@
       <if test="roleName != null">
         role_name,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -116,6 +146,9 @@
       </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +167,9 @@
       <if test="record.roleName != null">
         role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +178,8 @@
   <update id="updateByExample" parameterType="map">
     update t_role
     set role_id = #{record.roleId,jdbcType=INTEGER},
-      role_name = #{record.roleName,jdbcType=VARCHAR}
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +190,37 @@
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.Role">
     update t_role
-    set role_name = #{roleName,jdbcType=VARCHAR}
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+  <resultMap id="userMap" type="com.oa.bean.User">
+    <id column="uid" jdbcType="CHAR" property="uid" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="modified_name" jdbcType="VARCHAR" property="modifiedName" />
+  </resultMap>
+  <select id="getUsetList" resultMap="userMap" parameterType="Integer">
+  	select * from t_user u where u.role_id = #{roleId}
+  </select>
 </mapper>

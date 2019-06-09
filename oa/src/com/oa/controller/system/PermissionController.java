@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,28 @@ public class PermissionController {
 	@Resource
 	private PermissionService permissionService;
 	
+	
+	/**验证权限名是否存在
+	 * @return
+	 */
+	@RequestMapping("/checkPermName")
+	@ResponseBody
+	public ResponseResult checkPermName(String permName,Integer parentId) {
+		ResponseResult rr =new ResponseResult();
+		boolean  flag = permissionService.checkPermName(permName,parentId);
+		if(flag) {
+			rr.setStateCode(0);
+			rr.setMessage("该菜单已存在");
+		}else {
+			rr.setStateCode(1);
+		}
+		return rr;
+	}
+	
+	
+	/**加载所有权限
+	 * @return
+	 */
 	@RequestMapping("/loadPermission")
 	@ResponseBody
 	public Object loadPermission() {	
@@ -85,6 +108,9 @@ public class PermissionController {
 	@ResponseBody
 	public ResponseResult savePermission(Permission permission) {
 		ResponseResult rr =new ResponseResult();
+		if(permission.getParentId() == null) {
+			permission.setParentId(0);
+		}
 		int i = permissionService.savePermission(permission);
 		if(i<0) {
 			rr.setStateCode(1);
@@ -116,15 +142,21 @@ public class PermissionController {
 	 * @return
 	 */
 	@RequestMapping("/getPermission")
-	public String getPermissionById(Integer id,Model model) {
+	@ResponseBody
+	public ResponseResult getPermissionById(Integer id) {
+		ResponseResult rr =new ResponseResult();
 		Permission permission = permissionService.getPermission(id);
-		model.addAttribute("permission", permission);
-		return "permissionPage";
+		if(permission.getParentId() != 0) {
+			Permission pPermission = permissionService.getPermission(permission.getParentId());
+			permission.setPermission(pPermission);
+		}
+		rr.add("permission", permission);
+		return rr;
 	}
 	
-	@RequestMapping("/deleterPermission")
+	@RequestMapping("/deleterPermission/{ids}")
 	@ResponseBody
-	public ResponseResult deletePermission(String ids) {
+	public ResponseResult deletePermission(@PathVariable("ids") String ids) {
 		ResponseResult rr =new ResponseResult();
 		if(ids.contains("-")) {
 			String[] split_ids = ids.split("-");
@@ -137,7 +169,7 @@ public class PermissionController {
 			Integer id = Integer.parseInt(ids);
 			permissionService.deletePermission(id);
 		}
-		return rr;
+		return rr.success();
 	}
 
 }

@@ -13,14 +13,14 @@
 <title>菜单设置</title>
 <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
 <link href="/oa/assets/ztree/zTreeStyle.css" rel="stylesheet">
-<link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="/oa/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 	<!-- 引入导航栏 -->
 
 	<!-- 修改部门模态框 -->
-	<div class="modal fade" id="menu_update_model" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id="menu_update_model" role="dialog"
+		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -28,39 +28,55 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">部门修改</h4>
+					<h4 class="modal-title" id="myModalLabel">修改菜单</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">部门名称</label>
+							<label class="col-sm-2 control-label">菜单名称</label>
 							<div class="col-sm-10">
-								<input type="hidden" name="deptId" id="deptId" > 
-								<!-- <p class="form-control-static" id="deptName_update"></p> -->
-								<input type="text" name="deptName" class="form-control"
-									id="deptName_update" placeholder="部门名称"> <span
+								<input type="hidden" name="permId"	id="permId_update" >
+								<input type="text" name="permName"  class="form-control"
+									id="permName_update" placeholder="请输入菜单名称"> <span
 									class="help-block"></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">上级部门</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="deptPId" id="select_update_dept">
-								</select>
+							<label class="col-sm-2 control-label">父菜单</label>
+							<div class="col-sm-10">
+								<input id="parentId_update" name="parentId" type="text" hidden="hidden"/>
+								
+								<input type="text" name="parentName" class="form-control" onclick="selectMenuTree_update()"
+									id="parentName_update" placeholder="点击选择"> <span
+									class="help-block"></span>
 							</div>
-							
+						</div>
+						<div class="form-group menuDiv_update" style="display: none">
+				            <label class="col-sm-2 control-label">菜单权限</label>
+				            <div class="col-sm-8">
+				                <div id="menuTrees_update" class="ztree"></div>
+				            </div>
+				        </div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">请求地址</label>
+							<div class="col-sm-10">
+								<input type="text" name="url" class="form-control" id="url_update" placeholder="/oa/..."> <span
+									class="help-block"></span>
+							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">描述</label>
+							<label class="col-sm-2 control-label">菜单图标</label>
 							<div class="col-sm-10">
-								<textarea name="remark" id="remark_update" class="form-control" rows="3" ></textarea>
+								<input type="text" name="icon" class="form-control icon" onclick="openIcon_update()"
+									id="icon" placeholder="点击选择"/> <span class="help-block"></span>
+								<div id="iconDiv_update" style="max-height:150px;overflow-y:auto"></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="update_dept">修改</button>
+					<button type="button" class="btn btn-primary" id="update_permission">保存</button>
 				</div>
 			</div>
 		</div>
@@ -75,7 +91,7 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">菜单添加</h4>
+					<h4 class="modal-title" id="myModalLabel">添加菜单</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
@@ -83,7 +99,7 @@
 							<label class="col-sm-2 control-label">菜单名称</label>
 							<div class="col-sm-10">
 								<input type="text" name="permName" class="form-control"
-									id="permName" placeholder="菜单名称"> <span
+									id="permName" placeholder="请输入菜单名称"> <span
 									class="help-block"></span>
 							</div>
 						</div>
@@ -112,25 +128,20 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">菜单图标<i class="fa fa-adjust" aria-hidden="true"></i></label>
+							<label class="col-sm-2 control-label">菜单图标</label>
 							<div class="col-sm-10">
-								<input type="text" name="icon" class="form-control" onclick="openIcon()"
-									id="icon" placeholder="点击选择"/> <span
-									class="help-block"></span>
+								<input type="text" name="icon" class="form-control icon" onclick="openIcon()"
+									id="icon" placeholder="点击选择"/> <span class="help-block"></span>
 									
+								<!-- 加载图标框 -->
 								<div id="iconDiv" style="max-height:150px;overflow-y:auto"></div>
-								<!-- <div class="ms-parent" style="width: 100%;">
-				                    <div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
-				                        <div ></div>
-				                    </div>
-				                </div> -->
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="save_dept">保存</button>
+					<button type="button" class="btn btn-primary" id="save_permission">保存</button>
 				</div>
 			</div>
 		</div>
@@ -147,18 +158,30 @@
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
-					<h4>
+					<div class="col-md-5">
+						<h4 >
 						<button class="btn btn-primary btn-sm" id="permission_add">
 							<i class="glyphicon glyphicon-plus"></i>新增
 						</button>
-						<button class="btn btn-danger" id="dept_delete_all">删除</button>
-					</h4>
+						<button class="btn btn-danger" id="perm_delete_all">删除</button>
+						</h4>
+					</div>
+					<div class="col-md-7">
+						<div class="col-md-2" style="float:right" >
+							<button class="btn btn-primary btn-sm" id="search">
+							<i class="glyphicon glyphicon-search"></i>搜索
+						</button>
+						</div>
+						<div class="col-md-5" style="float:right">
+							<input type="text" name="queryStr" id="queryStr" class="form-control"  placeholder="输入菜单"/>
+						</div>
+					</div>
 					<section id="unseen">
 					<table
-						class="table table-hover table-striped table-condensed"
+						class="table table-hover table-striped"
 						style="text-align: center;">
 						<thead>
-							<tr>
+							<tr class="bg-primary">
 								<th style="text-align: center;"><input type="checkbox" id="check_all"
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
@@ -186,21 +209,15 @@
 			</div>
 			<!-- /col-lg-4 -->
 		</div>
-	<!-- /row --> </section> </section><!-- /MAIN CONTENT --> 
+	<!-- /row --> 
+	</section> 
+	</section><!-- /MAIN CONTENT --> 
 	</section>
 	
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
-	<script src="/oa/assets/layui.js"></script>
 	<script src="/oa/assets/lay/modules/layer.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/ztree/jquery.ztree.all-3.5.min.js"></script>
-	<!-- <script>
-		//注意：导航 依赖 element 模块，否则无法进行功能性操作
-		layui.use('element', function() {
-			var element = layui.element;
-
-		});
-	</script> -->
 	<script type="text/javascript">
 		//保存一下总记录数
 		var totalRecords, currentPage;
@@ -209,12 +226,58 @@
 			//显示第一页
 			to_page(1);
 		});
-
-		//去相应的页面
-		function to_page(pn) {
+		
+		//查找
+		$("#search").click(function(){
+			var queryStr = "";
+			queryStr = $("#queryStr").val();
 			$.ajax({
 				url : "/oa/system/permissionList",
-				data : "pageNo=" + pn,
+				data : {
+					"pageNo=": 1,
+					"queryStr":queryStr
+				},
+				type : "get",
+				success : function(result) {
+					//alert(result);
+					//显示权限信息
+					create_permission_table(result);
+					//显示记录数
+					create_page_info(result);
+					//显示分页导航
+					create_nav_area(result);
+				}
+			});
+		});
+		
+		//查找
+		$("#queryStr").change(function(){
+			var queryStr = "";
+			queryStr = $("#queryStr").val();
+			$.ajax({
+				url : "/oa/system/permissionList",
+				data : {
+					"pageNo=": 1,
+					"queryStr":queryStr
+				},
+				type : "get",
+				success : function(result) {
+					//alert(result);
+					//显示权限信息
+					create_permission_table(result);
+					//显示记录数
+					create_page_info(result);
+					//显示分页导航
+					create_nav_area(result);
+				}
+			});
+		});
+		
+		function to_page(pn) {
+			
+			$.ajax({
+				url : "/oa/system/permissionList",
+				data :"pageNo="+pn,
 				type : "get",
 				success : function(result) {
 					//alert(result);
@@ -304,54 +367,58 @@
 			nav.appendTo("#nav_area")
 		}
 
-		//构建部门列表
+		//构建权限列表
 		function create_permission_table(result) {
 			//清空table
 			$("#permissionData").empty();
 			var permissions = result.extend.pageInfo.list;
-			$
-					.each(
-							permissions,
-							function(index, item) {
-								//alert(item.deptName);
-								var checkBoxTd = $("<td><input type='checkbox' class='check_item'/></td>");
-								var idTd = $("<td></td>").append(index + 1);
-								var deptNameTd = $("<td></td>").append(
-										item.permName);
-								/* var deptPIdTd = $("<td></td>").append(
-										item.deptPId); */
-								var deptLevelTd = $("<td></td>").append(
-										item.url);
-								var deptRemarkTd = $("<td></td>").append(
-										item.permission.permName);
-								var editBtn = $("<button></button>")
-										.addClass(
-												"btn btn-primary btn-sm edit_btn")
-										.append(
-												$("<span></span>")
-														.addClass(
-																"glyphicon glyphicon-pencil"))
-										.append("编辑");
-								//为编辑按钮添加一个自定义属性，用于保存部门id	
-								editBtn.attr("edit-id", item.deptId);
-								var delBtn = $("<button></button>")
-										.addClass(
-												"btn btn-danger btn-sm delete_btn")
-										.append(
-												$("<span></span>")
-														.addClass(
-																"glyphicon glyphicon-trash"))
-										.append("删除");
-								//为删除按钮添加一个自定义属性，用于保存部门id
-								delBtn.attr("delete-id", item.deptId);
-								var btnTd = $("<td></td>").append(editBtn)
-										.append(" ").append(delBtn);
-								$("<tr></tr>").append(checkBoxTd).append(idTd)
-										.append(deptNameTd)
-										.append(deptLevelTd).append(
-												deptRemarkTd).append(btnTd)
-										.appendTo("#permissionData");
-							});
+			if(permissions !=null){
+				$
+				.each(
+						permissions,
+						function(index, item) {
+							//alert(item.deptName);
+							var checkBoxTd = $("<td><input type='checkbox' class='check_item'/></td>");
+							var idTd = $("<td></td>").append(index + 1);
+							var permNameTd = $("<td></td>").append(
+									item.permName);
+							/* var deptPIdTd = $("<td></td>").append(
+									item.deptPId); */
+							var urlTd = $("<td></td>").append(
+									item.url);
+							var parentIdTd = $("<td></td>").append(
+									item.permission == null ? "":item.permission.permName);
+							var editBtn = $("<button></button>")
+									.addClass(
+											"btn btn-primary btn-sm edit_btn")
+									.append(
+											$("<span></span>")
+													.addClass(
+															"glyphicon glyphicon-pencil"))
+									.append("编辑");
+							//为编辑按钮添加一个自定义属性，用于保存部门id	
+							editBtn.attr("edit-id", item.permId);
+							var delBtn = $("<button></button>")
+									.addClass(
+											"btn btn-danger btn-sm delete_btn")
+									.append(
+											$("<li></li>")
+													.addClass(
+															"fa fa-trash-o"))
+									.append("删除");
+							//为删除按钮添加一个自定义属性，用于保存部门id
+							delBtn.attr("delete-id", item.permId);
+							var btnTd = $("<td></td>").append(editBtn)
+									.append(" ").append(delBtn);
+							$("<tr></tr>").append(checkBoxTd).append(idTd)
+									.append(permNameTd)
+									.append(urlTd).append(
+											parentIdTd).append(btnTd)
+									.appendTo("#permissionData");
+						});
+			}else{
+				$("<tr><td colspan='6'></td></tr>").append("没有数据!").appendTo("#permissionData");
+			}
 		}
 		
 	/* -------------------部门添加---------------------- */
@@ -363,30 +430,11 @@
 			$(ele).find("*").removeClass("has-success has-error");
 			$(ele).find(".help-block").text("");
 		}
-		//创建部门下拉列表
-		function create_dept(ele){
-			
-			$(ele).empty();
-			//获取部门
-			$.ajax({
-				url: "${pageContext.request.contextPath}/system/getDeptList",
-				type: "get",
-				success:function(result){
-					var optionEl1=$("<option></option>").append('———-—').attr("value","0");
-					optionEl1.appendTo(ele);
-					$.each(result.extend.pageInfo.list,function(){
-						var optionEl=$("<option></option>").append(this.deptName).attr("value",this.deptId);
-						optionEl.appendTo(ele);
-					});
-				}
-			});
-		}
+		
 		//添加员工
 		$("#permission_add").click(function(){
 			//重置表单，清除数据
 			clear_form('#menu_add_model form');
-			//获取部门
-			create_dept("#select_add_dept");
 			//显示模态框
 			$("#menu_add_model").modal({
 				backdrop:'static'
@@ -394,24 +442,15 @@
 		});
 		
 		//校验表单员工信息
-		function validate_dept_form(){
-			var deptName=$('#deptName').val();
-			alert(deptName);
-			if(deptName == ""){
-				valate_form_msg("#deptName",'error',"部门名称不能空");
+		function validate_perm_form(){
+			var permName=$('#permName').val();
+			//alert(permName);
+			if(permName == ""){
+				valate_form_msg("#permName",'error',"菜单名称不能为空");
 				return false;
 			}else{
-				valate_form_msg("#deptName",'success',"");
+				valate_form_msg("#permName",'success',"");
 			}
-			
-			var remark=$('#remark').val();
-			if(remark == ""){
-				valate_form_msg("#remark",'error',"描述不能为空");
-				return false;
-			}else{
-				valate_form_msg("#remark",'success',"");
-			}
-			
 			return true;
 		}
 		//显示校验信息
@@ -428,8 +467,175 @@
 			}
 		}
 		
-		/* ------生成树------- */
+		/* ----添加--生成树------- */
 		var tree = {
+			        initMenuTree: function () {
+			            var zTreeObj,
+			                setting = {
+			            		data: {
+			                        key: {
+			                            //将treeNode的permName属性当做节点名称
+			                            name: "permName"        
+			                        },
+			                        simpleData: {
+			                            //是否使用简单数据模式
+			                            enable: true,
+			                            //当前节点id属性  
+			                            idKey: "permId",
+			                            //当前节点的父节点id属性 
+			                            //pIdKey: "pItemId",
+			                            //用于修正根节点父节点数据，即pIdKey指定的属性值
+			                            //rootPId: 0
+			                        }
+			                    },
+			            		/* async: {
+					    			enable: true,
+					    			url:"/oa/system/loadPermission",
+					    			autoParam:["permId", "permName=n", "level=lv"]
+					    		}, */
+			                    view: {
+			                        selectedMulti: false
+			                    },
+			                    callback: {
+			                        onClick: tree.zTreeOnClick
+			                    }
+
+			                },
+			                zTreeNodes = tree.initDeptData();
+			            zTreeObj = $.fn.zTree.init($("#menuTrees"), setting,zTreeNodes);
+
+			            //展开所有一级节点
+			            var nodes = zTreeObj.getNodes();
+			            for (var i = 0; i < nodes.length; i++) { //设置节点展开
+			                zTreeObj.expandNode(nodes[i], true, false, true);
+			            }
+			        },
+			        //生成树结构
+			        initDeptData: function () {
+			            var arr = new Array();
+			            $.ajaxSettings.async = false;
+			            $.post("/oa/system/loadPermission", {}, function (data) {
+			                arr=data;
+			           
+			            })
+			            return arr;
+			        },
+			        zTreeOnClick: function (event, treeId, treeNode) {
+			           //alert(treeNode.permName);-----------------------这就是个坑
+			            $("#parentName").val(treeNode.permName);
+			            $("#parentId").val(treeNode.permId);
+			            //alert(treeNode.permId);
+			            //$("#icon").val(treeNode.icon);
+			            $(".menuDiv").hide();
+			            event.preventDefault();
+			        }
+		}
+			
+			/*菜单管理-新增-选择菜单树*/
+		function selectMenuTree() {
+		        //如果是可见的
+		        if ($(".menuDiv").is(":visible"))
+		        {
+		            $(".menuDiv").hide();
+		        }
+		        else
+		        {
+		            $(".menuDiv").show();
+		        }
+		        tree.initMenuTree();
+		}
+		
+		//----------------获取图标--------------------
+		function openIcon(){
+			//如果是可见的
+	        if ($("#iconDiv").is(":visible"))
+	        {
+	            $("#iconDiv").hide();
+	        }
+	        else
+	        {	
+	        	$("#iconDiv").load("/oa/views/system/icon.html");
+	            $("#iconDiv").show();
+	        }
+			
+		}
+		
+		//------------校验菜单名名是否存在-----------------
+		$("#parentName").blur(function(){
+			var parentId = 0;
+			parentId = $("#parentId").val();
+			var permName = "";
+			permName = $("#permName").val();
+			
+			if(permName == ""){
+				alert(permName);
+				valate_form_msg("#permName",'error',"菜单名称不能为空");
+				return false;
+				
+			}
+			if(parentId == null || parentId == ""){
+				parentId = 0;
+			}
+			$.ajax({
+				url: "${pageContext.request.contextPath}/system/checkPermName",
+				type: "post",
+				data: {
+					"parentId":parentId,
+					"permName":permName
+				},
+				success:function(result){
+					if(result.stateCode==1){
+						valate_form_msg("#permName",'success',"菜单名称可用");
+						$("#save_permission").attr("ajax-va","success");
+					}else if(result.stateCode==0){
+						valate_form_msg("#permName",'error',result.message);
+						$("#save_permission").attr("ajax-va","error");
+					}
+				}
+			});
+		});
+		
+		//----------------保存菜单操作-----------------
+		$("#save_permission").click(function(){
+			//1、对表单进行校验
+			if(!validate_perm_form()){
+				return false;
+			}
+			//判断菜单名是否可用
+			if($(this).attr("ajax-va")=="error"){
+				return false;
+			}
+			//3、发送请求你保存
+			$.ajax({
+				url: "/oa/system/savePermission",
+				type: "get",
+				data: $('#menu_add_model form').serialize(),
+				success:function(result){
+					if(result.stateCode==0){
+						//alert(result.message);
+					}else if(result.stateCode==1){
+						//关闭模态框
+						$('#menu_add_model').modal('hide');
+						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
+						to_page(totalRecords);
+					}
+				}
+			});
+		});
+		
+		//菜单添加
+		$("#permission_add").click(function() {
+			//重置表单，清除数据
+			 clear_form('#menu_add_model form');
+			//显示模态框
+			$("#menu_add_model").modal({
+				backdrop : 'static'
+			});
+		});
+		
+		/*--------------------修改菜单----------------- */
+		/* ----添加--生成树------- */
+		var treee = {
 		        initMenuTree: function () {
 		            var zTreeObj,
 		                setting = {
@@ -449,21 +655,16 @@
 		                            //rootPId: 0
 		                        }
 		                    },
-		            		/* async: {
-				    			enable: true,
-				    			url:"/oa/system/loadPermission",
-				    			autoParam:["permId", "permName=n", "level=lv"]
-				    		}, */
 		                    view: {
 		                        selectedMulti: false
 		                    },
 		                    callback: {
-		                        onClick: tree.zTreeOnClick
+		                        onClick: treee.zTreeOnClick
 		                    }
 
 		                },
-		                zTreeNodes = tree.initDeptData();
-		            zTreeObj = $.fn.zTree.init($("#menuTrees"), setting,zTreeNodes);
+		                zTreeNodes = treee.initDeptData();
+		            zTreeObj = $.fn.zTree.init($("#menuTrees_update"), setting,zTreeNodes);
 
 		            //展开所有一级节点
 		            var nodes = zTreeObj.getNodes();
@@ -483,132 +684,83 @@
 		        },
 		        zTreeOnClick: function (event, treeId, treeNode) {
 		           //alert(treeNode.permName);-----------------------这就是个坑
-		            $("#parentName").val(treeNode.permName);
-		            $("#parentId").val(treeNode.permId);
+		            $("#parentName_update").val(treeNode.permName);
+		            $("#parentId_update").val(treeNode.permId);
+		            //alert(treeNode.permId);
 		            //$("#icon").val(treeNode.icon);
-		            $(".menuDiv").hide();
+		            $(".menuDiv_update").hide();
 		            event.preventDefault();
 		        }
 		    }
 		
 		/*菜单管理-新增-选择菜单树*/
-	    function selectMenuTree() {
+	    function selectMenuTree_update() {
 	        //如果是可见的
-	        if ($(".menuDiv").is(":visible"))
+	        if ($(".menuDiv_update").is(":visible"))
 	        {
-	            $(".menuDiv").hide();
+	            $(".menuDiv_update").hide();
 	        }
 	        else
 	        {
-	            $(".menuDiv").show();
+	            $(".menuDiv_update").show();
 	        }
-	        tree.initMenuTree();
+	        treee.initMenuTree();
 	    }
 		
-		//获取图标
-		function openIcon(){
-			$("#iconDiv").load("/oa/views/system/icon.html");
-			//window.open("/oa/views/system/icon.html","_parent","width=300,height=500");
+		//----------------获取图标--------------------
+		function openIcon_update(){
+			//如果是可见的
+	        if ($("#iconDiv_update").is(":visible"))
+	        {
+	            $("#iconDiv_update").hide();
+	        }
+	        else
+	        {	
+	        	$("#iconDiv_update").load("/oa/views/system/icon.html");
+	            $("#iconDiv_update").show();
+	        }
+			
 		}
-		//------------校验用户名是否存在-----------------
-		$("#deptName").change(function(){
-			var deptName=this.value;
-			$.ajax({
-				url: "${pageContext.request.contextPath}/system/checkDeptName",
-				type: "post",
-				data: "deptName="+deptName,
-				success:function(result){
-					if(result.stateCode==1){
-						valate_form_msg("#deptName",'success',"用户名可用");
-						$("#save_dept").attr("ajax-va","success");
-					}else if(result.stateCode==0){
-						valate_form_msg("#deptName",'error',result.message);
-						$("#save_dept").attr("ajax-va","error");
-					}
-				}
-			});
-		});
-		//保存员工操作
-		$("#save_dept").click(function(){
-			//1、对表单进行校验
-			if(!validate_dept_form()){
-				return false;
-			}
-			//判断用户名是否可用
-			if($(this).attr("ajax-va")=="error"){
-				return false;
-			}
-			//3、发送请求你保存
-			$.ajax({
-				url: "/oa/system/saveDept",
-				type: "get",
-				data: $('#menu_add_model form').serialize(),
-				success:function(result){
-					if(result.stateCode==0){
-						//alert(result.message);
-					}else if(result.stateCode==1){
-						//关闭模态框
-						$('#menu_add_model').modal('hide');
-						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
-						to_page(totalRecords);
-					}
-				}
-			});
-		});
-		
-		//添加部门
-		$("#permission_add").click(function() {
-			//重置表单，清除数据
-			 clear_form('#menu_add_model form');
-			//获取部门
-			create_dept("#select_add_dept");
-			//显示模态框
-			("#menu_add_model").modal({
-				backdrop : 'static'
-			});
-		});
-		
-		/*--------------------修改部门----------------- */
 		//通过这个方法才能找到后添加的元素
 		$(document).on("click",".edit_btn",function(){
-			//1、查出部门
-			create_dept("#select_update_dept");
-			//2.得到员工
-			getDept($(this).attr("edit-id"));
-			//把员工id传给更新按钮
-			$("#update_dept").attr("edit-id",$(this).attr("edit-id"));
+			//1.得到部门
+			getPermission($(this).attr("edit-id"));
+			//把菜单id传给更新按钮
+			$("#update_permission").attr("edit-id",$(this).attr("edit-id"));
 			//打开更新模态框
 			$("#menu_update_model").modal({
 				backdrop:'static'
 			});
 		});
-		//通过id获取员工
-		function getDept(id){
+		//通过id获取菜单
+		function getPermission(id){
 			$.ajax({
-				url: "/oa/system/getDeptById?id="+id,
+				url: "/oa/system/getPermission?id="+id,
 				type: "GET",
 				success:function(result){
-					var dept=result.extend.dept;
-					$('#deptId').val(dept.deptId);
-					$('#deptName_update').val(dept.deptName);
-					$('#remark_update').val(dept.remark);
-					$('#menu_update_model select').val([dept.deptPId]);
+					var permission=result.extend.permission;
+					$("#permId_update").val(permission.permId);
+					$('#permName_update').val(permission.permName);
+					$('#parentId_update').val(permission.parentId);
+					$('#parentName_update').val(permission.permission == null ? "":permission.permission.permName);
+					$('#url_update').val(permission.url);
+					$('#icon').val(permission.icon);
 				}
 			});
 		}
 		
-		//--------------更新部门-----------------------------
-		$('#update_dept').click(function(){
-			var deptName=$('#deptName_update').val();
-			alert(deptName);
-			if(deptName == ""){
-				valate_form_msg("#deptName_update",'error',"部门名称不能为空");
+		//--------------更新菜单-----------------------------
+		$('#update_permission').click(function(){
+			var permName=$('#permName_update').val();
+			//alert(permName);
+			if(permName == ""){
+				valate_form_msg("#permName_update",'error',"菜单名称不能为空");
 				return false;
 			}else{
-				valate_form_msg("#deptName_update",'success',"");
+				valate_form_msg("#permName_update",'success',"");
 			}
 			$.ajax({
-				url: "/oa/system/updateDeptById",
+				url: "/oa/system/updatePermission",
 				type: "post",
 				data: $("#menu_update_model form").serialize(),			
 				success:function(result){
@@ -622,14 +774,15 @@
 		
 		//删除部门
 		$(document).on("click",".delete_btn",function(){
-			//1、获得当前员工的名字
-			var deptName=$(this).parents('tr').find('td:eq(2)').text();
-			var deptId = $(this).attr("delete-id");
+			//1、获得当前菜单的名字
+			var permName=$(this).parents('tr').find('td:eq(2)').text();
+			var parentId = $(this).attr("delete-id");
 			//alert(deptId);
-			if(confirm("确定删除【"+deptName+"】吗")){
+			layer.alert('酷毙了', {icon: 1});
+			if(confirm("确定删除【"+permName+"】吗")){
 				//发送请求删除
 				$.ajax({
-					url: "/oa/system/deleteDept/"+deptId,
+					url: "/oa/system/deleterPermission/"+parentId,
 					type: "post",		
 					success:function(result){
 						//关闭对话框
@@ -653,26 +806,26 @@
 		});
 		
 		//批量删除
-		$("#dept_delete_all").click(function(){
-			var deptNames="";
+		$("#perm_delete_all").click(function(){
+			var permNames="";
 			var del_id_strs="";
 			$.each($(".check_item:checked"),function(){
 				//alert(del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id'));
-				deptNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
+				permNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
 				del_id_strs += del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id') + "-";
 			});
-			
-			//去除最后的那个,
-			deptNames=deptNames.substring(0,deptNames.length-1);
-			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				alert("请选择要删除的部门");
+				alert("请选择要删除的菜单");
 				return false;
 			}
-			alert(del_id_strs);
-			if(confirm("确定删除【"+deptNames+"】吗?")){
+			//去除最后的那个,
+			permNames=permNames.substring(0,permNames.length-1);
+			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
+			//alert(del_id_strs);
+			
+			if(confirm("确定删除【"+permNames+"】吗?")){
 				$.ajax({
-					url: "/oa/system/deleteDept/"+del_id_strs,
+					url: "/oa/system/deleterPermission/"+del_id_strs,
 					type: "post",		
 					success:function(result){
 						//关闭对话框
