@@ -174,52 +174,62 @@ public class ProcessLineExample {
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoEqualTo(Integer value) {
+        public Criteria andProcessNoEqualTo(String value) {
             addCriterion("process_no =", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoNotEqualTo(Integer value) {
+        public Criteria andProcessNoNotEqualTo(String value) {
             addCriterion("process_no <>", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoGreaterThan(Integer value) {
+        public Criteria andProcessNoGreaterThan(String value) {
             addCriterion("process_no >", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoGreaterThanOrEqualTo(Integer value) {
+        public Criteria andProcessNoGreaterThanOrEqualTo(String value) {
             addCriterion("process_no >=", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoLessThan(Integer value) {
+        public Criteria andProcessNoLessThan(String value) {
             addCriterion("process_no <", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoLessThanOrEqualTo(Integer value) {
+        public Criteria andProcessNoLessThanOrEqualTo(String value) {
             addCriterion("process_no <=", value, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoIn(List<Integer> values) {
+        public Criteria andProcessNoLike(String value) {
+            addCriterion("process_no like", value, "processNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNoNotLike(String value) {
+            addCriterion("process_no not like", value, "processNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNoIn(List<String> values) {
             addCriterion("process_no in", values, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoNotIn(List<Integer> values) {
+        public Criteria andProcessNoNotIn(List<String> values) {
             addCriterion("process_no not in", values, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoBetween(Integer value1, Integer value2) {
+        public Criteria andProcessNoBetween(String value1, String value2) {
             addCriterion("process_no between", value1, value2, "processNo");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNoNotBetween(Integer value1, Integer value2) {
+        public Criteria andProcessNoNotBetween(String value1, String value2) {
             addCriterion("process_no not between", value1, value2, "processNo");
             return (Criteria) this;
         }

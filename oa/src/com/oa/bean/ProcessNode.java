@@ -3,7 +3,7 @@ package com.oa.bean;
 public class ProcessNode {
     private Integer processNodeId;
 
-    private Integer processNo;
+    private String processNo;
 
     private String processNodeName;
 
@@ -19,12 +19,12 @@ public class ProcessNode {
         this.processNodeId = processNodeId;
     }
 
-    public Integer getProcessNo() {
+    public String getProcessNo() {
         return processNo;
     }
 
-    public void setProcessNo(Integer processNo) {
-        this.processNo = processNo;
+    public void setProcessNo(String processNo) {
+        this.processNo = processNo == null ? null : processNo.trim();
     }
 
     public String getProcessNodeName() {
