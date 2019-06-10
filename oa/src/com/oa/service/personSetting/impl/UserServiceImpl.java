@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 		User user = userMapper.selectByPrimaryKey(uid);
 		user.setUid(uid);
 		user.setPassword(password);
-		userMapper.updatePassword(user);
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 	//新增用户
 	@Override

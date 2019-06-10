@@ -311,5 +311,6 @@
 	            autoclose:true //选择一个日期之后是否立即关闭此日期选择器
 	        });
 	    </script>
+	    
 </body>
 </html>

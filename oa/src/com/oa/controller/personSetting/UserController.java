@@ -42,7 +42,6 @@ import com.oa.utils.md5;
 		 * 根据id查询
 		 */
 		@RequestMapping("/getUser")
-		@ResponseBody
 		public ResponseResult getUser(String uid) {
 			ResponseResult rr=new ResponseResult();
 			
@@ -65,29 +64,33 @@ import com.oa.utils.md5;
 	 * 登录
 	 */
 	@RequestMapping("/login")
-	@ResponseBody
 	public ResponseResult Login(String uid,String password,String code,HttpSession session){
 		ResponseResult rr=new ResponseResult();
 		String sessioncode = (String) session.getAttribute("code");
 		//System.out.println(sessioncode);
 		String pwd=md5.GetMD5Code(password);
+		System.out.println(pwd);
+		System.out.println(password);
 		if(sessioncode.equals(code.toUpperCase())) {
 			User user=userService.login(uid,pwd);
 			if(user!=null){
 				session.setAttribute("user", user);
 	            //System.out.println("登录成功");
-	            rr.setStateCode(1);                   
+	            rr.setStateCode(1); 
+	            
 	        }else {
 	        	rr.setStateCode(0);
 	            rr.setMessage("密码错误");
 	           // System.out.println("登录失败");
+	            
 	        }
 		}else {
 			rr.setMessage("验证码错误");
 			rr.setStateCode(0);
+			
 		}
-				
-			return rr;				
+		return rr;
+							
 	}
 	
 	/**
@@ -123,15 +126,14 @@ import com.oa.utils.md5;
 	 * //修改密码
 	 */
 	@RequestMapping("/updatePassword")
-	@ResponseBody
-	public ResponseResult updatePassword(String uid,String password,String repassword) {
+	
+	public String updatePassword(String uid,String password,String repassword) {
 		ResponseResult rr=new ResponseResult();
 		String pwd=md5.GetMD5Code(password);
 		String repwd=md5.GetMD5Code(repassword);			
 		if(pwd.equals(userService.getPasswordByUid(uid))) {			
 			userService.updatePassword(uid,repwd);
-			//System.out.println("密码修改成功");			
-			
+			//System.out.println("密码修改成功");
 			rr.setStateCode(1);
 		}
 		else {
@@ -139,7 +141,7 @@ import com.oa.utils.md5;
 			rr.setMessage("密码修改失败");
 			rr.setStateCode(0);
 		}		
-		return rr;
+		return "login";
 	}
 	
 	

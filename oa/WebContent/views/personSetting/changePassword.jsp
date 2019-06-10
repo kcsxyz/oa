@@ -36,26 +36,33 @@
 	          		<div class="col-md-12"style="margin-top:40px;">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-	                            <form class="form-horizontal style-form" method="get" style="margin-top:80px;">
+	                            <form class="form-horizontal style-form" action="user/updatePassword" method="post" style="margin-top:80px;">
 	                            
 	                            
-	                            
+	                            	<div class="form-group" style="border:none;margin-top:30px;">
+			                              <span style="width:38%;color:#000;margin-left:55px;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">&nbsp;&nbsp;&nbsp;&nbsp;工号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${user.uid}</span>
+				                              <div class="col-sm-3">
+				                              	<input type="hidden" name=uid value="${user.uid}">
+				                                 
+				                              </div>
+			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">旧密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="title" class="form-control">
+				                              	<input type="hidden" name=uid value="${user.uid}">
+				                                  <input type="text" name="password" id="password" class="form-control">
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">新密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="title" class="form-control">
+				                                  <input type="text" name="repassword" id="repassword" class="form-control">
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">确认密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="title" class="form-control">
+				                                  <input type="text" name="repwd" id="repwd"class="form-control">
 				                              </div>
 			                          </div>
 			                          
@@ -63,11 +70,11 @@
 			                          
 			                          
 			                          <div class="form-group" style="border:none;margin-top:30px;">
-				                              <div class="col-sm-4" style="float:left; text-align:right;margin-left:30px;">
+				                              <div class="col-sm-4" style="float:left; text-align:right;margin-left:30px;" id="save_password">
 					                              
 					                              <a href="">
 							                  	  	  
-							                  	  	  <button type="button" class="btn btn-round btn-default">
+							                  	  	  <button type="button" class="btn btn-round btn-default" id="save_password">
 								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 								                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 	  </button>
@@ -130,5 +137,30 @@
 		
 		});
 	</script>
+	<!-- <script>
+		$("#save_password").click(function(){
+			var uid = $("#uid").val();
+		    var oldPwdValue = $("#password").val();
+		    var newpwdValue = $("#repassword").val();        
+		   alert(oldPwdValue);
+		  $.ajax({
+		        type: "POST",
+		        url: "../user/updatePassword",
+		        data: "uid="+uid+"&password="+oldPwdValue+
+		        		"&repassword="+newpwdValue,
+		        datatype:"json",
+		        
+		    	success:function(obj){
+		    		alert(obj.message);
+		    	if(repassword.val()==repwd.val){
+		    		if(obj.state==1){
+			    		location.href="../user/updatePassword";
+			    		}
+		    		}		    	
+		    	}
+		    });		
+		});
+
+</script> -->
 </body>
 </html>
