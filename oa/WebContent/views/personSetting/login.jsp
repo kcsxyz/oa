@@ -45,18 +45,18 @@
                                     <pd style="float:left;padding-left:10px;">工号</pd>
                                 </div>
                                 <div>
-                                	<input type="text" name="uid" id="uid" class="uid-password" required placeholder="工号" style="width:300px;">
-                                	<label id="showResult" style="width: 500px;"></label>
+                                	<input type="text" name="uid" id="uid" class="uid-password" required placeholder="工号" style="width:300px; padding-left:5px;">
+                                	<label id="showResult" style="width: 100px;"></label>
                                 </div>
                                 <div class="login-password">
                                     <pd style="float:left;padding-left:10px;">密码</pd><font id="error2" style="color:red;"></font>
                                 </div>
                                 <div>
-                                	<input type="password" name="password" id="password" class="uid-password" required placeholder="密码" style="width:300px;">
+                                	<input type="password" name="password" id="password" class="uid-password" required placeholder="密码" style="width:300px; padding-left:5px;">
                                 </div>
 	                            <div class="login-verifyCode">
-	                                <input type="text" name="code" id="code" placeholder="验证码" style="width:150px;margin-left:40px;">
-	        						<img id="imgs" src="<%=basePath%>getVerify" onclick="changeImage()" alt="verifycodes" src="verifyCodeAction" width="80px" height="30px"/>
+	                                <input type="text" name="code" id="code" placeholder="验证码" style="width:150px;margin-left:40px; padding-left:5px;">
+	        						<img id="imgs" src="/oa/getVerify" onclick="changeImage()" alt="verifycodes" src="verifyCodeAction" width="80px" height="30px" />
                                 </div>
                                 <div class="remember text-center">
                                     <pd>
@@ -74,17 +74,17 @@
 
 	<script>
 		function changeImage(){
-			alert($("#imgs")[0].src="${pageContext.request.contextPath}/getVerify?time="+new Date());
+			$("#imgs")[0].src="${pageContext.request.contextPath}/getVerify?time="+new Date();
 		}
 	  
 	</script>
-<script src="<%=basePath%>assets/jquery-3.1.1.min.js"></script>
-<script src="<%=basePath%>assets/jquery.cookie.js"></script>
+<script src="/oa/assets/js/jquery-3.1.1.min.js"></script>
+<script src="/oa/assets/js/jquery.cookie.js"></script>
 <script>
     $("#uid").blur(function(){
         var data = $("#uid").val();
         if (data == null || data == "") {
-            $("#showResult").text("用户名不能为空！");
+            $("#showResult").text("工号不能为空！");
             $("#showResult").css("color","red");
             return false;
         }
@@ -99,11 +99,11 @@
             },
             success:function(obj)
             {
-                if(obj.state == 0){
-                    $("#showResult").text("用户名可以使用");
+                if(obj.stateCode == 1){
+                    $("#showResult").text("工号可以使用");
                     $("#showResult").css("color","green");
-                }else if(obj.state == 1){
-                    $("#showResult").text("用户名不存在");
+                }else if(obj.stateCode == 0){
+                    $("#showResult").text("工号不存在");
                     $("#showResult").css("color","red");
                 }else {
                     $("#showResult").text("系统异常！");
@@ -121,6 +121,7 @@
     $('#bt-login').click(function(){
         //读取用户的输入——表单序列化
         var inputData = $('#login-form').serialize();
+       
         //异步提交请求，进行验证
         
 		$.ajax({
@@ -128,15 +129,16 @@
             url: '${pageContext.request.contextPath}/user/login',
             data: inputData,
             success: function(xhr){
-                if(xhr.state==1){  //登录成功
+                if(xhr.stateCode==1){  //登录成功
                 	Save();
                     var loginName = $('[name="uid"]').val();
                     sessionStorage['loginName']=loginName;
                     $('#showResult').html(xhr.message);
                     $("#showResult").css("color","green");
-                    window.location.href="${pageContext.request.contextPath}/main/interceptorIndex.do";
+                    window.location.href="${pageContext.request.contextPath}/user/toupdatePassword";
                     console.log(loginName);
-                }else if(xhr.state==0){ //登录失败
+                }else if(xhr.stateCode==0){ //登录失败
+                    alert(xhr.message);
                     $('#showResult').html(xhr.message);
                     $("#showResult").css("color","red");
                 }

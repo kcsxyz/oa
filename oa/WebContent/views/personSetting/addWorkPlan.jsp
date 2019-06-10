@@ -26,6 +26,17 @@
     <script src="assets/js/chart-master/Chart.js"></script>
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!-- 富文本编辑器 -->
+ 	<script src="/oa/ueditor/ueditor.config.js"></script>
+ 	<script src="/oa/ueditor/ueditor.parse.js"></script>
+ 	<script src="/oa/ueditor/ueditor.all.js"></script>
+ 	<script type="text/javascript">
+ 		window.onload=function(){
+ 			UE.getEditor('editor');
+ 		}
+ 	</script>
+    
 </head>
 <body>
 <section id="container" >
@@ -52,7 +63,7 @@
 	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan/${workPlan }" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
 				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;">				                         
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
@@ -77,9 +88,9 @@
 				                           </div>				                            
 			                         </div> 
 			                         <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
-				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" rows="18" name="content"></textarea>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
+				                              <div class="col-sm-9">
+				                                  <div id="editor" style="height:400px"></div>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">

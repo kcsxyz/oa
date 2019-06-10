@@ -15,11 +15,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +45,7 @@ import com.oa.utils.md5;
 		 * 根据id查询
 		 */
 		@RequestMapping("/getUser")
+		@ResponseBody
 		public ResponseResult getUser(String uid) {
 			ResponseResult rr=new ResponseResult();
 			
@@ -55,7 +59,10 @@ import com.oa.utils.md5;
 			}
 			return rr;
 		}	
-	
+		@RequestMapping("/toLogin")
+		public String Login() {
+			return "personSetting/login";
+		}
 	/**
 	 * @param name
 	 * @param password
@@ -64,6 +71,7 @@ import com.oa.utils.md5;
 	 * 登录
 	 */
 	@RequestMapping("/login")
+	@ResponseBody
 	public ResponseResult Login(String uid,String password,String code,HttpSession session){
 		ResponseResult rr=new ResponseResult();
 		String sessioncode = (String) session.getAttribute("code");
@@ -75,18 +83,16 @@ import com.oa.utils.md5;
 			User user=userService.login(uid,pwd);
 			if(user!=null){
 				session.setAttribute("user", user);
-	            //System.out.println("登录成功");
-	            rr.setStateCode(1); 
-	            
+	            System.out.println("登录成功");
+	            rr.setStateCode(1);	            
 	        }else {
 	        	rr.setStateCode(0);
 	            rr.setMessage("密码错误");
-	           // System.out.println("登录失败");
-	            
+	            System.out.println("登录失败");	            
 	        }
 		}else {
 			rr.setMessage("验证码错误");
-			rr.setStateCode(0);
+			rr.setStateCode(0);	
 			
 		}
 		return rr;
@@ -117,7 +123,11 @@ import com.oa.utils.md5;
         return rr;
     }
 	
-	
+	@RequestMapping("/toupdatePassword")
+	public String toupdatePassword() {
+		System.out.println(1);
+		return "personSetting/changePassword";
+	}
 	/**
 	 * @param uid
 	 * @param password
@@ -126,22 +136,23 @@ import com.oa.utils.md5;
 	 * //修改密码
 	 */
 	@RequestMapping("/updatePassword")
-	
-	public String updatePassword(String uid,String password,String repassword) {
+	@ResponseBody
+	public ResponseResult updatePassword(HttpSession session,String password,String repassword) {
 		ResponseResult rr=new ResponseResult();
 		String pwd=md5.GetMD5Code(password);
-		String repwd=md5.GetMD5Code(repassword);			
-		if(pwd.equals(userService.getPasswordByUid(uid))) {			
-			userService.updatePassword(uid,repwd);
-			//System.out.println("密码修改成功");
+		String repwd=md5.GetMD5Code(repassword);
+		User user=(User) session.getAttribute("user");
+		if(pwd.equals(userService.getUser(user.getUid()).getPassword())) {			
+			userService.updatePassword(user.getUid(),repwd);
+			System.out.println("密码修改成功");
 			rr.setStateCode(1);
 		}
 		else {
-			//System.out.println("密码修改失败");
+			System.out.println("密码修改失败");
 			rr.setMessage("密码修改失败");
 			rr.setStateCode(0);
 		}		
-		return "login";
+		return rr;
 	}
 	
 	

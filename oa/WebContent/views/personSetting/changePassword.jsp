@@ -10,21 +10,21 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>修改密码</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
 </head>
 <body>
 <section id="container" >
@@ -36,45 +36,43 @@
 	          		<div class="col-md-12"style="margin-top:40px;">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-	                            <form class="form-horizontal style-form" action="user/updatePassword" method="post" style="margin-top:80px;">
+	                            <form class="form-horizontal style-form" method="post" style="margin-top:80px;">
 	                            
 	                            
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;margin-left:55px;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">&nbsp;&nbsp;&nbsp;&nbsp;工号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${user.uid}</span>
 				                              <div class="col-sm-3">
-				                              	<input type="hidden" name=uid value="${user.uid}">
+				                              	<input type="hidden" name=uid id=uid value="${user.uid}">
 				                                 
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">旧密码:</span>
-				                              <div class="col-sm-3">
-				                              	<input type="hidden" name=uid value="${user.uid}">
-				                                  <input type="text" name="password" id="password" class="form-control">
+				                              <div class="col-sm-3">				                              	
+				                                  <input type="text" name="password" id="old_password" class="form-control">
 				                              </div>
+				                              <span class="oldPassword change_hint"></span>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">新密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="repassword" id="repassword" class="form-control">
+				                                  <input type="text" name="repassword" id="new_password" class="form-control">
+				                              	<span class="newPassword change_hint"></span>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">确认密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="repwd" id="repwd"class="form-control">
+				                                  <input type="text" name="repwd" id="confirm_password" class="form-control">
+				                              	<span class="confirmPassword change_hint"></span>
 				                              </div>
 			                          </div>
 			                          
-			                          
-			                          
-			                          
 			                          <div class="form-group" style="border:none;margin-top:30px;">
-				                              <div class="col-sm-4" style="float:left; text-align:right;margin-left:30px;" id="save_password">
+				                              <div class="col-sm-4" style="float:left; text-align:right;margin-left:30px;">
 					                              
 					                              <a href="">
-							                  	  	  
-							                  	  	  <button type="button" class="btn btn-round btn-default" id="save_password">
+							                  	  	  <button id="save_password" type="button" class="btn btn-round btn-default" >
 								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 								                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 	  </button>
@@ -97,11 +95,6 @@
 						                  	  	  </a>
 				                              </div>
 			                          </div>
-			                    
-			                    
-			                    
-			                    
-			                    
 			                    </form>
                       		</div>
                       	</div>
@@ -111,14 +104,17 @@
       </section>
 </section>
  	<!-- js placed at the end of the document so the pages load faster --> 
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
-
+    <script src="/oa/assets/js/common-scripts.js"></script>
+	<script type="text/javascript" src="/oa/assets/js/jquery-3.1.1.min.js"></script>
+	<script src="/oa/assets/js/index.js"></script>
+	<script src="/oa/assets/js/jquery.page.js"></script>
+	<script type="text/javascript" src="/oa/assets/js/orders.js"></script>
     <!--script for this page-->
 	<script type="text/javascript">
 		$(function(){
@@ -137,30 +133,56 @@
 		
 		});
 	</script>
-	<!-- <script>
-		$("#save_password").click(function(){
-			var uid = $("#uid").val();
-		    var oldPwdValue = $("#password").val();
-		    var newpwdValue = $("#repassword").val();        
-		   alert(oldPwdValue);
-		  $.ajax({
-		        type: "POST",
-		        url: "../user/updatePassword",
-		        data: "uid="+uid+"&password="+oldPwdValue+
-		        		"&repassword="+newpwdValue,
-		        datatype:"json",
-		        
-		    	success:function(obj){
-		    		alert(obj.message);
-		    	if(repassword.val()==repwd.val){
-		    		if(obj.state==1){
-			    		location.href="../user/updatePassword";
-			    		}
-		    		}		    	
-		    	}
-		    });		
+	<script>
+	$("#save_password").click(function(){
+		var uid=$("#uid").val;
+		var oldPassword=$("#old_password").val();
+		var newPassword=$("#new_password").val();
+		
+		var confirmPassword=$("#confirm_password").val();
+		if(oldPassword==""){
+			$(".oldPassword").html("旧密码不能为空");
+			return ;
+		}
+		if(newPassword==""){
+			$(".newPassword").html("新密码不能为空");
+			return ;
+		}
+		if(confirmPassword==""){
+			$(".confirmPassword").html("确认密码不能为空");
+			return ;
+		}
+		if(confirmPassword !=newPassword ){
+			$(".confirmPassword").html("前后密码不一致");
+			return ;
+		}
+		if(oldPassword ==newPassword ){
+			$(".newPassword").html("您的新密码和旧密码一样");
+			return ;
+		}
+		alert(oldPassword);
+		if(newPassword.length<6 || newPassword.length>16 ){
+			$(".newPassword").html("密码在6-16位之间");
+			return ;
+		}
+		alert("11");
+		$.ajax({
+			url :"${pageContext.request.contextPath}/user/updatePassword",
+			data : "password="+oldPassword+"&repassword="+newPassword,
+			type :"post",
+			dataType : "json",			
+			success : function(data){
+				if(data.stateCode==1){
+					alert("01");
+					location.href="${pageContext.request.contextPath}/user/toLogin";
+				}else if(data.stateCode==0){
+					$(".retu").html(data.message);
+					alert(data.message);
+				}
+			}
 		});
-
-</script> -->
+	});
+	
+</script>
 </body>
 </html>
