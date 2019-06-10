@@ -13,7 +13,7 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>工作计划</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -22,10 +22,17 @@
     <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="oa/assets/css/style.css" rel="stylesheet">
+    <link href="oa/assets/css/style-responsive.css" rel="stylesheet">
+	<!--  时间插件css文件 -->
+    <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"> 
 
-    <script src="assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <!-- 时间插件js文件 -->
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script type="text/javascript">
 		$(function(){
 			$(".del").click(function(){
@@ -79,13 +86,13 @@
 						    <div class="form-group" style="border:none;">
 	                  	  	<div class=" col-sm-4" style="float:left;margin-left:8%;">
 		                  	  	 <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
-				                  	  	  <input type="text" class="form-control round-form" placeholder="起始时间" value="2019-01-01" name="startTime" style="width:30%;height:28px;float:left;">
+				                  	  	  <input type="text" class="form-control round-form" id="startTime" name="startTime" placeholder="起始时间"  style="width:30%;height:28px;float:left;">
 				                  	  	 
 				                  	  	  <span class="glyphicon glyphicon-resize-horizontal" style="color: rgb(0, 0, 0);float:left;height:28px;text-align:center;line-height:28px;
 				                  	  	  font-size: 15px; margin-left:3px;margin-right:7px;text-shadow: rgb(255, 0, 0) 0px 0px 0px;">
 										  </span> 
 										  
-				                  	  	  <input type="text" class="form-control round-form" placeholder="终止时间" value="2020-01-01" name="endTime"style="width:30%;height:28px;">
+				                  	  	  <input type="text" class="form-control round-form" id="startTime" name="endTime" placeholder="终止时间"  style="width:30%;height:28px;">
 	                  	  	</div>
 	                  	  	 
 						    <div class=" col-sm-4" style="float:left;">
@@ -218,8 +225,6 @@
       </section>
   </section>
    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
@@ -292,9 +297,19 @@
 					}
 				});
 			}
-
 		});
-	
+		
   </script>
+  <!--  时间插件js -->
+	    <script type="text/javascript">
+	    	$("input[id='startTime']").datetimepicker({
+	    		todayBtn:1,
+	    		todayHighlight:1,
+	            format: 'yyyy-mm-dd',
+	            minView: "2",//
+	            language:  'zh-CN',
+	            autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+	        });
+	    </script>
 </body>
 </html>

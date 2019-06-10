@@ -32,4 +32,6 @@ public interface WorkPlanMapper {
     int updateByPrimaryKeySelective(WorkPlan record);
 
     int updateByPrimaryKey(WorkPlan record);
+
+	List<WorkPlan> selectLIke(String info, String startTime, String endTime);
 }

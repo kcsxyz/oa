@@ -64,7 +64,7 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
 	@Override
 	public List<WorkPlan> selectLikeWorkPlan(String Info, String startTime, String endTime) {
-		WorkPlanExample de = new WorkPlanExample();
+		/*WorkPlanExample de = new WorkPlanExample();
 		Criteria ct = de.createCriteria();
 		ct.andContentLike("%"+Info+"%");		
 		Criteria ct3 = de.createCriteria();
@@ -80,7 +80,9 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 			e.printStackTrace();
 		}		
 		de.or(ct3);		
-		return workPlanMapper.selectByExample(de);
+		return workPlanMapper.selectByExample(de);*/
+		workPlanMapper.selectLIke(Info,startTime,endTime);
+		return workPlanMapper.selectLIke(Info,startTime,endTime);
 		
 	}
 

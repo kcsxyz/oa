@@ -64,7 +64,7 @@
 								</div>
 								<div class="login-verifyCode">
 									<input type="text" name="verifyCode" id="verifyCode"
-										placeholder="验证码" style="width: 150px;"> <img
+										placeholder="验证码" style="width: 130px;"> <img
 										id="imgs" src="/shopping1/vcode"
 										onclick="javascript:_change()" alt="verifycodes"
 										src="verifyCodeAction" width="80px" height="30px" />
@@ -82,7 +82,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 
 </html>
