@@ -3,6 +3,8 @@ package com.oa.dao;
 
 import com.oa.bean.WorkPlan;
 import com.oa.bean.WorkPlanExample;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +22,6 @@ public interface WorkPlanMapper {
     int insertSelective(WorkPlan record);
 
     List<WorkPlan> selectByExample(WorkPlanExample example);
-    
-    List<WorkPlan> selectByParams(@Param("param") Map<String, String> params);
 
     WorkPlan selectByPrimaryKey(Integer id);
 
@@ -32,4 +32,8 @@ public interface WorkPlanMapper {
     int updateByPrimaryKeySelective(WorkPlan record);
 
     int updateByPrimaryKey(WorkPlan record);
+    
+    List<WorkPlan>  selectByMap(@Param("param") Map<String,Object> params);
+  
+ 
 }

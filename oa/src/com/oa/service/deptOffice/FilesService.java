@@ -36,7 +36,12 @@ public interface FilesService {
      * @return
      */
     List<Files> selectByParams(@Param("param") Map<String, String> params);
-  
+  /**
+   * 根据id查询
+   * @param fileId
+   * @return
+   */
+    Files selectByPrimaryKey(String fileId);
     /**
          * 判断id是否重复
      */

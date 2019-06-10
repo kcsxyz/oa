@@ -45,16 +45,17 @@ public class CommonTest {
 		}
 	}
 
-		
+		@Test
 		public void test2() throws ParseException {
 			
-			 Map<String, String> map = new HashMap<String, String>();
+			 Map<String, Object> map = new HashMap<String, Object>();
 			    String Info = "";
-				String startDate = "2019-05-29 15:03:10";
-				String endDate = "2019-05-29 15:03:14";
+				String startDate = "2019-05-29 00:00:00";
+				String endDate = "2019-06-02 23:03:14";
+				map.put("type", 0);
 				map.put("Info", Info);
-		        map.put("startTime",startDate);
-		        map.put("endTime",endDate);
+		       map.put("startTime",startDate);
+		       map.put("endTime",endDate);
 
 			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 			NoticeMapper um= ac.getBean("noticeMapper", NoticeMapper.class);
@@ -169,5 +170,18 @@ public class CommonTest {
 				System.out.println(project);
 			}
 		}
-
+		
+		public void workPlanTest2() {
+			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+			WorkPlanMapper wm = ac.getBean("workPlanMapper",WorkPlanMapper.class);
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("deptId", 2);
+			List<WorkPlan> workPlans = wm.selectByMap(map);
+		//	int total = wm.selectCount(map);
+			for (WorkPlan workPlan : workPlans) {
+				System.out.println(workPlan);
+			//	System.out.println("------------"+workPlan.getUser().getDept().getDeptName()+total);
+			}
+		}
+		
 }

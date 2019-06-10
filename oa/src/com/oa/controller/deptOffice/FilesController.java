@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,13 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oa.bean.Files;
 import com.oa.bean.Project;
+import com.oa.bean.ResponseResult;
 import com.oa.service.deptOffice.FilesService;
 @Controller
 @RequestMapping("files")
@@ -109,22 +113,94 @@ public class FilesController {
 	        // 关闭输出流
 	        out.close();
 	    }
-
-	    public String findAll(String Info,String startTime,String finalTime) throws ParseException {
+	    /**
+	         * 查询文件
+	     * @param model
+	     * @param Info
+	     * @param dateStart
+	     * @param finalTime
+	     * @return
+	     * @throws ParseException
+	     */
+      @RequestMapping("/findAll")  
+	    public String findAll(
+	    		Model model,
+	    		String Info,
+	    		String dateStart,
+	    		String finalTime) throws ParseException {
 	    	Map<String, String> map = new HashMap<String, String>();
 	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//yyyy-mm-dd, 会出现时间不对, 因为小写的mm是代表: 秒
-	    	if(startTime != null&&!startTime.equals("") && finalTime != null&& !finalTime.equals("")) {
-			    Date beforeTime = sdf.parse(startTime);
+	    	if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
+			    Date beforeTime = sdf.parse(dateStart);
 			    Date finallyTime  = sdf.parse(finalTime);
 			    Calendar rightNow = Calendar.getInstance();
 					rightNow.setTime(finallyTime);
 					rightNow.add(Calendar.HOUR,23);
 					rightNow.add(Calendar.MINUTE,59);
 					rightNow.add(Calendar.SECOND,59);
-				Date endTime = rightNow.getTime();
+				Date dateEnd = rightNow.getTime();
+		    	String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(beforeTime);
+		    	String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(dateEnd);
+		    	map.put("startTime", startTime);
+		    	map.put("endTime", endTime);
 				}
-	    	
-	    	return null;
+                map.put("Info", Info);
+                List<Files> files = filesService.selectByParams(map);
+                for (Files files2 : files) {
+					System.out.println(files2);
+				}
+                model.addAttribute("files", files);
+	    	return "testFile";
 	    	
 	    }
+      
+      /**
+             * 文件删除
+       */     
+    @RequestMapping("/deleteFile/{fileId}")
+  	public ResponseResult deleteDept(@PathVariable String fileId) {
+    	ResponseResult rr = new ResponseResult();
+  		// 批量刪除
+  		if (fileId.contains("-")) {
+  			List<String> listId = new ArrayList<>();
+  			String[] split_ids = fileId.split("-");
+  			for (String string : split_ids) {
+  				listId.add(string);
+  				filesService.deleteDeptBatch(listId);
+  			}
+  		// 单个删除
+  		} else {
+  			filesService.deleteByPrimaryKey(fileId);
+  				}
+  		return rr;
+  	}
+    
+    /**
+     * 根据id查询
+     */
+    @RequestMapping("/findById/{id}")
+    public String findById(@PathVariable("id") String fileId,
+    		Model model) {
+    	Files file = filesService.selectByPrimaryKey(fileId);
+		model.addAttribute("findByfileId", file);
+	     return "test2";
+    	
+    }
+    /**
+         * 修改信息并更新
+     */
+    @RequestMapping("/updateFile")
+    public  ResponseResult  update(Files files,Model model) {
+    	ResponseResult rr = new ResponseResult();
+		int i =filesService.updateByPrimaryKeySelective(files);
+		if(i!=0) {
+			rr.setStateCode(1);;
+		}else {
+			rr.setStateCode(0);
+		}
+		Files file = filesService.selectByPrimaryKey(files.getFileId());
+		model.addAttribute("findByfileId", file); //修改完回显
+		return rr;
+    	
+    }
 }

@@ -29,6 +29,13 @@
 		    <result column="create_name" jdbcType="VARCHAR" property="createName" />
 		    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
 		    <result column="modified_name" jdbcType="VARCHAR" property="modifiedName" />
+		<association property="dept" javaType="com.oa.bean.Dept">
+			 <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+		    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+		    <result column="dept_p_id" jdbcType="INTEGER" property="deptPId" />
+		    <result column="dept_level" jdbcType="INTEGER" property="deptLevel" />
+		    <result column="remark" jdbcType="VARCHAR" property="remark" />
+		</association>
 		</association>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -306,38 +313,46 @@
       opinion = #{opinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="selectByParams"  resultMap="BaseResultMap"
+
+    <select id="selectByMap"  resultMap="BaseResultMap"
        parameterType="map">
         SELECT
-            *
+          wp.*,u.*,d.*,r.*
         FROM
-           t_work_plan wp left join t_user u on wp.create_name=u.uid
-         <!--  t_work_plan -->
+          t_work_plan wp
+           left join t_user u on wp.create_name=u.uid
+           left join t_dept d on u.dept_id=d.dept_id 
+           left join t_role r on u.role_id=r.role_id
             <where>
             <if test=" param.Info!= null and  param.Info!= ''">
                 AND wp.opinion like CONCAT('%',#{param.Info},'%')
-               or wp.content like CONCAT('%',#{param.Info},'%')
+                 or wp.content like CONCAT('%',#{param.Info},'%')
             </if> 
             <if test="param.createName !=null and param.createName!=''">
               and wp.create_name = #{param.createName}
             </if>
+         
              <if test="param.status !=null and param.status!=''">
               and wp.status = #{param.status}
             </if>
-             <if test="param.type !=null and param.type!=''">
+             <if test="param.deptId !=null and param.deptId!=''">
+              and d.dept_id = #{param.deptId}
+            </if>
+             <if test="param.roleId !=null and param.roleId!=''">
+              and r.role_id = #{param.roleId}
+            </if>
+             <if test="param.type !=null ">  
               and wp.type = #{param.type}
             </if>
-         <if test="param.startTime!=null and param.startTime!=''">
+         <if test="param.startTime!=null ">
   	        <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
       	</if>
-      	<if test="param.endTime!=null and param.endTime!=''">
+      	<if test="param.endTime!=null ">
   	     <![CDATA[  and DATE_FORMAT(wp.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
 	   </if>
+	   
       </where>
  </select>
-  
-  
   
   
 </mapper>

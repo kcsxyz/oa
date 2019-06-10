@@ -2,7 +2,11 @@
 package com.oa.controller.common;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.ResponseResult;
 import com.oa.service.common.NoticeService;
@@ -40,13 +46,22 @@ public class NoticeController {
 	 * @param browsePower
 	 * @param createName
 	 */
-	@RequestMapping("/saveNotice")
-	@ResponseBody
-	public ResponseResult  saveNotice(
+	@RequestMapping(value="/showPushNotice", method=RequestMethod.GET)
+	public String showPushNotice(Model model) {
+		model.addAttribute(new Notice());
+		 List<Dept> depts = noticeService.selectByDept(null);
+		 model.addAttribute("noticeDept", depts);
+		return "addBulletin";
+	}
+	
+	@RequestMapping(value="/saveNotice",method=RequestMethod.POST)
+	public String  saveNotice(
 			 HttpSession session,
-			Notice notice
+			Notice notice,
+			Model model
 			){
 	          	ResponseResult rr = new ResponseResult();
+	          	List<Notice> Notices = noticeService.selectByExample();
 		         String createName = (String) session.getAttribute("uid"); 
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
@@ -57,27 +72,23 @@ public class NoticeController {
 		}else {
 			rr.setStateCode(0);
 			rr.setMessage("发布失败");
-		}
-			
-		return rr;
+		} 
+		   
+			model.addAttribute("saveNotices",Notices);
+			return "redirect:/notice/selectByParams";
 	}
 	
 	/**
 	 * 通过id查询
 	 * @return
 	 */
-	@RequestMapping("/findBynoticeId")
-	@ResponseBody
-	public Notice findBynoticeId(Integer noticeId) {
-		Notice notice = null;
-		try {
-			notice = noticeService.selectByPrimaryKey(noticeId);
-			System.out.println(notice.toString());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return notice;
+	@RequestMapping("/findBynoticeId/{noticeId}")
+	public String findBynoticeId(@PathVariable Integer noticeId,Model model) {
+		 Notice notice = noticeService.selectByPrimaryKey(noticeId);
+		 List<Dept> depts = noticeService.selectByDept(null);
+		 model.addAttribute("noticeDept", depts);
+		 model.addAttribute("noticeFindById",notice);
+		return "updateBulletin";
 	
 	}
 	
@@ -85,9 +96,8 @@ public class NoticeController {
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping("/deleteNotice")
-	@ResponseBody
-	public ResponseResult deleteDept(@RequestParam("ids") String ids) {
+	 @RequestMapping("/deleteNotice/{ids}")
+	public String deleteDept(@PathVariable("ids") String ids) {
 		ResponseResult rr = new ResponseResult();
 		// 批量刪除
 		if (ids.contains("-")) {
@@ -102,22 +112,8 @@ public class NoticeController {
 			Integer id = Integer.parseInt(ids);
 			noticeService.deleteDept(id);
 				}
-		return rr.success();	
+		return "redirect:/notice/selectByParams";	
 	}
-	
-//	@RequestMapping("/deleteMany")
-//	@ResponseBody
-//	public ResponseResult deletemany(@RequestParam("ids") String[] ids) {
-//		System.out.println(ids.toString()+"-----------"+ids.length);
-//		  ResponseResult rr = new ResponseResult();
-//			try {
-//				noticeService.deleteMany(ids);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			return rr.success();
-//		}
 	
 
 	/**
@@ -129,14 +125,15 @@ public class NoticeController {
 	 * @param createName
 	 */
 	@RequestMapping("/updateNotice")
-	public ResponseResult updateNotice(
+	public String updateNotice(
 			 HttpSession session,
 			 Integer noticeId,
-			 Notice notice
+			 Notice notice,
+			 Model model
 			){
 	         	ResponseResult rr = new ResponseResult();
 		         String createName = (String) session.getAttribute("uid");
-			     
+			     notice.setNoticeId(noticeId);
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
 			int i = noticeService.updateByPrimaryKeySelective(notice);
@@ -147,57 +144,53 @@ public class NoticeController {
 				rr.setStateCode(0);
 				rr.setMessage("修改失败");
 			}
-				
-			return rr;
+		
+			return "redirect:/notice/selectByParams";
 	}
 	
 
 	/**
 	 * 模糊查询
 	 * @return
+	 * @throws ParseException 
 	 */
+	
 	@RequestMapping("/selectByParams")
-	@ResponseBody
-	public List<Notice> selectByParams(
+	public String selectByParams(
 			HttpSession session,
-			String type,
+			Integer type,
 			String Info,
-			String createName,
-			String startTime,
-			String endTime,
+			String dateStart,
+			String finalTime,
 			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             Model model
-			) {
-		System.out.println(type+"------"+Info+"----"+startTime+"---"+endTime);
-		 Map<String, String> map = new HashMap<String, String>();
-		    map.put("type", type);
-			map.put("Info", Info);
-			map.put("createName", createName);
-	        map.put("startTime",startTime);
-	        map.put("endTime",endTime);
-
-	        String deptName ="办公室";
-	     	 // startPage后紧跟着的就是一个分页查询
-	    	//PageHelper.startPage(pageNo, pageSize);
-	        List<Notice> notices = noticeService.selectByParams(map);
-	       // 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-	       //  PageInfo<Notice> page = new PageInfo<Notice>(notices, 3);
-		  //	model.addAttribute("pageInfo", page);
-	       PageHelper.startPage(pageNo, pageSize);
-	       List<Notice> newNotices = new ArrayList<Notice>();
-	       for(int i=0;i<notices.size();i++) {
-	    		Notice notice = notices.get(i);
-			    if(notice.getBrowsePower().equals("所有部门") || notice.getBrowsePower().contains(deptName)){
-			    	newNotices.add(notice);
-			     	System.out.println("进入循环");
-			    }
-			    
-	    	}
+			) throws ParseException {
+		 Map<String, Object> map = new HashMap<String, Object>();		 
+		 if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
+			 String startTime= dateStart+" "+"00:00:00";
+			 String endTime = finalTime+" "+"23:59:59";
+			 System.out.println(startTime+endTime);
+			 map.put("startTime", startTime);
+		    	map.put("endTime", endTime);
+		 }
+	      String uDeptName = "办公室";
+	      if(type !=null ) {
+	    	   map.put("type", type);
+	      }
+	      if(Info !=null ) {
+	    		map.put("Info", Info);
+	      }
+	     	map.put("browsePower", uDeptName);
+	     	map.put("allDept", "所有部门");
+			PageHelper.startPage(pageNo, pageSize);
+			List<Notice> newNotices = noticeService.selectByParams(map);
+			for (Notice notice : newNotices) {
+				System.out.println(notice);
+			}
 	    	PageInfo<Notice> page = new PageInfo<Notice>(newNotices, 3);
-			//model.addAttribute("pageInfo", page);
-	    	System.out.println(page.getList().size());
-			return newNotices;
+			model.addAttribute("pageInfo", page);
+			return "bulletinManage";
 		
 	}
 	

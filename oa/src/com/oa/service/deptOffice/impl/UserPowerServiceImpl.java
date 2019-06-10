@@ -15,22 +15,27 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ServletContextAware;
 
+import com.oa.bean.Dept;
+import com.oa.bean.DeptExample;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 import com.oa.bean.UserExample.Criteria;
+import com.oa.dao.DeptMapper;
 import com.oa.dao.UserMapper;
 import com.oa.service.deptOffice.UserPowerService;
+import com.oa.utils.md5;
 
 @Service
 public class UserPowerServiceImpl implements UserPowerService {
     @Resource
 	private UserMapper userMapper;
-
+    @Resource
+	private DeptMapper  deptMapper;
 	@Override
 	public int insertSelective(User user) {
-		
+		String password = md5.GetMD5Code(user.getPassword());
+		user.setPassword(password);
 		int i = userMapper.insertSelective(user);
-		System.out.println("sevice中user的 i"+i);
 		return i;
 	}
 
@@ -67,11 +72,9 @@ public class UserPowerServiceImpl implements UserPowerService {
 		return users;
 		
 	}
-
-
-	
-
-    
-    
+	public List<Dept> selectByDept(DeptExample example) {
+		 List<Dept> depts = deptMapper.selectByExample(null);
+		return depts;
+	}
 	
 } 

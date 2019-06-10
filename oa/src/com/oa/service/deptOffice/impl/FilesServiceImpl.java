@@ -28,8 +28,8 @@ public class FilesServiceImpl implements FilesService {
 
 	@Override
 	public int deleteByPrimaryKey(String id) {
-		
-		return filesMapper.deleteByPrimaryKey(id);
+		int i=filesMapper.deleteByPrimaryKey(id);
+		return i;
 	}
 
 	@Override
@@ -64,6 +64,12 @@ public class FilesServiceImpl implements FilesService {
 		Criteria c = example.createCriteria();
 		c.andFileNameEqualTo(fileName);
 		return filesMapper.selectByExample(example) !=null;
+	}
+
+	@Override
+	public Files selectByPrimaryKey(String fileId) {
+		Files f = filesMapper.selectByPrimaryKey(fileId);
+		return f;
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.oa.bean.Dept;
+import com.oa.bean.DeptExample;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 
@@ -44,6 +46,7 @@ public interface UserPowerService {
 	 * @return
 	 */
 	List<User> selectByParams(@Param("param")Map<String, String> param);
+	List<Dept> selectByDept(DeptExample example);
 	  
 }
 
