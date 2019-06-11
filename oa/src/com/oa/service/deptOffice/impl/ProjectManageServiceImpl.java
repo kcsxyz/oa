@@ -63,14 +63,24 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 			Date endTime = rightNow.getTime();
 			c1.andCreateTimeBetween(beforeTime, endTime);
 			}
+		if(Info!=null) {
 			c1.andProjectNameLike("%"+"Info"+"%");
 			c2.andCreateNameLike("%"+"Info"+"%");
 			example.or(c2);
+		}
+		
 		List<Project> p = projectMapper.selectByExample(example);
 		for (Project project : p) {
 			System.out.println(project);
 		}
 		return p;
+	}
+
+
+	@Override
+	public Project selectByPrimaryKey(Integer projectId) {
+		Project project = projectMapper.selectByPrimaryKey(projectId);
+		return project;
 	}
 
     

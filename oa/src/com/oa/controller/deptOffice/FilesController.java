@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.oa.bean.Files;
 import com.oa.bean.Project;
 import com.oa.bean.ResponseResult;
@@ -54,22 +57,32 @@ public class FilesController {
 	    @RequestMapping(value="/upload",method=RequestMethod.POST)  
 	    public String upload(MultipartFile file,
 	    		Files files,
+	    		Integer project,
+	    		String descr,
 	    		HttpServletRequest request) throws IOException{  
 	    	if(!file.isEmpty()) {
 	        String path = request.getSession().getServletContext().getRealPath("upload");  
 	        String fileName = file.getOriginalFilename(); 
+	        String filesName = fileName.substring(0,fileName.lastIndexOf("."));
 	        File dir = new File(path,fileName);          
 	        if(!dir.exists()){  
 	            dir.mkdirs();  
 	        }  
 	        System.out.println(path+fileName);
+	        String[] strArray = fileName.split("\\.");
+	        int suffixIndex = strArray.length -1;
+	        String type = strArray[suffixIndex];
+	        System.out.println(strArray[suffixIndex]);
+	        String uploadUser = (String) request.getSession().getAttribute("uid");
+	        String size = String.valueOf(fileName.length());
 	        file.transferTo(dir);  
-            files.setFileName(fileName);
+	        files.setUploadUser(uploadUser);
+            files.setFileName(filesName);
             files.setCreateTime(new Date());
-            String size = String.valueOf(fileName.length());
             files.setFileSize(size);
+            files.setFileType(type);
             filesService.insertSelective(files);
-	        return "success";
+	        return "redirect:/files/findAll";
 	        } 
 			return "false";
 	    }  
@@ -80,9 +93,9 @@ public class FilesController {
 	     * @throws Exception
 	     */
 	    @RequestMapping("/download")
-	    public void down(HttpServletRequest request,HttpServletResponse response,String fileName) throws Exception{
+	    public void down(HttpServletRequest request,HttpServletResponse response, String filesName) throws Exception{
 	        //模拟文件，myfile.txt为需要下载的文件
-	        String path = request.getSession().getServletContext().getRealPath("upload")+"\\"+fileName;
+	        String path = request.getSession().getServletContext().getRealPath("upload")+"\\"+filesName;
 	        File file = new File(path);
 	        if (!file.exists()) {
 	        	response.setContentType("text/html; charset=UTF-8");//注意text/html，和application/html
@@ -92,9 +105,9 @@ public class FilesController {
 	            return;  
 			}
 	        //转码，免得文件名中文乱码  
-	        fileName = URLEncoder.encode(fileName,"UTF-8");  
+	        filesName = URLEncoder.encode(filesName,"UTF-8");  
 	        //设置文件下载头  
-	        response.addHeader("Content-Disposition", "attachment;filename=" + fileName);    
+	        response.addHeader("Content-Disposition", "attachment;filename=" + filesName);    
 	        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型    
 	        response.setContentType("multipart/form-data"); 
 	        // 读取要下载的文件，保存到文件输入流
@@ -127,30 +140,26 @@ public class FilesController {
 	    		Model model,
 	    		String Info,
 	    		String dateStart,
-	    		String finalTime) throws ParseException {
+	    		String finalTime,
+	    		@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
+	    		) throws ParseException {
 	    	Map<String, String> map = new HashMap<String, String>();
-	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//yyyy-mm-dd, 会出现时间不对, 因为小写的mm是代表: 秒
-	    	if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
-			    Date beforeTime = sdf.parse(dateStart);
-			    Date finallyTime  = sdf.parse(finalTime);
-			    Calendar rightNow = Calendar.getInstance();
-					rightNow.setTime(finallyTime);
-					rightNow.add(Calendar.HOUR,23);
-					rightNow.add(Calendar.MINUTE,59);
-					rightNow.add(Calendar.SECOND,59);
-				Date dateEnd = rightNow.getTime();
-		    	String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(beforeTime);
-		    	String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(dateEnd);
-		    	map.put("startTime", startTime);
-		    	map.put("endTime", endTime);
-				}
+	    	  if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
+					 String startTime= dateStart+" "+"00:00:00";
+					 String endTime = finalTime+" "+"23:59:59";
+					 map.put("startTime", startTime);
+				     map.put("endTime", endTime);
+				 }
                 map.put("Info", Info);
+                PageHelper.startPage(pageNo, pageSize);
                 List<Files> files = filesService.selectByParams(map);
                 for (Files files2 : files) {
 					System.out.println(files2);
 				}
-                model.addAttribute("files", files);
-	    	return "testFile";
+                PageInfo<Files> page = new PageInfo<Files>(files, 3);
+    			model.addAttribute("pageInfo", page);
+	    	return "fileManagement";
 	    	
 	    }
       
@@ -158,7 +167,7 @@ public class FilesController {
              * 文件删除
        */     
     @RequestMapping("/deleteFile/{fileId}")
-  	public ResponseResult deleteDept(@PathVariable String fileId) {
+  	public String deleteDept(@PathVariable String fileId) {
     	ResponseResult rr = new ResponseResult();
   		// 批量刪除
   		if (fileId.contains("-")) {
@@ -172,7 +181,7 @@ public class FilesController {
   		} else {
   			filesService.deleteByPrimaryKey(fileId);
   				}
-  		return rr;
+  		return "redirect:/files/findAll";
   	}
     
     /**
@@ -184,6 +193,17 @@ public class FilesController {
     	Files file = filesService.selectByPrimaryKey(fileId);
 		model.addAttribute("findByfileId", file);
 	     return "test2";
+    	
+    }
+    
+    @RequestMapping("/projectList")
+    @ResponseBody
+    public ResponseResult projectList(
+    		Model model) {
+    	ResponseResult rr = new ResponseResult();
+       List<Project> projects = filesService.selectByExample(null);
+	   rr.add("projects", projects);
+	     return rr;
     	
     }
     /**

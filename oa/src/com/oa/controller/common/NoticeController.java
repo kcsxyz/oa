@@ -60,20 +60,11 @@ public class NoticeController {
 			Notice notice,
 			Model model
 			){
-	          	ResponseResult rr = new ResponseResult();
 	          	List<Notice> Notices = noticeService.selectByExample();
 		         String createName = (String) session.getAttribute("uid"); 
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
-				 int i = noticeService.saveNotice(notice);
-		if(i!=0) {
-			rr.setStateCode(1);
-			rr.setMessage("发布成功");
-		}else {
-			rr.setStateCode(0);
-			rr.setMessage("发布失败");
-		} 
-		   
+				 noticeService.saveNotice(notice);
 			model.addAttribute("saveNotices",Notices);
 			return "redirect:/notice/selectByParams";
 	}

@@ -11,16 +11,6 @@ public class Project {
     private String createName;
 
     private Date createTime;
-    
-    private List<Files> files;
-
-	public List<Files> getFiles() {
-	return files;
-}
-
-	public void setFiles(List<Files> files) {
-	this.files = files;
-}
 
 	public Integer getProjectId() {
         return projectId;
@@ -57,7 +47,7 @@ public class Project {
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", createName=" + createName
-				+ ", createTime=" + createTime + ", files=" + files + "]";
+				+ ", createTime=" + createTime + "]";
 	}
 
 

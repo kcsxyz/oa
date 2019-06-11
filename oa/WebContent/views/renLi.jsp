@@ -54,11 +54,10 @@
 				                  	  	  增加</span>
 			                  	  	  </button>
 			                  		</a>  
-			                  		<a href="${pageContext.request.contextPath }/userpower/deleteUser/{ids}">	  
 			                  	  	  <button type="button" class="btn btn-danger" id="user_delete_all" style="background:#fff;">
 				                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  删除</span>
-			                  	  	  </button></a>
+			                  	  	  </button>
 		                  	  	</div>
 		                  	  	
 		                  	  	<div class=" col-sm-4" style="float:left;margin-left:40px;">

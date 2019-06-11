@@ -13,12 +13,18 @@ import org.springframework.stereotype.Service;
 import com.oa.bean.Files;
 import com.oa.bean.FilesExample;
 import com.oa.bean.FilesExample.Criteria;
+import com.oa.bean.Project;
+import com.oa.bean.ProjectExample;
 import com.oa.dao.FilesMapper;
+import com.oa.dao.ProjectMapper;
 import com.oa.service.deptOffice.FilesService;
 @Service
 public class FilesServiceImpl implements FilesService {
 	@Resource
 	private FilesMapper filesMapper;
+	
+	@Resource
+	private ProjectMapper projectMapper;
 
 	@Override
 	public int insertSelective(Files files) {
@@ -70,6 +76,12 @@ public class FilesServiceImpl implements FilesService {
 	public Files selectByPrimaryKey(String fileId) {
 		Files f = filesMapper.selectByPrimaryKey(fileId);
 		return f;
+	}
+
+	@Override
+	public List<Project> selectByExample(ProjectExample example) {
+		List<Project> projects = projectMapper.selectByExample(example);
+		return projects;
 	}
 
 }

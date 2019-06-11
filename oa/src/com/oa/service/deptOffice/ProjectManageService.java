@@ -26,6 +26,8 @@ public interface ProjectManageService {
 	  * @return
 	  */
 	void deleteDeptBatch(List<Integer> listId);
+	
+	Project selectByPrimaryKey(Integer projectId);
 	/**
 	 * 修改
 	 * @param record

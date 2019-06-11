@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.oa.bean.Files;
+import com.oa.bean.Project;
+import com.oa.bean.ProjectExample;
 
 public interface FilesService {
 	/**
@@ -52,4 +54,6 @@ public interface FilesService {
 	 * @return
 	 */
 	boolean checkFileByname(String fileName);
+	
+	 List<Project> selectByExample(ProjectExample example);
 }

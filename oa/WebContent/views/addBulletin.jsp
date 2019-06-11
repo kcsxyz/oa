@@ -96,7 +96,7 @@
 			                          <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                   <textarea  name="content" id="editor" style="height:300px" rows="8"></textarea>
+				                                   <textarea  name="content" id="editor" style="height:300px" rows="8"></textarea><font id="showResult"  style="color:red;width:10%;" ></font>
 				                              </div>
 			                          </div>
 			                          
@@ -197,18 +197,20 @@
 		    });
 		   
 		});
-		$("#fabu").click(function(){
+		/* $("#fabu").click(function(){
 			// alert($("#browsePower").val());
 			alert("发布成功");
-		});
+		}); */
 		
 	    $("#title").blur(function(){
 	        var data = $("#title").val();
+	        $("#showResult").text("");
 	        if (data == null || data == "") {
-	            $("#showResult").append("标题不能为空！");
+	            $("#showResult").text("标题不能为空！");
 	            /* $("#showResult").css("color","red"); */
 	            return false;
 	        }
+	    
 	        $.ajax({
 	            /* type:"POST",
 	            url:"eckUsername.html",
@@ -236,7 +238,19 @@
 	            }
 	        });
 	    });
-
+		$("#editor").blur(function(){ 
+	        var content = UE.getEditor('editor').getContent();
+	        $("#showResult").text("");
+			alert("content");
+            alert("UE.getEditor('editor').hasContents()");
+        if (UE.getEditor('editor').hasContents()==false) {
+            $("#showResult").text("内容不能为空！");
+            /* $("#showResult").css("color","red"); */
+            return false;
+        }
+        
+		 });
+        
 		
 	</script>
 </body>
