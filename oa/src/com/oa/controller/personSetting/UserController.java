@@ -59,6 +59,7 @@ import com.oa.utils.md5;
 			}
 			return rr;
 		}	
+		//跳转到登录页面
 		@RequestMapping("/toLogin")
 		public String Login() {
 			return "personSetting/login";
@@ -72,23 +73,24 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public ResponseResult Login(String uid,String password,String code,HttpSession session){
+	public ResponseResult Login(String uid,String password,String code,HttpSession session,Model model){
 		ResponseResult rr=new ResponseResult();
 		String sessioncode = (String) session.getAttribute("code");
 		//System.out.println(sessioncode);
 		String pwd=md5.GetMD5Code(password);
-		System.out.println(pwd);
-		System.out.println(password);
 		if(sessioncode.equals(code.toUpperCase())) {
 			User user=userService.login(uid,pwd);
 			if(user!=null){
-				session.setAttribute("user", user);
-	            System.out.println("登录成功");
+				User user1=userService.getUser(user.getUid());
+				model.addAttribute("user",user1);
+				session.setAttribute("user", user1);
+				//System.out.println(user1);
+	            //System.out.println("登录成功");
 	            rr.setStateCode(1);	            
 	        }else {
 	        	rr.setStateCode(0);
 	            rr.setMessage("密码错误");
-	            System.out.println("登录失败");	            
+	            //System.out.println("登录失败");	            
 	        }
 		}else {
 			rr.setMessage("验证码错误");
@@ -114,7 +116,6 @@ import com.oa.utils.md5;
         sessionStatus.setComplete();//最后是调用sessionStatus方法
         //System.out.println("注销成功");
         if(session.getAttribute("user")==null) {
-        rr.setMessage("注销成功");
         rr.setStateCode(1);
         }else {
         	rr.setMessage("注销失败");
@@ -144,11 +145,11 @@ import com.oa.utils.md5;
 		User user=(User) session.getAttribute("user");
 		if(pwd.equals(userService.getUser(user.getUid()).getPassword())) {			
 			userService.updatePassword(user.getUid(),repwd);
-			System.out.println("密码修改成功");
+			//System.out.println("密码修改成功");
 			rr.setStateCode(1);
 		}
 		else {
-			System.out.println("密码修改失败");
+			//System.out.println("密码修改失败");
 			rr.setMessage("密码修改失败");
 			rr.setStateCode(0);
 		}		
@@ -169,9 +170,11 @@ import com.oa.utils.md5;
 			User user1=userService.getUser(user.getUid());
 			if(user1==null) {
 				user1.setPassword(md5.GetMD5Code(user.getPassword()));			
-				user1.setCreateTime(new Date());	
+				user1.setCreateTime(new Date());
+				User users=(User) session.getAttribute("user");
 				//需要修改
-				user1.setCreateName((String) session.getAttribute(user1.getName()));				
+				user1.setCreateName(users.getUid());
+				user1.setHeadPic("/oa/upload/admin-d48744e902d6ac5.gif");
 				int i=userService.addUser(user1);
 				if(i<0) {					
 					model.addAttribute("user", user1);
@@ -344,7 +347,11 @@ import com.oa.utils.md5;
 					}
 			return rr;	
 		}		
-
+		//跳转到修改头像页面
+		@RequestMapping("/changeHead")
+		public String changeHead() {
+			return "personSetting/personalDetail";
+		}
 		 	/**
 		 	 * @param file
 		 	 * @param user
@@ -354,12 +361,14 @@ import com.oa.utils.md5;
 		 	 * @throws IOException
 		 	 * 修改头像
 		 	 */
-		 	@RequestMapping("/fileUpload")		 
-		    public ResponseResult fileUpload(MultipartFile file,User user,HttpServletRequest request,Model model) throws IOException {
+		 	@RequestMapping("/fileUpload")
+		 	@ResponseBody
+		    public ResponseResult fileUpload(MultipartFile file,HttpSession session,HttpServletRequest request,Model model) throws IOException {
 			 ResponseResult rr = new ResponseResult();
 		        /**
 		         * 上传图片
 		         */			 
+			 	User user=(User) session.getAttribute("user");
 			 	String path = request.getServletContext().getRealPath("/upload/");
 			 	System.out.println(path);
 		        //图片上传成功后，将图片的地址写到数据库		        

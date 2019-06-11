@@ -57,7 +57,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 	@Override
 	public void updateWorkLog(WorkLog worklog) {
 		// TODO Auto-generated method stub
-		workLogMapper.updateByPrimaryKey(worklog);
+		workLogMapper.updateByPrimaryKeySelective(worklog);
 	}
 
 	@Override

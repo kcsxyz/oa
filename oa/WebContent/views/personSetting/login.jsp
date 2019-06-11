@@ -40,7 +40,7 @@
                             	OA系统 Login
                             </div>
                             
-                            <form id="login-form" action="" method="post" style="margin-top:20px;">
+                            <form id="login-form" method="post" style="margin-top:20px;">
                                 <div class="login-uid">
                                     <pd style="float:left;padding-left:10px;">工号</pd>
                                 </div>
@@ -63,7 +63,7 @@
 										<input type="checkbox" id="ck_rmbUser" value="0"> 记住我
 									</pd>
                                 </div>
-                                <Button type="submit" class="btn" id="bt-login"><div>登录</div></Button>
+                                <Button type="button" class="btn" id="bt-login"><div>登录</div></Button>
                             </form>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                     sessionStorage['loginName']=loginName;
                     $('#showResult').html(xhr.message);
                     $("#showResult").css("color","green");
-                    window.location.href="${pageContext.request.contextPath}/user/toupdatePassword";
+                    window.location.href="${pageContext.request.contextPath}/workLog/workLoglist";
                     console.log(loginName);
                 }else if(xhr.stateCode==0){ //登录失败
                     alert(xhr.message);

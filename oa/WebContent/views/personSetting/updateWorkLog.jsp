@@ -8,9 +8,9 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-	<title>添加工作日志</title>
+	<title>修改工作日志</title>
 	<!-- Bootstrap core CSS -->
-    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -57,17 +57,18 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" class="form-horizontal style-form" method="post" style="margin-top:80px;">			                          
-	                            <div class="form-group" style="border:none;">
+	                            <form id="add-form" class="form-horizontal style-form" style="margin-top:80px;">
+			                          <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" name="title" class="form-control">
+				                              		<input type="hidden" name="logId" value="${workLog.logId }">
+				                                  <input type="text" name="title" class="form-control" value="${workLog.title }">
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
 				                              <div class="col-sm-6">
-				                                  <div id="editor" name="content" style="height:400px"></div>
+				                                  <textarea id="editor" name="content" style="height:400px">${workLog.content }</textarea>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
@@ -95,13 +96,13 @@
       </section>
 </section>
  	<!-- js placed at the end of the document so the pages load faster --> 
-    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
-    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="assets/js/jquery.scrollTo.min.js"></script>
+    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="/oa/assets/js/common-scripts.js"></script>
+    <script src="assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
 	<script type="text/javascript">
@@ -127,7 +128,7 @@
         var inputData = $('#add-form').serialize(); 
 		$.ajax({
             type: 'POST',
-            url: '${pageContext.request.contextPath}/workLog/addWorkLog',
+            url: '${pageContext.request.contextPath}/workLog/updateWorkLog',
             data: inputData,
             success: function(xhr){
                 if(xhr.stateCode==1){  //成功
