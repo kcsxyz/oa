@@ -1,6 +1,7 @@
 package com.oa.controller.personSetting;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,9 +15,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.descriptor.web.LoginConfig;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +59,11 @@ import com.oa.utils.md5;
 			}
 			return rr;
 		}	
-	
+		//跳转到登录页面
+		@RequestMapping("/toLogin")
+		public String Login() {
+			return "personSetting/login";
+		}
 	/**
 	 * @param name
 	 * @param password
@@ -63,7 +73,7 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public ResponseResult Login(String uid,String password,String code,HttpSession session){
+	public ResponseResult Login(String uid,String password,String code,HttpSession session,Model model){
 		ResponseResult rr=new ResponseResult();
 		String sessioncode = (String) session.getAttribute("code");
 		//System.out.println(sessioncode);
@@ -71,20 +81,24 @@ import com.oa.utils.md5;
 		if(sessioncode.equals(code.toUpperCase())) {
 			User user=userService.login(uid,pwd);
 			if(user!=null){
-				session.setAttribute("user", user);
+				User user1=userService.getUser(user.getUid());
+				model.addAttribute("user",user1);
+				session.setAttribute("user", user1);
+				//System.out.println(user1);
 	            //System.out.println("登录成功");
-	            rr.setStateCode(1);                   
+	            rr.setStateCode(1);	            
 	        }else {
 	        	rr.setStateCode(0);
 	            rr.setMessage("密码错误");
-	           // System.out.println("登录失败");
+	            //System.out.println("登录失败");	            
 	        }
 		}else {
 			rr.setMessage("验证码错误");
-			rr.setStateCode(0);
+			rr.setStateCode(0);	
+			
 		}
-				
-			return rr;				
+		return rr;
+							
 	}
 	
 	/**
@@ -102,7 +116,6 @@ import com.oa.utils.md5;
         sessionStatus.setComplete();//最后是调用sessionStatus方法
         //System.out.println("注销成功");
         if(session.getAttribute("user")==null) {
-        rr.setMessage("注销成功");
         rr.setStateCode(1);
         }else {
         	rr.setMessage("注销失败");
@@ -111,7 +124,11 @@ import com.oa.utils.md5;
         return rr;
     }
 	
-	
+	@RequestMapping("/toupdatePassword")
+	public String toupdatePassword() {
+		System.out.println(1);
+		return "personSetting/changePassword";
+	}
 	/**
 	 * @param uid
 	 * @param password
@@ -121,14 +138,14 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/updatePassword")
 	@ResponseBody
-	public ResponseResult updatePassword(String uid,String password,String repassword) {
+	public ResponseResult updatePassword(HttpSession session,String password,String repassword) {
 		ResponseResult rr=new ResponseResult();
 		String pwd=md5.GetMD5Code(password);
-		String repwd=md5.GetMD5Code(repassword);			
-		if(pwd.equals(userService.getPasswordByUid(uid))) {			
-			userService.updatePassword(uid,repwd);
-			//System.out.println("密码修改成功");			
-			
+		String repwd=md5.GetMD5Code(repassword);
+		User user=(User) session.getAttribute("user");
+		if(pwd.equals(userService.getUser(user.getUid()).getPassword())) {			
+			userService.updatePassword(user.getUid(),repwd);
+			//System.out.println("密码修改成功");
 			rr.setStateCode(1);
 		}
 		else {
@@ -152,15 +169,22 @@ import com.oa.utils.md5;
 			ResponseResult rr=new ResponseResult();
 			User user1=userService.getUser(user.getUid());
 			if(user1==null) {
-			user1.setPassword(md5.GetMD5Code(user.getPassword()));			
-			user1.setCreateTime(new Date());	
-			//需要修改
-			user1.setCreateName((String) session.getAttribute(user1.getName()));
-			model.addAttribute("user", user1);
-			userService.addUser(user1);
-			//System.out.println("添加成功");
-			
-			rr.setStateCode(1);			
+				user1.setPassword(md5.GetMD5Code(user.getPassword()));			
+				user1.setCreateTime(new Date());
+				User users=(User) session.getAttribute("user");
+				//需要修改
+				user1.setCreateName(users.getUid());
+				user1.setHeadPic("/oa/upload/admin-d48744e902d6ac5.gif");
+				int i=userService.addUser(user1);
+				if(i<0) {					
+					model.addAttribute("user", user1);
+					//System.out.println("添加成功");				
+					rr.setStateCode(1);	
+				}else {
+					rr.setMessage("添加失败");
+					rr.setStateCode(0);
+				}
+						
 			}else {
 				//System.out.println("用户已存在");
 				rr.setMessage("用户已存在");
@@ -210,13 +234,12 @@ import com.oa.utils.md5;
 			user1.setModifiedName((String) session.getAttribute(user.getName()));
 			user1.setModifiedTime(new Date());
 			userService.updateUser(user1);
-			model.addAttribute("user", user1);
-			System.out.println("修改成功");			
+			model.addAttribute("user", user1);					
 			rr.setStateCode(1);
 			}else {
 				//System.out.println("修改失败");
-				rr.setMessage("修改成功");
-				rr.setStateCode(1);
+				rr.setMessage("修改失败");
+				rr.setStateCode(0);
 			}
 			return rr;
 		}
@@ -324,35 +347,48 @@ import com.oa.utils.md5;
 					}
 			return rr;	
 		}		
-
-		 		/**
-		       * 上传
-		       * 
-		       * @param request
-		       * @param file
-		       * @return
-		       * @throws IllegalStateException
-		       * @throws IOException
-		       */
-		      @RequestMapping(value = "/upload")
-		      public @ResponseBody String upload(HttpServletRequest request, MultipartFile file)
-		              throws IllegalStateException, IOException {
-		          String name = file.getOriginalFilename();
-		          String path = request.getServletContext().getRealPath("/upload/");// 上传保存的路径
-		          String fileName = changeName(name);
-		          String rappendix = "upload/" + fileName;
-		          fileName = path + "\\" + fileName;
-		          File file1 = new File(fileName);
-		          file.transferTo(file1);
-		          String str = "{\"src\":\"" + rappendix + "\"}";
-		          return str;
-		      }
-		  
-		      public static String changeName(String oldName) {
-		          Random r = new Random();
-		          Date d = new Date();
-		          String newName = oldName.substring(oldName.indexOf('.'));
-		          newName = r.nextInt(99999999) + d.getTime() + newName;
-		          return newName;
-		      }
+		//跳转到修改头像页面
+		@RequestMapping("/changeHead")
+		public String changeHead() {
+			return "personSetting/personalDetail";
+		}
+		 	/**
+		 	 * @param file
+		 	 * @param user
+		 	 * @param request
+		 	 * @param model
+		 	 * @return
+		 	 * @throws IOException
+		 	 * 修改头像
+		 	 */
+		 	@RequestMapping("/fileUpload")
+		 	@ResponseBody
+		    public ResponseResult fileUpload(MultipartFile file,HttpSession session,HttpServletRequest request,Model model) throws IOException {
+			 ResponseResult rr = new ResponseResult();
+		        /**
+		         * 上传图片
+		         */			 
+			 	User user=(User) session.getAttribute("user");
+			 	String path = request.getServletContext().getRealPath("/upload/");
+			 	System.out.println(path);
+		        //图片上传成功后，将图片的地址写到数据库		        
+		        //获取原始图片的拓展名
+		        String originalFilename = file.getOriginalFilename();
+		        //新的文件名字
+		        String newFileName = user.getUid()+originalFilename;
+		        //封装上传文件位置的全路径
+		        File targetFile = new File(path,newFileName);
+		         //把本地文件上传到封装上传文件位置的全路径
+		        file.transferTo(targetFile);
+		        user.setHeadPic("/oa/upload/"+newFileName);	
+		        model.addAttribute(user);		        
+		        userService.updateUser(user);
+		        if(user.getHeadPic()!=null) {
+		        	rr.setStateCode(1);
+		        }else {
+		        	rr.setStateCode(0);
+		        	rr.setMessage("头像修改失败");
+		        }
+		        return rr; 
+		    }
 	}

@@ -25,6 +25,10 @@
 	    <result column="dept_level" jdbcType="INTEGER" property="deptLevel" />
 	    <result column="remark" jdbcType="VARCHAR" property="remark" />
     </association>
+    <association property="role" javaType="com.oa.bean.Role">
+       <id column="role_id" jdbcType="INTEGER" property="roleId" />
+       <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

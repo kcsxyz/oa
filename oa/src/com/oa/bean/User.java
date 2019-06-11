@@ -38,7 +38,7 @@ public class User {
     
     private Dept dept;
     
-    
+    private Role role;
     
     private List<Permission> permissions;
 
@@ -187,13 +187,21 @@ public class User {
 		this.permissions = permissions;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", password=" + password + ", name=" + name + ", sex=" + sex + ", age=" + age
 				+ ", idCard=" + idCard + ", deptId=" + deptId + ", headPic=" + headPic + ", phone=" + phone + ", email="
 				+ email + ", roleId=" + roleId + ", address=" + address + ", createTime=" + createTime + ", createName="
 				+ createName + ", modifiedTime=" + modifiedTime + ", modifiedName=" + modifiedName + ", dept=" + dept
-				+ ", permissions=" + permissions + "]";
+				+ ", role=" + role + ", permissions=" + permissions + "]";
 	}
 
 	

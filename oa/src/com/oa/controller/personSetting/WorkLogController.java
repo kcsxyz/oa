@@ -33,8 +33,7 @@ import com.oa.utils.md5;
 		 * 查询所有工作日志
 		 */
 		@RequestMapping("/workLoglist")
-		@ResponseBody
-		public ResponseResult selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+		public String selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
 			ResponseResult rr=new ResponseResult();
 			try {
@@ -47,18 +46,14 @@ import com.oa.utils.md5;
 					rr.setStateCode(0);
 					rr.setMessage("未查询到数据");
 				}
-				for (WorkLog workLog : workLoglist) {
-					//System.out.println(workLog);
-				}
 				// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 				PageInfo<WorkLog> page = new PageInfo<WorkLog>(workLoglist, 3);
 				model.addAttribute("pageInfo", page);
+				model.addAttribute("workLoglist",workLoglist);
 			} catch (Exception e) {
-				
 				e.printStackTrace();
 			}
-						
-			return rr;			
+			return "personSetting/workLog";
 		}
 		/**
 		 * @param logId
@@ -66,13 +61,12 @@ import com.oa.utils.md5;
 		 * @return
 		 * 根据id查询日志
 		 */
-		@RequestMapping("/getWorkLogById")
-		@ResponseBody
-		public ResponseResult getWorkLogById(Integer logId,Model model) {
+		@RequestMapping("/getWorkLogById/{logId}")
+		public String getWorkLogById(@PathVariable Integer logId,Model model) {
 			ResponseResult rr=new ResponseResult();
 			WorkLog workLog=workLogService.getWorkLogByLogid(logId);
 			model.addAttribute("workLog", workLog);
-			//System.out.println(workLog);
+			System.out.println(workLog);
 			if(workLog!=null) {
 				rr.setStateCode(1);
 			}else {
@@ -80,7 +74,12 @@ import com.oa.utils.md5;
 				rr.setMessage("未查询到数据");
 			}
 			
-			return rr;
+			return "personSetting/updateWorkLog";
+		}
+		@RequestMapping("/toAddWorkLog")
+		public String addWorkLog(Model model) {
+			model.addAttribute(new WorkLog());
+			return "personSetting/addWorkLog";
 		}
 		/**
 		 * @param workLog
@@ -90,13 +89,19 @@ import com.oa.utils.md5;
 		 */
 		@RequestMapping("/addWorkLog")
 		@ResponseBody
-		public ResponseResult addWorkLog(WorkLog workLog,Model model,HttpSession session) {
+		public ResponseResult addWorkLog(WorkLog workLog,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
 			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null) {
-				workLog.setCreateTime(new Date());				
-				workLogService.addWorkLog(workLog);
-				model.addAttribute("workLog", workLog);
-				rr.setStateCode(1);
+				User user=(User) session.getAttribute("user");
+				workLog.setCreateTime(new Date());
+				workLog.setCreateName(user.getUid());
+				int i=workLogService.addWorkLog(workLog);
+				if(i<0) {
+					rr.setStateCode(1);
+				}else {
+					rr.setMessage("添加失败");
+					rr.setStateCode(0);
+				}
 			}else {
 				rr.setMessage("添加失败");
 				rr.setStateCode(0);
@@ -130,6 +135,10 @@ import com.oa.utils.md5;
 					}
 			return rr;			
 		}
+		@RequestMapping("/toUpdateWorkLog")
+		public String toUpdateWorkLog () {
+			return "personSetting/updateWorkLog";
+		}
 		/**
 		 * @param worklog
 		 * @param model
@@ -140,6 +149,8 @@ import com.oa.utils.md5;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
+			worklog.setLogId(1);
+			worklog.setTitle("35454");
 			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);

@@ -112,4 +112,12 @@ public class Leave {
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Leave [id=" + id + ", userId=" + userId + ", userName=" + userName + ", leaveType=" + leaveType
+				+ ", leaveReason=" + leaveReason + ", startTime=" + startTime + ", endTime=" + endTime + ", createTime="
+				+ createTime + ", processNo=" + processNo + ", currentNo=" + currentNo + ", status=" + status + "]";
+	}
+    
 }

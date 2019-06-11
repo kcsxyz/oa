@@ -34,9 +34,9 @@ public class WorkLogServiceImpl implements WorkLogService {
 	}
 
 	@Override
-	public void addWorkLog(WorkLog workLog) {
+	public int addWorkLog(WorkLog workLog) {
 		// TODO Auto-generated method stub
-		workLogMapper.insert(workLog);
+		return workLogMapper.insert(workLog);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 	@Override
 	public void updateWorkLog(WorkLog worklog) {
 		// TODO Auto-generated method stub
-		workLogMapper.updateByPrimaryKey(worklog);
+		workLogMapper.updateByPrimaryKeySelective(worklog);
 	}
 
 	@Override

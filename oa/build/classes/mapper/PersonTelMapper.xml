@@ -5,6 +5,24 @@
     <id column="tel_id" jdbcType="INTEGER" property="telId" />
     <result column="user_id" jdbcType="CHAR" property="userId" />
     <result column="person_id" jdbcType="CHAR" property="personId" />
+     <association property="user" javaType="com.oa.bean.User">
+        <id column="uid" jdbcType="CHAR" property="uid" />
+	    <result column="password" jdbcType="VARCHAR" property="password" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="sex" jdbcType="INTEGER" property="sex" />
+	    <result column="age" jdbcType="INTEGER" property="age" />
+	    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+	    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+	    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
+	    <result column="phone" jdbcType="VARCHAR" property="phone" />
+	    <result column="email" jdbcType="VARCHAR" property="email" />
+	    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+	    <result column="address" jdbcType="VARCHAR" property="address" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+	    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+	    <result column="modified_name" jdbcType="VARCHAR" property="modifiedName" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -178,4 +196,11 @@
       person_id = #{personId,jdbcType=CHAR}
     where tel_id = #{telId,jdbcType=INTEGER}
   </update>
+   <delete id="deleteByUid">
+	    delete from t_person_tel
+	    <where>
+		    user_id = #{arg0}
+		    and person_id = #{arg1}
+	    </where>
+  </delete>
 </mapper>

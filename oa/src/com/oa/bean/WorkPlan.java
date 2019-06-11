@@ -3,13 +3,15 @@ package com.oa.bean;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class WorkPlan {
     private Integer id;
 
     private String type;
 
     private String content;
-
+   
     private Date createTime;
 
     private String createName;

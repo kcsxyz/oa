@@ -10,7 +10,7 @@ public interface WorkLogService {
 	//根据id查询日志
 	WorkLog getWorkLogByLogid(Integer logId);
 	//新增日志
-	void addWorkLog(WorkLog workLog);
+	int addWorkLog(WorkLog workLog);
 	//删除日志
 	void deleteWorkLog(Integer logId);
 	//批量删除
