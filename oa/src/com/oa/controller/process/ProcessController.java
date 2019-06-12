@@ -55,6 +55,8 @@ public class ProcessController {
 		List<Leave> leaveList = processSerivce.getNeedAuditLeaveList(queryStr,user.getDeptId(),"部门经理");
 		//如果是总经理
 		List<Leave> leaveList2 = processSerivce.getAuditLeaveList(queryStr,"总经理");
+		//如果是老板
+		
 		//PageInfo<Leave> pageInfo = new PageInfo<Leave>(leaveList,3);
 		//rr.add("pageInfo", pageInfo);
 		return rr;
@@ -105,9 +107,17 @@ public class ProcessController {
 		//保存请假实体
 		//自动生成流程号
 		String processNo = "LA"+timeConvert.getTimeStamp();
-		
+		User user = (User) session.getAttribute("user");
 		//开启流程
-		com.oa.bean.Process process = new Process(processNo, "请假申请", "提交部门经理审批");
+		Process process = null;
+		//1.员工请假
+		if(user.getRole().getRoleName()=="员工") {
+			process = new Process(processNo, "请假申请", "提交部门经理审批");
+		//2.部门经理请假
+		}else if(user.getRole().getRoleName()=="部门经理") {
+			process = new Process(processNo, "请假申请", "提交总经理审批");
+		}
+		
 		processSerivce.saveProcess(process);
 		//插入流程节点
 		ProcessNode pn = new ProcessNode(processNo, "请假申请", "部门经理", "提交部门经理审批");
@@ -115,14 +125,17 @@ public class ProcessController {
 		/*------------获得节点的id-------------*/
 		Integer processNodeId = processSerivce.getProcessNodeId(processNo);
 		//保存请假实体
-		User user = (User) session.getAttribute("user");
+		
 		leave.setUserId(user.getUid());
 		leave.setUserName(user.getName());
 		leave.setCreateTime(new Date());
 		leave.setProcessNo(processNo);
 		leave.setCurrentNo(processNodeId);
-		leave.setStatus("<button type='button' class='btn btn-warning btn-xs'>审核中</button>");
+		leave.setStatus("审核中");
 		processSerivce.saveLeave(leave);
+		rr.setStateCode(1);
+		
+		
 		return rr;
 	}
 }
