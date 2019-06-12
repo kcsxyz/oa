@@ -31,4 +31,6 @@ public interface LeaveMapper {
 	List<Leave> getNeedAuditLeave(String queryStr, Integer deptId,String roleName);
 
 	List<Leave> getSeMaNeedLeaveList(String queryStr, String roleName);
+	
+	
 }
