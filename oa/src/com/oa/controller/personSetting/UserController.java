@@ -48,7 +48,6 @@ import com.oa.utils.md5;
 		@ResponseBody
 		public ResponseResult getUser(String uid) {
 			ResponseResult rr=new ResponseResult();
-			uid="admin";
 			User user =userService.getUser(uid);
 			if(user!=null) {
 			rr.setStateCode(1);
