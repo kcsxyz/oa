@@ -46,7 +46,7 @@ public interface UserPowerService {
 	 * @return
 	 */
 	List<User> selectByParams(@Param("param")Map<String, String> param);
-	List<Dept> selectByDept(DeptExample example);
+	List<Dept> selectByDept();
 	  
 }
 

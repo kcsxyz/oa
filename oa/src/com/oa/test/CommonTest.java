@@ -107,10 +107,10 @@ public class CommonTest {
 			FilesMapper m = ac.getBean("filesMapper",FilesMapper.class);
 			Map<String,String>  map = new HashMap<>();
 			map.put("Info", "111");
-			List<Files>  f = m.selectByParams(map);
-		        for (Files files : f) {
-					System.out.println(files);
-				}
+		//	List<Files>  f = m.selectByParams(map);
+		    //    for (Files files : f) {
+			//		System.out.println(files);
+			//	}
 			}
 		
 		public void projectTest1() throws ParseException {

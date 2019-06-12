@@ -39,7 +39,7 @@ public class UserPowerController {
     @RequestMapping(value="/showAdduser", method=RequestMethod.GET)
 	public String showAdduser(Model model) {
 		model.addAttribute(new User());
-		 List<Dept> depts = userPowerService.selectByDept(null);
+		 List<Dept> depts = userPowerService.selectByDept();
 		 model.addAttribute("userDept", depts);
 		return "addRenLi";
 	}
@@ -76,7 +76,7 @@ public class UserPowerController {
     @RequestMapping("/findByid/{id}")
 	public String getDeptById(@PathVariable("id") String uid,Model model) {
 		User userPower = userPowerService.selectByPrimaryKey(uid);
-		 List<Dept> depts = userPowerService.selectByDept(null);
+		 List<Dept> depts = userPowerService.selectByDept();
 		 model.addAttribute("userDept", depts);
 		model.addAttribute("userPower", userPower);
 		return "updateRenLi";
@@ -140,7 +140,7 @@ public class UserPowerController {
 		 List<User> users = userPowerService.selectByParams(map);
 		 PageInfo<User> page = new PageInfo<User>(users, 3);
 	    model.addAttribute("pageInfo", page);     
-	    List<Dept> depts = userPowerService.selectByDept(null);
+	    List<Dept> depts = userPowerService.selectByDept();
 		 model.addAttribute("userDept", depts);
 		return "renLi";
 

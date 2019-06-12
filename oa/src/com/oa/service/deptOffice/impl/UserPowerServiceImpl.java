@@ -72,7 +72,7 @@ public class UserPowerServiceImpl implements UserPowerService {
 		return users;
 		
 	}
-	public List<Dept> selectByDept(DeptExample example) {
+	public List<Dept> selectByDept() {
 		 List<Dept> depts = deptMapper.selectByExample(null);
 		return depts;
 	}
