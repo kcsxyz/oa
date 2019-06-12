@@ -18,6 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.ResponseResult;
 import com.oa.bean.Schedule;
+import com.oa.bean.User;
 import com.oa.bean.WorkPlan;
 import com.oa.service.personSetting.ScheduleService;
 
@@ -34,10 +35,10 @@ public class ScheduleController {
 	 * 查询所有工作日程
 	 */
 	@RequestMapping("/schedulelist")
-	@ResponseBody
-	public ResponseResult selectAllSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+	public String selectAllSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
 		ResponseResult rr=new ResponseResult();
+		
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
@@ -48,16 +49,14 @@ public class ScheduleController {
 				rr.setMessage("未查询到数据");
 				rr.setStateCode(0);
 			}
-			for (Schedule schedule : schedulelist) {
-				System.out.println(schedule);
-			}
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<Schedule> page = new PageInfo<Schedule>(schedulelist, 3);
 			model.addAttribute("pageInfo", page);
+			model.addAttribute("schedulelist", schedulelist);
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}		
-		return rr;			
+		return "personSetting/personalSchedule";			
 	}
 	/**
 	 * @param id
@@ -80,6 +79,10 @@ public class ScheduleController {
 		}		
 		return rr;
 	}
+	@RequestMapping("/toAddSchedule")
+	public String toAddSchedule() {
+		return "personSetting/addPersonalSchedule";
+	}
 	/**
 	 * @param schedule
 	 * @param model
@@ -88,11 +91,12 @@ public class ScheduleController {
 	 * 新增工作日程
 	 */
 	@RequestMapping("/addSchedule")
-	@ResponseBody
-	public ResponseResult addSchedule(Schedule schedule,Model model,HttpSession session) {
+	public String addSchedule(Schedule schedule,Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
 		if(scheduleService.getScheduleById(schedule.getId())==null) {
-			
+			User user =(User) session.getAttribute("user");
+			schedule.setCreateName(user.getUid());
+			System.out.println(user);
 			schedule.setCreateTime(new Date());
 			int i=scheduleService.addSchedule(schedule);
 			if(i<0) {
@@ -107,7 +111,7 @@ public class ScheduleController {
 			rr.setMessage("信息已存在");
 			rr.setStateCode(0);
 		}
-		return rr;
+		return "redirect:/schedule/schedulelist";
 	}
 	/**
 	 * @param id

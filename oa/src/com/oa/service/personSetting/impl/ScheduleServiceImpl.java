@@ -52,7 +52,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public void updateSchedule(Schedule schedule) {
-		scheduleMapper.updateByPrimaryKey(schedule);
+		scheduleMapper.updateByPrimaryKeySelective(schedule);
 	}
 
 	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) {
