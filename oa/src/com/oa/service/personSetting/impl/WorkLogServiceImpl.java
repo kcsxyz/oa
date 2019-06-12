@@ -69,7 +69,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 		Criteria ct2 = de.createCriteria();
 		ct2.andContentLike("%"+workLogInfo+"%");
 		Criteria ct3 = de.createCriteria();
-		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
 		Date date1;
 		Date date2;
 		try {
@@ -79,12 +79,27 @@ public class WorkLogServiceImpl implements WorkLogService {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		de.or(ct2);
-		de.or(ct3);
-		return workLogMapper.selectByExample(de);
-	}
-	
-	
-	
+		}
+				 de.or(ct2);
+				de.or(ct3);
+				return workLogMapper.selectByExample(de);
+		}
+	public List<WorkLog> selectLikeWorkLog(String startTime,String endTime) {
+		// TODO Auto-generated method stub
+		WorkLogExample de = new WorkLogExample();
+		Criteria ct3 = de.createCriteria();
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+		Date date1;
+		Date date2;
+		try {
+			date1 = formatter.parse(startTime);
+			date2=formatter.parse(endTime);
+			ct3.andCreateTimeBetween(date1, date2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+				de.or(ct3);
+				return workLogMapper.selectByExample(de);
+		}
 }

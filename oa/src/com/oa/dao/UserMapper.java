@@ -40,5 +40,6 @@ public interface UserMapper {
 	List<User> selectLikeUser(@Param("userInfo")String userInfo);
 	//人力资源中的查询
 	List<User> selectByParams(@Param("param") Map<String,String> param);
-
+	
+	User getUserMap(@Param("uid")String uid);
 }

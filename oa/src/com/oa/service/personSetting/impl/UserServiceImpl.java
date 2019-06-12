@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	@Override
 	public User getUser(String uid) {
-		User user =userMapper.selectByPrimaryKey(uid);
+		User user =userMapper.getUserMap(uid);
 		return user;
 	}
 	//登录
