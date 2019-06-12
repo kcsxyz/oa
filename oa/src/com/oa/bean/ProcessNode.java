@@ -10,8 +10,24 @@ public class ProcessNode {
     private String processNodeRole;
 
     private String remark;
+    
+    
+    public ProcessNode() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
 
-    public Integer getProcessNodeId() {
+	public ProcessNode(String processNo, String processNodeName, String processNodeRole, String remark) {
+		super();
+		this.processNo = processNo;
+		this.processNodeName = processNodeName;
+		this.processNodeRole = processNodeRole;
+		this.remark = remark;
+	}
+
+
+	public Integer getProcessNodeId() {
         return processNodeId;
     }
 

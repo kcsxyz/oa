@@ -11,7 +11,23 @@ public class ProcessLine {
 
     private String remark;
 
-    public Integer getProcessLineId() {
+    
+    public ProcessLine() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+	public ProcessLine(String processNo, Integer preNodeId, Integer nextNodeId, String remark) {
+		super();
+		this.processNo = processNo;
+		this.preNodeId = preNodeId;
+		this.nextNodeId = nextNodeId;
+		this.remark = remark;
+	}
+
+
+	public Integer getProcessLineId() {
         return processLineId;
     }
 

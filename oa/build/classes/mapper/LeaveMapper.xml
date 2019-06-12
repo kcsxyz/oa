@@ -303,4 +303,15 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getNeedAuditLeave" parameterType="java.util.Map" resultType="com.oa.bean.Leave">
+  	select le.* from t_leave le,t_process_node pn,t_process_role_user pro where le.process_no= pn.process_no and le.current_no=pn.process_node_id
+  		and pn.process_node_role=#{roleName} and le.status="0" and pro.dept_id=#{deptId}
+  
+  </select>
+  
+  <select id="getNeedAuditLeave" parameterType="java.util.Map" resultType="com.oa.bean.Leave">
+  	select le.* from t_leave le,t_process_node pn,t_process_role_user pro where le.process_no= pn.process_no and le.current_no=pn.process_node_id
+  		and pn.process_node_role=#{roleName} and le.status="0"
+  
+  </select>
 </mapper>
