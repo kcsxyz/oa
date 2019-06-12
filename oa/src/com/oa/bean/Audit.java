@@ -16,7 +16,7 @@ public class Audit {
     private String auditOpinion;
 
     private Date auditDate;
-
+    
     public Integer getAuditId() {
         return auditId;
     }

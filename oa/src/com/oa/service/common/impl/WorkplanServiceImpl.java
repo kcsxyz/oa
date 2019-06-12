@@ -1,12 +1,16 @@
 package com.oa.service.common.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageHelper;
 import com.oa.bean.WorkPlan;
 import com.oa.bean.WorkPlanExample;
 import com.oa.dao.WorkPlanMapper;
@@ -34,20 +38,12 @@ public class WorkplanServiceImpl implements WorkplanService {
 		return null;
 	}
 
-
-	public List<WorkPlan> selectByParams(Map<String, String> params) {
-		List<WorkPlan> workPlans = null;
-		try {
-			workPlans = workPlanMapper.selectByParams(params);
-			for (WorkPlan workPlan : workPlans) {
-				System.out.println(workPlan);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public List<WorkPlan> selectByMap(Map<String, Object> params) {
+		List<WorkPlan> workPlans = workPlanMapper.selectByMap(params);
 		return workPlans;
 	}
-    
+
+
+
     
 }

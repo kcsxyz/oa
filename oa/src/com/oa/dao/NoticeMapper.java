@@ -29,7 +29,7 @@ public interface NoticeMapper {
     
     List<Notice> findByMany(String noticeInfo);
     
-    List<Notice> selectByParams(@Param("param") Map<String, String> params);
+    List<Notice> selectByParams(@Param("param") Map<String, Object> params);
 
     Notice selectByPrimaryKey(Integer noticeId);
 

@@ -395,52 +395,62 @@ public class FilesExample {
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserEqualTo(Integer value) {
+        public Criteria andUploadUserEqualTo(String value) {
             addCriterion("upload_user =", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserNotEqualTo(Integer value) {
+        public Criteria andUploadUserNotEqualTo(String value) {
             addCriterion("upload_user <>", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserGreaterThan(Integer value) {
+        public Criteria andUploadUserGreaterThan(String value) {
             addCriterion("upload_user >", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUploadUserGreaterThanOrEqualTo(String value) {
             addCriterion("upload_user >=", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserLessThan(Integer value) {
+        public Criteria andUploadUserLessThan(String value) {
             addCriterion("upload_user <", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserLessThanOrEqualTo(Integer value) {
+        public Criteria andUploadUserLessThanOrEqualTo(String value) {
             addCriterion("upload_user <=", value, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserIn(List<Integer> values) {
+        public Criteria andUploadUserLike(String value) {
+            addCriterion("upload_user like", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserNotLike(String value) {
+            addCriterion("upload_user not like", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserIn(List<String> values) {
             addCriterion("upload_user in", values, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserNotIn(List<Integer> values) {
+        public Criteria andUploadUserNotIn(List<String> values) {
             addCriterion("upload_user not in", values, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserBetween(Integer value1, Integer value2) {
+        public Criteria andUploadUserBetween(String value1, String value2) {
             addCriterion("upload_user between", value1, value2, "uploadUser");
             return (Criteria) this;
         }
 
-        public Criteria andUploadUserNotBetween(Integer value1, Integer value2) {
+        public Criteria andUploadUserNotBetween(String value1, String value2) {
             addCriterion("upload_user not between", value1, value2, "uploadUser");
             return (Criteria) this;
         }

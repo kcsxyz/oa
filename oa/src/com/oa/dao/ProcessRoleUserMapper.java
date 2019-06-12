@@ -10,7 +10,7 @@ public interface ProcessRoleUserMapper {
 
     int deleteByExample(ProcessRoleUserExample example);
 
-    int deleteByPrimaryKey(String processRoleName);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ProcessRoleUser record);
 
@@ -18,7 +18,7 @@ public interface ProcessRoleUserMapper {
 
     List<ProcessRoleUser> selectByExample(ProcessRoleUserExample example);
 
-    ProcessRoleUser selectByPrimaryKey(String processRoleName);
+    ProcessRoleUser selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") ProcessRoleUser record, @Param("example") ProcessRoleUserExample example);
 

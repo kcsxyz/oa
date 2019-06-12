@@ -62,4 +62,18 @@ public class DeptServiceImpl implements DeptService {
 		
 	}
 
+	@Override
+	public int checkDeptName(String deptName) {
+		DeptExample de = new DeptExample();
+		Criteria ct = de.createCriteria();
+		ct.andDeptNameLike(deptName);
+		List<Dept> list = deptMapper.selectByExample(de);
+		System.out.println(list.size());
+		if(list.size()>0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+
 }

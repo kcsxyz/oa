@@ -11,15 +11,25 @@ public class Files {
 
     private String fileSize;
 
-    private Integer uploadUser;
+    private String uploadUser;
 
     private Integer project;
 
     private Date createTime;
 
     private String descr;
+    
+    private Project projects;
 
-    public String getFileId() {
+    public Project getProjects() {
+		return projects;
+	}
+
+	public void setProjects(Project projects) {
+		this.projects = projects;
+	}
+
+	public String getFileId() {
         return fileId;
     }
 
@@ -51,12 +61,12 @@ public class Files {
         this.fileSize = fileSize == null ? null : fileSize.trim();
     }
 
-    public Integer getUploadUser() {
+    public String getUploadUser() {
         return uploadUser;
     }
 
-    public void setUploadUser(Integer uploadUser) {
-        this.uploadUser = uploadUser;
+    public void setUploadUser(String uploadUser) {
+        this.uploadUser = uploadUser == null ? null : uploadUser.trim();
     }
 
     public Integer getProject() {
@@ -82,4 +92,16 @@ public class Files {
     public void setDescr(String descr) {
         this.descr = descr == null ? null : descr.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Files [fileId=" + fileId + ", fileName=" + fileName + ", fileType=" + fileType + ", fileSize="
+				+ fileSize + ", uploadUser=" + uploadUser + ", project=" + project + ", createTime=" + createTime
+				+ ", descr=" + descr + ", projects=" + projects + "]";
+	}
+
+	
+
+
+	
 }

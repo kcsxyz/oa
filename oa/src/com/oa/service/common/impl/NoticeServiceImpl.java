@@ -12,9 +12,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.oa.bean.Dept;
+import com.oa.bean.DeptExample;
 import com.oa.bean.Notice;
 import com.oa.bean.NoticeExample;
 import com.oa.bean.NoticeExample.Criteria;
+import com.oa.dao.DeptMapper;
 import com.oa.dao.NoticeMapper;
 import com.oa.service.common.NoticeService;
 
@@ -23,7 +26,8 @@ public class NoticeServiceImpl implements NoticeService {
  
 	@Resource
 	private NoticeMapper  noticeMapper;
-
+	@Resource
+	private DeptMapper  deptMapper;
 	/**
 	 * 发布公告
 	 */
@@ -83,9 +87,6 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	public List<Notice> selectByExample() {
 		List<Notice>  notices = noticeMapper.selectFindAll();
-		for (Notice notice : notices) {
-			System.out.println(notice);
-		}
 		return notices;
 	}
 
@@ -102,18 +103,12 @@ public class NoticeServiceImpl implements NoticeService {
     /**
          * 条件查询：模糊查询根据  title、content、type以及查询时间段
      */
-	public List<Notice> selectByParams(Map<String, String> params) {
+	public List<Notice> selectByParams(Map<String, Object> params) {
 		List<Notice> notices =noticeMapper.selectByParams(params);
 		
-		for (Notice notice : notices) {
-		
-			System.out.println(notice);
-		}
 		return notices;
 				
 	}
-
-	
 //	/**
 //	 * 根据id删除单条信息
 //	 */
@@ -127,6 +122,11 @@ public class NoticeServiceImpl implements NoticeService {
 //	public int deleteMany(Integer[] ids) {
 //		return noticeMapper.deleteMany(ids);
 //	}
+
+	public List<Dept> selectByDept(DeptExample example) {
+		 List<Dept> depts = deptMapper.selectByExample(null);
+		return depts;
+	}
 
 	
 

@@ -1,7 +1,9 @@
 package com.oa.controller.system;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -30,6 +32,24 @@ public class DeptController {
 	@Resource
 	private DeptService deptService;
 	
+	
+	/**验证部门明是否存在
+	 * @param deptName
+	 * @return
+	 */
+	@RequestMapping("/checkDeptName")
+	@ResponseBody
+	public ResponseResult checkDeptName(String deptName) {
+		ResponseResult rr = new ResponseResult();
+		int re= deptService.checkDeptName(deptName);
+		if(re==1) {
+			rr.setMessage("部门名称已存在");
+			rr.setStateCode(0);
+		}else {
+			rr.setStateCode(1);
+		}
+		return rr;
+	}
 	/**根据id删除部门
 	 * @param ids
 	 * @return
@@ -63,10 +83,11 @@ public class DeptController {
 	public ResponseResult updateDeptById(Dept dept) {
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.updateDept(dept);
-		if(i>0) {
+		if(i<0) {
 			rr.setStateCode(1);;
 		}else {
 			rr.setStateCode(0);
+			rr.setMessage("更新失败");
 		}
 		return rr;
 	}
@@ -79,10 +100,12 @@ public class DeptController {
 	@RequestMapping("/saveDept")
 	@ResponseBody
 	public ResponseResult saveDept(Dept dept) {
+		System.out.println(dept.getDeptName());
 		ResponseResult rr = new ResponseResult();
 		int i =deptService.saveDept(dept);
-		if(i>0) {
-			rr.setStateCode(1);;
+		System.out.println(i);
+		if(i<0) {
+			rr.setStateCode(1);
 		}else {
 			rr.setStateCode(0);
 		}
@@ -116,11 +139,14 @@ public class DeptController {
 	/**通过部门id获取部门
 	 * @param deptId
 	 */
-	@RequestMapping("/getDept/{id}")
-	public String getDeptById(@PathVariable("id") Integer id,Model model) {
+	@RequestMapping("/getDeptById")
+	@ResponseBody
+	public ResponseResult getDeptById(Integer id) {
+		ResponseResult rr = new ResponseResult();
 		Dept dept = deptService.getDeptById(id);
-		model.addAttribute("dept", dept);
-		return "getDept";
+		System.out.println(dept.getDeptName()+"");
+		rr.add("dept", dept);
+		return rr;
 	}
 	
 	/**跳转到部门页面

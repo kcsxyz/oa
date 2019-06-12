@@ -6,10 +6,16 @@
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_type" jdbcType="VARCHAR" property="fileType" />
     <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
-    <result column="upload_user" jdbcType="INTEGER" property="uploadUser" />
+    <result column="upload_user" jdbcType="CHAR" property="uploadUser" />
     <result column="project" jdbcType="INTEGER" property="project" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="descr" jdbcType="VARCHAR" property="descr" />
+    <association property="projects" javaType="com.oa.bean.Project">
+        <id column="project_id" jdbcType="INTEGER" property="projectId" />
+	    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+	    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,6 +98,12 @@
     from t_file
     where file_id = #{fileId,jdbcType=VARCHAR}
   </select>
+   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_file
+    where file_name = #{fileName,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from t_file
     where file_id = #{fileId,jdbcType=VARCHAR}
@@ -107,7 +119,7 @@
       file_size, upload_user, project, 
       create_time, descr)
     values (#{fileId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, 
-      #{fileSize,jdbcType=VARCHAR}, #{uploadUser,jdbcType=INTEGER}, #{project,jdbcType=INTEGER}, 
+      #{fileSize,jdbcType=VARCHAR}, #{uploadUser,jdbcType=CHAR}, #{project,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{descr,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Files">
@@ -152,7 +164,7 @@
         #{fileSize,jdbcType=VARCHAR},
       </if>
       <if test="uploadUser != null">
-        #{uploadUser,jdbcType=INTEGER},
+        #{uploadUser,jdbcType=CHAR},
       </if>
       <if test="project != null">
         #{project,jdbcType=INTEGER},
@@ -187,7 +199,7 @@
         file_size = #{record.fileSize,jdbcType=VARCHAR},
       </if>
       <if test="record.uploadUser != null">
-        upload_user = #{record.uploadUser,jdbcType=INTEGER},
+        upload_user = #{record.uploadUser,jdbcType=CHAR},
       </if>
       <if test="record.project != null">
         project = #{record.project,jdbcType=INTEGER},
@@ -209,7 +221,7 @@
       file_name = #{record.fileName,jdbcType=VARCHAR},
       file_type = #{record.fileType,jdbcType=VARCHAR},
       file_size = #{record.fileSize,jdbcType=VARCHAR},
-      upload_user = #{record.uploadUser,jdbcType=INTEGER},
+      upload_user = #{record.uploadUser,jdbcType=CHAR},
       project = #{record.project,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       descr = #{record.descr,jdbcType=VARCHAR}
@@ -230,7 +242,7 @@
         file_size = #{fileSize,jdbcType=VARCHAR},
       </if>
       <if test="uploadUser != null">
-        upload_user = #{uploadUser,jdbcType=INTEGER},
+        upload_user = #{uploadUser,jdbcType=CHAR},
       </if>
       <if test="project != null">
         project = #{project,jdbcType=INTEGER},
@@ -249,10 +261,37 @@
     set file_name = #{fileName,jdbcType=VARCHAR},
       file_type = #{fileType,jdbcType=VARCHAR},
       file_size = #{fileSize,jdbcType=VARCHAR},
-      upload_user = #{uploadUser,jdbcType=INTEGER},
+      upload_user = #{uploadUser,jdbcType=CHAR},
       project = #{project,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       descr = #{descr,jdbcType=VARCHAR}
     where file_id = #{fileId,jdbcType=VARCHAR}
   </update>
+   <select id="selectByParams"  resultMap="BaseResultMap"
+       parameterType="map">
+        SELECT
+            *
+        FROM
+           t_file f left join t_project p on f.project=p.project_id
+            <where>
+             <if test=" param.Info!= null and  param.Info!= ''">
+                AND f.upload_user like CONCAT('%',#{param.Info},'%')
+               or f.file_name like CONCAT('%',#{param.Info},'%')
+            </if> 
+            <!-- <if test="param.uploadUser !=null and param.uploadUser!=''">
+              and f.upload_user = #{param.uploadUser}
+            </if>
+             <if test="param.fileName !=null and param.fileName!=''">
+              and f.file_name = #{param.fileName}
+             </if> -->
+         <if test="param.startTime!=null and param.startTime!=''">
+  	        <![CDATA[  and DATE_FORMAT(f.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+      	</if>
+      	<if test="param.endTime!=null and param.endTime!=''">
+  	     <![CDATA[  and DATE_FORMAT(f.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+	   </if>
+      </where>
+ </select>
+  
+  
 </mapper>

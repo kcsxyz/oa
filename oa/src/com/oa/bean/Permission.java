@@ -1,5 +1,8 @@
 package com.oa.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Permission {
     private Integer permId;
 
@@ -14,8 +17,29 @@ public class Permission {
     private Integer checked;
 
     private String icon;
+    
+    private Permission permission;
+    
+    private List<Permission> children = new ArrayList<Permission>();
+    
+    
+    public List<Permission> getChildren() {
+		return children;
+	}
 
-    public Integer getPermId() {
+	public void setChildren(List<Permission> children) {
+		this.children = children;
+	}
+
+	public Permission getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Permission permission) {
+		this.permission = permission;
+	}
+
+	public Integer getPermId() {
         return permId;
     }
 

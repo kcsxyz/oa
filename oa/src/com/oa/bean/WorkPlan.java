@@ -27,7 +27,7 @@ public class WorkPlan {
     private String opinion;
 
     private User user;
-
+    
 	public User getUser() {
 		return user;
 	}

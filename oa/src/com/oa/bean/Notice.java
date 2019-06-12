@@ -16,8 +16,8 @@ public class Notice {
     private Date createTime;
 
     private Integer type;
-
-    public Integer getNoticeId() {
+    
+	public Integer getNoticeId() {
         return noticeId;
     }
 
@@ -78,5 +78,6 @@ public class Notice {
 		return "Notice [noticeId=" + noticeId + ", title=" + title + ", content=" + content + ", browsePower="
 				+ browsePower + ", createName=" + createName + ", createTime=" + createTime + ", type=" + type + "]";
 	}
-    
+
+
 }

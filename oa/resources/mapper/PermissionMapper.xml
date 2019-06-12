@@ -10,6 +10,19 @@
     <result column="checked" jdbcType="INTEGER" property="checked" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
   </resultMap>
+  
+  <resultMap id="WithPermissionResultMap" type="com.oa.bean.Permission">
+    <id column="perm_id" jdbcType="INTEGER" property="permId" />
+    <result column="perm_name" jdbcType="VARCHAR" property="permName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="is_open" jdbcType="INTEGER" property="isOpen" />
+    <result column="checked" jdbcType="INTEGER" property="checked" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <association property="permission" resultMap="BaseResultMap" />
+  </resultMap>
+  
+   
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -71,6 +84,26 @@
   <sql id="Base_Column_List">
     perm_id, perm_name, url, parent_id, is_open, checked, icon
   </sql>
+  <sql id="WithParent_Column_List">
+    pm.*,pa.*
+  </sql>
+  
+  <select id="selectByExampleWithPermission" parameterType="com.oa.bean.PermissionExample" resultMap="WithPermissionResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="WithParent_Column_List" />
+    from t_permission pm,t_permission pa
+    where pa.perm_id = pm.parent_id 
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
   <select id="selectByExample" parameterType="com.oa.bean.PermissionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

@@ -3,7 +3,7 @@
 <mapper namespace="com.oa.dao.ProcessMapper">
   <resultMap id="BaseResultMap" type="com.oa.bean.Process">
     <id column="process_id" jdbcType="INTEGER" property="processId" />
-    <result column="process_no" jdbcType="INTEGER" property="processNo" />
+    <result column="process_no" jdbcType="VARCHAR" property="processNo" />
     <result column="process_name" jdbcType="VARCHAR" property="processName" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -101,7 +101,7 @@
   <insert id="insert" parameterType="com.oa.bean.Process">
     insert into t_process (process_id, process_no, process_name, 
       remark)
-    values (#{processId,jdbcType=INTEGER}, #{processNo,jdbcType=INTEGER}, #{processName,jdbcType=VARCHAR}, 
+    values (#{processId,jdbcType=INTEGER}, #{processNo,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Process">
@@ -125,7 +125,7 @@
         #{processId,jdbcType=INTEGER},
       </if>
       <if test="processNo != null">
-        #{processNo,jdbcType=INTEGER},
+        #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="processName != null">
         #{processName,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
         process_id = #{record.processId,jdbcType=INTEGER},
       </if>
       <if test="record.processNo != null">
-        process_no = #{record.processNo,jdbcType=INTEGER},
+        process_no = #{record.processNo,jdbcType=VARCHAR},
       </if>
       <if test="record.processName != null">
         process_name = #{record.processName,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
   <update id="updateByExample" parameterType="map">
     update t_process
     set process_id = #{record.processId,jdbcType=INTEGER},
-      process_no = #{record.processNo,jdbcType=INTEGER},
+      process_no = #{record.processNo,jdbcType=VARCHAR},
       process_name = #{record.processName,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -175,7 +175,7 @@
     update t_process
     <set>
       <if test="processNo != null">
-        process_no = #{processNo,jdbcType=INTEGER},
+        process_no = #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="processName != null">
         process_name = #{processName,jdbcType=VARCHAR},
@@ -188,7 +188,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.Process">
     update t_process
-    set process_no = #{processNo,jdbcType=INTEGER},
+    set process_no = #{processNo,jdbcType=VARCHAR},
       process_name = #{processName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where process_id = #{processId,jdbcType=INTEGER}

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.oa.bean.Dept;
+import com.oa.bean.DeptExample;
 import com.oa.bean.Notice;
 import com.oa.bean.NoticeExample;
 
@@ -63,11 +65,12 @@ public interface NoticeService {
      * @return
      */
     List<Notice> findByMany(String noticeInfo);
-    
     /**
      * 条件查询：模糊查询根据  title、content、type以及查询时间段
      * @param params
      * @return
      */
-    List<Notice> selectByParams(@Param("param") Map<String, String> params); 
+    List<Notice> selectByParams(@Param("param") Map<String, Object> params); 
+    
+    List<Dept> selectByDept(DeptExample example);
 }
