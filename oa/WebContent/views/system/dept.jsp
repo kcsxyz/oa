@@ -12,6 +12,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+	.content-panel{
+		padding-bottom:0px;
+	}
+</style>
 </head>
 <body>
 	<!-- 引入导航栏 -->
@@ -144,16 +149,16 @@
 					</h4>
 					<section id="unseen">
 					<table
-						class="table table-hover table-striped table-condensed"
+						class="table table-hover "
 						style="text-align: center;">
 						<thead>
-							<tr>
+							<tr class="bg-primary">
 								<th style="text-align: center;"><input type="checkbox" id="check_all"
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
 								<th style="text-align: center;">部门名</th>
 								<th style="text-align: center;">部门级别</th>
-								<th style="text-align: center;">描述</th>
+								<th style="text-align: center;">部门职责</th>
 								<th style="text-align: center;">操作</th>
 							</tr>
 						</thead>
@@ -162,11 +167,9 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="12">
-									<div class="row" style="text-align:center;">
-										<div class="col-md-6" id=""><p id="pageInfo_area" style="margin-top:30px font-size: 18px"></div>
-										<div class="col-md-6" id="nav_area"></div>
-									</div>
+								<td colspan="12" style="margin-bottom:0px; line-height:75px;">
+									<div class="col-md-6" id=""><p id="pageInfo_area"></div>
+									<div class="col-md-6" id="nav_area"></div>
 								</td>
 							</tr>
 						</tfoot>
@@ -280,7 +283,7 @@
 				if (result.extend.pageInfo.pageNum == item) {
 					numli.addClass("active");
 				}
-				//给li添加click时间
+				//给li添加click事件
 				numli.click(function() {
 					to_page(item);
 				});
@@ -288,9 +291,9 @@
 			});
 			ul.append(nexPage).append(lastPage);
 			//添加到导航中
-			var nav = $("<nav></nav>");
+			var nav = $("<div></div>");
 			nav.append(ul);
-			nav.appendTo("#nav_area")
+			nav.appendTo("#nav_area");
 		}
 
 		//构建部门列表
@@ -470,7 +473,7 @@
 			//获取部门
 			create_dept("#select_add_dept");
 			//显示模态框
-			("#dept_add_model").modal({
+			$("#dept_add_model").modal({
 				backdrop : 'static'
 			});
 		});

@@ -27,4 +27,6 @@ public interface ProcessNodeMapper {
     int updateByPrimaryKeySelective(ProcessNode record);
 
     int updateByPrimaryKey(ProcessNode record);
+    
+    Integer getProcessNodeId(String processNo);
 }

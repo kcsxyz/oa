@@ -27,4 +27,10 @@ public interface LeaveMapper {
     int updateByPrimaryKeySelective(Leave record);
 
     int updateByPrimaryKey(Leave record);
+
+	List<Leave> getNeedAuditLeave(String queryStr, Integer deptId,String roleName);
+
+	List<Leave> getSeMaNeedLeaveList(String queryStr, String roleName);
+	
+	
 }

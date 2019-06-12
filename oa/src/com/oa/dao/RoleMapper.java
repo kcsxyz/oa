@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Role;
 import com.oa.bean.RoleExample;
+import com.oa.bean.User;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,8 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+    
+    Role selectByPrimaryKeyWithPerm(Integer roleId);
+    
+    List<User> getUsetList(Integer roleId);
 }

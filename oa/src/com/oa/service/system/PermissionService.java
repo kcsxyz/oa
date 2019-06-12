@@ -20,6 +20,11 @@ public interface PermissionService {
 	void deletePermissionBatch(List<Integer> listId);
 	//单个删除
 	void deletePermission(Integer id);
+
+	List<Permission> getParentPermissionList();
+	
+	//验证权限是否存在
+	boolean checkPermName(String permName, Integer parentId);
 	
 	
 

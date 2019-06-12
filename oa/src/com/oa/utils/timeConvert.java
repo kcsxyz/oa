@@ -77,7 +77,20 @@ public class timeConvert {
 		}
 
 	}
+	
+	public static Date getDate(String timeStr) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			
+			return formatter.parse(timeStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 
+	}
+	
 	public static String getStringDay() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date secondDate = new Date();
@@ -107,7 +120,7 @@ public class timeConvert {
 	}
 
 	public static String getTimeStamp() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		Date secondDate = new Date();
 		String date = formatter.format(secondDate);
 		try {

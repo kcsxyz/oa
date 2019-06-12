@@ -115,8 +115,6 @@
                      </div>
                      </div>
 					
-					
-					
                         <!-- CALENDAR-->
                         <!-- <div id="firstrow" >
                         	<div id="left1"></div>

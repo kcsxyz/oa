@@ -3,7 +3,7 @@
 <mapper namespace="com.oa.dao.ProcessLineMapper">
   <resultMap id="BaseResultMap" type="com.oa.bean.ProcessLine">
     <id column="process_line_id" jdbcType="INTEGER" property="processLineId" />
-    <result column="process_no" jdbcType="INTEGER" property="processNo" />
+    <result column="process_no" jdbcType="VARCHAR" property="processNo" />
     <result column="pre_node_id" jdbcType="INTEGER" property="preNodeId" />
     <result column="next_node_id" jdbcType="INTEGER" property="nextNodeId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -102,7 +102,7 @@
   <insert id="insert" parameterType="com.oa.bean.ProcessLine">
     insert into t_process_line (process_line_id, process_no, pre_node_id, 
       next_node_id, remark)
-    values (#{processLineId,jdbcType=INTEGER}, #{processNo,jdbcType=INTEGER}, #{preNodeId,jdbcType=INTEGER}, 
+    values (#{processLineId,jdbcType=INTEGER}, #{processNo,jdbcType=VARCHAR}, #{preNodeId,jdbcType=INTEGER}, 
       #{nextNodeId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.ProcessLine">
@@ -129,7 +129,7 @@
         #{processLineId,jdbcType=INTEGER},
       </if>
       <if test="processNo != null">
-        #{processNo,jdbcType=INTEGER},
+        #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="preNodeId != null">
         #{preNodeId,jdbcType=INTEGER},
@@ -155,7 +155,7 @@
         process_line_id = #{record.processLineId,jdbcType=INTEGER},
       </if>
       <if test="record.processNo != null">
-        process_no = #{record.processNo,jdbcType=INTEGER},
+        process_no = #{record.processNo,jdbcType=VARCHAR},
       </if>
       <if test="record.preNodeId != null">
         pre_node_id = #{record.preNodeId,jdbcType=INTEGER},
@@ -174,7 +174,7 @@
   <update id="updateByExample" parameterType="map">
     update t_process_line
     set process_line_id = #{record.processLineId,jdbcType=INTEGER},
-      process_no = #{record.processNo,jdbcType=INTEGER},
+      process_no = #{record.processNo,jdbcType=VARCHAR},
       pre_node_id = #{record.preNodeId,jdbcType=INTEGER},
       next_node_id = #{record.nextNodeId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
@@ -186,7 +186,7 @@
     update t_process_line
     <set>
       <if test="processNo != null">
-        process_no = #{processNo,jdbcType=INTEGER},
+        process_no = #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="preNodeId != null">
         pre_node_id = #{preNodeId,jdbcType=INTEGER},
@@ -202,7 +202,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.ProcessLine">
     update t_process_line
-    set process_no = #{processNo,jdbcType=INTEGER},
+    set process_no = #{processNo,jdbcType=VARCHAR},
       pre_node_id = #{preNodeId,jdbcType=INTEGER},
       next_node_id = #{nextNodeId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}

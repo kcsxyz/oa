@@ -2,6 +2,8 @@ package com.oa.bean;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Leave {
     private Integer id;
 
@@ -12,14 +14,15 @@ public class Leave {
     private String leaveType;
 
     private String leaveReason;
-
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd") //yyyy-MM-dd:HH:mm:ss
     private Date endTime;
 
     private Date createTime;
 
-    private Integer processNo;
+    private String processNo;
 
     private Integer currentNo;
 
@@ -89,12 +92,12 @@ public class Leave {
         this.createTime = createTime;
     }
 
-    public Integer getProcessNo() {
+    public String getProcessNo() {
         return processNo;
     }
 
-    public void setProcessNo(Integer processNo) {
-        this.processNo = processNo;
+    public void setProcessNo(String processNo) {
+        this.processNo = processNo == null ? null : processNo.trim();
     }
 
     public Integer getCurrentNo() {
