@@ -3,7 +3,7 @@ package com.oa.bean;
 public class ProcessLine {
     private Integer processLineId;
 
-    private Integer processNo;
+    private String processNo;
 
     private Integer preNodeId;
 
@@ -11,7 +11,23 @@ public class ProcessLine {
 
     private String remark;
 
-    public Integer getProcessLineId() {
+    
+    public ProcessLine() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+	public ProcessLine(String processNo, Integer preNodeId, Integer nextNodeId, String remark) {
+		super();
+		this.processNo = processNo;
+		this.preNodeId = preNodeId;
+		this.nextNodeId = nextNodeId;
+		this.remark = remark;
+	}
+
+
+	public Integer getProcessLineId() {
         return processLineId;
     }
 
@@ -19,12 +35,12 @@ public class ProcessLine {
         this.processLineId = processLineId;
     }
 
-    public Integer getProcessNo() {
+    public String getProcessNo() {
         return processNo;
     }
 
-    public void setProcessNo(Integer processNo) {
-        this.processNo = processNo;
+    public void setProcessNo(String processNo) {
+        this.processNo = processNo == null ? null : processNo.trim();
     }
 
     public Integer getPreNodeId() {

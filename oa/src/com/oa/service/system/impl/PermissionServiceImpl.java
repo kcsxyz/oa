@@ -20,10 +20,33 @@ public class PermissionServiceImpl implements PermissionService {
 	
 	@Override
 	public List<Permission> getPermissionList(String queryStr) {
-		PermissionExample pe = new PermissionExample();
-		Criteria ct = pe.createCriteria();
-		ct.andPermNameLike("%"+queryStr+"%");		
-		List<Permission> listPermission = permissionMapper.selectByExample(pe);
+		List<Permission> listPermission = null;
+		List<Permission> parentPermission = null;
+		if(queryStr != "" && queryStr != null) {
+			PermissionExample pe = new PermissionExample();
+			Criteria ct = pe.createCriteria();
+			ct.andPermNameLike("%"+queryStr+"%");	
+			 listPermission = permissionMapper.selectByExample(pe);
+			return listPermission;
+		}else {
+			System.out.println("here");
+			 listPermission = permissionMapper.selectByExample(null);
+			
+		}
+		//拿到所有节点
+		parentPermission = permissionMapper.selectByExample(null);
+		Permission p = new Permission();
+		for(int i =0;i<listPermission.size();i++) {
+			for(int j =0;j<parentPermission.size();j++) {
+				if(listPermission.get(i).getParentId()==parentPermission.get(j).getPermId()) {
+					listPermission.get(i).setPermission(parentPermission.get(j));
+				}else if(listPermission.get(i).getParentId()==0){
+					listPermission.get(i).setPermission(p);
+					listPermission.get(i).getPermission().setPermName(" ");
+				}
+			}
+		}
+		
 		return listPermission;
 	}
 
@@ -56,6 +79,27 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public void deletePermission(Integer id) {
 		permissionMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	@Override
+	public List<Permission> getParentPermissionList() {
+		List<Permission> listPermission = permissionMapper.selectByExample(null);
+		return listPermission;
+	}
+
+	@Override
+	public boolean checkPermName(String permName, Integer parentId) {
+		PermissionExample pe = new PermissionExample();
+		Criteria ct = pe.createCriteria();
+		ct.andPermNameEqualTo(permName);
+		ct.andParentIdEqualTo(parentId);
+		List<Permission> list = permissionMapper.selectByExample(pe);
+		if(list.size()>0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 

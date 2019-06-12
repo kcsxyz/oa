@@ -3,13 +3,29 @@ package com.oa.bean;
 public class Process {
     private Integer processId;
 
-    private Integer processNo;
+    private String processNo;
 
     private String processName;
 
     private String remark;
+    
+    public Process() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    public Integer getProcessId() {
+	public Process(String processNo, String processName, String remark) {
+		super();
+		this.processNo = processNo;
+		this.processName = processName;
+		this.remark = remark;
+	}
+
+
+
+	public Integer getProcessId() {
         return processId;
     }
 
@@ -17,12 +33,12 @@ public class Process {
         this.processId = processId;
     }
 
-    public Integer getProcessNo() {
+    public String getProcessNo() {
         return processNo;
     }
 
-    public void setProcessNo(Integer processNo) {
-        this.processNo = processNo;
+    public void setProcessNo(String processNo) {
+        this.processNo = processNo == null ? null : processNo.trim();
     }
 
     public String getProcessName() {

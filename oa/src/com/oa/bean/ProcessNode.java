@@ -3,15 +3,31 @@ package com.oa.bean;
 public class ProcessNode {
     private Integer processNodeId;
 
-    private Integer processNo;
+    private String processNo;
 
     private String processNodeName;
 
     private String processNodeRole;
 
     private String remark;
+    
+    
+    public ProcessNode() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
 
-    public Integer getProcessNodeId() {
+	public ProcessNode(String processNo, String processNodeName, String processNodeRole, String remark) {
+		super();
+		this.processNo = processNo;
+		this.processNodeName = processNodeName;
+		this.processNodeRole = processNodeRole;
+		this.remark = remark;
+	}
+
+
+	public Integer getProcessNodeId() {
         return processNodeId;
     }
 
@@ -19,12 +35,12 @@ public class ProcessNode {
         this.processNodeId = processNodeId;
     }
 
-    public Integer getProcessNo() {
+    public String getProcessNo() {
         return processNo;
     }
 
-    public void setProcessNo(Integer processNo) {
-        this.processNo = processNo;
+    public void setProcessNo(String processNo) {
+        this.processNo = processNo == null ? null : processNo.trim();
     }
 
     public String getProcessNodeName() {

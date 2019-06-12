@@ -10,7 +10,7 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="process_no" jdbcType="INTEGER" property="processNo" />
+    <result column="process_no" jdbcType="VARCHAR" property="processNo" />
     <result column="current_no" jdbcType="INTEGER" property="currentNo" />
     <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
@@ -113,7 +113,7 @@
       current_no, status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, 
       #{leaveType,jdbcType=VARCHAR}, #{leaveReason,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{processNo,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{processNo,jdbcType=VARCHAR}, 
       #{currentNo,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Leave">
@@ -179,7 +179,7 @@
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="processNo != null">
-        #{processNo,jdbcType=INTEGER},
+        #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="currentNo != null">
         #{currentNo,jdbcType=INTEGER},
@@ -223,7 +223,7 @@
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.processNo != null">
-        process_no = #{record.processNo,jdbcType=INTEGER},
+        process_no = #{record.processNo,jdbcType=VARCHAR},
       </if>
       <if test="record.currentNo != null">
         current_no = #{record.currentNo,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      process_no = #{record.processNo,jdbcType=INTEGER},
+      process_no = #{record.processNo,jdbcType=VARCHAR},
       current_no = #{record.currentNo,jdbcType=INTEGER},
       status = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -278,7 +278,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="processNo != null">
-        process_no = #{processNo,jdbcType=INTEGER},
+        process_no = #{processNo,jdbcType=VARCHAR},
       </if>
       <if test="currentNo != null">
         current_no = #{currentNo,jdbcType=INTEGER},
@@ -298,9 +298,20 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      process_no = #{processNo,jdbcType=INTEGER},
+      process_no = #{processNo,jdbcType=VARCHAR},
       current_no = #{currentNo,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getNeedAuditLeave" parameterType="java.util.Map" resultType="com.oa.bean.Leave">
+  	select le.* from t_leave le,t_process_node pn,t_process_role_user pro where le.process_no= pn.process_no and le.current_no=pn.process_node_id
+  		and pn.process_node_role=#{roleName} and le.status="0" and pro.dept_id=#{deptId}
+  
+  </select>
+  
+  <select id="getNeedAuditLeave" parameterType="java.util.Map" resultType="com.oa.bean.Leave">
+  	select le.* from t_leave le,t_process_node pn,t_process_role_user pro where le.process_no= pn.process_no and le.current_no=pn.process_node_id
+  		and pn.process_node_role=#{roleName} and le.status="0"
+  
+  </select>
 </mapper>
