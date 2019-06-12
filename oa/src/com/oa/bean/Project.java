@@ -1,6 +1,7 @@
 package com.oa.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class Project {
     private Integer projectId;
@@ -11,7 +12,7 @@ public class Project {
 
     private Date createTime;
 
-    public Integer getProjectId() {
+	public Integer getProjectId() {
         return projectId;
     }
 
@@ -42,4 +43,13 @@ public class Project {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", createName=" + createName
+				+ ", createTime=" + createTime + "]";
+	}
+
+
+
 }

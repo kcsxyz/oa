@@ -10,7 +10,7 @@ public interface WorkPlanService {
 	//根据id查询
 	WorkPlan getWorkPlanById(Integer id);
 	//添加工作计划
-	void addworkPlan(WorkPlan workPlan);
+	int addworkPlan(WorkPlan workPlan);
 	//删除多个
 	void deleteWorkPlanBatch(List<Integer> listId);
 	//删除一个
@@ -19,5 +19,9 @@ public interface WorkPlanService {
 	void updateWorkPlan(WorkPlan workPlan);
 	//模糊查询
 	List<WorkPlan> selectLikeWorkPlan(String workLogInfo, String startTime, String endTime);
+	//根据类型查询
+	List<WorkPlan> getWorkPlanByType(String type);
+	//根据状态查询
+	List<WorkPlan> getWorkPlanByStatus(Integer status);
 
 }

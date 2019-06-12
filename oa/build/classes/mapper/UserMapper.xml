@@ -25,6 +25,10 @@
 	    <result column="dept_level" jdbcType="INTEGER" property="deptLevel" />
 	    <result column="remark" jdbcType="VARCHAR" property="remark" />
     </association>
+    <association property="role" javaType="com.oa.bean.Role">
+       <id column="role_id" jdbcType="INTEGER" property="roleId" />
+       <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -416,9 +420,10 @@
 	<select id="selectByParams"  resultMap="BaseResultMap"
        parameterType="Map">
         SELECT
-            *
+           u.*,d.*
         FROM
-           t_user u 
+           t_user u
+             left join t_dept d on d.dept_id=u.dept_id
             <where>
             <if test=" param.Info!= null and  param.Info!= ''">
                 AND u.address like CONCAT('%',#{param.Info},'%')
