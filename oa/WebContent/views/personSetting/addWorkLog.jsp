@@ -48,7 +48,7 @@
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="workLoglist">
+					                  	  	 <a href="${pageContext.request.contextPath}/workLog/workLoglist">
 					                  	  	  <button type="button" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  返回上一级</span>
@@ -78,7 +78,7 @@
 					                  	  	  	 </button>
 				                              </div>
 				                              <div class="col-sm-4" style="float:left;text-align:center;">
-					                              <a href="workLoglist">
+					                              <a href="${pageContext.request.contextPath}/workLog/workLoglist">
 							                  	  	  <button type="button" class="btn btn-round btn-default">
 								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 								                  	  	&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</span>

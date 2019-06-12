@@ -127,7 +127,7 @@
                               <thead>
                               <tr >
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" id="check_all" value=""  /></th>
-                                  <th style="text-align:center;">ID</th>
+                                  <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">类型</th>
                                   <th style="text-align:center;">内容</th>
                                   <th style="text-align:center;">创建人</th>
@@ -136,11 +136,12 @@
                                   <th style="text-align:center;">操作</th>
                               </tr>
                               </thead>
-                               <c:forEach items="${workPlanlist }" var="workPlan">
+                               <c:forEach items="${workPlanlist }" var="workPlan" varStatus="status">
                               <tbody>                              
                               <tr>
                                   <td style="text-align:center;"><input type="checkbox" class="list-child check_item" value=""  /></td>
-                                  <td style="text-align:center;">${workPlan.id }</td>
+                                  <input type="hidden" name="id" value="${workPlan.id }">
+                                  <td style="text-align:center;">${ status.index + 1 + (pageInfo.pageNum-1)*10}</td>
                                   <c:if test="${workPlan.type==0 }">
                                  	 <td style="text-align:center;">日计划</td>
                                   </c:if>

@@ -48,10 +48,8 @@ import com.oa.utils.md5;
 		@ResponseBody
 		public ResponseResult getUser(String uid) {
 			ResponseResult rr=new ResponseResult();
-			
 			User user =userService.getUser(uid);
 			if(user!=null) {
-			//System.out.println(user.toString());
 			rr.setStateCode(1);
 			}else {
 				rr.setMessage("工号不存在");
