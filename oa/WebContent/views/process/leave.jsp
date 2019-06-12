@@ -335,9 +335,9 @@
 									$("<span></span>")
 											.addClass(
 													"glyphicon glyphicon-pencil"))
-							.append("编辑");
+							.append("查看");
 					//为编辑按钮添加一个自定义属性，用于保存部门id	
-					editBtn.attr("edit-id", item.deptId);
+					editBtn.attr("edit-id", item.id);
 					var delBtn = $("<button></button>")
 							.addClass(
 									"btn btn-danger btn-sm delete_btn")
