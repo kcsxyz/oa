@@ -189,7 +189,7 @@
 	   <script>
 	 $("#del-but").click(function(){
         var logId = $("#del-but").serialize();
-        alert("22"); 
+        
 		$.ajax({
             type: 'POST',
             url: '${pageContext.request.contextPath}/workLog/deleteWorkLog',

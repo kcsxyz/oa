@@ -1,8 +1,11 @@
 
 package com.oa.service.personSetting.impl;
 
+import static org.hamcrest.CoreMatchers.both;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,26 +58,34 @@ public class ScheduleServiceImpl implements ScheduleService {
 		scheduleMapper.updateByPrimaryKeySelective(schedule);
 	}
 
-	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) {
-		ScheduleExample de = new ScheduleExample();
-		Criteria ct = de.createCriteria();
-		ct.andTitleLike("%"+Info+"%");
-		Criteria ct2 = de.createCriteria();
-		ct2.andDescrLike("%"+Info+"%");
-		Criteria ct3 = de.createCriteria();
-		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
-		Date date1;
-		Date date2;
-		try {
-			date1 = formatter.parse(startTime);
-			date2=formatter.parse(endTime);
-			ct3.andCreateTimeBetween(date1, date2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		de.or(ct2);
-		de.or(ct3);
-		return scheduleMapper.selectByExample(de);
+	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) throws ParseException {
+		
+			ScheduleExample de = new ScheduleExample();
+			Criteria ct = de.createCriteria();
+			Criteria ct2 = de.createCriteria();
+			Criteria ct3 = de.createCriteria();
+			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
+			if(startTime != null && !startTime.equals("") && endTime != null&& !endTime.equals("")) {
+				Date date1;
+				Date date2;
+				try {
+					date1 = formatter.parse(startTime);
+					date2=formatter.parse(endTime);
+					ct3.andCreateTimeBetween(date1, date2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return scheduleMapper.selectByExample(de);
+				}
+			if(Info!=null) {
+				ct.andTitleLike("%"+Info+"%");
+				ct2.andCreateNameLike("%"+"Info"+"%");
+				de.or(ct2);
+				return scheduleMapper.selectByExample(de);
+			}
+			return scheduleMapper.selectByExample(de);
+		
 	}
+	
 }

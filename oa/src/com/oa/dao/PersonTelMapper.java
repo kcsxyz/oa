@@ -29,4 +29,8 @@ public interface PersonTelMapper {
     int updateByPrimaryKey(PersonTel record);
     //根据UID删除
 	void deleteByUid(String uid, String id);
+	
+	List<PersonTel> getPersonTelMap(String uid);
+
+	List<PersonTel> selectPersonTelByDept(String uid,Integer id);
 }

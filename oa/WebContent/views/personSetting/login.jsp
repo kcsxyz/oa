@@ -135,7 +135,7 @@
                     sessionStorage['loginName']=loginName;
                     $('#showResult').html(xhr.message);
                     $("#showResult").css("color","green");
-                    window.location.href="${pageContext.request.contextPath}/schedule/schedulelist";
+                    window.location.href="${pageContext.request.contextPath}/personTel/getPersonTel";
                     console.log(loginName);
                 }else if(xhr.stateCode==0){ //登录失败
                     alert(xhr.message);

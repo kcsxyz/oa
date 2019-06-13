@@ -84,6 +84,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 				de.or(ct3);
 				return workLogMapper.selectByExample(de);
 		}
+	
 	public List<WorkLog> selectLikeWorkLog(String startTime,String endTime) {
 		// TODO Auto-generated method stub
 		WorkLogExample de = new WorkLogExample();
@@ -99,7 +100,17 @@ public class WorkLogServiceImpl implements WorkLogService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-				de.or(ct3);
-				return workLogMapper.selectByExample(de);
+			return workLogMapper.selectByExample(de);
 		}
+
+	@Override
+	public List<WorkLog> selectLikeWorkLog(String workLogInfo) {
+		WorkLogExample de = new WorkLogExample();
+		Criteria ct = de.createCriteria();
+		ct.andTitleLike("%"+workLogInfo+"%");
+		Criteria ct2 = de.createCriteria();
+		ct2.andContentLike("%"+workLogInfo+"%");
+		 de.or(ct2);		
+		return workLogMapper.selectByExample(de);
+	}
 }

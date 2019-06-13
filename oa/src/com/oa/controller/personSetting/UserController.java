@@ -82,7 +82,7 @@ import com.oa.utils.md5;
 				User user1=userService.getUser(user.getUid());
 				model.addAttribute("user",user1);
 				session.setAttribute("user", user1);
-				//System.out.println(user1);
+				System.out.println(user1);
 	            //System.out.println("登录成功");
 	            rr.setStateCode(1);	            
 	        }else {

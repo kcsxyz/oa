@@ -1,6 +1,7 @@
 ﻿
 package com.oa.service.personSetting;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.oa.bean.Schedule;
@@ -19,6 +20,7 @@ public interface ScheduleService {
 	//修改
 	void updateSchedule(Schedule schedule);
 	//模糊查询
-	List<Schedule> selectLikeSchedule(String info, String startTime, String endTime);
+	List<Schedule> selectLikeSchedule(String info, String startTime, String endTime) throws ParseException;
+	
 
 }

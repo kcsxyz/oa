@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Schedule;
 import com.oa.bean.ScheduleExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,5 @@ public interface ScheduleMapper {
     int updateByPrimaryKeySelective(Schedule record);
 
     int updateByPrimaryKey(Schedule record);
+   
 }

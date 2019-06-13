@@ -195,7 +195,6 @@ import net.sf.jsqlparser.statement.delete.Delete;
 				 }else {
 					 workLoglist= workLogService.selectLikeWorkLog(start, end);
 				 }
-				
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);
 				}else {

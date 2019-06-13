@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> selectUser() {
 		// TODO Auto-generated method stub
-		return userMapper.selectUser();
+		return userMapper.getUserList();
 	}
 	@Override
 	public List<User> selectLikeUser(String userInfo) {
