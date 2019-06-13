@@ -108,7 +108,7 @@
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;;float:left;height:28px;text-align:right;line-height:28px;">年龄:</span>
-                              				<div class="col-sm-5">
+                              				<div class="col-sm-1">
                                   				<input class="form-control"  type="text" value="${userPower.age }" name="age"  >
                               				</div>
 			                          </div>

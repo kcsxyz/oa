@@ -22,6 +22,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.Role;
 import com.oa.bean.User;
 import com.oa.service.deptOffice.UserPowerService;
 
@@ -38,19 +39,31 @@ public class UserPowerController {
      */
     @RequestMapping(value="/showAdduser", method=RequestMethod.GET)
 	public String showAdduser(Model model) {
-		model.addAttribute(new User());
-		 List<Dept> depts = userPowerService.selectByDept();
+		 model.addAttribute(new User());
+		   List<Dept> depts = userPowerService.selectByDept();
 		 model.addAttribute("userDept", depts);
+		    List<Role> roles = userPowerService.selectByRole();
+		 model.addAttribute("userRole", roles);
 		return "addRenLi";
 	}
     @RequestMapping("/saveUser")
-    public String  saveUser(User user) {
-    	String modifiedName = "";
+    @ResponseBody
+    public ResponseResult  saveUser(User user) {
+     ResponseResult rr = new ResponseResult();
+    	String modifiedName = ""; 
     	String password = "123456";
     	user.setCreateTime(new Date());
     	user.setPassword(password);
     	user.setModifiedName(modifiedName);
-		return "redirect:/userpower/findUser";
+    	int i = userPowerService.insertSelective(user);
+ 	   if(i!=0) {
+		   rr.setStateCode(1);
+		   rr.setMessage("录入成功");
+	   }else {
+		   rr.setStateCode(0);
+			rr.setMessage("录入失败");
+	   }
+		return rr;
     }
     
     /**
@@ -65,7 +78,7 @@ public class UserPowerController {
 			 String uid,
 			 Model model
     		) {
-    	 String modifiedName = (String) session.getAttribute("uid");
+    	String modifiedName = (String) session.getAttribute("uid");
 	    user.setUid(uid);
 	    user.setModifiedName(modifiedName);
 	    user.setModifiedTime(new Date());
@@ -146,7 +159,45 @@ public class UserPowerController {
 
 	}
 	
-	
+	  /**验证名称是否存在
+		 * @param uid
+		 * @return
+		 */
+		@RequestMapping("/checkUserByUid")
+		@ResponseBody
+		public ResponseResult checkUserByUid(String uid) {
+			ResponseResult rr = new ResponseResult();
+			int re= userPowerService.checkUerById(uid);
+			if(re!=0) {
+				rr.setMessage("工号已存在");
+				rr.setStateCode(0);
+			}else {
+				rr.setMessage("工号可用");
+				rr.setStateCode(1);
+				
+			}
+			return rr;
+		}	
+		
+		  /**验证身份证是否存在
+				 * @param uid
+				 * @return
+				 */
+				@RequestMapping("/checkUserByIdCard")
+				@ResponseBody
+				public ResponseResult checkUserByIdCard(String idCard) {
+					ResponseResult rr = new ResponseResult();
+					int re= userPowerService.checkUerByidCard(idCard);
+					if(re!=0) {
+						rr.setMessage("身份证号码已存在");
+						rr.setStateCode(0);
+					}else {
+						rr.setMessage("身份证号码可用");
+						rr.setStateCode(1);
+						
+					}
+					return rr;
+				}	
 	
     
 }

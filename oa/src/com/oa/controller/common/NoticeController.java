@@ -54,19 +54,28 @@ public class NoticeController {
 		return "addBulletin";
 	}
 	
-	@RequestMapping(value="/saveNotice",method=RequestMethod.POST)
-	public String  saveNotice(
+	@RequestMapping(value="/saveNotice",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseResult  saveNotice(
 			 HttpSession session,
 			Notice notice,
 			Model model
 			){
+		        ResponseResult rr = new ResponseResult();
 	          	List<Notice> Notices = noticeService.selectByExample();
 		         String createName = (String) session.getAttribute("uid"); 
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
-				 noticeService.saveNotice(notice);
+			     int i = noticeService.saveNotice(notice);
 			model.addAttribute("saveNotices",Notices);
-			return "redirect:/notice/selectByParams";
+			  if(i!=0) {
+				   rr.setStateCode(1);
+				   rr.setMessage("发布成功");
+			   }else {
+				   rr.setStateCode(0);
+					rr.setMessage("发布失败");
+			   }
+			return rr;
 	}
 	
 	/**

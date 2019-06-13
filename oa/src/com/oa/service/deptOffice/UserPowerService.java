@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oa.bean.Dept;
 import com.oa.bean.DeptExample;
+import com.oa.bean.Role;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 
@@ -46,7 +47,20 @@ public interface UserPowerService {
 	 * @return
 	 */
 	List<User> selectByParams(@Param("param")Map<String, String> param);
+	
+	List<Role> selectByRole();
 	List<Dept> selectByDept();
-	  
+	/**
+	 * 异步校验uid
+	 * @param uid
+	 * @return
+	 */
+	int checkUerById(String uid);
+	/**
+	 * 异步校验idCard
+	 * @param idCard
+	 * @return
+	 */
+	int checkUerByidCard(String idCard);
 }
 

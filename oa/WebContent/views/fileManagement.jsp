@@ -93,44 +93,48 @@
                            
                            
 						<!-- 模态框（Modal） -->
-						<div class="modal fade" id="uploadModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="uploadModel" tabindex="-1" role="dialog" aria-labelledby="uploadModelLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header" style="text-align:center;">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 											&times;
 										</button>
-										<h4 class="modal-title upload" id="myModalLabel">
+										<h4 class="modal-title upload" id="uploadModelLabel">
 											文件上传
 										</h4>
 									</div>
-									<form class="form-horizontal style-form" method="post" action="${ pageContext.request.contextPath }/files/upload" enctype="multipart/form-data" >
+									<form class="form-horizontal style-form"  method="post" action="${ pageContext.request.contextPath }/files/upload" enctype="multipart/form-data" onSubmit="return myCheck(this)" >
 									<div class="modal-body">
 					                           <div class="form-group" style="border:none;">
 					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">名称:</span>
 						                              <div class="col-sm-8">
-						                                  <input type="text" name="fileId" class="form-control">
+						                                  <input type="text" id="fileId" name="fileId" class="form-control">
+						                                    <span class="help-block"></span>
 						                              </div>
+						                              <div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+			                              				  <font id="showResult1" style="color:red">*</font>
+			                              			  </div>
+			                              			 
+			                              			 
 					                          </div> 
-					                          <div class="form-group" style="border:none;margin-top:30px;">
-					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">关联项目</span>
-						                              <div class="col-sm-8">
-						                                  <select class="form-control" name="project" id="select_add_project">
-													</select>
-						                              </div>
-					                          </div>
+					                         
 					                          <div class="form-group" style="border:none;margin-top:30px;">
 					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">选择文件:</span>
 						                              <div class=" col-sm-8">
-									                    <input id="lefile" type="file" name="file" style="display:none">
+									                    <input id="lefile" type="file" name="file"   style="display:none">
 															<div class="input-append">
-																<input id="photoCover" class="input-large" type="text" style="width:62%;height:30px;">
+																<input id="photoCover"  readonly="readonly" class="input-large" type="text" style="width:62%;height:30px;">
 																	<a class="btn" onclick="$('input[id=lefile]').click();">
 																		<span class="btn btn-primary">
 												                            <i class="glyphicon glyphicon-folder-open"></i>  
 												                            Browse… 
 												                        </span>
 											                        </a>
+											                         <div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+							                              				  <font id="showResult2" style="color:red"></font>
+							                              			  </div>
+							                              			  
 															</div>
 									                    </div>
 					                          </div>
@@ -140,13 +144,25 @@
 						                              <div class="col-sm-8">
 						                                  <input type="text" name="descr" class="form-control">
 						                              </div>
+						                              <div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+							                              				  <font id="showResult3" style="color:red"></font>
+							                              			  </div>
+						                             
+					                          </div>
+					                          
+					                           <div class="form-group" style="border:none;margin-top:30px;">
+					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">关联项目</span>
+						                              <div class="col-sm-8">
+						                                  <select class="form-control" name="project" id="select_add_project">
+													</select>
+						                              </div>
 					                          </div>
 					                          
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
 										</button>
-										<button type="submit" class="btn btn-round btn-primary">
+										<button type="submit" id="btn_push_files" class="btn btn-round btn-primary">
 											上传
 										</button>
 									</div>
@@ -183,7 +199,7 @@
                                   <td style="text-align:center;"><fmt:formatDate value='${page.createTime }' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <a href="${ pageContext.request.contextPath }/files/download?filesName=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
+                                      <a href="${ pageContext.request.contextPath }/files/download?file=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
                                       <a href="${pageContext.request.contextPath }/files/deleteFile/${page.fileId }"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>删除</button></a>
                                   </td>
                               </tr>
@@ -262,8 +278,42 @@
             autoclose:true //选择一个日期之后是否立即关闭此日期选择器
            
         });
-  		
-    	$("#uploadBtn").click(function(){
+    	
+//---------------------打开模态框--------------------
+    function clear_form(ele){
+			//重置内容
+			$(ele)[0].reset();
+			//移除添加的雷和文本
+			$(ele).find("*").removeClass("has-success has-error");
+			$(ele).find(".help-block").text("");
+		}
+
+	 function create_dept(ele){
+			$(ele).empty();
+			//获取部门
+			$.ajax({
+				url: "${pageContext.request.contextPath}/files/projectList",
+				type: "get",
+				success:function(result){
+					$.each(result.extend.projects,function(){
+						var optionEl=$("<option></option>").append(this.projectName).attr("value",this.projectId);
+						optionEl.appendTo("#select_add_project");
+					});
+				}
+			});
+		}
+			$("#uploadBtn").click(function(){
+				//重置表单，清除数据
+				clear_form('#uploadModel form');
+				//获取部门
+				create_dept("#select_add_project");
+				//显示模态框
+				$("#uploadModel").modal({
+					backdrop:'static'
+				});
+			});
+		  		
+    	/* $("#uploadBtn").click(function(){
     		$("#select_add_project").empty();
 			//获取项目
 			$.ajax({
@@ -275,18 +325,106 @@
 						optionEl.appendTo("#select_add_project");
 					});
 				}
-			});
-			//放到文本框
-			//$("#update_project").val(projectNames);
-			//$("#update_project_id").val(projectId);
-			
-			
-			//打开模态框
-			$("#uploadModel").modal({
+			}); 
+		$("#uploadModel").modal({
 				backdrop:"static"
 			});
-		});
+		}); */
+//--------------------提交表单信息----------------------
+  $("#fileId").blur(function(){
+        var data = $("#fileId").val();
+        if (data == null || data == "") {
+            $("#showResult1").text("此项必填!");
+            /* $("#showResult1").css("color","red"); */
+            return false;
+        }else{
+        	 $("#showResult1").text("");
+        }
+    });
+  $("#photoCover").blur(function(){
+      var data = $("#photoCover").val();
+      if (data == null || data == "") {
+          $("#showResult2").text("此项必填!");
+          /* $("#showResult1").css("color","red"); */
+          return false;
+      }else{
+      	 $("#showResult2").text("");
+      }
+  });
   
+  $("#descr").blur(function(){
+      var data = $("#descr").val();
+      if (data == null || data == "") {
+          $("#showResult3").text("此项必填!");
+          /* $("#showResult1").css("color","red"); */
+          return false;
+      }else{
+      	 $("#showResult3").text("");
+      }
+  });
+
+ 
+  function myCheck(form){
+	  if(form.fileId.value==''|| form.fileId.value==null){
+	  alert('名称不能为空!');
+	  form.fileId.focus();
+	  return false;
+	  }
+	  if(form.photoCover.value==''||form.photoCover.value==null){
+	  alert('文件为空!');
+	  form.photoCover.focus();
+	  return false;
+	  }
+	  if(form.descr.value=='' || form.descr.value==null){
+	  alert('请输入文件描述');
+	  form.descr.focus();
+	  return false;
+	  }if($("#fileId").attr("ajax-va")=='error'){
+		  alert('请输入正确格式');
+		 // form.descr.focus();
+		  return false;
+	  } else{
+		  alert("上传成功");
+		  return true;
+	  }
+	 
+   
+    
+  }
+  function valate_form_msg(ele,status,msg){
+		//清除当前元素的校验状态
+		$(ele).parent().removeClass("has-success has-error");
+		$(ele).next('span').text("");
+		if(status=='success'){
+			$(ele).parent().addClass("has-success");
+			$(ele).next('span').text(msg);
+		}else if(status=='error'){
+			$(ele).parent().addClass("has-error");
+			$(ele).next('span').text(msg);
+		}
+	}
+	
+
+	//校验名是否存在
+	$("#fileId").change(function(){
+		var fileId=this.value;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/files/checkfileId",
+			type: "post",
+			data: "fileId="+fileId,
+			success:function(result){
+				if(result.stateCode==1){
+					valate_form_msg("#fileId",'success',result.message);
+					$("#fileId").attr("ajax-va","success");
+				}else if(result.stateCode==0){
+					valate_form_msg("#fileId",'error',result.message);
+					$("#fileId").attr("ajax-va","error");
+				}
+			}
+		});
+	});
+		
+		
     	  //完成全选/全部选
 		$("#check_all").click(function(){
 			//attr获取checked是undefined
@@ -300,23 +438,23 @@
 		
 		//批量删除
 		$("#files_delete_all").click(function(){
-			var projectNames="";
+			var files="";
 			var del_id_strs="";
 			$.each($(".check_item:checked"),function(){
 				//alert(del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id'));
-				projectNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
+				files += $(this).parents("tr").find("td:eq(2)").text() + ",";
 				del_id_strs += del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('p-id') + "-";
 			});
 			
 			//去除最后的那个,
-			projectNames=projectNames.substring(0,projectNames.length-1);
+			files=files.substring(0,files.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
 				alert("请选择要删除的公告");
 				return false;
 			}
 			alert(del_id_strs);
-			if(confirm("确定删除【"+projectNames+"】吗?")){
+			if(confirm("确定删除【"+files+"】吗?")){
 				$.ajax({
 					url: "${pageContext.request.contextPath }/files/deleteFile/"+del_id_strs,
 					type: "post",		
@@ -330,6 +468,7 @@
 			}
 
 		});
+		
 	</script>
 </body>
 </html>

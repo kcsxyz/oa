@@ -62,14 +62,14 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form class="form-horizontal style-form" method="post" action="${pageContext.request.contextPath }/notice/saveNotice" style="margin-top:80px;">
-	                            
-	                            
-	                            
+	                            <div id="pushNotice">
+	                            <form class="form-horizontal style-form" method="get" action="" style="margin-top:80px;">
+
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult"  style="color:red;width:10%;" ></font>
+				                                  <input type="text" id="title" name="title" class="form-control"><!-- <font id="showResult"  style="color:red;width:10%;" ></font> -->
+				                                   <span class="help-block"></span>
 				                              </div>
 			                          </div> 
 			                          
@@ -96,7 +96,9 @@
 			                          <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                   <textarea  name="content" id="editor" style="height:300px" rows="8"></textarea><font id="showResult"  style="color:red;width:10%;" ></font>
+				                                   <textarea  name="content" id="editor" style="height:300px" rows="8"></textarea>
+				                                   <font id="showResult"  style="color:red;width:10%;" >内容不能为空!</font> 
+				                                  <!--   <span class="help-block"></span>  -->
 				                              </div>
 			                          </div>
 			                          
@@ -128,7 +130,7 @@
 			                          
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 				                              <div class="col-sm-4" style="float:left; text-align:right;">
-							                  	  	  <button type="submit" class="btn btn-info" id="fabu"  style="background:#fff;">
+							                  	  	  <button type="button" class="btn btn-info" id="btn_push_notice"  style="background:#fff;">
 									                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 									                  	  	  发布</span>
 							                  	  	  </button>
@@ -197,59 +199,78 @@
 		    });
 		   
 		});
-		/* $("#fabu").click(function(){
-			// alert($("#browsePower").val());
-			alert("发布成功");
-		}); */
-		
-	    $("#title").blur(function(){
-	        var data = $("#title").val();
+	
+	  
+	   
+//--------------发布公告-----------------
+  $("#editor").blur(function(){
+	    	var content=UE.getEditor('editor').getContent();
 	        $("#showResult").text("");
-	        if (data == null || data == "") {
-	            $("#showResult").text("标题不能为空！");
-	            /* $("#showResult").css("color","red"); */
+	        if (content == null || content == "") {
+	          //  $("#showResult").text("标题不能为空！");
+	            valate_form_msg("#editor",'error',"标题不能空");
+	             $("#showResult").css("color","red"); 
 	            return false;
-	        }
-	    
-	        $.ajax({
-	            /* type:"POST",
-	            url:"eckUsername.html",
-	            data:"username="+data,
-	            beforeSend:function(XMLHttpRequest)
-	            {
-	                $("#showResult").text("正在查询");
-
-	            }, */
-	            success:function(msg)
-	            {
-	                /* if(msg ==="yes"){
-	                    $("#showResult").text("该用户名可以被使用");
-	                }else if(msg === 'no'){
-	                    $("#showResult").text("该用户名不存在");
-	                    $("#showResult").css("color","red");
-	                }else {
-	                    $("#showResult").text("系统异常！");
-	                    $("#showResult").css("color","red");
-	                } */
-	            },
-	            error:function()
-	            {
-	                //错误处理
-	            }
+	       }
 	        });
-	    });
-		$("#editor").blur(function(){ 
-	        var content = UE.getEditor('editor').getContent();
-	        $("#showResult").text("");
-			alert("content");
-            alert("UE.getEditor('editor').hasContents()");
-        if (UE.getEditor('editor').hasContents()==false) {
-            $("#showResult").text("内容不能为空！");
-            /* $("#showResult").css("color","red"); */
-            return false;
-        }
-        
-		 });
+		//创建项目操作
+			//校验表单
+		function validate_notice_form(){
+			var title=$('#title').val();
+			var content=UE.getEditor('editor').getContent();
+			//document.getElementById("editor").value;
+			if(title == "" || title == null){
+				valate_form_msg("#title",'error',"标题不能空");
+				return false;
+			}else{
+				valate_form_msg("#title",'success',"");
+			}
+			if(content == "" || content == null){
+				valate_form_msg("#content",'error',"内容不能空");
+				return false;
+			}else{
+				valate_form_msg("#content",'success',"");
+			}
+			return true;
+		}
+		//显示校验信息
+		function valate_form_msg(ele,status,msg){
+			//清除当前元素的校验状态
+			$(ele).parent().removeClass("has-success has-error");
+			$(ele).next('span').text("");
+			if(status=='success'){
+				$(ele).parent().addClass("has-success");
+				$(ele).next('span').text(msg);
+			}else if(status=='error'){
+				$(ele).parent().addClass("has-error");
+				$(ele).next('span').text(msg);
+			}
+		}
+		//保存操作
+		$("#btn_push_notice").click(function(){
+			//1、对表单进行校验
+		   if(!validate_notice_form()){
+				return false;
+			} 
+			//3、发送请求你保存
+			$.ajax({
+				url: "${pageContext.request.contextPath }/notice/saveNotice",
+				type: "get",
+				data: $('#pushNotice form').serialize(),
+				success:function(result){
+					if(result.stateCode==0){
+						alert(result.message);
+						to_page(currentPage);
+					}else if(result.stateCode==1){
+						//即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
+						alert(result.message);
+						location.href='${pageContext.request.contextPath }/notice/selectByParams';
+					}
+				}
+			});
+		});
+		
+		
         
 		
 	</script>

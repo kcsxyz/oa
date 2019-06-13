@@ -176,7 +176,7 @@
 								  	<li><a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo=1">首页</a></li>
 								    <li>
 								    	<c:if test="${pageInfo.hasPreviousPage}">
-								    		<a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo==${pageNum-1}" aria-label="Previous">
+								    		<a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo=${pageNum-1}" aria-label="Previous">
 								        	<span aria-hidden="true">&laquo;</span>
 								      		</a>
 								    	</c:if>

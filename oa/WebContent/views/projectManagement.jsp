@@ -102,20 +102,22 @@
 											新建项目
 										</h4>
 									</div>
-									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/pushProject" method="get" >
+									<form class="form-horizontal style-form" id="form-addProject" action="" method="get" >
 									<div class="modal-body">
 					                          
 					                          <div class="form-group" style="border:none;margin-top:30px;">
 					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">项目名称:</span>
 						                              <div class="col-sm-8">
-						                                  <input type="text" name="projectName" class="form-control">
+						                                  <input type="text" name="projectName" id="projectName" class="form-control">
+						                                 <!--   <span class="msg-default hidden" id="projectNameSpan">项目名不超过20个字符</span> -->
+						                              <span class="help-block"></span>
 						                              </div>
 					                          </div>
 					                          
 									</div>
 									<div class="modal-footer">
 										
-										<button type="submit" class="btn btn-round btn-primary">
+										<button type="button" id="btn_push_project" class="btn btn-round btn-primary">
 											确认
 										</button>
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
@@ -150,7 +152,7 @@
 									</div>
 									<div class="modal-footer">
 										
-										<button type="submit" class="btn btn-round btn-primary">
+										<button type="button" id="btn_update_project" class="btn btn-round btn-primary">
 											确认
 										</button>
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
@@ -328,8 +330,82 @@
 			});
 		});
 		
+	
+		//创建项目操作
+			//校验表单
+		function validate_project_form(){
+			var projectName=$('#projectName').val();
+			if(projectName == ""){
+				valate_form_msg("#projectName",'error',"项目名称不能空");
+				return false;
+			}else{
+				valate_form_msg("#projectName",'success',"");
+			}
+			return true;
+		}
+		//显示校验信息
+		function valate_form_msg(ele,status,msg){
+			//清除当前元素的校验状态
+			$(ele).parent().removeClass("has-success has-error");
+			$(ele).next('span').text("");
+			if(status=='success'){
+				$(ele).parent().addClass("has-success");
+				$(ele).next('span').text(msg);
+			}else if(status=='error'){
+				$(ele).parent().addClass("has-error");
+				$(ele).next('span').text(msg);
+			}
+		}
+		
+		//校验项目名名是否存在
+		$("#projectName").change(function(){
+			var projectName=this.value;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/project/checkProjectName",
+				type: "post",
+				data: "projectName="+projectName,
+				success:function(result){
+					if(result.stateCode==1){
+						valate_form_msg("#projectName",'success',"项目名可用");
+						$("#btn_push_project").attr("ajax-va","success");
+					}else if(result.stateCode==0){
+						valate_form_msg("#projectName",'error',result.message);
+						$("#btn_push_project").attr("ajax-va","error");
+					}
+				}
+			});
+		});
+		//保存操作
+		$("#btn_push_project").click(function(){
+			//1、对表单进行校验
+			if(!validate_project_form()){
+				return false;
+			}
+			//判断用户名是否可用
+			if($(this).attr("ajax-va")=="error"){
+				return false;
+			}
+			//3、发送请求你保存
+			$.ajax({
+				url: "${pageContext.request.contextPath }/project/pushProject",
+				type: "get",
+				data: $('#myModal form').serialize(),
+				success:function(result){
+					if(result.stateCode==0){
+						//alert(result.message);
+					}else if(result.stateCode==1){
+						//关闭模态框
+						$('#myModal').modal('hide');
+						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
+						to_page(currentPage);
+					}
+				}
+			});
+		});
 		
 		
+
+
   </script>
 </body>
 </html>

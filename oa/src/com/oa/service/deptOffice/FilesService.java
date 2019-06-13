@@ -47,7 +47,7 @@ public interface FilesService {
     /**
          * 判断id是否重复
      */
-	boolean checkFileById(String fileId);
+	int checkFileById(String fileId);
 	/**
 	  * 判断name是否重复
 	 * @param fileName

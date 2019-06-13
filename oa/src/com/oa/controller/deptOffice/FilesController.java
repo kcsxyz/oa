@@ -60,6 +60,7 @@ public class FilesController {
 	    		Integer project,
 	    		String descr,
 	    		HttpServletRequest request) throws IOException{  
+	    	ResponseResult rr = new ResponseResult();
 	    	if(!file.isEmpty()) {
 	        String path = request.getSession().getServletContext().getRealPath("upload");  
 	        String fileName = file.getOriginalFilename(); 
@@ -68,7 +69,7 @@ public class FilesController {
 	        if(!dir.exists()){  
 	            dir.mkdirs();  
 	        }  
-	        System.out.println(path+fileName);
+	        //System.out.println(path+fileName);
 	        String[] strArray = fileName.split("\\.");
 	        int suffixIndex = strArray.length -1;
 	        String type = strArray[suffixIndex];
@@ -82,9 +83,10 @@ public class FilesController {
             files.setFileSize(size);
             files.setFileType(type);
             filesService.insertSelective(files);
-	        return "redirect:/files/findAll";
+           
+    		return  "redirect:/files/findAll";
 	        } 
-			return "false";
+			return  "false";
 	    }  
 	    /**
 	         * 文件下载功能
@@ -223,4 +225,25 @@ public class FilesController {
 		return rr;
     	
     }
+    
+    /**验证名称是否存在
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping("/checkfileId")
+	@ResponseBody
+	public ResponseResult checkFileId(String fileId) {
+		ResponseResult rr = new ResponseResult();
+		int re= filesService.checkFileById(fileId);
+		if(re!=0) {
+			rr.setMessage("名称已存在");
+			rr.setStateCode(0);
+		}else {
+			rr.setMessage("名称可用");
+			rr.setStateCode(1);
+			
+		}
+		return rr;
+	}
+    
 }
