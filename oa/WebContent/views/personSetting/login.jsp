@@ -46,6 +46,7 @@
                                 </div>
                                 <div>
                                 	<input type="text" name="uid" id="uid" class="uid-password" required placeholder="工号" style="width:300px; padding-left:5px;">
+                                	
                                 	<label id="showResult" style="width: 100px;"></label>
                                 </div>
                                 <div class="login-password">
@@ -139,8 +140,7 @@
                     console.log(loginName);
                 }else if(xhr.stateCode==0){ //登录失败
                     alert(xhr.message);
-                    $('#showResult').html(xhr.message);
-                    $("#showResult").css("color","red");
+                    window.location.href="${pageContext.request.contextPath}/user/toLogin";
                 }
             }
         });

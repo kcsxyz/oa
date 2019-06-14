@@ -42,12 +42,13 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		 */
 		@RequestMapping("/workLoglist")
 		public String selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
+			User user=(User) session.getAttribute("user");
 			try {
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
-				List<WorkLog> workLoglist = workLogService.selectWorkLog();	
+				List<WorkLog> workLoglist = workLogService.selectWorkLogByCreateName(user.getUid());	
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);
 				}else {
@@ -156,8 +157,6 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
-			worklog.setLogId(1);
-			worklog.setTitle("35454");
 			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);

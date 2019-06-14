@@ -11,21 +11,21 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>通讯录添加</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
 </head>
 <body>
  <section id="container" >
@@ -39,24 +39,24 @@
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
                           
                           <!-- 上部放按钮的地方开始 -->
-                          <form class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
+                          <form action="selectPersonTelByName" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
 	                  	  	</div>
 	                  	  	<div class=" col-sm-4" style="float:left;">
 		                  	  	  <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
 		                  	  	  	<div class="col-sm-7">
-		                  	  	  	<select class="form-control">
+		                  	  	  	<select class="form-control" onchange="deptChange()">
 		                  	  	  		<option>请选择部门</option>
-										<option>办公室</option>
-										<option>开发部</option>
-									</select>  
+										<option value="1">办公室</option>
+										<option value="2">开发部</option>
+									</select> 
 									</div>
 						    </div>						    
 						    <div class=" col-sm-3" style="float:left;">
-                              		<input type="text" class="form-control" style="width:60%;height:28px;float:left;">
+                              		<input type="text" name="info" class="form-control" style="width:60%;height:28px;float:left;">
                               		
-                              		<button type="button" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
+                              		<button type="submit" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
                               		<span class="glyphicon glyphicon-search" style="color: rgb(255,255,255); font-size: 12px;
                               		 text-shadow: rgb(255,255,255) 0px 0px 0px; ">&nbsp;搜索</span>
                               		</button>
@@ -80,6 +80,7 @@
                                   <th style="text-align:center;">操作</th>
                               </tr>
                               </thead>
+                              <form action="addPersonTel?pid=${user.uid}" method="post">
                               <c:forEach items="${userlist}" var="user" varStatus="status">
                               <tbody>
                               <tr>                                  
@@ -98,12 +99,13 @@
                                   <td style="text-align:center;">${user.email }</td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                  		  <button class="btn btn-primary btn-xs"onclick="window.location.href='/oa/personTel/"><i class="fa fa-pencil"></i>添加</button>
+                                  		  <button type="submit" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>添加</button>
                                       
                                   </td>
                               </tr>
                               </tbody>
                               </c:forEach>
+                              </form>
                           </table>
                           <!-- 表格部分结束-->
                           <!-- 显示分页条	 -->
@@ -149,13 +151,13 @@
       </section>
   </section>
    <!-- js placed at the end of the document so the pages load faster -->
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+    <script src="/oa/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
     
@@ -165,7 +167,10 @@
       $(function(){
           $('select.styled').customSelect();
       });
-
+      function deptChange(){
+        	var id = $("select option:selected").val();
+        	window.location.href="/oa/personTel/selectPersonTelDept?id="+id;
+        }
   </script>
 </body>
 </html>

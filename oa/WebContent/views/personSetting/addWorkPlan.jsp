@@ -90,7 +90,7 @@
 			                         <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                  <div id="editor" style="height:400px"></div>
+				                                  <textarea id="editor" name="content"style="height:400px"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">

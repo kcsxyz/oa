@@ -33,4 +33,6 @@ public interface PersonTelMapper {
 	List<PersonTel> getPersonTelMap(String uid);
 
 	List<PersonTel> selectPersonTelByDept(String uid,Integer id);
+
+	List<PersonTel> selectLike(String uid, String info);
 }

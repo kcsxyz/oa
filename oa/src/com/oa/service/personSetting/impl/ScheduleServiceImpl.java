@@ -25,11 +25,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private ScheduleMapper scheduleMapper;
 
 	@Override
-	public List<Schedule> selectSchedule() {		
-		return scheduleMapper.selectByExample(null);
-	}
-
-	@Override
 	public Schedule getScheduleById(Integer id) {		
 		return scheduleMapper.selectByPrimaryKey(id);
 	}
@@ -86,6 +81,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 			}
 			return scheduleMapper.selectByExample(de);
 		
+	}
+
+	@Override
+	public List<Schedule> selectSchedule(String string) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.selectSchedule(string);
 	}
 	
 }

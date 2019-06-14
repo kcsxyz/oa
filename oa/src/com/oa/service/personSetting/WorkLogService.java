@@ -31,5 +31,7 @@ public interface WorkLogService {
 	List<WorkLog> selectLikeWorkLog(String start, String end);
 	List<WorkLog> selectLikeWorkLog(String workLogInfo);
 	
+	List<WorkLog> selectWorkLogByCreateName(String uid);
+	
 
 }

@@ -16,8 +16,19 @@ public class WorkLog {
     private Date modifiedTime;
 
     private String modifiedName;
+    
+    private User user;
 
-    public Integer getLogId() {
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getLogId() {
         return logId;
     }
 
@@ -77,7 +88,7 @@ public class WorkLog {
 	public String toString() {
 		return "WorkLog [logId=" + logId + ", title=" + title + ", content=" + content + ", createTime=" + createTime
 				+ ", createName=" + createName + ", modifiedTime=" + modifiedTime + ", modifiedName=" + modifiedName
-				+ "]";
+				+ ", user=" + user + "]";
 	}
    
 }

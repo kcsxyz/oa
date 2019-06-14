@@ -101,7 +101,7 @@
                                   <input type="hidden" name="logId" value="${workLog.logId}">
                                   <td style="text-align:center;">${workLog.title}</td>
                                   <td style="text-align:center;">${workLog.content}</td>
-                                  <td style="text-align:center;">${workLog.createName }</td>
+                                  <td style="text-align:center;">${workLog.user.name}</td>
                                   <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workLog.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->

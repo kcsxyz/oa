@@ -14,5 +14,7 @@ public interface PersonTelService {
 	void deletePersonTel(String uid, String id);
 	
 	List<PersonTel> selectByDept(String uid,Integer id);
+	
+	List<PersonTel> selectLike(String uid, String info);
 
 }

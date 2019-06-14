@@ -39,4 +39,10 @@ public class PersonTelServiceImpl implements PersonTelService {
 		
 		return personTelMapper.selectPersonTelByDept(uid,id);
 	}
+
+	@Override
+	public List<PersonTel> selectLike(String uid, String info) {
+		// TODO Auto-generated method stub
+		return personTelMapper.selectLike(uid,info);
+	}
 }

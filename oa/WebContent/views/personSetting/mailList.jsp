@@ -40,7 +40,7 @@
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
                           
                           <!-- 上部放按钮的地方开始 -->
-                          <form class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
+                          <form action="selectPersonTelLike" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/personTel/allPersonTel'">
@@ -63,9 +63,9 @@
 									</div>
 						    </div>						    
 						    <div class=" col-sm-3" style="float:left;">
-                              		<input type="text" class="form-control" style="width:60%;height:28px;float:left;">
+                              		<input type="text" name="info" class="form-control" style="width:60%;height:28px;float:left;">
                               		
-                              		<button type="button" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
+                              		<button type="submit"  class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
                               		<span class="glyphicon glyphicon-search" style="color: rgb(255,255,255); font-size: 12px;
                               		 text-shadow: rgb(255,255,255) 0px 0px 0px; ">&nbsp;搜索</span>
                               		</button>

@@ -29,5 +29,7 @@ public interface ScheduleMapper {
     int updateByPrimaryKeySelective(Schedule record);
 
     int updateByPrimaryKey(Schedule record);
+
+	List<Schedule> selectSchedule(String string);
    
 }

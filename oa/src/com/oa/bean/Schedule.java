@@ -20,8 +20,19 @@ public class Schedule {
     private String descr;
 
     private Integer status;
+    
+    private User user;
 
-    public Integer getId() {
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -97,7 +108,7 @@ public class Schedule {
 	public String toString() {
 		return "Schedule [id=" + id + ", userId=" + userId + ", startTime=" + startTime + ", endTime=" + endTime
 				+ ", createName=" + createName + ", createTime=" + createTime + ", title=" + title + ", descr=" + descr
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", user=" + user + "]";
 	}
     
 }

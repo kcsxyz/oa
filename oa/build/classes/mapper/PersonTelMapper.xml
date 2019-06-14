@@ -209,4 +209,7 @@
   <select id="selectPersonTelByDept" resultMap="BaseResultMap">
  	select a.*,b.* from t_person_tel a,t_user b where a.user_id=#{arg0,jdbcType=CHAR} and a.person_id=b.uid and b.dept_id=#{arg1}	
  </select>
+ <select id="selectLike" resultMap="BaseResultMap">
+ 	select a.*,b.* from t_person_tel a,t_user b where a.user_id=#{arg0,jdbcType=CHAR} and a.person_id=b.uid and b.name like CONCAT('%',#{arg1},'%')	
+ </select>
 </mapper>

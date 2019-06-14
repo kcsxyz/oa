@@ -39,13 +39,13 @@ public class ScheduleController {
 	 */
 	@RequestMapping("/schedulelist")
 	public String selectAllSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
-		
+		User user=(User) session.getAttribute("user");
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
-			List<Schedule> schedulelist = scheduleService.selectSchedule();	
+			List<Schedule> schedulelist = scheduleService.selectSchedule(user.getUid());	
 			if(schedulelist.size()>0) {
 				rr.setStateCode(1);
 			}else {
@@ -98,7 +98,6 @@ public class ScheduleController {
 		if(scheduleService.getScheduleById(schedule.getId())==null) {
 			User user =(User) session.getAttribute("user");
 			schedule.setCreateName(user.getUid());
-			System.out.println(user);
 			schedule.setCreateTime(new Date());
 			int i=scheduleService.addSchedule(schedule);
 			if(i<0) {

@@ -458,4 +458,10 @@
  <select id="getUserList" parameterType="java.lang.String" resultMap="BaseResultMap">
  	select a.*,b.*,c.* from t_user a,t_dept b,t_role c where a.dept_id=b.dept_id and a.role_id=c.role_id
  </select>
+ <select id="selectByDept" parameterType="int" resultMap="BaseResultMap">
+ 	select a.*,b.*,c.* from t_user a,t_dept b,t_role c where a.dept_id=b.dept_id and a.role_id=c.role_id and a.dept_id=#{id}
+ </select>
+ <select id="selectByNameLike" parameterType="string" resultMap="BaseResultMap">
+ 	select a.*,b.*,c.* from t_user a,t_dept b,t_role c where a.dept_id=b.dept_id and a.role_id=c.role_id and a.name like CONCAT('%',#{info},'%') 
+ </select>
 </mapper>

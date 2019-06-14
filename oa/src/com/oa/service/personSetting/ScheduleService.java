@@ -8,7 +8,7 @@ import com.oa.bean.Schedule;
 
 public interface ScheduleService {
 	//查询所有工作日程
-	List<Schedule> selectSchedule();
+	List<Schedule> selectSchedule(String string);
 	//根据id查询
 	Schedule getScheduleById(Integer id);
 	//新增用户

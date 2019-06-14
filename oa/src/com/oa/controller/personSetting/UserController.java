@@ -82,7 +82,7 @@ import com.oa.utils.md5;
 				User user1=userService.getUser(user.getUid());
 				model.addAttribute("user",user1);
 				session.setAttribute("user", user1);
-				System.out.println(user1);
+				//System.out.println(user1);
 	            //System.out.println("登录成功");
 	            rr.setStateCode(1);	            
 	        }else {
@@ -121,7 +121,7 @@ import com.oa.utils.md5;
         }
         return rr;
     }
-	
+	//跳转到修改密码页面
 	@RequestMapping("/toupdatePassword")
 	public String toupdatePassword() {
 		System.out.println(1);

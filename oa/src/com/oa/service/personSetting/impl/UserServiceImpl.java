@@ -83,6 +83,15 @@ public class UserServiceImpl implements UserService {
 		ct.andUidIn(listId);
 		userMapper.deleteByExample(de);
 	}
+	@Override
+	public List<User> selectByDept(Integer id) {
+		return userMapper.selectByDept(id);
+	}
+	@Override
+	public List<User> selectByNameLike(String info) {
+		// TODO Auto-generated method stub
+		return userMapper.selectByNameLike(info);
+	}
 	
 	
 	

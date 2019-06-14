@@ -113,4 +113,10 @@ public class WorkLogServiceImpl implements WorkLogService {
 		 de.or(ct2);		
 		return workLogMapper.selectByExample(de);
 	}
+
+	@Override
+	public List<WorkLog> selectWorkLogByCreateName(String uid) {
+		
+		return workLogMapper.getWorkLogByCreateName(uid);
+	}
 }

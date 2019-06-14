@@ -42,4 +42,8 @@ public interface UserMapper {
 	List<User> selectByParams(@Param("param") Map<String,String> param);
 	
 	User getUserMap(@Param("uid")String uid);
+
+	List<User> selectByDept(Integer id);
+
+	List<User> selectByNameLike(String info);
 }
