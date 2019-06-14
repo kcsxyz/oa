@@ -27,6 +27,8 @@ public interface NoticeMapper {
     
     List<Notice> selectFindAll();
     
+    List<Notice> selectByTime();
+    
     List<Notice> findByMany(String noticeInfo);
     
     List<Notice> selectByParams(@Param("param") Map<String, Object> params);

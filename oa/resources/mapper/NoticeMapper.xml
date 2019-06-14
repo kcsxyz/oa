@@ -301,4 +301,9 @@
       </where>
  </select>
 
+	<select id="selectByTime" resultMap="BaseResultMap" >
+	     SELECT * from t_notice  ORDER BY create_time DESC limit 0,5;
+	     
+	</select>
+
 </mapper>

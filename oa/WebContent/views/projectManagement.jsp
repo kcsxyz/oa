@@ -51,7 +51,7 @@
 			                  	  	  增加</span>
 		                  	  	  </button> 
 		                  	  	  <a href=""></a>
-		                  	  	  <button type="button" class="btn btn-danger" id="project_delete_all" style="background:#fff;">
+		                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="project_delete_all" style="background:#fff;">
 			                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  删除</span>
 		                  	  	  </button> 
@@ -188,7 +188,7 @@
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
                                       <a href="${pageContext.request.contextPath }/project/findByid/${page.projectId }"></a><button  class="btn btn-primary btn-xs editProject" p-id="${page.projectId }"><i class="fa fa-pencil"></i>编辑</button>
-                                      <a href="${pageContext.request.contextPath }/project/deleteProject/${page.projectId }"> <button class="btn btn-danger btn-xs"  ><i class="fa fa-trash-o "></i>删除</button></a>
+                                      <a href="${pageContext.request.contextPath }/project/deleteProject/${page.projectId }"> <button class="btn btn-danger btn-xs" onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
                                
                                   </td>
                               </tr>
@@ -298,7 +298,7 @@
 			projectNames=projectNames.substring(0,projectNames.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				alert("请选择要删除的公告");
+				alert("请选择要删除的项目");
 				return false;
 			}
 			alert(del_id_strs);
@@ -402,6 +402,12 @@
 				}
 			});
 		});
+		  
+		  function deledecfm() {
+		        if (!confirm("确认要删除吗？")) {
+		            window.event.returnValue = false;
+		        }
+		    }
 		
 		  function myCheck(form){
 			  if(form.projectName.value==''|| form.projectName.value==null){

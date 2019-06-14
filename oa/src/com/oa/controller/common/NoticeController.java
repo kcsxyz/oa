@@ -92,6 +92,20 @@ public class NoticeController {
 	
 	}
 	
+	/**
+	 * 通过最近时间查询
+	 * @return
+	 */
+	@RequestMapping("/findByNearTime")
+	public ResponseResult findByNearTime(Model model) {
+		ResponseResult rr = new ResponseResult();
+		List<Notice> noticeTime = noticeService.selectByTime(); 
+		 //model.addAttribute("findByNearTime",noticeTime);
+		rr.add("findByNearTime", noticeTime);
+		return rr;
+	
+	}
+	
 	/**根据id删除部门
 	 * @param ids
 	 * @return

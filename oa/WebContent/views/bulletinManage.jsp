@@ -57,7 +57,7 @@
 				                  		</a>
 
                                         	<a href="${pageContext.request.contextPath }/notice/deleteNotice/{ids}"> </a>
-				                  	  	  <button type="button" class="btn btn-danger" id="notice_delete_all" style="background:#fff;">
+				                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="notice_delete_all" style="background:#fff;">
 					                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 					                  	  	  删除</span>
 				                  	  	  </button>
@@ -139,7 +139,7 @@
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
                                       <a href="${pageContext.request.contextPath }/notice/findBynoticeId/${page.noticeId }"> <button class="btn btn-primary btn-xs" edit-id="${page.noticeId}"><i class="fa fa-pencil"></i>编辑</button></a>
-                                    <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
                                     
                                   </td>
                               </tr>
@@ -247,7 +247,7 @@ $("input[id='startTime']").datetimepicker({
 			noticeNames=noticeNames.substring(0,noticeNames.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				//alert("请选择要删除的公告");
+				alert("请选择要删除的公告");
 				return false;
 			}
 			alert(del_id_strs);
@@ -265,6 +265,14 @@ $("input[id='startTime']").datetimepicker({
 			}
 
 		});
+		
+		  function deledecfm() {
+		        if (!confirm("确认要删除吗？")) {
+		        	
+		            window.event.returnValue = false;
+		           
+		        }
+		    }
   </script>
 </body>
 </html>

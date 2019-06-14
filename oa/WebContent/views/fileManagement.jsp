@@ -51,7 +51,7 @@
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  上传文件</span>
 		                  	  	  </button> 	  
-		                  	  	  <button type="button" class="btn btn-danger" id="files_delete_all" style="background:#fff;">
+		                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="files_delete_all" style="background:#fff;">
 			                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  删除</span>
 		                  	  	  </button>
@@ -199,8 +199,8 @@
                                   <td style="text-align:center;"><fmt:formatDate value='${page.createTime }' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <a href="${ pageContext.request.contextPath }/files/download?file=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
-                                      <a href="${pageContext.request.contextPath }/files/deleteFile/${page.fileId }"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>删除</button></a>
+                                      <a href="${ pageContext.request.contextPath }/files/download?file=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" onclick="downloadcfm()" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
+                                      <a href="${pageContext.request.contextPath }/files/deleteFile/${page.fileId }"><button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o"></i>删除</button></a>
                                   </td>
                               </tr>
                              </c:forEach>
@@ -422,6 +422,20 @@
 		});
 	});
 		
+	 function downloadcfm() {
+	        if (!confirm("确认要下载吗？")) {
+	        	
+	            window.event.returnValue = false;
+	           
+	        }
+	    }
+	  function deledecfm() {
+	        if (!confirm("确认要删除吗？")) {
+	        	
+	            window.event.returnValue = false;
+	           
+	        }
+	    }
 		
     	  //完成全选/全部选
 		$("#check_all").click(function(){
@@ -448,7 +462,7 @@
 			files=files.substring(0,files.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				alert("请选择要删除的公告");
+				alert("请选择要删除的文件");
 				return false;
 			}
 			alert(del_id_strs);
