@@ -387,9 +387,7 @@
 		  alert("上传成功");
 		  return true;
 	  }
-	 
-   
-    
+  
   }
   function valate_form_msg(ele,status,msg){
 		//清除当前元素的校验状态

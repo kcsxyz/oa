@@ -38,7 +38,7 @@
 	          		<div class="col-md-12"style="margin-top:40px;" id="user_add">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-	                            <form class="form-horizontal style-form" method="post" action="" style="margin-top:80px;">
+	                            <form class="form-horizontal style-form" method="post" action="${pageContext.request.contextPath}/userpower/saveUser" onSubmit="return myCheck(this)" style="margin-top:80px;">
 	                            	 <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
 				                        	<div class="col-xs-3 col-sm-4" >
@@ -84,15 +84,6 @@
 				                          <div class="col-sm-4" style="float:left;">
 				                          <span style="color:#000;font-size:15px;;float:left;height:28px;text-align:right;line-height:28px;">年龄:</span>
                               				<div class="col-sm-6">
-                                  				<%-- <select name="deptId" class="selectpicker show-tick form-control" >
-                                  				    <option  selected="selected"></option>
-													<c:forEach items="${userDept }" var="u" >
-												         <option value="${u.deptId }">
-		                                                           ${u.deptName }
-		                                                  </option>
-		                                                
-												     </c:forEach>	
-                                  				</select> --%>
                                   				<select id="years" name="age" class="selectpicker show-tick form-control">
 			                          				<option value="16">---请选择---</option>
 			                          			</select>
@@ -187,14 +178,15 @@
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">详细地址:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="dizhi" >
+                                  				<input class="form-control"  type="text" id="dizhi" name="dizhi" >
                                   				<span class="help-block"></span>
                               				</div>
 			                          </div>
+			                           <input type="hidden" value="" id="address" name="address">
 	                            		<div class="form-group" style="border:none;margin-top:10px;">
 				                              <div class="col-sm-10" style="float:left; text-align:center;">
 					                              
-							                  	  	  <button type="button" class="btn btn-round btn-default" id="save_user" style="width:10%;background:#68dff0;">
+							                  	  	  <button type="submit" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:10%;background:#68dff0;">
 									                  	  <span style="color: rgb(255,255,255); font-size: 16px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 									                  	  	  提交</span>
 							                  	  	  </button>
@@ -222,6 +214,17 @@
 	<script src="/oa/js/method4.js"></script>
 	
 	 <script type="text/javascript">
+	 function saveUser()
+	 {
+		 var province = document.getElementById("province").value;
+		 var city = document.getElementById("city").value;
+		 var area = document.getElementById("area").value;
+		 var dizhi = document.getElementById("dizhi").value;
+		 var address = document.getElementById("address");
+		 $("#address").val(province+"—"+city+"—"+area+"—"+dizhi);
+		
+	 }
+	 
     $("#uid").blur(function(){
         var data = $("#uid").val();
         if (data == null || data == "") {
@@ -339,6 +342,60 @@
 			}
 		}
 	  
+	  function myCheck(form){
+		  if(form.uid.value==''|| form.uid.value==null){
+		  alert('工号不能为空!');
+		  form.uid.focus();
+		  return false;
+		  }
+		  if(form.name.value==''||form.name.value==null){
+		  alert('姓名不能为空!');
+		  form.name.focus();
+		  return false;
+		  }
+		  if(form.idCard.value=='' || form.idCard.value==null ){
+		  alert('身份证号码不能为空');
+		  form.idCard.focus();
+		  return false;
+		  }
+		  if(form.idCard.value.length<18 ||form.idCard.value.length>18 ){
+			  alert('身份证号码格式有误');
+			  form.idCard.focus();
+			  return false;
+		  }
+		  if(form.phone.value==''||form.phone.value==null){
+			  alert('手机号码不能为空!');
+			  form.phone.focus();
+			  return false;
+			  }
+		  if(!(new RegExp(/^1[3|4|5|7|8][0-9]{9}$/)).test(form.phone.value)){
+			  alert('输入正确的手机号码格式!');
+			  form.phone.focus();
+			  return false;
+		  }
+		  if(form.email.value==''||form.email.value==null){
+			  alert('邮箱不能为空!');
+			  form.email.focus();
+			  return false;
+			  }
+		  if(!(new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)).test(form.email.value)){
+			  alert('请输入正确的邮箱!');
+			  form.email.focus();
+			  return false;
+		  }
+		 if($("#uid").attr("ajax-va")=='error'){
+			  alert('请输入不重复的工号');
+			  return false;
+		  }  
+		 if($("#idCard").attr("ajax-va")=='error'){
+			  alert('请输入不重复的身份证号');
+			  return false;
+		  }  
+		 else{
+			  alert("录入成功");
+			  return true;
+		  }
+	  }
 	  
     </script> 
 

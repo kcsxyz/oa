@@ -158,9 +158,8 @@
                                   <!-- 你根据原型图修改操作的地方 -->
                                   
                                   	<a href="${pageContext.request.contextPath }/userpower/findByid/${page.uid }"><button class="btn btn-primary btn-xs" u-id="${page.uid}"><i class="fa fa-pencil"></i>编辑</button> </a>
-                                    
-                                     
-                                      <a href="${pageContext.request.contextPath }/userpower/deleteUser/${page.uid }"><button class="btn btn-danger btn-xs" ><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/userpower/deleteUser/${page.uid }"><button class="btn btn-danger btn-xs" ><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/userpower/updateUserPassword?uid=${page.uid }"><button class="btn btn-danger btn-xs" onclick="javascript:delcfm()"  ><i class="fa fa-pencil" "></i>重置密码</button></a>
                                   </td>
                               </tr>
                                </c:forEach>
@@ -302,6 +301,14 @@
   			}
 
   		});
+  		
+  	   function delcfm() {
+  	        if (!confirm("确认要重置密码？")) {
+  	        	
+  	            window.event.returnValue = false;
+  	           
+  	        }
+  	    }
   </script>
 </body>
 </html>

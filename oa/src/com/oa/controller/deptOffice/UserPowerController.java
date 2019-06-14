@@ -47,23 +47,14 @@ public class UserPowerController {
 		return "addRenLi";
 	}
     @RequestMapping("/saveUser")
-    @ResponseBody
-    public ResponseResult  saveUser(User user) {
-     ResponseResult rr = new ResponseResult();
+    public String  saveUser(User user) {
     	String modifiedName = ""; 
     	String password = "123456";
     	user.setCreateTime(new Date());
     	user.setPassword(password);
     	user.setModifiedName(modifiedName);
-    	int i = userPowerService.insertSelective(user);
- 	   if(i!=0) {
-		   rr.setStateCode(1);
-		   rr.setMessage("录入成功");
-	   }else {
-		   rr.setStateCode(0);
-			rr.setMessage("录入失败");
-	   }
-		return rr;
+        userPowerService.insertSelective(user);
+		return "redirect:/userpower/findUser";
     }
     
     /**
@@ -90,7 +81,9 @@ public class UserPowerController {
 	public String getDeptById(@PathVariable("id") String uid,Model model) {
 		User userPower = userPowerService.selectByPrimaryKey(uid);
 		 List<Dept> depts = userPowerService.selectByDept();
-		 model.addAttribute("userDept", depts);
+		   List<Role> roles = userPowerService.selectByRole();
+	    model.addAttribute("userRole", roles);
+		model.addAttribute("userDept", depts);
 		model.addAttribute("userPower", userPower);
 		return "updateRenLi";
 	}
@@ -192,12 +185,29 @@ public class UserPowerController {
 						rr.setMessage("身份证号码已存在");
 						rr.setStateCode(0);
 					}else {
-						rr.setMessage("身份证号码可用");
+						rr.setMessage("身份证号码无重复");
 						rr.setStateCode(1);
-						
 					}
 					return rr;
 				}	
-	
+			    /**
+		         * 修改用户信息
+		     * @param user
+		     * @return
+		     */
+		    @RequestMapping("/updateUserPassword")
+		    public String  updateUserPassword(
+		    		 User user,
+		    		 HttpSession session,
+					 String uid,
+					 Model model
+		    		) {
+		    	String modifiedName = (String) session.getAttribute("uid");
+			    user.setUid(uid);
+			    user.setModifiedName(modifiedName);
+			    user.setModifiedTime(new Date());
+				userPowerService.updateByPassword(user);
+				return "redirect:/userpower/findUser";
+		    }
     
 }

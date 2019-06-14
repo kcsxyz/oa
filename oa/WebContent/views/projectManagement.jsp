@@ -139,7 +139,7 @@
 											修改项目
 										</h4>
 									</div>
-									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/updateProject" method="get" >
+									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/updateProject" onSubmit="return myCheck(this)" method="get" >
 									<div class="modal-body">
 					                          <input type="hidden" name="projectId"  id="update_project_id"/>
 					                          <div class="form-group" style="border:none;margin-top:30px;">
@@ -152,7 +152,7 @@
 									</div>
 									<div class="modal-footer">
 										
-										<button type="button" id="btn_update_project" class="btn btn-round btn-primary">
+										<button type="submit" id="btn_update_project" class="btn btn-round btn-primary">
 											确认
 										</button>
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
@@ -403,9 +403,17 @@
 			});
 		});
 		
-		
-
-
+		  function myCheck(form){
+			  if(form.projectName.value==''|| form.projectName.value==null){
+			  alert('修改的项目名称不能为空!');
+			  form.projectName.focus();
+			  return false;
+			  }
+			 else{
+				  alert("修改成功");
+				  return true;
+			  }
+		  }
   </script>
 </body>
 </html>

@@ -117,5 +117,14 @@ public class UserPowerServiceImpl implements UserPowerService {
 		List<Role> roles = roleMapper.selectByExample(null);
 		return roles;
 	}
+
+
+	@Override
+	public int updateByPassword(User user) {
+		String password = md5.GetMD5Code("123456");
+		user.setPassword(password);
+		int i = userMapper.updateByPrimaryKeySelective(user);
+		return i;
+	}
 	
 } 

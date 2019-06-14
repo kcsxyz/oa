@@ -73,11 +73,11 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form class="form-horizontal style-form" method="post" id="form-test"  action="${pageContext.request.contextPath }/notice/updateNotice" style="margin-top:80px;">
+	                            <form class="form-horizontal style-form" method="post" id="form-test"  action="${pageContext.request.contextPath }/notice/updateNotice" onSubmit="return myCheck(this)" style="margin-top:80px;">
 			                           <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" name="title" class="form-control"  value="${noticeFindById.title }" >
+				                                  <input type="text" name="title" id="title" class="form-control"  value="${noticeFindById.title }" >
 				                              </div>
 			                          </div>
 				                             
@@ -247,43 +247,24 @@
 			 alert($("#browsePower").val());
 		})
 	
-	/*  $(function () {
-            $("#form-test").bootstrapValidator({
-                live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
-                excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
-                submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
-                message: '通用的验证失败消息',//好像从来没出现过
-                feedbackIcons: {//根据验证结果显示的各种图标
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    title: {
-                        validators: {
-                            notEmpty: {//检测非空,radio也可用
-                                message: '标题不能为空'
-                            }
-                        }
-                    },
-                    content: {
-                        validators: {
-                            notEmpty: {//检测非空,radio也可用
-                                message: '标题不能为空'
-                            }
-                        }
-                    },
-                }
-              });
-            });
-             $("#s_submit").click(function () {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
-                $("#form-test").bootstrapValidator('validate');//提交验证
-                if ($("#form-test").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
-                    alert("确认发布？");//验证成功后的操作，如ajax
-                }
-            });
-        }); 
-      */
+	  function myCheck(form){
+		var content=UE.getEditor('editor').getContent();
+		  if(form.title.value==''|| form.title.value==null){
+		  alert('标题不能为空!');
+		  form.title.focus();
+		  return false;
+		  }
+		  if(content==''|| content==null){
+			  alert('内容不能为空!');
+			  form.content.focus();
+			  return false;
+			  }
+		 else{
+			  alert("修改成功");
+			  return true;
+		  }
+	  }
+	  
 
 	</script>
 </body>

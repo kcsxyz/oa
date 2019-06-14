@@ -20,11 +20,15 @@ public interface UserPowerService {
 	 */
 	 int insertSelective(User user);
 	 /**
-	    * 单个修改
+	    * 修改信息
 	  * @param record
 	  * @return
 	  */
 	 int updateByPrimaryKeySelective(User user);
+	 /**
+	  * 
+	  */
+	 int updateByPassword(User user);
 	 /**
 	  * 根据id查询
 	  * @param uid
