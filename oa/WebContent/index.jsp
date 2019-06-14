@@ -14,16 +14,16 @@
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,7 +68,6 @@
 	                      		</div>
                       		</div>
                       	</div>
-                      	
 						<div class="col-md-4 col-md-4 mb" style="width:420px; height:400px;margin-right:5px;">
 							<!--  WHITE PANEL - TOP USER  -->
 							<div class="white-panel pn" style="height:80%;">
@@ -150,24 +149,24 @@
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/jquery-1.8.3.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="assets/js/jquery.sparkline.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/jquery-1.8.3.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="/oa/assets/js/jquery.sparkline.js"></script>
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+    <script src="/oa/assets/js/common-scripts.js"></script>
     
-    <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
+    <script type="text/javascript" src="/oa/assets/js/gritter/js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="/oa/assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-	<script src="assets/js/zabuto_calendar.js"></script>	
+    <script src="/oa/assets/js/sparkline-chart.js"></script>    
+	<script src="/oa/assets/js/zabuto_calendar.js"></script>	
 	
 	<!-- <script type="text/javascript">
         $(document).ready(function () {
@@ -222,6 +221,43 @@
             var nav = $("#" + id).data("navigation");
             var to = $("#" + id).data("to");
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+        
+        function isAttend() {
+            $.post("/attend/isAttend", {}, function (data) {
+                if (data != null && JSON.stringify(data).length > 2) {
+                    var time = $.common.dateFormat(data);
+                    var date = time.substring(10, time.length);
+                    $("#attendTime").html(date);
+                    $("#isAttend").html('已签到');
+                }
+            })
+        }
+        isAttend();
+
+        //点击打卡
+        function attend() {
+            //判断是否已经签到了
+            $.post("/attend/isAttend", {}, function (data) {
+                layer.confirm("是否签到？", {
+                    icon: 3,
+                    title: "系统提示",
+                    btn: ["确认", "取消"],
+                    btnclass: ["btn btn-primary", "btn btn-danger"]
+                }, function (index) {
+                    layer.close(index);
+                    $.post("/attend/addSave", {}, function (data) {
+                        if (data.code == web_status.SUCCESS) {
+                            layer.msg("已签到", {icon: $.modal.icon('success'), time: 500, shade: [0.1, "#8F8F8F"]})
+                            isAttend();
+                        } else {
+                            $.modal.alertError(data.msg)
+                        }
+                    }).error(function (data) {
+                        $.modal.alertError("系统错误！");
+                    })
+                })
+            })
         }
     </script>
   

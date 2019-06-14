@@ -209,8 +209,8 @@
     where process_node_id = #{processNodeId,jdbcType=INTEGER}
   </update>
 
-<select id="getProcessNodeId" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select process_node_id  from t_process_node where process_no = #{processNo}
+<select id="getProcessNodeId" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select process_node_id  from t_process_node where process_no = #{processNo} and process_node_role=#{roleName}
     
   </select>
 </mapper>

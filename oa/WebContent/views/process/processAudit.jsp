@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>请假申请</title>
+<title>请假审批</title>
 <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
 <style type="text/css">
 	.content-panel{
@@ -21,8 +21,8 @@
 <body>
 	<!-- 引入导航栏 -->
 
-	<!-- 修改部门模态框 -->
-	<div class="modal fade" id="dept_update_model" tabindex="-1"
+	<!-- 修改请假模态框 -->
+	<div class="modal fade" id="leave_audit_model" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -31,98 +31,62 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">部门修改</h4>
+					<h4 class="modal-title" id="myModalLabel">请假审批</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">部门名称</label>
+							<input type="hidden" id="leaveId" name="leaveId">
+							<input type="hidden" id="currentNo" name="currentNo">
+							<input type="hidden" id="processNo" name="processNo">
+							<label class="col-sm-2 control-label">请假人：</label>
 							<div class="col-sm-10">
-								<input type="hidden" name="deptId" id="deptId" > 
-								<!-- <p class="form-control-static" id="deptName_update"></p> -->
-								<input type="text" name="deptName" class="form-control"
-									id="deptName_update" placeholder="部门名称"> <span
-									class="help-block"></span>
+								<p class="form-control-static" id="userName"></p>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">上级部门</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="deptPId" id="select_update_dept">
-								</select>
-							</div>
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">描述</label>
+							<label class="col-sm-2 control-label">工号：</label>
 							<div class="col-sm-10">
-								<textarea name="remark" id="remark_update" class="form-control" rows="3" ></textarea>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="update_dept">修改</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 新增员工模态框 -->
-	<div class="modal fade" id="leave_add_model" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">请假申请</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">请假类型</label>
-							<div class="col-sm-4">
-								<select class="form-control" name="leaveType" id="leaveType">
-									<option value="事假">事假</option>
-									<option value="婚假">婚假</option>
-									<option value="病假">病假</option>
-									<option value="婚假">产假(陪产假)</option>
-									<option value="丧假">丧假</option>
-									<option value="年假">年假</option>
-									<option value="换休假">换休假</option>
-									<option value="产检假">产检假</option>
-								</select>
+								<p class="form-control-static" id="userId"></p>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">起始时间</label>
+							<label class="col-sm-2 control-label">类型：</label>
 							<div class="col-sm-10">
-								<input type="date" name="startTime" class="form-control" id="startTime" placeholder=""> <span
-									class="help-block"></span>
+								<p class="form-control-static" id="leaveType"></p>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">结束时间</label>
+							<label class="col-sm-2 control-label">起始时间：</label>
 							<div class="col-sm-10">
-								<input type="date" name="endTime" class="form-control" id="endTime" placeholder=""> <span
-									class="help-block"></span>
+								<p class="form-control-static" id="startTime"></p>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">请假事由</label>
+							<label class="col-sm-2 control-label">结束时间：</label>
 							<div class="col-sm-10">
-								<textarea name="leaveReason" id="leaveReason" class="form-control error" rows="4" ></textarea>
+								<p class="form-control-static" id="endTime"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">请假事由：</label>
+							<div class="col-sm-10">
+									<textarea name="leaveReason" id="leaveReason" class="form-control" rows="3" disabled></textarea>
 							</div>
 						</div>
 						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">审批意见：</label>
+							<div class="col-sm-10">
+									<textarea name="auditOpinion" id="auditOpinion" class="form-control" rows="3" ></textarea>
+							</div>
+						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="save_leave">提交申请</button>
+					<button type="button" class="btn btn-danger shen" id="reject" >拒绝</button>
+					<button type="button" class="btn btn-warning shen" id="reback">驳回</button>
+					<button type="button" class="btn btn-primary shen" id="pass">通过</button>
 				</div>
 			</div>
 		</div>
@@ -143,7 +107,7 @@
 						<button class="btn btn-primary btn-sm" id="leave_add">
 							<i class="glyphicon glyphicon-plus"></i>填写申请
 						</button>
-						<button class="btn btn-danger" id="dept_delete_all">删除</button>
+						<!-- <button class="btn btn-danger" id="dept_delete_all">删除</button> -->
 					</h4>
 					<section id="unseen">
 					<table
@@ -211,8 +175,8 @@
 				type : "get",
 				success : function(result) {
 					//alert(result);
-					//显示部门信息
-					create_dept_table(result);
+					//显示请假信息
+					create_leave_table(result);
 					//显示记录数
 					create_page_info(result);
 					//显示分页导航
@@ -297,7 +261,7 @@
 		}
 
 		//构建请假列表
-		function create_dept_table(result) {
+		function create_leave_table(result) {
 			//清空table
 			$("#processData").empty();
 			var process = result.extend.pageInfo.list;
@@ -334,9 +298,9 @@
 							.append(
 									$("<span></span>")
 											.addClass(
-													"glyphicon glyphicon-pencil"))
-							.append("查看");
-					//为编辑按钮添加一个自定义属性，用于保存部门id	
+													"glyphicon glyphicon-check"))
+							.append(" ").append("审核");
+					//为编辑按钮添加一个自定义属性，用于保存请假id	
 					editBtn.attr("edit-id", item.id);
 					var delBtn = $("<button></button>")
 							.addClass(
@@ -346,7 +310,7 @@
 											.addClass(
 													"glyphicon glyphicon-trash"))
 							.append("删除");
-					//为删除按钮添加一个自定义属性，用于保存部门id
+					//为删除按钮添加一个自定义属性，用于保存请假id
 					delBtn.attr("delete-id", item.id);
 					var btnTd = $("<td></td>").append(editBtn)
 							.append(" ").append(delBtn);
@@ -460,11 +424,11 @@
 			});
 		});
 		
-		//添加部门
+		//添加请假
 		$("#leave_add").click(function() {
 			//重置表单，清除数据
 			 clear_form('#leave_add_model form');
-			//获取部门
+			//获取请假
 			//create_dept("#select_add_dept");
 			//显示模态框
 			$("#leave_add_model").modal({
@@ -472,36 +436,89 @@
 			});
 		});
 		
-		/*--------------------修改部门----------------- */
+		/*--------------------请假审批----------------- */
 		//通过这个方法才能找到后添加的元素
 		$(document).on("click",".edit_btn",function(){
-			//1、查出部门
-			create_dept("#select_update_dept");
-			//2.得到员工
-			getDept($(this).attr("edit-id"));
+			//.得到请假实例员工
+			getLeave($(this).attr("edit-id"));
 			//把员工id传给更新按钮
-			$("#update_dept").attr("edit-id",$(this).attr("edit-id"));
+			//$("#update_dept").attr("edit-id",$(this).attr("edit-id"));
 			//打开更新模态框
-			$("#dept_update_model").modal({
+			$("#leave_audit_model").modal({
 				backdrop:'static'
 			});
 		});
-		//通过id获取员工
-		function getDept(id){
+		//通过id获取请假申请
+		function getLeave(id){
 			$.ajax({
-				url: "/oa/system/getDeptById?id="+id,
+				url: "/oa/process/getLeaveById?id="+id,
 				type: "GET",
 				success:function(result){
-					var dept=result.extend.dept;
-					$('#deptId').val(dept.deptId);
-					$('#deptName_update').val(dept.deptName);
-					$('#remark_update').val(dept.remark);
-					$('#dept_update_model select').val([dept.deptPId]);
+					var leave=result.extend.leave;
+					$("#userName").text(leave.userName);
+					$("#userId").text(leave.userId);
+					$('#leaveType').text(leave.leaveType);
+					$('#startTime').text(timestampToTime(leave.startTime));
+					$('#endTime').text(timestampToTime(leave.endTime));
+					$('#leaveReason').val(leave.leaveReason);
+					$("#currentNo").val(leave.currentNo);
+					$("#leaveId").val(leave.id);
+					$("#processNo").val(leave.processNo);
+					
 				}
 			});
 		}
 		
-		//--------------更新部门-----------------------------
+		
+		//保存审批信息
+		$(document).on("click",".shen",function(){
+			var startTime = $("#startTime").text();
+			var endTime = $("#endTime").text();
+			var isGreaterThree = compareTimeMoreThree(startTime,endTime);
+			var leaveId = $("#leaveId").val();
+			var currentNo = $("#currentNo").val();
+			var opinion = $("#auditOpinion").val();
+			var status = "";
+			if($(this).attr("id")=="reject"){
+				status = "拒绝";
+			}else if($(this).attr("id")=="reback"){
+				status = "驳回";
+			}else{
+				status = "通过";
+			}
+			alert(status);
+			
+			$.ajax({
+				url: "/oa/process/updateProcess",
+				type: "post",
+				data: {
+					"leaveId":leaveId,
+					"currentNo":currentNo,
+					"opinion":opinion,
+					"status":status,
+					"isGreaterThree":isGreaterThree,
+					"processNo":processNo
+				},			
+				success:function(result){
+					//关闭对话框
+					$("#leave_audit_model").modal('hide');
+					//回到当前页
+					to_page(currentPage);
+				}
+			});
+			
+		});
+		
+		 function compareTimeMoreThree(startTime,endTime){
+			var sdate = new Date(startTime); 
+			var now = new Date(endTime); 
+			var days = now.getTime() - sdate.getTime(); 
+			var day = parseInt(days / (1000 * 60 * 60 * 24)); 
+			var greaterThree = day >3 ? true:false;
+			return greaterThree; 
+		 } 
+		 
+		//--------------更新审批-----------------------------
 		$('#update_dept').click(function(){
 			var deptName=$('#deptName_update').val();
 			alert(deptName);
@@ -514,17 +531,17 @@
 			$.ajax({
 				url: "/oa/system/updateDeptById",
 				type: "post",
-				data: $("#dept_update_model form").serialize(),			
+				data: $("#leave_audit_model form").serialize(),			
 				success:function(result){
 					//关闭对话框
-					$("#dept_update_model").modal('hide');
+					$("#leave_audit_model").modal('hide');
 					//回到当前页
 					to_page(currentPage);
 				}
 			});
 		});
 		
-		//删除部门
+		//删除请假
 		$(document).on("click",".delete_btn",function(){
 			//1、获得当前员工的名字
 			var deptName=$(this).parents('tr').find('td:eq(2)').text();
@@ -599,7 +616,7 @@
 			   m = date.getMinutes() + ':';
 			   s = date.getSeconds();
 			   return Y+M+D+h+m+s;
-		}
+	}
 	</script>
 </body>
 </html>

@@ -14,6 +14,29 @@
     <result column="current_no" jdbcType="INTEGER" property="currentNo" />
     <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
+  
+  <resultMap id="BaseResultMapWithAudit" type="com.oa.bean.Leave">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="leave_type" jdbcType="VARCHAR" property="leaveType" />
+    <result column="leave_reason" jdbcType="VARCHAR" property="leaveReason" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="process_no" jdbcType="VARCHAR" property="processNo" />
+    <result column="current_no" jdbcType="INTEGER" property="currentNo" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <collection property="auditList" ofType="com.oa.bean.Audit">
+    	<id column="audit_id" jdbcType="INTEGER" property="auditId" />
+	    <result column="pro_id" jdbcType="INTEGER" property="proId" />
+	    <result column="process_node_id" jdbcType="INTEGER" property="processNodeId" />
+	    <result column="audit_user_id" jdbcType="CHAR" property="auditUserId" />
+	    <result column="audit_name" jdbcType="VARCHAR" property="auditName" />
+	    <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
+	    <result column="audit_date" jdbcType="DATE" property="auditDate" />
+    </collection>
+  </resultMap> 
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -303,6 +326,9 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getLeaveById" parameterType="java.lang.Integer" resultMap="BaseResultMapWithAudit">
+  		SELECT le.*, au.* FROM t_leave le LEFT JOIN t_audit au ON au.pro_id =le.id WHERE le.id = #{id}
+  </select>
   <select id="getNeedAuditLeave" parameterType="java.util.Map" resultType="com.oa.bean.Leave">
   	select le.* from t_leave le,t_process_node pn,t_process_role_user pro where le.process_no= pn.process_no and le.current_no=pn.process_node_id
   		and pn.process_node_role=#{roleName} and le.status="审核中" and pro.dept_id=#{deptId}
