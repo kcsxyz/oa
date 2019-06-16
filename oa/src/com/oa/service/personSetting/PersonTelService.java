@@ -12,5 +12,9 @@ public interface PersonTelService {
 	
 	//单个删除
 	void deletePersonTel(String uid, String id);
+	
+	List<PersonTel> selectByDept(String uid,Integer id);
+	
+	List<PersonTel> selectLike(String uid, String info);
 
 }

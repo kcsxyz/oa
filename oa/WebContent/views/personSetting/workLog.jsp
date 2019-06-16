@@ -47,35 +47,32 @@
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
                           
                           <!-- 上部放按钮的地方开始 -->
-                         <form class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
+                         <form id="select-form" action="selectLikeWorkLog" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/workLog/toAddWorkLog'">
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  增加</span>
 		                  	  	  </button>
-		                  	  	  <button type="button" class="btn btn-danger" style="background:#fff;">
+		                  	  	  <button type="button" id="workLog_delete_all" class="btn btn-danger" style="background:#fff;">
 			                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  删除</span>
 		                  	  	  </button>
-	                  	  	</div>
-	                  	  	
-	                  	  	
-	                  	  	
+	                  	  	</div>	                  	  	
 	                  	  	<div class="col-xs-6 col-sm-4" style="float:left;">
 		                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
-				                  	  	  <input type="text" class="form-control round-form" id="startTime" placeholder="起始时间" style="width:30%;height:28px;float:left;">
+				                  	  	  <input type="text" class="form-control round-form" id="startTime" name="startTime" placeholder="起始时间" style="width:30%;height:28px;float:left;">
 				                  	  	 
 				                  	  	  <span class="glyphicon glyphicon-resize-horizontal" style="color: rgb(0, 0, 0);float:left;height:28px;text-align:center;line-height:28px;
 				                  	  	  font-size: 15px; margin-left:3px;margin-right:7px;text-shadow: rgb(255, 0, 0) 0px 0px 0px;">
 										  </span> 
 										  
-				                  	  	  <input type="text" class="form-control round-form" id="startTime" placeholder="终止时间" style="width:30%;height:28px;">
+				                  	  	  <input type="text" class="form-control round-form" id="startTime" name="endTime" placeholder="终止时间" style="width:30%;height:28px;" >
 	                  	  	</div>
 	                  	  	  <div class="col-xs-6 col-sm-3" style="float:left;">
-                              		<input type="text" class="form-control" style="width:60%;height:28px;float:left;">
+                              		<input type="text" name="workLogInfo" class="form-control" style="width:60%;height:28px;float:left;">
                               		
-                              		<button type="button" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
+                              		<button type="submit" id="bt-select" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
                               		<span class="glyphicon glyphicon-search" style="color: rgb(255,255,255); font-size: 12px;
                               		 text-shadow: rgb(255,255,255) 0px 0px 0px; ">&nbsp;搜索</span>
                               		</button>
@@ -87,7 +84,7 @@
                            <table class="table table-striped table-advance table-hover">
                               <thead>
                               <tr >
-                              	  <th style="text-align:center;"><input type="checkbox" class="list-child" value=""  /></th>
+                              	  <th style="text-align:center;"><input type="checkbox" id="check_all" class="list-child" value=""  /></th>
                                   <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">标题</th>
                                   <th style="text-align:center;">日志内容</th>
@@ -99,17 +96,17 @@
                               <c:forEach items="${workLoglist}" var="workLog" varStatus="status">
                               <tbody>
                               <tr>
-                                  <td style="text-align:center;"><input type="checkbox" class="list-child" value=""  /></td>
+                                  <td style="text-align:center;"><input type="checkbox" class="list-child check_item"  value="" /></td>
                                   <td style="text-align:center;">${ status.index + 1 + (pageInfo.pageNum-1)*10}</td>
                                   <input type="hidden" name="logId" value="${workLog.logId}">
                                   <td style="text-align:center;">${workLog.title}</td>
                                   <td style="text-align:center;">${workLog.content}</td>
-                                  <td style="text-align:center;">${workLog.createName }</td>
+                                  <td style="text-align:center;">${workLog.user.name}</td>
                                   <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workLog.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <button class="btn btn-primary btn-xs" onclick="window.location.href='/oa/workLog/getWorkLogById/${workLog.logId}'"><i class="fa fa-pencil"></i>编辑</button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>删除</button>
+                                      <button class="btn btn-primary btn-xs" edit-id="${workLog.logId}" onclick="window.location.href='/oa/workLog/getWorkLogById/${workLog.logId}'"><i class="fa fa-pencil"></i>编辑</button>
+                                      <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workLog/deleteWorkLog/${workLog.logId}'"><i class="fa fa-trash-o "></i>删除</button>
                                   </td>
                               </tr>
                               </tbody>
@@ -189,6 +186,86 @@
 	            autoclose:true //选择一个日期之后是否立即关闭此日期选择器
 	        });
 	    </script>
-	  
+	   <script>
+	 $("#del-but").click(function(){
+        var logId = $("#del-but").serialize();
+        
+		$.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/workLog/deleteWorkLog',
+            data: "logId="+logId,
+            success: function(xhr){
+                if(xhr.stateCode==1){  //成功
+                    window.location.href="${pageContext.request.contextPath}/workLog/workLoglist";
+                }else if(xhr.stateCode==0){ //失败
+                    alert(xhr.message);
+                }
+            }
+        });
+    });
+</script>
+<script>
+      $("#check_all").click(function(){
+			//attr获取checked是undefined
+			//一般用attr获取自定义的属性，用prop获取dom原生的属性
+			$('.check_item').prop("checked",$(this).prop("checked"));
+		});
+		$(document).on("click",".check_item",function(){
+			var flag=($(".check_item:checked").length == $(".check_item").length);
+			$("#check_all").prop("checked",flag);
+		});
+		
+		//批量删除
+		$("#workLog_delete_all").click(function(){
+			var planNames="";
+			var del_id_strs="";
+			$.each($(".check_item:checked"),function(){
+				//alert(del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id'));
+				planNames += $(this).parents("tr").find("td:eq(2)").text() + ",";
+				del_id_strs += del_id_strs = $(this).parents("tr").find("td:last").find("button").attr('edit-id') + "-";
+			});
+			
+			//去除最后的那个,
+			planNames=planNames.substring(0,planNames.length-1);
+			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
+			if(del_id_strs == ""){
+				//alert("请选择要删除的工作计划");
+				return false;
+			}
+			alert(del_id_strs);
+			if(confirm("确定删除吗?")){
+				$.ajax({
+					url: "/oa/workLog/deleteWorkLog/"+del_id_strs,
+					type: "post",		
+					success:function(result){
+						window.location.href="workLoglist";
+					}
+				});
+			}
+		});
+		
+  </script>
+  <!-- <script type="text/javascript">
+   $('#bt-select').click(function(){
+        //读取用户的输入——表单序列化
+        var inputData = $('#select-form').serialize();
+       
+        //异步提交请求，进行验证
+        
+		$.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/workLog/selectLikeWorkLog',
+            data: inputData,
+            success: function(xhr){
+                alert(inputData);
+                if(xhr.stateCode==1){  //成功                	
+                    window.location.href="${pageContext.request.contextPath}/workLog/workLog";
+                }else if(xhr.stateCode==0){ //失败
+                    alert(xhr.message);
+                }
+            }
+        });
+    });
+</script> -->
 </body>
 </html>

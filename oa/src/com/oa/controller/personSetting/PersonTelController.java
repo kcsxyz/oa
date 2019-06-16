@@ -4,20 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.oa.bean.PersonTel;
 import com.oa.bean.ResponseResult;
 import com.oa.bean.User;
+import com.oa.bean.WorkLog;
 import com.oa.service.personSetting.PersonTelService;
 import com.oa.service.personSetting.UserService;
 
+/**
+ * @author Administrator
+ *
+ */
 @Controller
-@RequestMapping("persontel")
+@RequestMapping("personTel")
 public class PersonTelController {
 	@Resource
 	private PersonTelService personTelService;	
@@ -29,24 +40,27 @@ public class PersonTelController {
 	 * @return
 	 * 获取个人通讯录
 	 */
+	
 	@RequestMapping("/getPersonTel")
-	@ResponseBody
-	public ResponseResult getPersonTel(String uid,Model model) {
-		ResponseResult rr=new ResponseResult();
-		List<PersonTel> personTelList=personTelService.selectByUid(uid);
-		List<User> userList=new ArrayList<User>();
-		for (PersonTel personTel : personTelList) {			
-			User user=userService.getUser(personTel.getPersonId());
-			userList.add(user);			
+	public String getPersonTel(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session) {
+		User user=(User) session.getAttribute("user");
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<User> userlist=new ArrayList<>();
+			List<PersonTel> personTelList=personTelService.selectByUid(user.getUid());	
+			for (PersonTel personTel : personTelList) {
+				userlist.add(userService.getUser(personTel.getPersonId()));
+			}
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<PersonTel> page = new PageInfo<PersonTel>(personTelList, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(userList.size()>0) {
-			model.addAttribute(userList);
-			rr.setStateCode(1);
-		}else {
-			rr.setStateCode(0);
-			rr.setMessage("未查询到数据");
-		}
-		return rr;
+		return "personSetting/mailList";
 	}
 	/**
 	 * @param personTel
@@ -55,11 +69,12 @@ public class PersonTelController {
 	 * 新增
 	 */
 	@RequestMapping("/addPersonTel")
-	@ResponseBody
-	public ResponseResult addPersonTel(PersonTel personTel,Model model) {
+	public String addPersonTel(String pid,Model model,HttpSession session) {
+		User user=(User) session.getAttribute("user");
 		ResponseResult rr=new ResponseResult();
-		personTel.setUserId("1");
-		personTel.setPersonId("3");
+		PersonTel personTel=new PersonTel();
+		personTel.setUserId(user.getUid());
+		personTel.setPersonId(pid);
 		int i=personTelService.addpersonTel(personTel);
 		if(i<0) {
 			rr.setStateCode(1);
@@ -67,26 +82,172 @@ public class PersonTelController {
 			rr.setStateCode(0);
 			rr.setMessage("添加失败");
 		}
-		return rr;
+		return "redirect:/personTel/getPersonTel";
 	}
-	@RequestMapping("/deletePersonTel")
-	@ResponseBody
-	public ResponseResult deletePersonTel(String uid,String id) {
-		ResponseResult rr = new ResponseResult();
-		uid="1";
-		id="2-3";
+	/**
+	 * @param id
+	 * @param session
+	 * @return
+	 * 单个删除
+	 */
+	@RequestMapping("/deletePersonTel/{id}")
+	public String deletePersonTel(@PathVariable("id") String id,HttpSession session) {
+		User user=(User) session.getAttribute("user");
+		personTelService.deletePersonTel(user.getUid(), id);
+		return "redirect:/personTel/getPersonTel";
+	}
+	/**
+	 * @param logId
+	 * @param session
+	 * @return
+	 * 批量删除
+	 */
+	@RequestMapping(value="/deletePersonTel/{id}",method=RequestMethod.POST)
+	public String deleteWorkLog(@PathVariable("id")String logId,HttpSession session) {
+		User user=(User) session.getAttribute("user");
+		String ids=logId;
 		//批量删除
-		if (id.contains("-")) {			
-			String[] split_ids = id.split("-");
-			for (String string : split_ids) {				
-				personTelService.deletePersonTel(uid,string);
+		if (ids.contains("-")) {
+			String[] split_ids = ids.split("-");
+			for (String string : split_ids) {
+				personTelService.deletePersonTel(user.getUid(),string);
 			}
-			rr.setStateCode(1);
-		// 单个删除
-		} else {			
-			personTelService.deletePersonTel(uid,id);;
-			rr.setStateCode(1);
-				}
-		return rr;			
+		} 
+		return "redirect:/personTel/getPersonTel";			
+	}
+	/**
+	 * @param pageNo
+	 * @param pageSize
+	 * @param model
+	 * @return所有个人通讯录
+	 */
+	@RequestMapping("/allPersonTel")
+	public String allPersonTel(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<User> userlist=userService.selectUser();		
+			
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<User> page = new PageInfo<User>(userlist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "personSetting/allMailList";
+	}
+	
+	/**
+	 * @param pageNo
+	 * @param pageSize
+	 * @param model
+	 * @param id
+	 * @param session
+	 * @return根据部门查询个人通讯录
+	 */
+	@RequestMapping("/selectPersonTelByDept")
+	public String selectPersonTelByDept(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,Integer id,HttpSession session) {
+			User users=(User) session.getAttribute("user");
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<PersonTel> personTellist=personTelService.selectByDept(users.getUid(),id);
+			List<User> userlist=new ArrayList<>();
+			for (PersonTel personTel : personTellist) {
+				User user=userService.getUser(personTel.getPersonId());				
+				userlist.add(user);
+			}
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<User> page = new PageInfo<User>(userlist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "personSetting/mailList";
+	}
+	
+	/**
+	 * @param pageNo
+	 * @param pageSize
+	 * @param model
+	 * @param info
+	 * @param session
+	 * @return个人通讯录模糊查询
+	 */
+	@RequestMapping("/selectPersonTelLike")
+	public String selectPersonTelLike(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,String info,HttpSession session) {
+			User users=(User) session.getAttribute("user");
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<PersonTel> personTellist=personTelService.selectLike(users.getUid(),info);
+			List<User> userlist=new ArrayList<>();
+			for (PersonTel personTel : personTellist) {
+				User user=userService.getUser(personTel.getPersonId());				
+				userlist.add(user);
+			}
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<User> page = new PageInfo<User>(userlist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "personSetting/mailList";
+	}
+	
+	/**
+	 * @param pageNo
+	 * @param pageSize
+	 * @param model
+	 * @param id
+	 * @param session
+	 * @return所有通讯录部门查询
+	 */
+	@RequestMapping("/selectPersonTelDept")
+	public String selectPersonTelDept(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,Integer id) {
+			
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<User> userlist=userService.selectByDept(id);
+			
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<User> page = new PageInfo<User>(userlist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "personSetting/allMailList";
+	}
+	
+	@RequestMapping("/selectPersonTelByName")
+	public String selectPersonTelLikeName(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,String info) {
+			
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<User> userlist=userService.selectByNameLike(info);
+			
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<User> page = new PageInfo<User>(userlist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("userlist",userlist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "personSetting/allMailList";
 	}
 }

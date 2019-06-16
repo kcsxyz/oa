@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>流程审批</title>
+<title>请假申请</title>
 <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
 <style type="text/css">
 	.content-panel{
@@ -201,7 +206,7 @@
 		//去相应的页面
 		function to_page(pn) {
 			$.ajax({
-				url : "/oa/process/getLeaveList",
+				url : "/oa/process/getAuditList",
 				data : "pageNo=" + pn,
 				type : "get",
 				success : function(result) {
@@ -308,8 +313,21 @@
 					
 					var createTimeTd = $("<td></td>").append(
 							timestampToTime(item.createTime));
-					var statusTd = $("<td></td>").append(
-							item.status);
+					var statusTd;
+					if(item.status =="审核中"){
+						statusTd = $("<td></td>").append($("<button></button>").addClass(
+						"btn btn-warning btn-xs status").append(
+								item.status));
+					}else if(item.status =="通过"){
+						statusTd = $("<td></td>").append($("<button></button>").addClass(
+						"btn btn-success btn-xs status").append(
+								item.status));
+					}else{
+						statusTd = $("<td></td>").append($("<button></button>").addClass(
+						"btn btn-danger btn-xs status").append(
+								item.status));
+					}
+					
 					var editBtn = $("<button></button>")
 							.addClass(
 									"btn btn-primary btn-sm edit_btn")
@@ -317,9 +335,9 @@
 									$("<span></span>")
 											.addClass(
 													"glyphicon glyphicon-pencil"))
-							.append("编辑");
+							.append("查看");
 					//为编辑按钮添加一个自定义属性，用于保存部门id	
-					editBtn.attr("edit-id", item.deptId);
+					editBtn.attr("edit-id", item.id);
 					var delBtn = $("<button></button>")
 							.addClass(
 									"btn btn-danger btn-sm delete_btn")
@@ -343,32 +361,9 @@
 			}
 			
 		}
-		
+	
 	/* -------------------请假申请---------------------- */
-		$("#leave_add_model").validate({
-	        rules:{
-	            leaveType:{
-	                required:true,
-	            },
-	            startTime:{
-	                required:true,
-	            },
-	            endTime:{
-	                required:true,
-	            },
-	            leaveReason:{
-	                required:true,
-	                maxlength:200,
-	            }
-	        },
-	        errorPlacement:function(error,element) {
-	        	
-	            error.appendTo(element.parent());
-	       },
-	        submitHandler: function(form) {
-	            $.operate.save("/oa/process/saveLeave", $('#leave_add_model').serialize());
-	        }
-   		});
+		
 		//重置表单，清除数据
 		function clear_form(ele){
 			//重置内容
@@ -377,25 +372,8 @@
 			$(ele).find("*").removeClass("has-success has-error");
 			$(ele).find(".help-block").text("");
 		}
-		/* //创建部门下拉列表
-		function create_dept(ele){
-			
-			$(ele).empty();
-			//获取部门
-			$.ajax({
-				url: "${pageContext.request.contextPath}/system/getDeptList",
-				type: "get",
-				success:function(result){
-					var optionEl1=$("<option></option>").append('———-—').attr("value","0");
-					optionEl1.appendTo(ele);
-					$.each(result.extend.pageInfo.list,function(){
-						var optionEl=$("<option></option>").append(this.deptName).attr("value",this.deptId);
-						optionEl.appendTo(ele);
-					});
-				}
-			});
-		} */
-		//添加员工
+		
+		//请假申请
 		$("#leave_add").click(function(){
 			//重置表单，清除数据
 			clear_form('#leave_add_model form');

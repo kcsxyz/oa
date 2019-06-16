@@ -59,32 +59,22 @@ public class WorkLogServiceImpl implements WorkLogService {
 		// TODO Auto-generated method stub
 		workLogMapper.updateByPrimaryKeySelective(worklog);
 	}
+	@Override
+	public List<WorkLog> selectWorkLogByCreateName(String uid) {
+		
+		return workLogMapper.getWorkLogByCreateName(uid);
+	}
 
 	@Override
-	public List<WorkLog> selectLikeWorkLog(String workLogInfo,String startTime,String endTime) {
-		// TODO Auto-generated method stub
-		WorkLogExample de = new WorkLogExample();
-		Criteria ct = de.createCriteria();
-		ct.andTitleLike("%"+workLogInfo+"%");
-		Criteria ct2 = de.createCriteria();
-		ct2.andContentLike("%"+workLogInfo+"%");
-		Criteria ct3 = de.createCriteria();
-		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
-		Date date1;
-		Date date2;
-		try {
-			date1 = formatter.parse(startTime);
-			date2=formatter.parse(endTime);
-			ct3.andCreateTimeBetween(date1, date2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public List<WorkLog> selectList(String uid, String workLogInfo, String startTime, String endTime) {
+		String start = null;
+		String end = null;
+		if(startTime!=null && !(startTime.equals(""))) {
+			start= startTime+" "+"00:00:00";
+		}
+		if(endTime!=null && !(endTime.equals(""))) {
+			end = endTime+" "+"23:59:59";
 		}		
-		de.or(ct2);
-		de.or(ct3);
-		return workLogMapper.selectByExample(de);
+		return workLogMapper.selectList(uid,workLogInfo,start,end);
 	}
-	
-	
-	
 }

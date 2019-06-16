@@ -26,10 +26,19 @@
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
     <script src="/oa/assets/js/jquery.js"></script>
     <script src="/oa/assets/js/bootstrap.min.js"></script>
+     <!-- 富文本编辑器 -->
+ 	<script src="/oa/ueditor/ueditor.config.js"></script>
+ 	<script src="/oa/ueditor/ueditor.parse.js"></script>
+ 	<script src="/oa/ueditor/ueditor.all.js"></script>
+ 	<script type="text/javascript">
+ 		window.onload=function(){
+ 			UE.getEditor('editor');
+ 		}
+ 	</script>
 </head>
 <body>
 <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -40,7 +49,7 @@
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="${pageContext.request.contextPath }/workplanAudit/selectInfo">
+					                  	  	 <a href="workPlanlist">
 					                  	  	  <button type="button" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  返回上一级</span>
@@ -49,38 +58,39 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form class="form-horizontal style-form" method="get" style="margin-top:80px;">
+	                            <form action="${pageContext.request.contextPath }/workPlan/checkWorkPlan" class="form-horizontal style-form" method="post" tyle="margin-top:80px;">
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
+	                            	<input type="hidden" name="id" value="${workPlan.id }"> 
 			                             <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">计划内容:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" name="content" overflow-y="scroll" rows="6" readonly>${planAuditById.content }</textarea>
+				                              <textarea readonly="readonly" name="content" style="height:200px;width:550px;">${workPlan.content }</textarea>				                                 
 				                              </div>
 			                        </div>
 			                        <div class="form-group" style="border:none;margin-top:30px;">
 			                             <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
 				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;"> 
-				                          	<c:if test="${planAuditById.type==0 }">
+				                          	<c:if test="${workPlan.type==0 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   日计划
 				                              	</label>
 				                              </div>
 				                            </c:if>
-				                            <c:if test="${planAuditById.type==1 }">
+				                            <c:if test="${workPlan.type==1 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   周计划
 				                              	</label>	
 				                              </div>
 				                           </c:if>
-				                           <c:if test="${planAuditById.type==2 }">
+				                           <c:if test="${workPlan.type==2 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                  月计划
 				                              	</label>
 				                              </div>
 				                           </c:if>
-				                           <c:if test="${planAuditById.type==3 }">
+				                           <c:if test="${workPlan.type==3 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   年计划
@@ -90,17 +100,15 @@
 				                           </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">
-			                        <input type="hidden" id="status" name="status" value="1">
-			                        <input type="hidden" id="status1" name="status" value="2">
 			                              <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">状态:</span>
 				                              <div class="col-sm-6">
-												<c:if test="${planAuditById.status==0 }">
+												<c:if test="${workPlan.status==0 }">
 			                                  	<button type="button" class="btn btn-warning btn-xs" >待审核</button>
 			                                  	</c:if>
-			                                  	<c:if test="${planAuditById.status==1 }">
+			                                  	<c:if test="${workPlan.status==1 }">
 			                                  	<button type="button" class="btn btn-success btn-xs" >通过</button>
 			                                  	</c:if>
-												<c:if test="${planAuditById.status==2 }">
+												<c:if test="${workPlan.status==2 }">
 												<button type="button" class="btn btn-danger btn-xs" >驳回</button>
 												</c:if>				                              
 					                  	  	  </div>
@@ -108,15 +116,15 @@
 			                         <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">审核意见:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" id="opinion" overflow-y="scroll" rows="6"></textarea>
+				                                  <textarea class="form-control" id="opinion" name="opinion" overflow-y="scroll" rows="6"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">
 				                              <div class="col-sm-5" style="float:left; text-align:right;">
-							                  	  	  <button type="button" onclick="agree()"  value="1" class="btn btn-round btn-success">&nbsp;&nbsp;通过&nbsp;&nbsp;</button>
+							                  	  	  <button type="submit" name="status" value="1" class="btn btn-round btn-success">&nbsp;&nbsp;通过&nbsp;&nbsp;</button>
 				                              </div>
 				                              <div class="col-sm-5" style="float:left;text-align:center;">
-							                  	  	  <button type="button" onclick="disagree()"   class="btn btn-round btn-danger">&nbsp;&nbsp;驳回&nbsp;&nbsp;</button>
+							                  	  	  <button type="submit" name="status" value="2"   class="btn btn-round btn-danger">&nbsp;&nbsp;驳回&nbsp;&nbsp;</button>
 						                  	  	 
 				                              </div>    
 			                        </div>
@@ -137,22 +145,7 @@
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
     <!--script for this page-->
-    <script type="text/javascript">
-    function agree() {
-    	  var status = document.getElementById("status").value; //取得文本框的值
-    	  var opinion = document.getElementById('opinion').value;
-    	  // alert("");//网页提示框
-    	  var myurl = "${pageContext.request.contextPath }/workplanAudit/updateWorkPlanStatus" + "?" + "id=" + ${planAuditById.id }+ "&status=" + status+"&opinion=" + opinion;
-    	  window.location.assign(encodeURI(myurl))
-    	  }
-    function disagree() {
-  	  var status = document.getElementById("status1").value; //取得文本框的值
-  	 // var opinion = document.getElementById("opinion").text(); //取得文本框的值
-  	  var opinion = document.getElementById('opinion').value;
-  	  var myurl = "${pageContext.request.contextPath }/workplanAudit/updateWorkPlanStatus" + "?"  + "id=" + ${planAuditById.id }+ "&status=" + status+"&opinion=" + opinion;
-  	  window.location.assign(encodeURI(myurl))
-  	  }
-    </script>
+    
 	
 </body>
 </html>

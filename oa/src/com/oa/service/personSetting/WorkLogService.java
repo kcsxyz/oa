@@ -26,8 +26,10 @@ public interface WorkLogService {
 	 * @param workLogInfo
 	 * @return
 	 * 模糊查询
-	 */
-	List<WorkLog> selectLikeWorkLog(String workLogInfo,String startTime,String endTime);
+	 */	
+	List<WorkLog> selectList(String uid, String workLogInfo, String startTime, String endTime);
+	List<WorkLog> selectWorkLogByCreateName(String uid);
+	
 	
 
 }

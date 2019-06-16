@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	@Override
 	public User getUser(String uid) {
-		User user =userMapper.selectByPrimaryKey(uid);
+		User user =userMapper.getUserMap(uid);
 		return user;
 	}
 	//登录
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> selectUser() {
 		// TODO Auto-generated method stub
-		return userMapper.selectUser();
+		return userMapper.getUserList();
 	}
 	@Override
 	public List<User> selectLikeUser(String userInfo) {
@@ -82,6 +82,15 @@ public class UserServiceImpl implements UserService {
 		Criteria ct = de.createCriteria();
 		ct.andUidIn(listId);
 		userMapper.deleteByExample(de);
+	}
+	@Override
+	public List<User> selectByDept(Integer id) {
+		return userMapper.selectByDept(id);
+	}
+	@Override
+	public List<User> selectByNameLike(String info) {
+		// TODO Auto-generated method stub
+		return userMapper.selectByNameLike(info);
 	}
 	
 	
