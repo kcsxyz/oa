@@ -47,8 +47,8 @@ public class UserPowerController {
 		return "addRenLi";
 	}
     @RequestMapping("/saveUser")
-    public String  saveUser(User user) {
-    	String modifiedName = ""; 
+    public String  saveUser(HttpSession session, User user) {
+    	String modifiedName = (String) session.getAttribute("uid"); 
     	String password = "123456";
     	user.setCreateTime(new Date());
     	user.setPassword(password);

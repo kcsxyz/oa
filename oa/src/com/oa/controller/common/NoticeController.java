@@ -57,7 +57,7 @@ public class NoticeController {
 	@RequestMapping(value="/saveNotice",method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseResult  saveNotice(
-			 HttpSession session,
+		    HttpSession session,
 			Notice notice,
 			Model model
 			){
