@@ -13,6 +13,7 @@
 <title>请假申请</title>
 <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
 <link href="/oa/assets/layui/css/layui.css" rel="stylesheet">
+<link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <style type="text/css">
 	.content-panel{
 		padding-bottom:0px;
@@ -87,7 +88,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 新增员工模态框 -->
+	<!-- 新增请假模态框 -->
 	<div class="modal fade" id="leave_add_model" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -119,14 +120,14 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">起始时间</label>
 							<div class="col-sm-10">
-								<input type="date" name="startTime" class="form-control" id="startTime" placeholder=""> <span
+								<input type="text" name="startTime" class="form-control" id="startTime" placeholder=""> <span
 									class="help-block"></span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">结束时间</label>
 							<div class="col-sm-10">
-								<input type="date" name="endTime" class="form-control" id="endTime" placeholder=""> <span
+								<input type="text" name="endTime" class="form-control" id="endTime" placeholder=""> <span
 									class="help-block"></span>
 							</div>
 						</div>
@@ -219,10 +220,12 @@
 		</div>
 	<!-- /row --> </section> </section><!-- /MAIN CONTENT --> 
 	</section>
-	
+	<script src="/oa/assets/js/jquery.js"></script>
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
 	<script src="/oa/assets/layui/layui.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
+	<script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<!-- <script>
 		//注意：导航 依赖 element 模块，否则无法进行功能性操作
 		layui.use('element', function() {
@@ -231,6 +234,39 @@
 		});
 	</script> -->
 	<script type="text/javascript">
+	$("input[id='startTime']").datetimepicker({
+		todayBtn:1,
+		todayHighlight:1,
+        format: 'yyyy-mm-dd:hh:mm:ss',
+        minView: "0",//
+        language:  'zh-CN',
+        autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+    });
+	$("input[id='endTime']").datetimepicker({
+		todayBtn:1,
+		todayHighlight:1,
+        format: 'yyyy-mm-dd:hh:mm:ss',
+        minView: "0",//
+        language:  'zh-CN',
+        autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+    });
+	$("input[id='endTime_update']").datetimepicker({
+		todayBtn:1,
+		todayHighlight:1,
+        format: 'yyyy-mm-dd:hh:mm:ss',
+        minView: "0",//
+        language:  'zh-CN',
+        autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+    });
+	$("input[id='startTime_update']").datetimepicker({
+		todayBtn:1,
+		todayHighlight:1,
+        format: 'yyyy-mm-dd:hh:mm:ss',
+        minView: "0",//
+        language:  'zh-CN',
+        autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+    });
+	
 		//保存一下总记录数
 		var totalRecords, currentPage;
 		/* 页面加载完后，显示数据 */
@@ -551,6 +587,7 @@
 		$(document).on("click",".browse_btn",function(){
 			//获取请假
 			getLeaveWithAudit($(this).attr("browse-id"));
+			$("#processDetail").empty();
 			//打开更新模态框
 			$("#leave_detail_model").modal({
 				backdrop:'static'

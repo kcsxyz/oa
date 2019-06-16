@@ -113,17 +113,20 @@ public class RoleServiceImpl implements RoleService {
 		ct.andRoleIdEqualTo(role.getRoleId());
 		List<RolePermission> list = rolePermissionMapper.selectByExample(rp);
 		List<Integer> permissionId = new ArrayList<Integer>();
-		for(Integer permId : ids) {
-			permissionId.add(permId);
+		if(ids !=null) {
+			for(Integer permId : ids) {
+				permissionId.add(permId);
+			}
 		}
 		//若有则删除原有权限
 		if(list != null) {
-			for(Integer permId : ids) {
+			for(RolePermission rpm : list) {
 				RolePermissionExample rpe = new RolePermissionExample();
 				com.oa.bean.RolePermissionExample.Criteria ctp =rpe.createCriteria();
 				ctp.andRoleIdEqualTo(role.getRoleId());
+				ctp.andIdEqualTo(rpm.getId());
 				rolePermissionMapper.deleteByExample(rpe);
-				System.out.println(permId);
+				//System.out.println(rpm.getId());
 			}
 		}
 		//插入新的权限

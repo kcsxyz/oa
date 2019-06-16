@@ -27,4 +27,16 @@ public interface AttendMapper {
     int updateByPrimaryKeySelective(Attend record);
 
     int updateByPrimaryKey(Attend record);
+    
+    Attend selectSaveDayIsAttend(@Param("userId") String userId);
+    
+    List<Attend> getAttendList();
+    
+    /**
+     * 列表
+     * @param attend
+     * @return
+     */
+    List<Attend> selectByMothAndUserId(Attend attend);
+    
 }

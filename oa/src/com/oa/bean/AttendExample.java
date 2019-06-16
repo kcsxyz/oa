@@ -2,6 +2,7 @@ package com.oa.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class AttendExample {
@@ -103,6 +104,58 @@ public class AttendExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                timeList.add(new java.sql.Time(iter.next().getTime()));
+            }
+            addCriterion(condition, timeList, property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
         }
 
         public Criteria andAttendIdIsNull() {
@@ -306,52 +359,52 @@ public class AttendExample {
         }
 
         public Criteria andCurrDateEqualTo(Date value) {
-            addCriterion("curr_date =", value, "currDate");
+            addCriterionForJDBCDate("curr_date =", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateNotEqualTo(Date value) {
-            addCriterion("curr_date <>", value, "currDate");
+            addCriterionForJDBCDate("curr_date <>", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateGreaterThan(Date value) {
-            addCriterion("curr_date >", value, "currDate");
+            addCriterionForJDBCDate("curr_date >", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("curr_date >=", value, "currDate");
+            addCriterionForJDBCDate("curr_date >=", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateLessThan(Date value) {
-            addCriterion("curr_date <", value, "currDate");
+            addCriterionForJDBCDate("curr_date <", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateLessThanOrEqualTo(Date value) {
-            addCriterion("curr_date <=", value, "currDate");
+            addCriterionForJDBCDate("curr_date <=", value, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateIn(List<Date> values) {
-            addCriterion("curr_date in", values, "currDate");
+            addCriterionForJDBCDate("curr_date in", values, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateNotIn(List<Date> values) {
-            addCriterion("curr_date not in", values, "currDate");
+            addCriterionForJDBCDate("curr_date not in", values, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateBetween(Date value1, Date value2) {
-            addCriterion("curr_date between", value1, value2, "currDate");
+            addCriterionForJDBCDate("curr_date between", value1, value2, "currDate");
             return (Criteria) this;
         }
 
         public Criteria andCurrDateNotBetween(Date value1, Date value2) {
-            addCriterion("curr_date not between", value1, value2, "currDate");
+            addCriterionForJDBCDate("curr_date not between", value1, value2, "currDate");
             return (Criteria) this;
         }
 
@@ -436,52 +489,52 @@ public class AttendExample {
         }
 
         public Criteria andAttendMorStartEqualTo(Date value) {
-            addCriterion("attend_mor_start =", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start =", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartNotEqualTo(Date value) {
-            addCriterion("attend_mor_start <>", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start <>", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartGreaterThan(Date value) {
-            addCriterion("attend_mor_start >", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start >", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartGreaterThanOrEqualTo(Date value) {
-            addCriterion("attend_mor_start >=", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start >=", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartLessThan(Date value) {
-            addCriterion("attend_mor_start <", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start <", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartLessThanOrEqualTo(Date value) {
-            addCriterion("attend_mor_start <=", value, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start <=", value, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartIn(List<Date> values) {
-            addCriterion("attend_mor_start in", values, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start in", values, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartNotIn(List<Date> values) {
-            addCriterion("attend_mor_start not in", values, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start not in", values, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartBetween(Date value1, Date value2) {
-            addCriterion("attend_mor_start between", value1, value2, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start between", value1, value2, "attendMorStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorStartNotBetween(Date value1, Date value2) {
-            addCriterion("attend_mor_start not between", value1, value2, "attendMorStart");
+            addCriterionForJDBCTime("attend_mor_start not between", value1, value2, "attendMorStart");
             return (Criteria) this;
         }
 
@@ -496,52 +549,52 @@ public class AttendExample {
         }
 
         public Criteria andAttendMorLeaveEqualTo(Date value) {
-            addCriterion("attend_mor_leave =", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave =", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveNotEqualTo(Date value) {
-            addCriterion("attend_mor_leave <>", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave <>", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveGreaterThan(Date value) {
-            addCriterion("attend_mor_leave >", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave >", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveGreaterThanOrEqualTo(Date value) {
-            addCriterion("attend_mor_leave >=", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave >=", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveLessThan(Date value) {
-            addCriterion("attend_mor_leave <", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave <", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveLessThanOrEqualTo(Date value) {
-            addCriterion("attend_mor_leave <=", value, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave <=", value, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveIn(List<Date> values) {
-            addCriterion("attend_mor_leave in", values, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave in", values, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveNotIn(List<Date> values) {
-            addCriterion("attend_mor_leave not in", values, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave not in", values, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveBetween(Date value1, Date value2) {
-            addCriterion("attend_mor_leave between", value1, value2, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave between", value1, value2, "attendMorLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendMorLeaveNotBetween(Date value1, Date value2) {
-            addCriterion("attend_mor_leave not between", value1, value2, "attendMorLeave");
+            addCriterionForJDBCTime("attend_mor_leave not between", value1, value2, "attendMorLeave");
             return (Criteria) this;
         }
 
@@ -556,52 +609,52 @@ public class AttendExample {
         }
 
         public Criteria andAttendNoonStartEqualTo(Date value) {
-            addCriterion("attend_noon_start =", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start =", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartNotEqualTo(Date value) {
-            addCriterion("attend_noon_start <>", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start <>", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartGreaterThan(Date value) {
-            addCriterion("attend_noon_start >", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start >", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartGreaterThanOrEqualTo(Date value) {
-            addCriterion("attend_noon_start >=", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start >=", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartLessThan(Date value) {
-            addCriterion("attend_noon_start <", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start <", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartLessThanOrEqualTo(Date value) {
-            addCriterion("attend_noon_start <=", value, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start <=", value, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartIn(List<Date> values) {
-            addCriterion("attend_noon_start in", values, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start in", values, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartNotIn(List<Date> values) {
-            addCriterion("attend_noon_start not in", values, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start not in", values, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartBetween(Date value1, Date value2) {
-            addCriterion("attend_noon_start between", value1, value2, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start between", value1, value2, "attendNoonStart");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonStartNotBetween(Date value1, Date value2) {
-            addCriterion("attend_noon_start not between", value1, value2, "attendNoonStart");
+            addCriterionForJDBCTime("attend_noon_start not between", value1, value2, "attendNoonStart");
             return (Criteria) this;
         }
 
@@ -616,52 +669,52 @@ public class AttendExample {
         }
 
         public Criteria andAttendNoonLeaveEqualTo(Date value) {
-            addCriterion("attend_noon_leave =", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave =", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveNotEqualTo(Date value) {
-            addCriterion("attend_noon_leave <>", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave <>", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveGreaterThan(Date value) {
-            addCriterion("attend_noon_leave >", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave >", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveGreaterThanOrEqualTo(Date value) {
-            addCriterion("attend_noon_leave >=", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave >=", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveLessThan(Date value) {
-            addCriterion("attend_noon_leave <", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave <", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveLessThanOrEqualTo(Date value) {
-            addCriterion("attend_noon_leave <=", value, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave <=", value, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveIn(List<Date> values) {
-            addCriterion("attend_noon_leave in", values, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave in", values, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveNotIn(List<Date> values) {
-            addCriterion("attend_noon_leave not in", values, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave not in", values, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveBetween(Date value1, Date value2) {
-            addCriterion("attend_noon_leave between", value1, value2, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave between", value1, value2, "attendNoonLeave");
             return (Criteria) this;
         }
 
         public Criteria andAttendNoonLeaveNotBetween(Date value1, Date value2) {
-            addCriterion("attend_noon_leave not between", value1, value2, "attendNoonLeave");
+            addCriterionForJDBCTime("attend_noon_leave not between", value1, value2, "attendNoonLeave");
             return (Criteria) this;
         }
 

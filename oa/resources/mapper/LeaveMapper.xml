@@ -340,4 +340,22 @@
   		and pn.process_node_role=#{roleName} and le.status="审核中"
   
   </select>
+  
+  <!--统计一个月有多少天请假 -->
+  <select id="selectByUserIdAndDate" resultMap="BaseResultMap" parameterType="com.oa.bean.Leave">
+    SELECT * FROM t_leave t
+    <where>
+
+        <if test="userId !=null and userId !=''">
+          and userId=#{user_id}
+        </if>
+        <if test="beginTime !=null">
+          <![CDATA[   and DATE_FORMAT(end_time, '%Y-%m-%d') >=  DATE_FORMAT(#{beginTime}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="overTime !=null">
+          <![CDATA[  and DATE_FORMAT(end_time, '%Y-%m-%d') <= DATE_FORMAT(#{overTime}, '%Y-%m-%d')    ]]>
+        </if>
+
+    </where>
+  </select>
 </mapper>

@@ -101,6 +101,13 @@ public class PermissionServiceImpl implements PermissionService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<Permission> getPermissionListByUserRole(Integer roleId) {
+		
+		List<Permission> listPermission = permissionMapper.getPermissionListByUserRole(roleId);
+		return listPermission;
+	}
 	
 
 	

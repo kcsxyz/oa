@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Leave {
+public class Leave extends BasePo{
     private Integer id;
 
     private String userId;

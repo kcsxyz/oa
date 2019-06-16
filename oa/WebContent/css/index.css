@@ -1,0 +1,16 @@
+@charset "UTF-8";
+.laydate-theme-molv .layui-laydate-main {
+    width: 100% !important;
+    height: 283px !important;
+}
+.layui-laydate-content td,.layui-laydate-content th{width:87px !important;}
+#clander{padding-bottom:0px !important;margin-bottom:0px !important; border:none !important;}
+p{
+	margin-bottom:0px !important; padding-bottom:10px !important;
+}
+.laydate-theme-molv .layui-laydate-header{ background-color:#68dff0 !important;}
+#currentDate{font-size: 16px;color: #68dff0;}
+.WorkTime{margin-left:10px;line-height:20px;float: left}
+.WorkTime span {margin-left:15px;}
+.lock{float:right; margin-top:20px;}
+.lock img{with:150px;height:150px;box-shadow: 1px;cursor: pointer;}

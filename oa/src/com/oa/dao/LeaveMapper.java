@@ -34,4 +34,9 @@ public interface LeaveMapper {
 	
 	Leave getLeaveById(@Param("id") Integer id);
 	
+	/**
+     * 统计请假天数
+     */
+    List<Leave> selectByUserIdAndDate(Leave leave);
+	
 }

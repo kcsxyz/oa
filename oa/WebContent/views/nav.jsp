@@ -12,24 +12,61 @@
     <title></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
-
-    <script src="assets/js/chart-master/Chart.js"></script>
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
+	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	 <script type="text/javascript">
+	    	$(function(){
+	    		$.ajax({
+					url: "/oa/system/permissionMenu",
+					type: "post",		
+					success:function(result){
+						if(result.extend.permissions != null){
+							var permissions = result.extend.permissions;
+							var str="";
+							$.each(permissions,function(index,item){
+								var child = item.children;
+								//alert(child);
+								if(child == null){
+									str +="<li class='sub-menu'><a href='javascript:;'>";
+									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a></li>";
+									alert(str);
+								}else if(child!=null){
+									str +="<li class='sub-menu'><a href='javascript:;'>";
+									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a>";
+									var permissionChildren = item.children;
+									alert(permissionChildren);
+									str +="<ul class='sub'>";
+									$.each(permissionChildren,function(index,it){
+										str +=" <li><a  href='"+it.url+"'>"+it.permName+"</a></li>" ;
+									})
+									str +="</ul></li>";
+									
+								}
+							})
+							alert("--"+str);
+							$("#nav-accordion").append(str);
+						}
+						
+					}
+				});
+	    	})
+	   </script>
 </head>
 <body>
 <!--header start-->
@@ -43,7 +80,7 @@
             
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.jsp">logout</a></li>
+                    <li><a class="logout" href="/oa/user/outLogin">logout</a></li>
             	</ul>
             </div>
         </header>
@@ -60,15 +97,15 @@
               
               	  <p class="centered"><a href="profile.html"><img src="images/ui-sam.jpg" class="img-circle" width="60"></a></p>
               	  <h5 class="centered">金咏琪</h5>
-              	  	
-                  <li class="mt">
+              	  
+                  <li class="sub-menu"><!-- mt -->
                       <a href="index.jsp">
                           <i class="fa fa-dashboard"></i>
                           <span>主页</span>
                       </a>
                   </li>
 
-                  <li class="sub-menu">
+                  <!-- <li class="sub-menu">
                       <a href="javascript:;" >
                           <i class="fa fa-desktop"></i>
                           <span>个人办公</span>
@@ -124,7 +161,7 @@
                       </ul>
                   </li> 
 
-              </ul>
+              </ul> -->
               <!-- sidebar menu end-->
           </div>
       </aside>

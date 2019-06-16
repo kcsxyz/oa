@@ -371,4 +371,8 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getTimeUsing" resultType="com.oa.bean.WorkTime">
+  	select * from t_work_time wt where wt.status=1
+  </select>
 </mapper>

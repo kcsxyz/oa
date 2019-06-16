@@ -273,4 +273,8 @@
       icon = #{icon,jdbcType=VARCHAR}
     where perm_id = #{permId,jdbcType=INTEGER}
   </update>
+  
+   <select id="getPermissionListByUserRole" parameterType="java.lang.Integer" resultType="com.oa.bean.Permission">
+  		select p.* from t_permission p,t_role_permission rp  where p.perm_id = rp.perm_id and rp.role_id=#{roleId}
+  </select>
 </mapper>
