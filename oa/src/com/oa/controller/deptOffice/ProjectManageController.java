@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -148,7 +149,7 @@ public class ProjectManageController {
     @RequestMapping(value = "/checkProjectName")
 	// 使用这个是不走视图解析器
 	@ResponseBody
-	public ResponseResult checkUserByUserName(String projectName) {// 保持这里的参数前面参数的一致就可以传递过来
+	public ResponseResult checkUserByUserName(@PathParam("projectName")String projectName) {// 保持这里的参数前面参数的一致就可以传递过来
 		ResponseResult rr = new ResponseResult();
 		int b = projectManageService.checkProjectByname(projectName);
 		if (b == 1) {

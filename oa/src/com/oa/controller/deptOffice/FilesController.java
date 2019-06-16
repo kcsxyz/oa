@@ -236,8 +236,8 @@ public class FilesController {
 	@ResponseBody
 	public ResponseResult checkFileId(String fileId) {
 		ResponseResult rr = new ResponseResult();
-		int re= filesService.checkFileById(fileId);
-		if(re!=0) {
+		int i= filesService.checkFileById(fileId);
+		if(i!=0) {
 			rr.setMessage("名称已存在");
 			rr.setStateCode(0);
 		}else {
