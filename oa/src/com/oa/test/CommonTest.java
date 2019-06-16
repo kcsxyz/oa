@@ -77,16 +77,15 @@ public class CommonTest {
 		
 		
 		
-	
+	        @Test
 			public void UserPowerTest1() {
 				
 				ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 				UserMapper us= ac.getBean("userMapper",UserMapper.class);
-				User user = new User();
-				user.setUid("1100");
-				user.setPassword("123");
-				user.setName("张三1");
-				us.insertSelective(user);
+				List<User> user = us.selectByParams(null);
+				for (User user2 : user) {
+					System.out.println(user2);
+				}
 			}
 		
 	

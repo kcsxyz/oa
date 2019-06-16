@@ -22,6 +22,7 @@ import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.Project;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.dao.ProjectMapper;
 import com.oa.service.deptOffice.ProjectManageService;
 
@@ -42,7 +43,8 @@ public class ProjectManageController {
 			Project project
 			) {
 	   ResponseResult rr = new ResponseResult();
-	   String createName = (String) session.getAttribute("uid");
+	   User user = (User)session.getAttribute("user");
+	   String createName = user.getUid();
 	   project.setProjectName(projectName);
 	   project.setCreateName(createName);
 	   project.setCreateTime(new Date());
@@ -106,7 +108,8 @@ public class ProjectManageController {
 			 String projectName,
 			 Project project
 			 ) {
-		  String createName = (String) session.getAttribute("uid");
+		  User user = (User)session.getAttribute("user");
+		  String createName = user.getUid();
 		   project.setProjectId(projectId);
 		   project.setProjectName(projectName);
 		   project.setCreateName(createName);

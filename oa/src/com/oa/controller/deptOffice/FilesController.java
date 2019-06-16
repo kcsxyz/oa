@@ -36,6 +36,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Files;
 import com.oa.bean.Project;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.service.deptOffice.FilesService;
 @Controller
 @RequestMapping("files")
@@ -74,7 +75,8 @@ public class FilesController {
 	        int suffixIndex = strArray.length -1;
 	        String type = strArray[suffixIndex];
 	        System.out.println(strArray[suffixIndex]);
-	        String uploadUser = (String) request.getSession().getAttribute("uid");
+	        User user = (User) request.getSession().getAttribute("user");
+	        String uploadUser = user.getUid();
 	        String size = String.valueOf(fileName.length());
 	        file.transferTo(dir);  
 	        files.setUploadUser(uploadUser);

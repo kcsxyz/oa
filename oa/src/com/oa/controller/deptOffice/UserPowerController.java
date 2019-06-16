@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,12 +48,14 @@ public class UserPowerController {
 		return "addRenLi";
 	}
     @RequestMapping("/saveUser")
-    public String  saveUser(HttpSession session, User user) {
-    	String modifiedName = (String) session.getAttribute("uid"); 
+    public String  saveUser(HttpSession session,@PathParam("uid") String uid,User user) {
+        User user1 = (User)session.getAttribute("user");
+	    String createName = user1.getUid();
     	String password = "123456";
+    	user.setUid(uid);
     	user.setCreateTime(new Date());
     	user.setPassword(password);
-    	user.setModifiedName(modifiedName);
+    	user.setCreateName(createName);
         userPowerService.insertSelective(user);
 		return "redirect:/userpower/findUser";
     }
@@ -66,10 +69,11 @@ public class UserPowerController {
     public String  updateUser(
     		 User user,
     		 HttpSession session,
-			 String uid,
+    		 @PathParam("uid") String uid,
 			 Model model
     		) {
-    	String modifiedName = (String) session.getAttribute("uid");
+        User user1 = (User)session.getAttribute("user");
+ 	    String modifiedName = user1.getUid();
 	    user.setUid(uid);
 	    user.setModifiedName(modifiedName);
 	    user.setModifiedTime(new Date());
@@ -190,8 +194,8 @@ public class UserPowerController {
 					}
 					return rr;
 				}	
-			    /**
-		         * 修改用户信息
+		   /**
+		     * 修改用户信息
 		     * @param user
 		     * @return
 		     */
@@ -199,10 +203,11 @@ public class UserPowerController {
 		    public String  updateUserPassword(
 		    		 User user,
 		    		 HttpSession session,
-					 String uid,
+					@PathParam("uid") String uid,
 					 Model model
 		    		) {
-		    	String modifiedName = (String) session.getAttribute("uid");
+		    	User user1 = (User)session.getAttribute("user");
+		 	    String modifiedName = user1.getUid();
 			    user.setUid(uid);
 			    user.setModifiedName(modifiedName);
 			    user.setModifiedTime(new Date());

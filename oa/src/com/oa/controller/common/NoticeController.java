@@ -28,6 +28,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.service.common.NoticeService;
 
 @Controller
@@ -63,7 +64,8 @@ public class NoticeController {
 			){
 		        ResponseResult rr = new ResponseResult();
 	          	List<Notice> Notices = noticeService.selectByExample();
-		         String createName = (String) session.getAttribute("uid"); 
+	          	User user = (User)session.getAttribute("user");
+	     	    String createName = user.getUid();
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
 			     int i = noticeService.saveNotice(notice);
@@ -146,7 +148,8 @@ public class NoticeController {
 			 Model model
 			){
 	         	ResponseResult rr = new ResponseResult();
-		         String createName = (String) session.getAttribute("uid");
+	         	User user = (User)session.getAttribute("user");
+	     	    String createName = user.getUid();
 			     notice.setNoticeId(noticeId);
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
@@ -186,16 +189,20 @@ public class NoticeController {
 			 String endTime = finalTime+" "+"23:59:59";
 			 System.out.println(startTime+endTime);
 			 map.put("startTime", startTime);
-		    	map.put("endTime", endTime);
+		     map.put("endTime", endTime);
 		 }
-	      String uDeptName = "办公室";
+		  User user = (User)session.getAttribute("user");
+	      String uDeptName = user.getDept().getDeptName();
+	      System.out.println(uDeptName);
 	      if(type !=null ) {
 	    	   map.put("type", type);
 	      }
 	      if(Info !=null ) {
 	    		map.put("Info", Info);
 	      }
-	     	map.put("browsePower", uDeptName);
+	      if(uDeptName !=null ) {
+	    	  map.put("browsePower", uDeptName);
+	      }
 	     	map.put("allDept", "所有部门");
 			PageHelper.startPage(pageNo, pageSize);
 			List<Notice> newNotices = noticeService.selectByParams(map);
