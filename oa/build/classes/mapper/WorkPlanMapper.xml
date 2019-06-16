@@ -355,7 +355,12 @@
  </select>
   <select id="allWorkPlan" parameterType="int" resultMap="BaseResultMap">
  	select 
- 		a.*,b.*,c.* 
+ 		a.uid,
+ 		a.name,
+ 		a.dept_id,
+ 		a.role_id,
+ 		b.*,
+ 		c.*
  	from 
  		t_user a,t_dept b,t_work_plan c 
  	where 
@@ -365,7 +370,11 @@
  </select>
 <select id="getWorkPlanByUid" parameterType="String" resultMap="BaseResultMap">
  	select 
- 		a.*,b.*,c.* 
+ 		a.uid,
+ 		a.name,
+ 		a.dept_id,
+ 		a.role_id,
+ 		b.*,c.* 
  	from 
  		t_user a,t_dept b,t_work_plan c 
  	where 
@@ -373,41 +382,29 @@
  		and a.uid=c.create_name 
  		and c.create_name=#{uid}
  </select>
-  <select id="getListByTime" parameterType="map" resultMap="BaseResultMap">
- 	select 
- 		a.*,b.*,c.* 
- 	from 
- 		t_user a,t_dept b,t_work_plan c 
- 	<where> 
- 		a.dept_id=b.dept_id 
- 		and a.uid=c.create_name 
- 		and c.create_name=#{arg0}
- 		and c.create_time &gt;=#{arg1}
- 		and c.create_time &lt;=#{arg2}
- 	</where>
- </select>
- <select id="getListByLike" parameterType="String" resultMap="BaseResultMap">
- 	select 
- 		a.*,b.*,c.* 
- 	from 
- 		t_user a,t_dept b,t_work_plan c 
- 	where 
- 		a.dept_id=b.dept_id 
- 		and a.uid=c.create_name 
- 		and c.create_name=#{uid}
- 		and c.content like CONCAT('%',#{info},'%') 		
- </select>
+
  <select id="getList" resultMap="BaseResultMap">
  	select 
- 		a.*,b.*,c.* 
+ 		a.uid,
+ 		a.name,
+ 		a.dept_id,
+ 		a.role_id,
+ 		b.*,
+ 		c.* 
  	from 
  		t_user a,t_dept b,t_work_plan c 
  	where 
  		a.dept_id=b.dept_id 
  		and a.uid=c.create_name 
  		and c.create_name=#{arg0}
- 		and c.content like CONCAT('%',#{arg1},'%') 
- 		and c.create_time &gt;=#{arg2}
- 		and c.create_time &lt;=#{arg3}
+ 		<if test="arg1 !=null ">
+ 		and	c.content like CONCAT('%',#{arg1},'%') 
+ 		</if>
+ 		<if test="arg2 !=null ">
+ 		and	c.create_time &gt;=#{arg2}
+ 		</if>
+ 		<if test="arg3 !=null ">
+ 		 and c.create_time &lt;=#{arg3}
+ 		</if>
  </select>
 </mapper>

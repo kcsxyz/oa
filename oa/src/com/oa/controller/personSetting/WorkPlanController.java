@@ -56,20 +56,17 @@ public class WorkPlanController {
 			PageHelper.startPage(pageNo, pageSize);
 			List<WorkPlan> workPlanlist =new ArrayList<>();
 			if(user.getRole().getRoleName()=="员工") {
-				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());
-				
+				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());				
 			}else {
-				workPlanlist = workPlanService.selectWorkPlan(deptId);	
+				workPlanlist = workPlanService.selectWorkPlan(deptId);
 				
-			}
-			
+			}			
 			if(workPlanlist.size()>0) {
 				rr.setStateCode(1);
 			}else {
 				rr.setMessage("未查询到数据");
 				rr.setStateCode(0);
-			}
-			
+			}			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
 			model.addAttribute("pageInfo", page);
@@ -229,28 +226,16 @@ public class WorkPlanController {
 	 * 模糊查询
 	 */
 	@RequestMapping(value="/selectLikeWorkPlan",method=RequestMethod.GET)
-	public String selectLikeWorkPlan(@RequestParam ("Info") String Info,
+	public String selectLikeWorkPlan(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@RequestParam ("Info") String Info,
 			@RequestParam("startTime")String startTime,@RequestParam("endTime")String endTime,Model model,HttpSession session) {
 		User user = (User) session.getAttribute("user");
-		List<WorkPlan> workPlanlist = new ArrayList<>();	
-		if(Info==null || Info.equals("")) {
-			if(startTime ==null) {
-				startTime="2000-01-01";
-			}
-			if(endTime ==null) {
-				endTime="2100-01-01";
-			}
-			workPlanlist =workPlanService.getWorkPlanListByTime(user.getUid(),startTime,endTime);
-		}else {
-			if(startTime==null ||endTime==null) {
-				workPlanlist=workPlanService.getWorkPlanListLike(user.getUid(),Info);
-			}else {
-				workPlanlist=workPlanService.getWorkPlanList(user.getUid(),Info,startTime,endTime);
-			}
-		}
+		PageHelper.startPage(pageNo, pageSize);
+		List<WorkPlan> workPlanlist = new ArrayList<>();
+		workPlanlist =workPlanService.getWorkPlanList(user.getUid(), Info, startTime, endTime);
 		
-		
-		
+		PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
+		model.addAttribute("pageInfo", page);
 		model.addAttribute("workPlanlist",workPlanlist);
 		return "personSetting/workPlan";			
 	}

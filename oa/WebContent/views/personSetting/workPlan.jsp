@@ -133,7 +133,7 @@
                                   <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">类型</th>
                                   <th style="text-align:center;">内容</th>
-                                  <th style="text-align:center;">审批人</th>
+                                  <th style="text-align:center;">审批员</th>
                                   <th style="text-align:center;">审批意见</th>
                                   <th style="text-align:center;">创建人</th>
                                   <th style="text-align:center;">创建时间</th>                                  

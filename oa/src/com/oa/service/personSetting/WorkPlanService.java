@@ -26,9 +26,6 @@ public interface WorkPlanService {
 	
 	List<WorkPlan> getWorkPlanByUid(String uid);
 	
-	List<WorkPlan> getWorkPlanListByTime(String uid, String startTime, String endTime);
-	
-	List<WorkPlan> getWorkPlanListLike(String uid, String info);
 	
 	List<WorkPlan> getWorkPlanList(String uid, String info, String startTime, String endTime);
 

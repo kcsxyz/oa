@@ -29,5 +29,7 @@ public interface WorkLogMapper {
     int updateByPrimaryKey(WorkLog record);
 
 	List<WorkLog> getWorkLogByCreateName(String uid);
+
+	List<WorkLog> selectList(String uid, String workLogInfo, String start, String end);
     
 }
