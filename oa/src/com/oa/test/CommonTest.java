@@ -34,12 +34,12 @@ public class CommonTest {
     @Autowired
 	private NoticeMapper noticeMapper;
 	
-   
+   @Test
 	public void test1() throws ParseException {
 		String Info = "2";
 		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 		NoticeMapper um= ac.getBean("noticeMapper", NoticeMapper.class);
-		List<Notice> n =um.findByMany(Info);
+		List<Notice> n =um.selectByTime();
 		for (Notice notice : n) {
 			System.out.println(notice);
 		}
@@ -77,21 +77,19 @@ public class CommonTest {
 		
 		
 		
-	
+	        @Test
 			public void UserPowerTest1() {
 				
 				ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 				UserMapper us= ac.getBean("userMapper",UserMapper.class);
-				User user = new User();
-				user.setUid("1100");
-				user.setPassword("123");
-				user.setName("张三1");
-				us.insertSelective(user);
+				List<User> user = us.selectByParams(null);
+				for (User user2 : user) {
+					System.out.println(user2);
+				}
 			}
 		
 	
 		public void UserPowerTest2() {
-			
 			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 			UserMapper us= ac.getBean("userMapper",UserMapper.class);
 			User user = new User();
@@ -184,4 +182,9 @@ public class CommonTest {
 			}
 		}
 		
+		public void UserPowerTest121() {
+			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+			UserMapper us= ac.getBean("userMapper",UserMapper.class);
+			
+		}
 }

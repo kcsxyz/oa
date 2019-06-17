@@ -35,11 +35,15 @@ public interface UserMapper {
     //更新密码
 	int updatePassword(User user);
 	//查询所有用户
-	List<User> selectUser();
+	List<User> getUserList();
 	//模糊查询
 	List<User> selectLikeUser(@Param("userInfo")String userInfo);
 	//人力资源中的查询
 	List<User> selectByParams(@Param("param") Map<String,String> param);
 	
 	User getUserMap(@Param("uid")String uid);
+
+	List<User> selectByDept(Integer id);
+
+	List<User> selectByNameLike(String info);
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.Role;
 import com.oa.bean.User;
 import com.oa.service.deptOffice.UserPowerService;
 
@@ -38,18 +40,23 @@ public class UserPowerController {
      */
     @RequestMapping(value="/showAdduser", method=RequestMethod.GET)
 	public String showAdduser(Model model) {
-		model.addAttribute(new User());
-		 List<Dept> depts = userPowerService.selectByDept();
+		 model.addAttribute(new User());
+		   List<Dept> depts = userPowerService.selectByDept();
 		 model.addAttribute("userDept", depts);
+		    List<Role> roles = userPowerService.selectByRole();
+		 model.addAttribute("userRole", roles);
 		return "addRenLi";
 	}
     @RequestMapping("/saveUser")
-    public String  saveUser(User user) {
-    	String modifiedName = "";
+    public String  saveUser(HttpSession session,@PathParam("uid") String uid,User user) {
+        User user1 = (User)session.getAttribute("user");
+	    String createName = user1.getUid();
     	String password = "123456";
+    	user.setUid(uid);
     	user.setCreateTime(new Date());
     	user.setPassword(password);
-    	user.setModifiedName(modifiedName);
+    	user.setCreateName(createName);
+        userPowerService.insertSelective(user);
 		return "redirect:/userpower/findUser";
     }
     
@@ -62,10 +69,11 @@ public class UserPowerController {
     public String  updateUser(
     		 User user,
     		 HttpSession session,
-			 String uid,
+    		 @PathParam("uid") String uid,
 			 Model model
     		) {
-    	 String modifiedName = (String) session.getAttribute("uid");
+        User user1 = (User)session.getAttribute("user");
+ 	    String modifiedName = user1.getUid();
 	    user.setUid(uid);
 	    user.setModifiedName(modifiedName);
 	    user.setModifiedTime(new Date());
@@ -77,7 +85,9 @@ public class UserPowerController {
 	public String getDeptById(@PathVariable("id") String uid,Model model) {
 		User userPower = userPowerService.selectByPrimaryKey(uid);
 		 List<Dept> depts = userPowerService.selectByDept();
-		 model.addAttribute("userDept", depts);
+		   List<Role> roles = userPowerService.selectByRole();
+	    model.addAttribute("userRole", roles);
+		model.addAttribute("userDept", depts);
 		model.addAttribute("userPower", userPower);
 		return "updateRenLi";
 	}
@@ -146,7 +156,63 @@ public class UserPowerController {
 
 	}
 	
-	
-	
+	  /**验证名称是否存在
+		 * @param uid
+		 * @return
+		 */
+		@RequestMapping("/checkUserByUid")
+		@ResponseBody
+		public ResponseResult checkUserByUid(String uid) {
+			ResponseResult rr = new ResponseResult();
+			int re= userPowerService.checkUerById(uid);
+			if(re!=0) {
+				rr.setMessage("工号已存在");
+				rr.setStateCode(0);
+			}else {
+				rr.setMessage("工号可用");
+				rr.setStateCode(1);
+				
+			}
+			return rr;
+		}	
+		
+		  /**验证身份证是否存在
+				 * @param uid
+				 * @return
+				 */
+				@RequestMapping("/checkUserByIdCard")
+				@ResponseBody
+				public ResponseResult checkUserByIdCard(String idCard) {
+					ResponseResult rr = new ResponseResult();
+					int re= userPowerService.checkUerByidCard(idCard);
+					if(re!=0) {
+						rr.setMessage("身份证号码已存在");
+						rr.setStateCode(0);
+					}else {
+						rr.setMessage("身份证号码无重复");
+						rr.setStateCode(1);
+					}
+					return rr;
+				}	
+		   /**
+		     * 修改用户信息
+		     * @param user
+		     * @return
+		     */
+		    @RequestMapping("/updateUserPassword")
+		    public String  updateUserPassword(
+		    		 User user,
+		    		 HttpSession session,
+					@PathParam("uid") String uid,
+					 Model model
+		    		) {
+		    	User user1 = (User)session.getAttribute("user");
+		 	    String modifiedName = user1.getUid();
+			    user.setUid(uid);
+			    user.setModifiedName(modifiedName);
+			    user.setModifiedTime(new Date());
+				userPowerService.updateByPassword(user);
+				return "redirect:/userpower/findUser";
+		    }
     
 }

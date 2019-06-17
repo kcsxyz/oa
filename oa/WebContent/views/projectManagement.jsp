@@ -33,7 +33,7 @@
 </head>
 <body>
  <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -51,7 +51,7 @@
 			                  	  	  增加</span>
 		                  	  	  </button> 
 		                  	  	  <a href=""></a>
-		                  	  	  <button type="button" class="btn btn-danger" id="project_delete_all" style="background:#fff;">
+		                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="project_delete_all" style="background:#fff;">
 			                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  删除</span>
 		                  	  	  </button> 
@@ -102,20 +102,22 @@
 											新建项目
 										</h4>
 									</div>
-									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/pushProject" method="get" >
+									<form class="form-horizontal style-form" id="form-addProject" action="" method="get" >
 									<div class="modal-body">
 					                          
 					                          <div class="form-group" style="border:none;margin-top:30px;">
 					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">项目名称:</span>
 						                              <div class="col-sm-8">
-						                                  <input type="text" name="projectName" class="form-control">
+						                                  <input type="text" name="projectName" id="projectName" class="form-control">
+						                                 <!--   <span class="msg-default hidden" id="projectNameSpan">项目名不超过20个字符</span> -->
+						                              <span class="help-block"></span>
 						                              </div>
 					                          </div>
 					                          
 									</div>
 									<div class="modal-footer">
 										
-										<button type="submit" class="btn btn-round btn-primary">
+										<button type="button" id="btn_push_project" class="btn btn-round btn-primary">
 											确认
 										</button>
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
@@ -137,7 +139,7 @@
 											修改项目
 										</h4>
 									</div>
-									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/updateProject" method="get" >
+									<form class="form-horizontal style-form" action="${pageContext.request.contextPath }/project/updateProject" onSubmit="return myCheck(this)" method="get" >
 									<div class="modal-body">
 					                          <input type="hidden" name="projectId"  id="update_project_id"/>
 					                          <div class="form-group" style="border:none;margin-top:30px;">
@@ -150,7 +152,7 @@
 									</div>
 									<div class="modal-footer">
 										
-										<button type="submit" class="btn btn-round btn-primary">
+										<button type="submit" id="btn_update_project" class="btn btn-round btn-primary">
 											确认
 										</button>
 										<button type="button" class="btn btn-round btn-default" data-dismiss="modal">取消
@@ -186,7 +188,7 @@
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
                                       <a href="${pageContext.request.contextPath }/project/findByid/${page.projectId }"></a><button  class="btn btn-primary btn-xs editProject" p-id="${page.projectId }"><i class="fa fa-pencil"></i>编辑</button>
-                                      <a href="${pageContext.request.contextPath }/project/deleteProject/${page.projectId }"> <button class="btn btn-danger btn-xs"  ><i class="fa fa-trash-o "></i>删除</button></a>
+                                      <a href="${pageContext.request.contextPath }/project/deleteProject/${page.projectId }"> <button class="btn btn-danger btn-xs" onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
                                
                                   </td>
                               </tr>
@@ -296,7 +298,7 @@
 			projectNames=projectNames.substring(0,projectNames.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				alert("请选择要删除的公告");
+				alert("请选择要删除的项目");
 				return false;
 			}
 			alert(del_id_strs);
@@ -328,8 +330,96 @@
 			});
 		});
 		
+	
+		//创建项目操作
+			//校验表单
+		function validate_project_form(){
+			var projectName=$('#projectName').val();
+			if(projectName == ""){
+				valate_form_msg("#projectName",'error',"项目名称不能空");
+				return false;
+			}else{
+				valate_form_msg("#projectName",'success',"");
+			}
+			return true;
+		}
+		//显示校验信息
+		function valate_form_msg(ele,status,msg){
+			//清除当前元素的校验状态
+			$(ele).parent().removeClass("has-success has-error");
+			$(ele).next('span').text("");
+			if(status=='success'){
+				$(ele).parent().addClass("has-success");
+				$(ele).next('span').text(msg);
+			}else if(status=='error'){
+				$(ele).parent().addClass("has-error");
+				$(ele).next('span').text(msg);
+			}
+		}
 		
+		//校验项目名名是否存在
+		$("#projectName").change(function(){
+			var projectName=this.value;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/project/checkProjectName",
+				type: "post",
+				data: "projectName="+projectName,
+				success:function(result){
+					if(result.stateCode==1){
+						valate_form_msg("#projectName",'success',"项目名可用");
+						$("#btn_push_project").attr("ajax-va","success");
+					}else if(result.stateCode==0){
+						valate_form_msg("#projectName",'error',result.message);
+						$("#btn_push_project").attr("ajax-va","error");
+					}
+				}
+			});
+		});
+		//保存操作
+		$("#btn_push_project").click(function(){
+			//1、对表单进行校验
+			if(!validate_project_form()){
+				return false;
+			}
+			//判断用户名是否可用
+			if($(this).attr("ajax-va")=="error"){
+				return false;
+			}
+			//3、发送请求你保存
+			$.ajax({
+				url: "${pageContext.request.contextPath }/project/pushProject",
+				type: "get",
+				data: $('#myModal form').serialize(),
+				success:function(result){
+					if(result.stateCode==0){
+						//alert(result.message);
+					}else if(result.stateCode==1){
+						//关闭模态框
+						$('#myModal').modal('hide');
+						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
+						to_page(currentPage);
+					}
+				}
+			});
+		});
+		  
+		  function deledecfm() {
+		        if (!confirm("确认要删除吗？")) {
+		            window.event.returnValue = false;
+		        }
+		    }
 		
+		  function myCheck(form){
+			  if(form.projectName.value==''|| form.projectName.value==null){
+			  alert('修改的项目名称不能为空!');
+			  form.projectName.focus();
+			  return false;
+			  }
+			 else{
+				  alert("修改成功");
+				  return true;
+			  }
+		  }
   </script>
 </body>
 </html>

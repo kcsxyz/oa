@@ -42,12 +42,13 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		 */
 		@RequestMapping("/workLoglist")
 		public String selectAllWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
+			User user=(User) session.getAttribute("user");
 			try {
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
-				List<WorkLog> workLoglist = workLogService.selectWorkLog();	
+				List<WorkLog> workLoglist = workLogService.selectWorkLogByCreateName(user.getUid());	
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);
 				}else {
@@ -99,7 +100,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult addWorkLog(WorkLog workLog,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog!=null) {
+			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog.getContent()!=null) {
 				User user=(User) session.getAttribute("user");
 				workLog.setCreateTime(new Date());
 				workLog.setCreateName(user.getUid());
@@ -156,9 +157,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
-			worklog.setLogId(1);
-			worklog.setTitle("35454");
-			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
+			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null && worklog.getContent()!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);
 			}else {
@@ -176,25 +175,14 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		
 		@RequestMapping("/selectLikeWorkLog")
 		public String selectLikeWorkLog(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String workLogInfo,String startTime,String endTime,Model model) {
+				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String workLogInfo,
+				String startTime,String endTime,Model model,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
+			User user=(User) session.getAttribute("user");
 			try {
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
-				List<WorkLog> workLoglist =new ArrayList<>();
-				if(startTime==null || startTime.equals("")) {
-					startTime="2000-01-01";
-				}
-				if(endTime==null || endTime.equals("")) {
-					endTime="2100-01-01";
-				}
-				String start= startTime+" "+"00:00:00";
-				 String end = endTime+" "+"23:59:59";
-				 if(workLogInfo!=null) {
-					 workLoglist=workLogService.selectLikeWorkLog(workLogInfo, start, end);	
-				 }else {
-					 workLoglist= workLogService.selectLikeWorkLog(start, end);
-				 }
+				List<WorkLog> workLoglist =workLogService.selectList(user.getUid(),workLogInfo,startTime,endTime);
 				
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);

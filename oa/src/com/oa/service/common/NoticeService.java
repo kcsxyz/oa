@@ -72,5 +72,7 @@ public interface NoticeService {
      */
     List<Notice> selectByParams(@Param("param") Map<String, Object> params); 
     
+    List<Notice> selectByTime();
+    
     List<Dept> selectByDept(DeptExample example);
 }

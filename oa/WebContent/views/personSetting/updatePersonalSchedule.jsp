@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-	<title>修改工作日志</title>
+	<title>修改个人日程</title>
 	<!-- Bootstrap core CSS -->
     <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -25,7 +27,7 @@
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
     <script src="/oa/assets/js/jquery.js"></script>
     <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <!-- 富文本编辑器 -->
+     <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
  	<script src="/oa/ueditor/ueditor.parse.js"></script>
  	<script src="/oa/ueditor/ueditor.all.js"></script>
@@ -48,43 +50,43 @@
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="${pageContext.request.contextPath}/workLog/workLoglist">
+					                  	  	 <a href="${pageContext.request.contextPath}/schedule/schedulelist">
 					                  	  	  <button type="button" class="btn btn-round btn-default">
-							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-							                  	  	  返回上一级</span>
-					                  	  	  </button>
+									               <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+									              	返回上一级</span>
+							                  </button>
 					                  	  	 </a>
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" class="form-horizontal style-form" style="margin-top:80px;">
-			                          <div class="form-group" style="border:none;">
+	                            <form id="add-form" action="${pageContext.request.contextPath}/schedule/updateSchedule/${schedule}" class="form-horizontal style-form" method="post" style="margin-top:80px;">
+			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                              		<input type="hidden" name="logId" value="${workLog.logId }">
-				                                  <input type="text" name="title" id="title"class="form-control" value="${workLog.title }">
-				                                  <font id="showResult1"></font>
+				                              	<input type="hidden" name="id" value="${schedule.id }">
+				                                  <input type="text" id="title" name="title" class="form-control" value="${schedule.title }"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
+			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea id="editor" name="content" style="height:400px">${workLog.content }</textarea>
+				                                  <textarea id="editor" name="descr" style="height:400px">${schedule.descr}</textarea>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
-				                              <div class="col-sm-5" style="float:left; text-align:right;">
-							                  	  <button type="button" id="add-but" class="btn btn-round btn-default">
-							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-							                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					                  	  	  	 </button>
+				                              <div class="col-sm-5" style="float:left; text-align:right;margin-left:10px;">
+					                              
+							                  	  	  <button type="submit" id="add-but" class="btn btn-round btn-default" >
+									                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+									                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							                  	  	  </button>
 				                              </div>
 				                              <div class="col-sm-4" style="float:left;text-align:center;">
-					                              <a href="${pageContext.request.contextPath}/workLog/workLoglist">
+					                              <a href="${pageContext.request.contextPath}/schedule/schedulelist">
 							                  	  	  <button type="button" class="btn btn-round btn-default">
-								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-								                  	  	&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					                  	  	 		 </button>
+									                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+									                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							                  	  	  </button>
 						                  	  	  </a>
 				                              </div>
 			                          </div>
@@ -100,11 +102,8 @@
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
-
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
-
     <!--script for this page-->
 	<script type="text/javascript">
 		$(function(){
@@ -122,34 +121,35 @@
 		    });
 		
 		});
+		 $("#title").blur(function(){
+		        var data = $("#title").val();
+		        if (data == null || data == "") {
+		            $("#showResult1").text("标题不能为空！");
+		            $("#showResult1").css("color","red");
+		            return false;
+		        }else{
+		    	$("#showResult1").text("");
+		        }
+			 });
 	</script>
-	 <script>
-	 $("#title").blur(function(){
-	        var data = $("#title").val();
-	        if (data == null || data == "") {
-	            $("#showResult1").text("标题不能为空！");
-	            $("#showResult1").css("color","red");
-	            return false;
-	        }else{
-	    	$("#showResult1").text("");
-	        }
-		 });
+	<!-- <script>
 	 $('#add-but').click(function(){
         //读取用户的输入——表单序列化
         var inputData = $('#add-form').serialize(); 
 		$.ajax({
             type: 'POST',
-            url: '${pageContext.request.contextPath}/workLog/updateWorkLog',
+            url: '${pageContext.request.contextPath}/schedule/addSchedule',
             data: inputData,
             success: function(xhr){
+                alert("inputData");
                 if(xhr.stateCode==1){  //成功
-                    window.location.href="${pageContext.request.contextPath}/workLog/workLoglist";
+                    window.location.href="${pageContext.request.contextPath}/schedule/schedulelist";
                 }else if(xhr.stateCode==0){ //失败
                     alert(xhr.message);
                 }
             }
         });
     });
-</script>
+</script> -->
 </body>
 </html>

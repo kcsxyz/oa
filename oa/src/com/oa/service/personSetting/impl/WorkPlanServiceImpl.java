@@ -23,9 +23,9 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 	private WorkPlanMapper workPlanMapper;
 
 	@Override
-	public List<WorkPlan> selectWorkPlan() {
+	public List<WorkPlan> selectWorkPlan(int deptId) {
 		// TODO Auto-generated method stub
-		return workPlanMapper.selectByExample(null);
+		return workPlanMapper.allWorkPlan(deptId);
 	}
 
 	@Override
@@ -98,5 +98,25 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 		Criteria ct = de.createCriteria();
 		ct.andStatusEqualTo(status);
 		return workPlanMapper.selectByExample(de);
+	}
+
+	@Override
+	public List<WorkPlan> getWorkPlanByUid(String uid) {
+		// TODO Auto-generated method stub
+		return workPlanMapper.getWorkPlanByUid(uid);
+	}
+	
+
+	public List<WorkPlan> getWorkPlanList(String uid, String info, String startTime, String endTime) {
+		String start = null;
+		String end = null;
+		if(startTime!=null && !(startTime.equals(""))) {
+			start= startTime+" "+"00:00:00";
+		}
+		if(endTime!=null && !(endTime.equals(""))) {
+			end = endTime+" "+"23:59:59";
+		}		
+		
+		return workPlanMapper.getList(uid,info,start,end);
 	}
 }

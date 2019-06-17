@@ -88,7 +88,6 @@
                                   <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">标题</th>
                                   <th style="text-align:center;">日志内容</th>
-                                  <th style="text-align:center;">创建人</th>
                                   <th style="text-align:center;">创建时间</th>
                                   <th style="text-align:center;">操作</th>
                               </tr>
@@ -101,7 +100,7 @@
                                   <input type="hidden" name="logId" value="${workLog.logId}">
                                   <td style="text-align:center;">${workLog.title}</td>
                                   <td style="text-align:center;">${workLog.content}</td>
-                                  <td style="text-align:center;">${workLog.createName }</td>
+                                 
                                   <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workLog.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
@@ -189,7 +188,7 @@
 	   <script>
 	 $("#del-but").click(function(){
         var logId = $("#del-but").serialize();
-        alert("22"); 
+        
 		$.ajax({
             type: 'POST',
             url: '${pageContext.request.contextPath}/workLog/deleteWorkLog',

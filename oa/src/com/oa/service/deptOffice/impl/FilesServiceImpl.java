@@ -59,9 +59,17 @@ public class FilesServiceImpl implements FilesService {
 	}
 
 	@Override
-	public boolean checkFileById(String fileId) {
+	public int checkFileById(String fileId) {
+		FilesExample example = new FilesExample();
+		Criteria c = example.createCriteria();
+		c.andFileIdEqualTo(fileId);
+		List<Files> list = filesMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
 		
-		return filesMapper.selectByPrimaryKey(fileId) !=null;
 	}
 
 	@Override

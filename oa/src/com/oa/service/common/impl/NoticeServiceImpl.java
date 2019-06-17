@@ -128,14 +128,13 @@ public class NoticeServiceImpl implements NoticeService {
 		return depts;
 	}
 
-	
+	@Override
+	public List<Notice> selectByTime() {
+		 List<Notice> notices = noticeMapper.selectByTime();
+		return notices;
+	}
 
 
-	
-
-	
-	
-	
 	
 
 }

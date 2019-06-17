@@ -1,8 +1,11 @@
 
 package com.oa.service.personSetting.impl;
 
+import static org.hamcrest.CoreMatchers.both;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,11 +23,6 @@ import com.oa.service.personSetting.ScheduleService;
 public class ScheduleServiceImpl implements ScheduleService {
 	@Resource
 	private ScheduleMapper scheduleMapper;
-
-	@Override
-	public List<Schedule> selectSchedule() {		
-		return scheduleMapper.selectByExample(null);
-	}
 
 	@Override
 	public Schedule getScheduleById(Integer id) {		
@@ -52,29 +50,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public void updateSchedule(Schedule schedule) {
-		scheduleMapper.updateByPrimaryKey(schedule);
+		scheduleMapper.updateByPrimaryKeySelective(schedule);
 	}
 
-	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) {
-		ScheduleExample de = new ScheduleExample();
-		Criteria ct = de.createCriteria();
-		ct.andTitleLike("%"+Info+"%");
-		Criteria ct2 = de.createCriteria();
-		ct2.andDescrLike("%"+Info+"%");
-		Criteria ct3 = de.createCriteria();
-		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
-		Date date1;
-		Date date2;
-		try {
-			date1 = formatter.parse(startTime);
-			date2=formatter.parse(endTime);
-			ct3.andCreateTimeBetween(date1, date2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public List<Schedule> selectLikeSchedule(String uid,String Info, String startTime, String endTime) throws ParseException {
+		
+		String start = null;
+		String end = null;
+		if(startTime!=null && !(startTime.equals(""))) {
+			start= startTime+" "+"00:00:00";
 		}
-		de.or(ct2);
-		de.or(ct3);
-		return scheduleMapper.selectByExample(de);
+		if(endTime!=null && !(endTime.equals(""))) {
+			end = endTime+" "+"23:59:59";
+		}	
+		
+		return scheduleMapper.getScheduleList(uid,Info,start,end);
+		
 	}
+
+	@Override
+	public List<Schedule> selectSchedule(String string) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.selectSchedule(string);
+	}
+	
 }

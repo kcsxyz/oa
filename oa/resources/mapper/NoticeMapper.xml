@@ -277,28 +277,33 @@
         SELECT
             *
         FROM
-           t_notice 
+           t_notice as n
             <where>
             <if test=" param.Info!= null and  param.Info!= ''">
-                AND title like CONCAT('%',#{param.Info},'%')
-               or content like CONCAT('%',#{param.Info},'%')
+                AND n.title like CONCAT('%',#{param.Info},'%')
+               or n.content like CONCAT('%',#{param.Info},'%')
             </if> 
             <if test="param.type !=null ">
-              and type = #{param.type}
+              and n.type = #{param.type}
             </if>
              <if test="param.browsePower !=null and param.browsePower!= '' ">
-              and (browse_power like CONCAT('%',#{param.browsePower},'%')
+              and (n.browse_power like CONCAT('%',#{param.browsePower},'%')
             </if>
             <if test="param.allDept !=null and param.allDept!=''">
-             or browse_power like CONCAT('%',#{param.allDept},'%'))
+             or n.browse_power like CONCAT('%',#{param.allDept},'%'))
             </if>
          <if test="param.startTime!=null and param.startTime!=''">
-  	        <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+  	        <![CDATA[  and DATE_FORMAT(n.create_time, '%Y-%m-%d %T:%i:%s') >= DATE_FORMAT(#{param.startTime}, '%Y-%m-%d %T:%i:%s')   ]]>
       	</if>
       	<if test="param.endTime!=null and param.endTime!=''">
-  	     <![CDATA[  and DATE_FORMAT(create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
+  	     <![CDATA[  and DATE_FORMAT(n.create_time, '%Y-%m-%d %T:%i:%s') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d %T:%i:%s')   ]]>
 	   </if>
       </where>
  </select>
+
+	<select id="selectByTime" resultMap="BaseResultMap" >
+	     SELECT * from t_notice  ORDER BY create_time DESC limit 0,5;
+	     
+	</select>
 
 </mapper>

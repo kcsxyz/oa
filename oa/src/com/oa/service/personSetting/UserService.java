@@ -26,5 +26,9 @@ public interface UserService {
 	List<User> selectLikeUser(String userInfo);
 	
 	void deleteUserBatch(List<String> listId);
+	//部门查询
+	List<User> selectByDept(Integer id);
+	
+	List<User> selectByNameLike(String info);
 	
 }

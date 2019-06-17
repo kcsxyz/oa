@@ -1,3 +1,4 @@
+<%@page import="com.oa.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -43,6 +44,9 @@
 		});
 	</script>
 </head>
+<%
+	User user=(User)session.getAttribute("user");	
+%>
 <body>
  <section id="container" >
             <%@include file="/nav.jsp" %>
@@ -117,8 +121,6 @@
                               		</button>
                               			
                               </div>
-                              
-                              
                              </div>
                            </form>
                            <!-- 上部放按钮的地方结束-->
@@ -126,20 +128,28 @@
                            <table class="table table-striped table-advance table-hover">
                               <thead>
                               <tr >
+                              
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" id="check_all" value=""  /></th>
                                   <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">类型</th>
                                   <th style="text-align:center;">内容</th>
+                                  <th style="text-align:center;">审批员</th>
+                                  <th style="text-align:center;">审批意见</th>
                                   <th style="text-align:center;">创建人</th>
-                                  <th style="text-align:center;">创建时间</th>
+                                  <th style="text-align:center;">创建时间</th>                                  
                                   <th style="text-align:center;" >状态</th>
                                   <th style="text-align:center;">操作</th>
                               </tr>
                               </thead>
                                <c:forEach items="${workPlanlist }" var="workPlan" varStatus="status">
                               <tbody>                              
-                              <tr>
-                                  <td style="text-align:center;"><input type="checkbox" class="list-child check_item" value=""  /></td>
+                              <tr>   
+                              	<c:if test="${sessionScope.user.uid == workPlan.user.uid }">                          
+                                  	<td style="text-align:center;"><input type="checkbox" class="list-child check_item" value=""  /></td>
+                                  </c:if>
+                                  <c:if test="${sessionScope.user.uid != workPlan.user.uid }">                          
+                                  	<td style="text-align:center;"></td>
+                                  </c:if>
                                   <input type="hidden" name="id" value="${workPlan.id }">
                                   <td style="text-align:center;">${ status.index + 1 + (pageInfo.pageNum-1)*10}</td>
                                   <c:if test="${workPlan.type==0 }">
@@ -155,7 +165,10 @@
                                  	 <td style="text-align:center;">年计划</td>
                                   </c:if>
                                   <td style="text-align:center;width:30%;text-overflow:ellipsis">${workPlan.content }</td>
-                                  <td style="text-align:center;">${workPlan.createName }</td>
+                                  
+                                  <th style="text-align:center;">${workPlan.checkedName }</th>
+                                  <th style="text-align:center;">${workPlan.opinion }</th>
+                                  <td style="text-align:center;">${workPlan.user.name }</td>
                                   <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workPlan.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   	<c:if test="${workPlan.status==1 }">
@@ -169,10 +182,14 @@
 									</c:if>
                                   </td>
                                   <td style="text-align:center;">
-                                  <!-- 你根据原型图修改操作的地方 -->                                  	
+                                  <!-- 你根据原型图修改操作的地方 -->  
+                                  <c:if test="${sessionScope.user.uid !=workPlan.user.uid && workPlan.status==0}"> 
+                                  		<button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/toCheckedWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>审核</button>                               	
+                                  </c:if>
+                                  <c:if test="${sessionScope.user.uid==workPlan.user.uid && workPlan.status!=1}">
                                       <button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
-                                     
-                                      <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
+                                     <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
+                                 </c:if>
                                   </td>
                               </tr>                                                        
                               </tbody>
@@ -241,9 +258,8 @@
     	window.location.href="/oa/workPlan/getWorkPlanByType?type="+type;
     }
     function planStatusChange(){
-    	var status = $("select option:selected").val();
+    	var status = $("#planStatus").val();
     	window.location.href="/oa/workPlan/getWorkPlanByStatus?status="+status;
-    	
     }
     function displaycolor(value,row,index) {  
         var a = "";  

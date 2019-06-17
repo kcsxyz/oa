@@ -26,6 +26,15 @@
     <script src="assets/js/chart-master/Chart.js"></script>
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+     <!-- 富文本编辑器 -->
+ 	<script src="/oa/ueditor/ueditor.config.js"></script>
+ 	<script src="/oa/ueditor/ueditor.parse.js"></script>
+ 	<script src="/oa/ueditor/ueditor.all.js"></script>
+ 	<script type="text/javascript">
+ 		window.onload=function(){
+ 			UE.getEditor('editor');
+ 		}
+ 	</script>
 </head>
 <body>
 <section id="container" >
@@ -40,7 +49,7 @@
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="bulletinManage.jsp">
+					                  	  	 <a href="${pageContext.request.contextPath }/workPlan/workPlanlist">
 					                  	  	   <button type="button" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  返回上一级</span>
@@ -155,7 +164,8 @@
 			                         	<input type="hidden" name="id" value="${workPlan.id}">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" rows="18" name="content">${workPlan.content }</textarea>
+				                              <textarea id="editor" name="content"style="height:400px">${workPlan.content }</textarea>
+				                                 
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">

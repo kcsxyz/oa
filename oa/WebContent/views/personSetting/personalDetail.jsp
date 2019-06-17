@@ -43,7 +43,9 @@
 				                        	<div class="col-xs-3 col-sm-4" >
 				                            	<img src="${user.headPic}" alt="选择并上传头像" id="avatar_img" style="width: 100px;height: 100px;left:0;top: 0;border-radius: 50%;">
 				                            	<input type="file" id="avatar_file" name="avatar_file" accept="image/jpg,image/png,image/gif" style="width: 100%;height:100%;opacity: 0;position: absolute;left:0;top: 0;"/> 
+											
 											</div>
+											
 			                        </div>
 			              			<div class="form-group" style="border:none;margin-top:10px;">
                               			<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">工号:</span>
@@ -75,7 +77,7 @@
                               				</div>
                           			</div>
                           			<div class="form-group" style="border:none;margin-top:10px;">
-                              			<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证密码:</span>                              				<div class="col-sm-5">
+                              			<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证:</span>                              				<div class="col-sm-5">
                                   				<input class="form-control" id="disabledInput" type="text" value="${user.idCard}" disabled>
                               				</div>
                           			</div>
@@ -150,7 +152,7 @@
 	//ajax调用文件上传方法
 	$("#sub_hed").click(function(){
 		if(file == null){
-			alert("");		
+			alert("请上传头像");		
 		}
 		var formData = new FormData();
 		formData.append("file",file);
@@ -164,7 +166,7 @@
             {
                 
                 if(obj.stateCode == 1){
-                	window.location.href="${pageContext.request.contextPath}/user/toupdatePassword";
+                	window.location.href="${pageContext.request.contextPath}/user/changeHead";
                 }else if(obj.stateCode == 0){
                    alert("1");
                 }else {

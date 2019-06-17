@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.Project;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.dao.ProjectMapper;
 import com.oa.service.deptOffice.ProjectManageService;
 
@@ -34,18 +36,28 @@ public class ProjectManageController {
   
  
    @RequestMapping(value="/pushProject", method=RequestMethod.GET)
-	public String pushProject(
+   @ResponseBody
+	public ResponseResult pushProject(
 			HttpSession session,
 			Model model,
 			String projectName,
 			Project project
 			) {
-	   String createName = (String) session.getAttribute("uid");
+	   ResponseResult rr = new ResponseResult();
+	   User user = (User)session.getAttribute("user");
+	   String createName = user.getUid();
 	   project.setProjectName(projectName);
 	   project.setCreateName(createName);
 	   project.setCreateTime(new Date());
-	   projectManageService.insertSelective(project);
-		return "redirect:/project/selectByParams";
+	   int i = projectManageService.insertSelective(project);
+	   if(i!=0) {
+		   rr.setStateCode(1);
+		   rr.setMessage("创建成功");
+	   }else {
+		   rr.setStateCode(0);
+			rr.setMessage("创建失败");
+	   }
+		return rr;
 	}
   
 	/**根据id删除部门
@@ -97,7 +109,8 @@ public class ProjectManageController {
 			 String projectName,
 			 Project project
 			 ) {
-		  String createName = (String) session.getAttribute("uid");
+		  User user = (User)session.getAttribute("user");
+		  String createName = user.getUid();
 		   project.setProjectId(projectId);
 		   project.setProjectName(projectName);
 		   project.setCreateName(createName);
@@ -127,5 +140,26 @@ public class ProjectManageController {
 			model.addAttribute("pageInfo", page);
 		 return "projectManagement";
 	 }
+	
+	/**
+	 * 验证用户名是否存在
+	 * @param username
+	 * @return
+	 */
+    @RequestMapping(value = "/checkProjectName")
+	// 使用这个是不走视图解析器
+	@ResponseBody
+	public ResponseResult checkUserByUserName(@PathParam("projectName")String projectName) {// 保持这里的参数前面参数的一致就可以传递过来
+		ResponseResult rr = new ResponseResult();
+		int b = projectManageService.checkProjectByname(projectName);
+		if (b == 1) {
+			rr.setStateCode(0);
+			rr.setMessage("项目名已存在");
+		} else {
+			rr.setStateCode(1);
+			rr.setMessage("项目名可用");
+		}
+		return rr;
+	}
 	
 }

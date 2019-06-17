@@ -34,6 +34,16 @@ public interface WorkPlanMapper {
     int updateByPrimaryKey(WorkPlan record);
     
     List<WorkPlan>  selectByMap(@Param("param") Map<String,Object> params);
+
+	List<WorkPlan> allWorkPlan(int deptId);
+	
+	List<WorkPlan> getWorkPlanByUid(String uid);
+
+	List<WorkPlan> getListByTime(String uid, String startTime, String endTime);
+
+	List<WorkPlan> getListByLike(@Param("uid")String uid, @Param("info")String info);
+
+	List<WorkPlan> getList(String uid, String info, String startTime, String endTime);
   
  
 

@@ -25,6 +25,7 @@
 	<link href="/oa/assets/layui/css/layui.css" rel="stylesheet">
 	<link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="/oa/css/index.css">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -43,10 +44,9 @@
                       <!-- <div class="row mt" style=" height:380px;"> -->
                        <!-- SERVER STATUS PANELS -->
                       	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
-                      		<div class="white-panel pn donut-chart" style="height:80%;">
-                      			<div class="white-header" >
-						  			<h5 >考勤管理</h5>
-                      			</div>
+                      <div class="row mt" style=" height:380px;">
+                       <!-- SERVER STATUS PANELS -->
+                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;margin-left:10px;">
                       					<div class="">
                       					<div id="currentDate"></div>
 			                            <div class="WorkTime" align="left"><br>
@@ -83,7 +83,6 @@
 	                      		</div>
                       		</div>
                       	</div>
-                      	
 						<div class="col-md-4 col-md-4 mb" style="height:400px;">
 							<!--  WHITE PANEL - TOP USER  -->
 							<div class="white-panel pn" style="height:80%;">
@@ -303,7 +302,6 @@
 		   return Y+M+D+h+m+s;
 }
 </script>
-	
   
 
   </body>

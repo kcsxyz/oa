@@ -6,7 +6,7 @@ import com.oa.bean.WorkPlan;
 
 public interface WorkPlanService {
 	//查询所有工作计划
-	List<WorkPlan> selectWorkPlan();
+	List<WorkPlan> selectWorkPlan(int deptId);
 	//根据id查询
 	WorkPlan getWorkPlanById(Integer id);
 	//添加工作计划
@@ -23,5 +23,10 @@ public interface WorkPlanService {
 	List<WorkPlan> getWorkPlanByType(String type);
 	//根据状态查询
 	List<WorkPlan> getWorkPlanByStatus(Integer status);
+	
+	List<WorkPlan> getWorkPlanByUid(String uid);
+	
+	
+	List<WorkPlan> getWorkPlanList(String uid, String info, String startTime, String endTime);
 
 }

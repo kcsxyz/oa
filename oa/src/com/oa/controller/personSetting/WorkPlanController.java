@@ -47,19 +47,26 @@ public class WorkPlanController {
 	
 	@RequestMapping(value="/workPlanlist", method=RequestMethod.GET)
 	public String selectAllWorkPlan(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
+		User user=(User) session.getAttribute("user");
+		int deptId=user.getDeptId();
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
-			List<WorkPlan> workPlanlist = workPlanService.selectWorkPlan();	
+			List<WorkPlan> workPlanlist =new ArrayList<>();
+			if(user.getRole().getRoleName()=="员工") {
+				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());				
+			}else {
+				workPlanlist = workPlanService.selectWorkPlan(deptId);
+				
+			}			
 			if(workPlanlist.size()>0) {
 				rr.setStateCode(1);
 			}else {
 				rr.setMessage("未查询到数据");
 				rr.setStateCode(0);
-			}
-			
+			}			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
 			model.addAttribute("pageInfo", page);
@@ -91,6 +98,19 @@ public class WorkPlanController {
 		}		
 		return "personSetting/updateWorkPlan";
 	}
+	@RequestMapping(value="/toCheckedWorkPlan/{id}",method=RequestMethod.GET)	
+	public String toCheckedWorkPlan(@PathVariable Integer id,Model model) {
+		ResponseResult rr=new ResponseResult();
+		WorkPlan workPlan=workPlanService.getWorkPlanById(id);		
+		if(workPlan!=null) {
+			rr.setStateCode(1);
+			model.addAttribute("workPlan", workPlan);
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("未查询到数据");
+		}		
+		return "personSetting/checkPlan";
+	}
 	//跳转到添加页面
 	@RequestMapping(value="/addWorkPlan", method=RequestMethod.GET)
 	public String addWorkPlan(Model model) {
@@ -107,7 +127,7 @@ public class WorkPlanController {
 	@RequestMapping(value="/addWorkPlan/{workPlan}", method=RequestMethod.POST)
 	public String addWorkPlan(WorkPlan workPlan,HttpSession session) throws ParseException {
 		ResponseResult rr=new ResponseResult();
-		if(workPlanService.getWorkPlanById(workPlan.getId())==null) {
+		if(workPlanService.getWorkPlanById(workPlan.getId())==null && workPlan.getContent()!=null) {
 			User user=(User)session.getAttribute("user");
 			Date now = new Date();
 			// java.util.Date -> java.time.LocalDate
@@ -139,23 +159,7 @@ public class WorkPlanController {
 	 */
 	@RequestMapping(value="/deleteWorkPlan/{id}", method=RequestMethod.GET)	
 	public String deleteWorkPlan(@PathVariable("id") Integer id) {
-		/*ResponseResult rr = new ResponseResult();
-		String ids=id;
-		//批量删除
-		if (ids.contains("-")) {
-			List<Integer> listId = new ArrayList<>();
-			String[] split_ids = ids.split("-");
-			for (String string : split_ids) {
-				listId.add(Integer.parseInt(string));
-				workPlanService.deleteWorkPlanBatch(listId);
-			}
-			rr.setStateCode(1);
-		// 单个删除
-		} else {
-			Integer id1 = Integer.parseInt(ids);
-			workPlanService.deleteWorkLog(id1);
-			rr.setStateCode(1);
-				}*/
+		
 		workPlanService.deleteWorkLog(id);
 		return "redirect:/workPlan/workPlanlist";			
 	}
@@ -198,12 +202,22 @@ public class WorkPlanController {
 	@RequestMapping(value="/updateWorkPlan",method=RequestMethod.POST)
 	public String updateWorkPlan(WorkPlan workPlan,HttpSession session) {
 		User user=(User) session.getAttribute("user");
-		//workPlan.setModifiedName(user.getUid());
+		workPlan.setModifiedName(user.getUid());
 		Date now = new Date();
 		LocalDate localDate=now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
 		Date newDate=java.sql.Date.valueOf(localDate);
 		workPlan.setModifiedTime(newDate);
-		workPlanService.updateWorkPlan(workPlan);		
+		if(workPlan.getContent()!=null) {
+			workPlanService.updateWorkPlan(workPlan);	
+		}
+			
+		return "redirect:/workPlan/workPlanlist";
+	}
+	@RequestMapping("/checkWorkPlan")
+	public String checkWorkPlan(WorkPlan workPlan,HttpSession session) {
+		User user=(User) session.getAttribute("user");
+		workPlan.setCheckedName(user.getUid());
+		workPlanService.updateWorkPlan(workPlan);
 		return "redirect:/workPlan/workPlanlist";
 	}
 	/**
@@ -215,12 +229,17 @@ public class WorkPlanController {
 	 * 模糊查询
 	 */
 	@RequestMapping(value="/selectLikeWorkPlan",method=RequestMethod.GET)
-	public String selectLikeWorkPlan(@RequestParam ("Info") String Info,
-			@RequestParam("startTime")String startTime,@RequestParam("endTime")String endTime,Model model) {
+	public String selectLikeWorkPlan(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@RequestParam ("Info") String Info,
+			@RequestParam("startTime")String startTime,@RequestParam("endTime")String endTime,Model model,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		PageHelper.startPage(pageNo, pageSize);
+		List<WorkPlan> workPlanlist = new ArrayList<>();
+		workPlanlist =workPlanService.getWorkPlanList(user.getUid(), Info, startTime, endTime);
 		
-		List<WorkPlan> workPlanlist = workPlanService.selectLikeWorkPlan(Info,startTime,endTime);		
-		model.addAttribute("workPlanlist",workPlanlist);  
-		
+		PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
+		model.addAttribute("pageInfo", page);
+		model.addAttribute("workPlanlist",workPlanlist);
 		return "personSetting/workPlan";			
 	}
 	
@@ -270,21 +289,20 @@ public class WorkPlanController {
 	public String getWorkPlanByStatus(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,Integer status,Model model) {
 		ResponseResult rr=new ResponseResult();
-		status=1;
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
-			List<WorkPlan> WorkPlanlist = workPlanService.getWorkPlanByStatus(status);	
-			if(WorkPlanlist.size()>0) {
+			List<WorkPlan> workPlanlist = workPlanService.getWorkPlanByStatus(status);	
+			if(workPlanlist.size()>0) {
 				rr.setStateCode(1);
 			}else {
 				rr.setMessage("未查询到数据");
 				rr.setStateCode(0);
 			}			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(WorkPlanlist, 3);
+			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
 			model.addAttribute("pageInfo", page);
-			model.addAttribute("WorkPlanlist", WorkPlanlist);
+			model.addAttribute("workPlanlist", workPlanlist);
 		} catch (Exception e) {
 			
 			e.printStackTrace();

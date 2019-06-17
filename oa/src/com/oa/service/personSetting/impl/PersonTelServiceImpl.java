@@ -19,10 +19,8 @@ public class PersonTelServiceImpl implements PersonTelService {
 	@Override
 	public List<PersonTel> selectByUid(String uid) {
 		// TODO Auto-generated method stub
-		PersonTelExample de=new PersonTelExample();
-		Criteria ct=de.createCriteria();
-		ct.andUserIdEqualTo(uid);
-		return personTelMapper.selectByExample(de);
+		
+		return personTelMapper.getPersonTelMap(uid);
 	}
 
 	@Override
@@ -34,5 +32,17 @@ public class PersonTelServiceImpl implements PersonTelService {
 	public void deletePersonTel(String uid, String id) {			
 				
 		personTelMapper.deleteByUid(uid, id);
+	}
+
+	@Override
+	public List<PersonTel> selectByDept(String uid,Integer id) {
+		
+		return personTelMapper.selectPersonTelByDept(uid,id);
+	}
+
+	@Override
+	public List<PersonTel> selectLike(String uid, String info) {
+		// TODO Auto-generated method stub
+		return personTelMapper.selectLike(uid,info);
 	}
 }

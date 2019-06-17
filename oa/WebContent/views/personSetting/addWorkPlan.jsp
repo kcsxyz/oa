@@ -11,21 +11,21 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>添加工作计划</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
     
     <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
@@ -90,7 +90,7 @@
 			                         <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                  <div id="editor" style="height:400px"></div>
+				                                  <textarea id="editor" name="content"style="height:400px"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">
@@ -118,10 +118,10 @@
       </section>
 </section>
 	<!-- js placed at the end of the document so the pages load faster --> 
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+    <script src="/oa/assets/js/common-scripts.js"></script>
 </body>
 </html>

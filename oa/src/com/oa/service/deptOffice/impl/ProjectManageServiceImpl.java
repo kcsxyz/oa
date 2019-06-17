@@ -9,6 +9,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
+import com.oa.bean.FilesExample;
 import com.oa.bean.Project;
 import com.oa.bean.ProjectExample;
 import com.oa.bean.ProjectExample.Criteria;
@@ -70,19 +72,24 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 		}
 		
 		List<Project> p = projectMapper.selectByExample(example);
-		for (Project project : p) {
-			System.out.println(project);
-		}
 		return p;
 	}
 
-
-	@Override
 	public Project selectByPrimaryKey(Integer projectId) {
 		Project project = projectMapper.selectByPrimaryKey(projectId);
 		return project;
 	}
 
-    
+	public int checkProjectByname(String projectName) {
+		ProjectExample example = new ProjectExample();
+		Criteria c = example.createCriteria();
+		c.andProjectNameEqualTo(projectName);
+		List<Project> list = projectMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
     
 }

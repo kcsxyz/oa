@@ -26,18 +26,19 @@
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
     <script src="/oa/assets/js/jquery.js"></script>
     <script src="/oa/assets/js/bootstrap.min.js"></script>
+    
 </head>
 <body>
 <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12"style="margin-top:40px;" id="user_add">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-	                            <form class="form-horizontal style-form" method="post" action="${pageContext.request.contextPath }/userpower/saveUser" style="margin-top:80px;">
+	                            <form class="form-horizontal style-form" method="post" action="${pageContext.request.contextPath}/userpower/saveUser" onSubmit="return myCheck(this)" style="margin-top:80px;">
 	                            	 <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
 				                        	<div class="col-xs-3 col-sm-4" >
@@ -48,13 +49,22 @@
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">工号:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control" type="text" name="uid"  >
+                                  				<input class="form-control" type="text" id="uid" name="uid"  >
+                                  				<span class="help-block"></span>
+                              				</div>
+                              				<div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+                              				<font id="showResult1" style="color:red">*</font>
                               				</div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">姓名:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control" type="text" name="name"  >
+                                  				<input class="form-control" type="text" id="uname" name="name"  >
+                                  				<span class="help-block"></span>
+                                  				
+                              				</div>
+                              				<div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+                              					<font id="showResult2" style="color:red">*</font>
                               				</div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
@@ -70,12 +80,23 @@
 				                                  <input value="1"  id="myradio" type="radio" name="sex" >女
 				                              	</span>
 				                              </div>
-				                          </div>   
+				                          </div> 
 				                          <div class="col-sm-4" style="float:left;">
-			                              <span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
+				                          <span style="color:#000;font-size:15px;;float:left;height:28px;text-align:right;line-height:28px;">年龄:</span>
                               				<div class="col-sm-6">
+                                  				<select id="years" name="age" class="selectpicker show-tick form-control">
+			                          				<option value="16">---请选择---</option>
+			                          			</select>
+                                  				
+                              				</div>  
+				                          </div>
+			                          </div>
+			                          <div class="form-group" style="border:none;margin-top:10px;">
+			                          	<div class="col-sm-3" style="float:left;margin-left:31%;">
+			                              <span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
+                              				<div class="col-sm-8">
                                   				<select name="deptId" class="selectpicker show-tick form-control" >
-                                  				    <option  selected="selected"></option>
+                                  				    <option value="1" selected="selected">---请选择---</option>
 													<c:forEach items="${userDept }" var="u" >
 												         <option value="${u.deptId }">
 		                                                           ${u.deptName }
@@ -85,43 +106,94 @@
                                   				</select>
                               				</div>
                               				</div>
-			                          </div>
-			                          <div class="form-group" style="border:none;margin-top:10px;">
-			                              <span style="width:35%;color:#000;font-size:15px;;float:left;height:28px;text-align:right;line-height:28px;">年龄:</span>
-                              				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="age"  >
+                              			 <div class="col-sm-4" style="float:left;">
+			                              <span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">角色:</span>
+                              				<div class="col-sm-6">
+                                  				<select name="roleId" class="selectpicker show-tick form-control" >
+                                  				    <option value="0" selected="selected">---请选择---</option>
+													 <c:forEach items="${userRole }" var="r" >
+												         <option value="${r.roleId }">
+		                                                           ${r.roleName }
+		                                                  </option>
+		                                                
+												     </c:forEach>	
+                                  				</select>
                               				</div>
+                              				</div> 
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
-			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证密码:</span>                              				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="idCard" >
+			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证号码:</span>                              				<div class="col-sm-5">
+                                  				<input class="form-control"  type="text" id="idCard" name="idCard" >
+                                  				<span class="help-block"></span>
+                              				</div>
+                              				<div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+                              					<font id="showResult3" style="color:red">*</font>
                               				</div>
 			                          </div>
 			                          
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">电话:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="phone" >
+                                  				<input class="form-control"  type="text" id="phone" name="phone" >
+                                  				<span class="help-block"></span>
+                              				</div>
+                              				<div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+                              					<font id="showResult4" style="color:red">*</font>
                               				</div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">邮箱:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="email" >
+                                  				<input class="form-control"  type="text" id="email" name="email" >
+                                  				<span class="help-block"></span>
+                              				</div>
+                              				<div class="col-sm-2" style="text-align:left;padding:0;height:32px;line-height:32px;">
+                              					<font id="showResult5" style="color:red">*</font>
                               				</div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:10px;">
-			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">地址:</span>
+				                          <div class="col-sm-2" style="float:left;margin-left:32%;padding:0;">
+				                          		<span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">省份:</span>
+									            <div class="col-sm-8">
+									            <select id="province" class="province selectpicker show-tick form-control">
+									            </select>
+									            </div>
+				                          </div>
+				                          <div class="col-sm-2" style="float:left;padding:0;">
+				                          		<span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">城市:</span>
+				                          		<div class="col-sm-9">
+								            	<select id="city" class="city selectpicker show-tick form-control">	
+									            </select>
+									            </div>
+				                          </div>
+				                          <div class="col-sm-2" style="float:left;padding:0;">
+				                          		<span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">县区:</span>
+				                          		<div class="col-sm-8">
+								                <select id="area" class="area selectpicker show-tick form-control">
+									            </select>
+									            </div>
+				                          </div>
+				                          
+			                          </div>
+			                          <div class="form-group" style="border:none;margin-top:10px;">
+			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">详细地址:</span>
                               				<div class="col-sm-5">
-                                  				<input class="form-control"  type="text" name="address" >
+                                  				<input class="form-control"  type="text" id="dizhi" name="dizhi" >
+                                  				<span class="help-block"></span>
                               				</div>
 			                          </div>
-	                            		<div class="form-group" style="border:none;margin-top:10px;">
-				                              <div class="col-sm-10" style="float:left; text-align:center;">
-					                              
-							                  	  	  <button type="submit" class="btn btn-round btn-default" style="width:10%;background:#68dff0;">
+			                           <input type="hidden" value="" id="address" name="address">
+	                            		<div class="form-group" style="border:none;margin-top:10px;margin-left:18%;">
+				                              <div class="col-sm-7" style="float:left; text-align:center;">
+							                  	  	  <button type="submit" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:13%;background:#68dff0;">
 									                  	  <span style="color: rgb(255,255,255); font-size: 16px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 									                  	  	  提交</span>
+							                  	  	  </button>
+							                  	 </div>
+							                  	 <div class="col-sm-5" style="float:left; text-align:left;">
+							                  	  	   <button type="reset" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:18%;background:#68dff0;">
+									                  	  <span style="color: rgb(255,255,255); font-size: 16px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+									                  	  	  重置</span>
 							                  	  	  </button>
 						                  	  	  
 				                              </div>
@@ -143,25 +215,186 @@
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
-
-    <!--script for this page-->
-	<script type="text/javascript">
-		$(function(){
+    <script src="/oa/assets/js/common-scripts.js"></script>
+	<script src="/oa/js/method4.js"></script>
+	
+	 <script type="text/javascript">
+	 function saveUser()
+	 {
+		 var province = document.getElementById("province").value;
+		 var city = document.getElementById("city").value;
+		 var area = document.getElementById("area").value;
+		 var dizhi = document.getElementById("dizhi").value;
+		 var address = document.getElementById("address");
+		 $("#address").val(province+"—"+city+"—"+area+"—"+dizhi);
 		
-		    /*鼠标点击下去的时候，决定是否选中*/
-		    $("#myradio").bind("mousedown",function(event){
-		         var radioChecked = $(this).prop("checked");
-		         $(this).prop('checked', !radioChecked);
-		        return false;
-		    });
-		
-		    /*阻止click事件默认行为*/
-		    $("#myradio").click(function(event){
-		        return false;
-		    });
-		
+	 }
+	 
+    $("#uid").blur(function(){
+        var data = $("#uid").val();
+        if (data == null || data == "") {
+            $("#showResult1").text("此项为必填项！");
+            return false;
+        }else if(data.length>10){
+        	$("#showResult1").text("工号长度有误,不能超过10个字符！");
+        }else{
+        	 $("#showResult1").text("");
+        }
+    });
+    $("#uname").blur(function(){
+        var data = $("#uname").val();
+        if (data == null || data == "") {
+            $("#showResult2").text("此项为必填项！");
+            return false;
+        }else if(data.length>10){
+        	$("#showResult2").text("姓名长度有误,不能超过10个字符！");
+        }else if(!(new RegExp(/^([\u4E00-\u9FA5]+|[a-zA-Z]+)$/)).test(data)){
+        	$("#showResult2").text("姓名只能为中文或英文且不能出现连续空格！");
+        }else{
+        	 $("#showResult2").text("");
+        }
+    });
+    $("#idCard").blur(function(){
+        var data = $("#idCard").val();
+        if (data == null || data == "") {
+            $("#showResult3").text("此项为必填项!");
+            return false;
+        }else if(data.length<18 ||data.length>18){
+        	$("#showResult3").text("身份证长度有误!");
+        }else if(!(new RegExp(/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/)).test(data)){
+        	$("#showResult3").text("身份证格式有误!");
+        }else{
+        	 $("#showResult3").text("");
+        }
+    });
+    $("#phone").blur(function(){
+        var data = $("#phone").val();
+        if (data == null || data == "") {
+            $("#showResult4").text("此项为必填项!");
+            return false;
+        }else if(!(new RegExp(/^1[3|4|5|7|8][0-9]{9}$/)).test(data)){
+        	$("#showResult4").text("电话格式或长度有误！");
+        }else{
+        	 $("#showResult4").text("");
+        }
+    });
+    $("#email").blur(function(){
+        var data = $("#email").val();
+        if (data == null || data == "") {
+            $("#showResult5").text("此项为必填项！");
+            return false;
+        }else if(!(new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)).test(data)){
+        	$("#showResult5").text("邮箱格式有误！");
+        }else{
+        	 $("#showResult5").text("");
+        }
+    }); 
+    $(function(){                 
+    	for(var i = 16;i<100;i++){ 
+    		var age=i;
+			$("#years").append($("<option value="+age+">"+age+"岁"+"</option>"));
+    		}   
+    }); 
+    
+    //异步校验
+    //校验工号是否存在
+	$("#uid").change(function(){
+		var uid=this.value;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/userpower/checkUserByUid",
+			type: "post",
+			data: "uid="+uid,
+			success:function(result){
+				if(result.stateCode==1){
+					valate_form_msg("#uid",'success',result.message);
+					$("#uid").attr("ajax-va","success");
+				}else if(result.stateCode==0){
+					valate_form_msg("#uid",'error',result.message);
+					$("#uid").attr("ajax-va","error");
+				}
+			}
 		});
-	</script>
+	});
+    //校验idCard
+	$("#idCard").change(function(){
+		var idCard=this.value;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/userpower/checkUserByIdCard",
+			type: "post",
+			data: "idCard="+idCard,
+			success:function(result){
+				if(result.stateCode==1){
+					valate_form_msg("#idCard",'success',result.message);
+					$("#idCard").attr("ajax-va","success");
+				}else if(result.stateCode==0){
+					valate_form_msg("#idCard",'error',result.message);
+					$("#idCard").attr("ajax-va","error");
+				}
+			}
+		});
+	});
+    
+	  function valate_form_msg(ele,status,msg){
+			//清除当前元素的校验状态
+			$(ele).parent().removeClass("has-success has-error");
+			$(ele).next('span').text("");
+			if(status=='success'){
+				$(ele).parent().addClass("has-success");
+				$(ele).next('span').text(msg);
+			}else if(status=='error'){
+				$(ele).parent().addClass("has-error");
+				$(ele).next('span').text(msg);
+			}
+		}
+	  
+	  function myCheck(form){
+		  if(form.uid.value==''|| form.uid.value==null){
+		  form.uid.focus();
+		  return false;
+		  }
+		  if(form.name.value==''||form.name.value==null){
+		  form.name.focus();
+		  return false;
+		  }
+		  if(form.idCard.value=='' || form.idCard.value==null ){
+		  form.idCard.focus();
+		  return false;
+		  }
+		  if(form.idCard.value.length<18 ||form.idCard.value.length>18 ){
+			  form.idCard.focus();
+			  return false;
+		  }
+		  if(form.phone.value==''||form.phone.value==null){
+			  form.phone.focus();
+			  return false;
+			  }
+		  if(!(new RegExp(/^1[3|4|5|7|8][0-9]{9}$/)).test(form.phone.value)){
+			  form.phone.focus();
+			  return false;
+		  }
+		  if(form.email.value==''||form.email.value==null){
+			  form.email.focus();
+			  return false;
+			  }
+		  if(!(new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)).test(form.email.value)){
+			  form.email.focus();
+			  return false;
+		  }
+		 if($("#uid").attr("ajax-va")=='error'){
+			  return false;
+		  }  
+		 if($("#idCard").attr("ajax-va")=='error'){
+			  return false;
+		  }  
+		 else{
+			  alert("录入成功");
+			  return true;
+		  }
+	  }
+	  
+    </script> 
+
+	
 </body>
+
 </html>

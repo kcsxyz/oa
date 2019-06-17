@@ -55,7 +55,7 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public int updateLeave(Leave leave) {
-		int i=leaveMapper.updateByPrimaryKey(leave);
+		int i=leaveMapper.updateByPrimaryKeySelective(leave);
 		return i;		
 	}
 
