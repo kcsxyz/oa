@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
@@ -142,6 +143,7 @@ public class FilesController {
 	     */
       @RequestMapping("/findAll")  
 	    public String findAll(
+	    		HttpSession session,
 	    		Model model,
 	    		String Info,
 	    		String dateStart,
@@ -149,6 +151,9 @@ public class FilesController {
 	    		@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
 	    		) throws ParseException {
+    	  User user = (User)session.getAttribute("user");
+   	        String role = user.getRole().getRoleName();
+   	        System.out.println(role);
 	    	Map<String, String> map = new HashMap<String, String>();
 	    	  if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
 					 String startTime= dateStart+" "+"00:00:00";
