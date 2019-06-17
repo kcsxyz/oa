@@ -186,7 +186,9 @@
                                   <th style="text-align:center;">上传用户</th>
                                   <th style="text-align:center;">关联项目</th>
                                   <th style="text-align:center;">上传时间</th>
+                                 <c:if test="${user.role.roleName!=员工 }">
                                   <th style="text-align:center;">操作</th>
+                                 </c:if>
                               </tr>
                               </thead>
                              <tbody>
@@ -201,8 +203,10 @@
                                   <td style="text-align:center;"><fmt:formatDate value='${page.createTime }' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
+                                     <c:if test="${user.role.roleName!=员工 }">
                                       <a href="${ pageContext.request.contextPath }/files/download?filesName=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" onclick="downloadcfm()" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
                                       <a href="${pageContext.request.contextPath }/files/deleteFile/${page.fileId }"><button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o"></i>删除</button></a>
+                                     </c:if>
                                   </td>
                               </tr>
                              </c:forEach>
