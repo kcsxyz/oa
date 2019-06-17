@@ -100,7 +100,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult addWorkLog(WorkLog workLog,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog!=null) {
+			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog.getContent()!=null) {
 				User user=(User) session.getAttribute("user");
 				workLog.setCreateTime(new Date());
 				workLog.setCreateName(user.getUid());
@@ -157,7 +157,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
+			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null && worklog.getContent()!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);
 			}else {

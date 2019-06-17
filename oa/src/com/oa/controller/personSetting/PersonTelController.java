@@ -119,7 +119,7 @@ public class PersonTelController {
 	 * @param pageNo
 	 * @param pageSize
 	 * @param model
-	 * @return所有个人通讯录
+	 * @return所有通讯录
 	 */
 	@RequestMapping("/allPersonTel")
 	public String allPersonTel(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,

@@ -127,7 +127,7 @@ public class ScheduleController {
 	@RequestMapping("/addSchedule")
 	public String addSchedule(Schedule schedule,Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
-		if(scheduleService.getScheduleById(schedule.getId())==null) {
+		if(scheduleService.getScheduleById(schedule.getId())==null && schedule.getDescr()!=null) {
 			User user =(User) session.getAttribute("user");
 			schedule.setCreateName(user.getUid());
 			schedule.setCreateTime(new Date());
@@ -184,7 +184,7 @@ public class ScheduleController {
 	public String updateSchedule(Schedule schedule,Model model) {
 		
 		ResponseResult rr=new ResponseResult();
-		if(scheduleService.getScheduleById(schedule.getId())!=null) {
+		if(scheduleService.getScheduleById(schedule.getId())!=null && schedule.getDescr()!=null) {
 			scheduleService.updateSchedule(schedule);
 			rr.setStateCode(1);
 		}else {

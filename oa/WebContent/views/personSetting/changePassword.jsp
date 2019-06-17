@@ -42,28 +42,28 @@
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;margin-left:55px;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">&nbsp;&nbsp;&nbsp;&nbsp;工号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${user.uid}</span>
 				                              <div class="col-sm-3">
-				                              	<input type="hidden" name=uid id=uid value="${user.uid}">
-				                                 
+				                              	<input type="hidden" name="uid" id="uid" value="${user.uid}">
+				                                 <input type="hidden" name="pwd" id="pwd" value="${user.password}">
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">旧密码:</span>
 				                              <div class="col-sm-3">				                              	
-				                                  <input type="text" name="password" id="old_password" class="form-control">
+				                                  <input type="password" name="password" id="password" class="form-control"><font id="showResult1"></font>
 				                              </div>
 				                              <span class="oldPassword change_hint"></span>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">新密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="repassword" id="new_password" class="form-control">
+				                                  <input type="password" name="repassword" id="newPassword" class="form-control"><font id="showResult2"></font>
 				                              	<span class="newPassword change_hint"></span>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:38%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">确认密码:</span>
 				                              <div class="col-sm-3">
-				                                  <input type="text" name="repwd" id="confirm_password" class="form-control">
+				                                  <input type="password" name="repwd" id="confirm_password" class="form-control"><font id="showResult3"></font>
 				                              	<span class="confirmPassword change_hint"></span>
 				                              </div>
 			                          </div>
@@ -134,38 +134,50 @@
 		});
 	</script>
 	<script>
+	$("#password").blur(function(){
+        var data = $("#password").val();
+        if (data == null || data == "") {
+            $("#showResult1").text("旧密码不能为空！");
+            $("#showResult1").css("color","red");
+            return false;
+        }else{
+        	$("#showResult1").text("");
+            }       
+    });
+	$("#newPassword").blur(function(){
+        var data = $("#newPassword").val();
+        if (data == null || data == "") {
+            $("#showResult2").text("新密码不能为空！");
+            $("#showResult2").css("color","red");
+            return false;
+        }else if(data.lenght<6 || data.lenght>16){
+        	$("#showResult2").text("新密码长度为6-16个字符！");
+            $("#showResult2").css("color","red");
+        }else if(!(new RegExp(/^\w{6,16}$/g).test(data))){
+        	$("#showResult2").text("只允许6-16位英文字母、数字和下画线！");
+            $("#showResult2").css("color","red");
+        }else{
+        	$("#showResult2").text("");
+        }      
+    });
+	
+	$("#confirm_password").blur(function(){
+        var data = $("#confirm_password").val();
+        if (data == null || data == "") {
+            $("#showResult3").text("请确认新密码！");
+            $("#showResult3").css("color","red");
+            return false;
+        }else if(data!=$("#newPassword").val()){
+        	$("#showResult3").text("确认密码与新密码不一致！");
+            $("#showResult3").css("color","red");
+        }else{
+        	$("#showResult3").text("");
+        }
+    });
 	$("#save_password").click(function(){
 		var uid=$("#uid").val;
-		var oldPassword=$("#old_password").val();
+		var oldPassword=$("#password").val();
 		var newPassword=$("#new_password").val();
-		
-		var confirmPassword=$("#confirm_password").val();
-		if(oldPassword==""){
-			$(".oldPassword").html("旧密码不能为空");
-			return ;
-		}
-		if(newPassword==""){
-			$(".newPassword").html("新密码不能为空");
-			return ;
-		}
-		if(confirmPassword==""){
-			$(".confirmPassword").html("确认密码不能为空");
-			return ;
-		}
-		if(confirmPassword !=newPassword ){
-			$(".confirmPassword").html("前后密码不一致");
-			return ;
-		}
-		if(oldPassword ==newPassword ){
-			$(".newPassword").html("您的新密码和旧密码一样");
-			return ;
-		}
-		alert(oldPassword);
-		if(newPassword.length<6 || newPassword.length>16 ){
-			$(".newPassword").html("密码在6-16位之间");
-			return ;
-		}
-		alert("11");
 		$.ajax({
 			url :"${pageContext.request.contextPath}/user/updatePassword",
 			data : "password="+oldPassword+"&repassword="+newPassword,

@@ -10,7 +10,7 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>修改工作日志</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -62,7 +62,8 @@
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
 				                              		<input type="hidden" name="logId" value="${workLog.logId }">
-				                                  <input type="text" name="title" class="form-control" value="${workLog.title }">
+				                                  <input type="text" name="title" id="title"class="form-control" value="${workLog.title }">
+				                                  <font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
@@ -96,13 +97,13 @@
       </section>
 </section>
  	<!-- js placed at the end of the document so the pages load faster --> 
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+    <script src="/oa/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
 	<script type="text/javascript">
@@ -123,6 +124,16 @@
 		});
 	</script>
 	 <script>
+	 $("#title").blur(function(){
+	        var data = $("#title").val();
+	        if (data == null || data == "") {
+	            $("#showResult1").text("标题不能为空！");
+	            $("#showResult1").css("color","red");
+	            return false;
+	        }else{
+	    	$("#showResult1").text("");
+	        }
+		 });
 	 $('#add-but').click(function(){
         //读取用户的输入——表单序列化
         var inputData = $('#add-form').serialize(); 

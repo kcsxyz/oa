@@ -116,7 +116,7 @@
 			                         <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">审核意见:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea class="form-control" id="opinion" name="opinion" overflow-y="scroll" rows="6"></textarea>
+				                                  <textarea class="form-control" id="opinion" name="opinion" overflow-y="scroll" rows="6"></textarea><font id="showResult1"></font>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">
@@ -145,7 +145,18 @@
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
     <!--script for this page-->
-    
+    <script type="text/javascript">
+    $("#opinion").blur(function(){
+        var data = $("#opinion").val();
+        if (data == null || data == "") {
+            $("#showResult1").text("审核意见不能为空！");
+            $("#showResult1").css("color","red");
+            return false;
+        }else{
+    	$("#showResult1").text("");
+        }
+	 });
+    </script>
 	
 </body>
 </html>

@@ -127,7 +127,7 @@ public class WorkPlanController {
 	@RequestMapping(value="/addWorkPlan/{workPlan}", method=RequestMethod.POST)
 	public String addWorkPlan(WorkPlan workPlan,HttpSession session) throws ParseException {
 		ResponseResult rr=new ResponseResult();
-		if(workPlanService.getWorkPlanById(workPlan.getId())==null) {
+		if(workPlanService.getWorkPlanById(workPlan.getId())==null && workPlan.getContent()!=null) {
 			User user=(User)session.getAttribute("user");
 			Date now = new Date();
 			// java.util.Date -> java.time.LocalDate
@@ -207,7 +207,10 @@ public class WorkPlanController {
 		LocalDate localDate=now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
 		Date newDate=java.sql.Date.valueOf(localDate);
 		workPlan.setModifiedTime(newDate);
-		workPlanService.updateWorkPlan(workPlan);		
+		if(workPlan.getContent()!=null) {
+			workPlanService.updateWorkPlan(workPlan);	
+		}
+			
 		return "redirect:/workPlan/workPlanlist";
 	}
 	@RequestMapping("/checkWorkPlan")

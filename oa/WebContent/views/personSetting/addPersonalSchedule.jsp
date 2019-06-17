@@ -12,21 +12,21 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>个人日程</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
      <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
  	<script src="/oa/ueditor/ueditor.parse.js"></script>
@@ -63,13 +63,13 @@
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" name="title" class="form-control">
+				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
-				                                  <div id="editor" name="descr" style="height:400px"></div>
+				                                  <textarea id="editor" name="descr" style="height:400px"></textarea><font id="showResult2"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
@@ -101,7 +101,7 @@
  	<!-- js placed at the end of the document so the pages load faster --> 
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
-    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+   
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
     <!--script for this page-->
@@ -122,24 +122,32 @@
 		
 		});
 	</script>
-	<!-- <script>
-	 $('#add-but').click(function(){
-        //读取用户的输入——表单序列化
-        var inputData = $('#add-form').serialize(); 
-		$.ajax({
-            type: 'POST',
-            url: '${pageContext.request.contextPath}/schedule/addSchedule',
-            data: inputData,
-            success: function(xhr){
-                alert("inputData");
-                if(xhr.stateCode==1){  //成功
-                    window.location.href="${pageContext.request.contextPath}/schedule/schedulelist";
-                }else if(xhr.stateCode==0){ //失败
-                    alert(xhr.message);
-                }
-            }
-        });
-    });
-</script> -->
+	<script>
+	$("#title").blur(function(){
+        var data = $("#title").val();
+        if (data == null || data == "") {
+            $("#showResult1").text("标题不能为空！");
+            $("#showResult1").css("color","red");
+            return false;
+        }else{
+    	$("#showResult1").text("");
+        }
+	 });
+	
+	 
+</script>
+<script>
+$("#editor").blur(function(){
+    var data = $("#editor").val();
+    alert(data);
+    if (data == null || data == "") {
+        $("#showResult2").text("内容不能为空！");
+        $("#showResult2").css("color","red");
+        return false;
+    }else{
+    	$("#showResult2").text("");
+        }
+ });
+</script>
 </body>
 </html>
