@@ -12,21 +12,21 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>修改个人日程</title>
 	<!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
      <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
  	<script src="/oa/ueditor/ueditor.parse.js"></script>
@@ -64,7 +64,7 @@
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
 				                              	<input type="hidden" name="id" value="${schedule.id }">
-				                                  <input type="text" name="title" class="form-control" value="${schedule.title }">
+				                                  <input type="text" id="title" name="title" class="form-control" value="${schedule.title }"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
@@ -121,6 +121,16 @@
 		    });
 		
 		});
+		 $("#title").blur(function(){
+		        var data = $("#title").val();
+		        if (data == null || data == "") {
+		            $("#showResult1").text("标题不能为空！");
+		            $("#showResult1").css("color","red");
+		            return false;
+		        }else{
+		    	$("#showResult1").text("");
+		        }
+			 });
 	</script>
 	<!-- <script>
 	 $('#add-but').click(function(){

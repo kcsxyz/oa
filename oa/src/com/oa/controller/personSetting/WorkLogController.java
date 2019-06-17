@@ -100,7 +100,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult addWorkLog(WorkLog workLog,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog!=null) {
+			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog.getContent()!=null) {
 				User user=(User) session.getAttribute("user");
 				workLog.setCreateTime(new Date());
 				workLog.setCreateName(user.getUid());
@@ -157,7 +157,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		@ResponseBody
 		public ResponseResult updateWorkLog(WorkLog worklog,Model model) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null) {
+			if(workLogService.getWorkLogByLogid(worklog.getLogId())!=null && worklog.getContent()!=null) {
 				workLogService.updateWorkLog(worklog);
 				rr.setStateCode(1);
 			}else {
@@ -183,9 +183,6 @@ import net.sf.jsqlparser.statement.delete.Delete;
 				// startPage后紧跟着的就是一个分页查询
 				PageHelper.startPage(pageNo, pageSize);
 				List<WorkLog> workLoglist =workLogService.selectList(user.getUid(),workLogInfo,startTime,endTime);
-				
-				String start= startTime+" "+"00:00:00";
-				 String end = endTime+" "+"23:59:59";
 				
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);

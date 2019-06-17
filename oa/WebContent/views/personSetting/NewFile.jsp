@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<img alt="" src="/oa/upload/admin-d48744e902d6ac5.gif">
+<img alt="" src="G:\OA\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps/oa/upload/admin-d48744e902d6ac5.gif">
 </body>
 </html>

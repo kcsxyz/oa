@@ -186,7 +186,7 @@
                                   <c:if test="${sessionScope.user.uid !=workPlan.user.uid && workPlan.status==0}"> 
                                   		<button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/toCheckedWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>审核</button>                               	
                                   </c:if>
-                                  <c:if test="${sessionScope.user.uid==workPlan.user.uid }">
+                                  <c:if test="${sessionScope.user.uid==workPlan.user.uid && workPlan.status!=1}">
                                       <button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
                                      <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
                                  </c:if>

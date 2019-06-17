@@ -61,7 +61,7 @@
 	                            <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" name="title" class="form-control">
+				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
@@ -138,6 +138,17 @@
             }
         });
     });
+	 $("#title").blur(function(){
+	        var data = $("#title").val();
+	        if (data == null || data == "") {
+	            $("#showResult1").text("标题不能为空！");
+	            $("#showResult1").css("color","red");
+	            return false;
+	        }else{
+	    	$("#showResult1").text("");
+	        }
+		 });
+		
 </script>
 </body>
 </html>

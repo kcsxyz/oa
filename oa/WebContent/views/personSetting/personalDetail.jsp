@@ -77,7 +77,7 @@
                               				</div>
                           			</div>
                           			<div class="form-group" style="border:none;margin-top:10px;">
-                              			<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证密码:</span>                              				<div class="col-sm-5">
+                              			<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">身份证:</span>                              				<div class="col-sm-5">
                                   				<input class="form-control" id="disabledInput" type="text" value="${user.idCard}" disabled>
                               				</div>
                           			</div>
@@ -152,7 +152,7 @@
 	//ajax调用文件上传方法
 	$("#sub_hed").click(function(){
 		if(file == null){
-			alert("");		
+			alert("请上传头像");		
 		}
 		var formData = new FormData();
 		formData.append("file",file);
@@ -166,7 +166,7 @@
             {
                 
                 if(obj.stateCode == 1){
-                	window.location.href="${pageContext.request.contextPath}/user/toupdatePassword";
+                	window.location.href="${pageContext.request.contextPath}/user/changeHead";
                 }else if(obj.stateCode == 0){
                    alert("1");
                 }else {

@@ -39,6 +39,11 @@ import com.oa.utils.md5;
 		@Resource
 		private UserService userService;
 		
+		@RequestMapping("/showIndex")
+		public String showIndex() {
+			return "index";
+		}
+		
 		/**
 		 * @param uid
 		 * @return
@@ -107,18 +112,12 @@ import com.oa.utils.md5;
 	 */
 	@RequestMapping("/outLogin")
 	@ResponseBody
-	public ResponseResult outLogin(HttpSession session,SessionStatus sessionStatus){
+	public ResponseResult outLogin(HttpSession session){
 		ResponseResult rr=new ResponseResult();
-        session.removeAttribute("user");//我这里是先取出httpsession中的user属性
         session.invalidate();  //然后是让httpsession失效
-        sessionStatus.setComplete();//最后是调用sessionStatus方法
-        //System.out.println("注销成功");
-        if(session.getAttribute("user")==null) {
+        
         rr.setStateCode(1);
-        }else {
-        	rr.setMessage("注销失败");
-        	rr.setStateCode(0);
-        }
+        
         return rr;
     }
 	//跳转到修改密码页面

@@ -53,33 +53,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 		scheduleMapper.updateByPrimaryKeySelective(schedule);
 	}
 
-	public List<Schedule> selectLikeSchedule(String Info, String startTime, String endTime) throws ParseException {
+	public List<Schedule> selectLikeSchedule(String uid,String Info, String startTime, String endTime) throws ParseException {
 		
-			ScheduleExample de = new ScheduleExample();
-			Criteria ct = de.createCriteria();
-			Criteria ct2 = de.createCriteria();
-			Criteria ct3 = de.createCriteria();
-			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
-			if(startTime != null && !startTime.equals("") && endTime != null&& !endTime.equals("")) {
-				Date date1;
-				Date date2;
-				try {
-					date1 = formatter.parse(startTime);
-					date2=formatter.parse(endTime);
-					ct3.andCreateTimeBetween(date1, date2);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return scheduleMapper.selectByExample(de);
-				}
-			if(Info!=null) {
-				ct.andTitleLike("%"+Info+"%");
-				ct2.andCreateNameLike("%"+"Info"+"%");
-				de.or(ct2);
-				return scheduleMapper.selectByExample(de);
-			}
-			return scheduleMapper.selectByExample(de);
+		String start = null;
+		String end = null;
+		if(startTime!=null && !(startTime.equals(""))) {
+			start= startTime+" "+"00:00:00";
+		}
+		if(endTime!=null && !(endTime.equals(""))) {
+			end = endTime+" "+"23:59:59";
+		}	
+		
+		return scheduleMapper.getScheduleList(uid,Info,start,end);
 		
 	}
 

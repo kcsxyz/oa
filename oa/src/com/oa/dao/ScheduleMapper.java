@@ -31,5 +31,7 @@ public interface ScheduleMapper {
     int updateByPrimaryKey(Schedule record);
 
 	List<Schedule> selectSchedule(String string);
+
+	List<Schedule> getScheduleList(String uid, String info,String start, String end);
    
 }
