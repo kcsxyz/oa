@@ -11,5 +11,6 @@ public class MianController {
 	public String index() {
 		return "index";
 	}
+	
 
 }
