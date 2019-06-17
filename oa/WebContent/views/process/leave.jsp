@@ -605,7 +605,7 @@
 				    			+"<div class='layui-timeline-content layui-text'>"
 				      			+"<h3 class='layui-timeline-title'>请假人:"+leave.userName+"</h3>"
 				      			+"<p> 请假类型："+leave.leaveType+"</p><p>请假时段："+timestampToTime(leave.startTime)+"——"+timestampToTime(leave.endTime)+"</p>"
-				      			+"<p>请假事由："+leave.leaveReason+"</p><p>申请时间："+leave.createTime+"</p></div></li>";
+				      			+"<p>请假事由："+leave.leaveReason+"</p><p>申请时间："+timestampToTime(leave.createTime)+"</p></div></li>";
 					var audits = leave.auditList;
 					if(audits != null){
 						$.each(audits,function(index,item){

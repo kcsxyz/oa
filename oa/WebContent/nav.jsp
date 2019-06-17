@@ -21,9 +21,8 @@
     
     <!-- Custom styles for this template -->
     <link href="/oa/assets/css/style.css" rel="stylesheet">
-    <link href="/oa/assets/css/jyq.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
-
+	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -31,7 +30,39 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+    <script type="text/javascript">
+	    $(function () {
+	    	$.ajax({
+					url: "/oa/system/permissionMenu",
+					type: "post",		
+					success:function(result){
+						if(result.extend.permissions != null){
+							var permissions = result.extend.permissions;
+							var str="";
+							$.each(permissions,function(index,item){
+								var child = item.children;
+								if(child == null){
+									str +="<li class='sub-menu'><a href='javascript:;'>";
+									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a></li>";
+								}else if(child!=null){
+									str +="<li class='sub-menu'><a href='javascript:;'>";
+									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a>";
+									var permissionChildren = item.children;
+									str +="<ul class='sub'>";
+									$.each(permissionChildren,function(index,it){
+										str +=" <li><a  href='"+it.url+"'>"+it.permName+"</a></li>" ;
+									})
+									str +="</ul></li>";
+								}
+							})
+							//alert("--"+str);
+							$("#nav-accordion").append(str);
+						}
+						
+					}
+			});
+	    });
+	</script>
 </head>
 <body>
 <!--header start-->
@@ -60,79 +91,34 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">金咏琪</h5>
+              	  <p class="centered"><a href="profile.html"><img src="/oa/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <h5 class="centered" style="margin-bottom:30px;">金咏琪</h5>
               	  	
-                  <li class="mt">
+                 <!--  <li class="mt">
                       <a href="index.jsp">
                           <i class="fa fa-dashboard"></i>
                           <span>主页</span>
                       </a>
-                  </li>
-
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-desktop"></i>
-                          <span>个人办公</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="general.html">工作日志</a></li>
-                          <li><a  href="buttons.html">工作计划</a></li>
-                          <li><a  href="panels.html">个人日程</a></li>
-                          <li><a  href="panels.html">个人通讯录</a></li>
-                      </ul>
-                  </li>
-
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-cogs"></i>
-                          <span>部门办公</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="calendar.html">考勤管理</a></li>
-                          <li><a  href="calendar.html">人力资源管理</a></li>
-                          <li><a  href="calendar.html">项目管理</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-book"></i>
-                          <span>信息更新</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="bulletinManage.jsp">公告管理</a></li>
-                          <li><a  href="login.html">计划审核</a></li>
-                          <li><a  href="lock_screen.html">任务下达</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a class="active" href="javascript:;" >
-                          <i class="fa fa-th"></i>
-                          <span>系统设置</span>
-                      </a>
-                      <ul class="sub">
-                          <li class="active"><a  href="basic_table.html">部门设置</a></li>
-                          <li><a  href="responsive_table.html">用户设置</a></li>
-                          <li><a  href="form_component.html">菜单设置</a></li>
-                    
-                      </ul>
-                  </li>
-                   <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class=" fa fa-bar-chart-o"></i>
-                          <span>流程审批</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="morris.html">审批记录</a></li>
-                      </ul>
-                  </li> 
-
+                  </li> -->
               </ul>
               <!-- sidebar menu end-->
           </div>
       </aside>
       <!--sidebar end-->
       
-      
+      <script type="text/javascript">
+      	$(function(){
+      		$(document).on("click",".sub-menu",function(){
+      			if ( $(this).find("ul") ) { // 3 li
+     				$(this).toggleClass("sub");
+     				if ( $(this).hasClass("sub") ) {
+     					$("ul", this).hide("normal");
+     				} else {
+     					$("ul", this).show("fast");
+     				}
+     			}
+      		})
+      	})
+     </script>
 </body>
 </html>

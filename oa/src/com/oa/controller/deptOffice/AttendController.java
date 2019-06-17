@@ -43,6 +43,7 @@ public class AttendController {
 		return "deptOffice/attend";
 	}
 	
+	
 	 @RequestMapping("/attendList")
 	 @ResponseBody
 	 public ResponseResult attendList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
@@ -109,7 +110,7 @@ public class AttendController {
     {
 		User user = (User) session.getAttribute("user");
         Attend attend = attendService.selectSaveDayIsAttend("admin");
-       System.out.println("attend"+attend.toString());
+      // System.out.println("attend"+attend.toString());
         WorkTime workShif = attendService.selectUsing();
         Date date = new Date();
         long currDate = date.getTime();

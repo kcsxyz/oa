@@ -45,12 +45,12 @@
 								if(child == null){
 									str +="<li class='sub-menu'><a href='javascript:;'>";
 									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a></li>";
-									alert(str);
+									//alert(str);
 								}else if(child!=null){
 									str +="<li class='sub-menu'><a href='javascript:;'>";
 									str	+="<i class='"+item.icon+"'></i><span>"+item.permName+"</span></a>";
 									var permissionChildren = item.children;
-									alert(permissionChildren);
+									//alert(permissionChildren);
 									str +="<ul class='sub'>";
 									$.each(permissionChildren,function(index,it){
 										str +=" <li><a  href='"+it.url+"'>"+it.permName+"</a></li>" ;
