@@ -30,7 +30,7 @@
 </head>
 <body>
 <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -183,12 +183,17 @@
                               				</div>
 			                          </div>
 			                           <input type="hidden" value="" id="address" name="address">
-	                            		<div class="form-group" style="border:none;margin-top:10px;">
-				                              <div class="col-sm-10" style="float:left; text-align:center;">
-					                              
-							                  	  	  <button type="submit" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:10%;background:#68dff0;">
+	                            		<div class="form-group" style="border:none;margin-top:10px;margin-left:18%;">
+				                              <div class="col-sm-7" style="float:left; text-align:center;">
+							                  	  	  <button type="submit" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:13%;background:#68dff0;">
 									                  	  <span style="color: rgb(255,255,255); font-size: 16px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 									                  	  	  提交</span>
+							                  	  	  </button>
+							                  	 </div>
+							                  	 <div class="col-sm-5" style="float:left; text-align:left;">
+							                  	  	   <button type="reset" class="btn btn-round btn-default" id="save_user" onclick="saveUser()" style="width:18%;background:#68dff0;">
+									                  	  <span style="color: rgb(255,255,255); font-size: 16px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+									                  	  	  重置</span>
 							                  	  	  </button>
 						                  	  	  
 				                              </div>
@@ -344,51 +349,41 @@
 	  
 	  function myCheck(form){
 		  if(form.uid.value==''|| form.uid.value==null){
-		  alert('工号不能为空!');
 		  form.uid.focus();
 		  return false;
 		  }
 		  if(form.name.value==''||form.name.value==null){
-		  alert('姓名不能为空!');
 		  form.name.focus();
 		  return false;
 		  }
 		  if(form.idCard.value=='' || form.idCard.value==null ){
-		  alert('身份证号码不能为空');
 		  form.idCard.focus();
 		  return false;
 		  }
 		  if(form.idCard.value.length<18 ||form.idCard.value.length>18 ){
-			  alert('身份证号码格式有误');
 			  form.idCard.focus();
 			  return false;
 		  }
 		  if(form.phone.value==''||form.phone.value==null){
-			  alert('手机号码不能为空!');
 			  form.phone.focus();
 			  return false;
 			  }
 		  if(!(new RegExp(/^1[3|4|5|7|8][0-9]{9}$/)).test(form.phone.value)){
-			  alert('输入正确的手机号码格式!');
 			  form.phone.focus();
 			  return false;
 		  }
 		  if(form.email.value==''||form.email.value==null){
-			  alert('邮箱不能为空!');
 			  form.email.focus();
 			  return false;
 			  }
 		  if(!(new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)).test(form.email.value)){
-			  alert('请输入正确的邮箱!');
 			  form.email.focus();
 			  return false;
 		  }
 		 if($("#uid").attr("ajax-va")=='error'){
-			  alert('请输入不重复的工号');
 			  return false;
 		  }  
 		 if($("#idCard").attr("ajax-va")=='error'){
-			  alert('请输入不重复的身份证号');
 			  return false;
 		  }  
 		 else{

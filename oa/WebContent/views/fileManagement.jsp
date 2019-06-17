@@ -34,7 +34,7 @@
 </head>
 <body>
  <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -59,7 +59,12 @@
 	                  	  	
 	                  	  	
 	                  	  	
-	                  	  	<div class="col-xs-6 col-sm-8" style="float:left;">
+	                  	  	
+	                  	  	
+	                  	  	</div>
+	                  	  	<div class="form-group" style="border:none;margin-top:10px;">
+	                  	  	 
+	                  	  	 <div class="col-xs-6 col-sm-5" style="float:left;margin-left:90px;">
 		                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
 				                  	  	  <input type="text" class="form-control round-form" name="dateStart" id="startTime" placeholder="起始时间" style="width:30%;height:28px;float:left;">
 				                  	  	 
@@ -70,12 +75,9 @@
 										  
 				                  	  	  <input type="text" class="form-control round-form" name="finalTime" id="startTime" placeholder="终止时间" style="width:30%;height:28px;">
 	                  	  	</div>
-	                  	  	
-	                  	  	
-	                  	  	
 	                  	  	 
 						      
-	                  	  	  <div class="col-xs-6 col-sm-3" style="float:left;">
+	                  	  	  <div class="col-xs-9 col-sm-3" style="float:right;">
                               		<input type="text" class="form-control" name="Info" style="width:60%;height:28px;float:left;">
                               		
                               		<button type="submit" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
@@ -84,9 +86,9 @@
                               		</button>
                               			
                               </div>
+                              </div>
                               
-                              
-                             </div>	
+                             	
                            </form>
                            <!-- 上部放按钮的地方结束-->
                            
@@ -199,7 +201,7 @@
                                   <td style="text-align:center;"><fmt:formatDate value='${page.createTime }' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <a href="${ pageContext.request.contextPath }/files/download?file=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" onclick="downloadcfm()" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
+                                      <a href="${ pageContext.request.contextPath }/files/download?filesName=${page.fileName}.${page.fileType}"><button id="downloadBtn"  p-id="${page.fileId }" onclick="downloadcfm()" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>下载</button></a>
                                       <a href="${pageContext.request.contextPath }/files/deleteFile/${page.fileId }"><button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o"></i>删除</button></a>
                                   </td>
                               </tr>

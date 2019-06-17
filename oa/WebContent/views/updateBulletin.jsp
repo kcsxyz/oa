@@ -53,7 +53,7 @@
 </head>
 <body>
 <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -78,6 +78,7 @@
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
 				                                  <input type="text" name="title" id="title" class="form-control"  value="${noticeFindById.title }" >
+				                                   <font id="showResult1"  style="color:red;width:10%;" ></font>
 				                              </div>
 			                          </div>
 				                             
@@ -154,6 +155,7 @@
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
 				                                  <textarea  name="content" id="editor" style="height:300px" rows="8">${noticeFindById.content }</textarea>
+				                                   <font id="showResult2"  style="color:red;width:10%;" ></font>
 				                              </div>
 			                          </div>
 			              
@@ -250,12 +252,12 @@
 	  function myCheck(form){
 		var content=UE.getEditor('editor').getContent();
 		  if(form.title.value==''|| form.title.value==null){
-		  alert('标题不能为空!');
+			  $("#showResult1").text("标题不能为空!");
 		  form.title.focus();
 		  return false;
 		  }
 		  if(content==''|| content==null){
-			  alert('内容不能为空!');
+			  $("#showResult2").text("内容不能为空!");
 			  form.content.focus();
 			  return false;
 			  }

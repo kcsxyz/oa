@@ -42,7 +42,7 @@
 	</head>
 	<body>
 	<section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -97,8 +97,8 @@
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
 				                                   <textarea  name="content" id="editor" style="height:300px" rows="8"></textarea>
-				                                   <font id="showResult"  style="color:red;width:10%;" >内容不能为空!</font> 
-				                                  <!--   <span class="help-block"></span>  -->
+				                                   <font id="showResult"  style="color:red;width:10%;" >*</font>  
+				                                     <!--<span class="help-block"></span> -->
 				                              </div>
 			                          </div>
 			                          
@@ -226,6 +226,7 @@
 				valate_form_msg("#title",'success',"");
 			}
 			if(content == "" || content == null){
+				$("#showResult").text("内容不能为空！");
 				valate_form_msg("#content",'error',"内容不能空");
 				return false;
 			}else{

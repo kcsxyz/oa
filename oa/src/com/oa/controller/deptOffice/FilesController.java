@@ -99,6 +99,7 @@ public class FilesController {
 	    @RequestMapping("/download")
 	    public void down(HttpServletRequest request,HttpServletResponse response, String filesName) throws Exception{
 	        //模拟文件，myfile.txt为需要下载的文件
+	        System.out.println(filesName);
 	        String path = request.getSession().getServletContext().getRealPath("upload")+"\\"+filesName;
 	        File file = new File(path);
 	        if (!file.exists()) {
