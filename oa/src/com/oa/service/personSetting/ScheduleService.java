@@ -20,7 +20,7 @@ public interface ScheduleService {
 	//修改
 	void updateSchedule(Schedule schedule);
 	//模糊查询
-	List<Schedule> selectLikeSchedule(String info, String startTime, String endTime) throws ParseException;
+	List<Schedule> selectLikeSchedule(String uid,String info, String startTime, String endTime ) throws ParseException;
 	
 
 }

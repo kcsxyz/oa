@@ -74,7 +74,8 @@ public class WorkLogServiceImpl implements WorkLogService {
 		}
 		if(endTime!=null && !(endTime.equals(""))) {
 			end = endTime+" "+"23:59:59";
-		}		
+		}	
+		
 		return workLogMapper.selectList(uid,workLogInfo,start,end);
 	}
 }

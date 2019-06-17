@@ -184,9 +184,6 @@ import net.sf.jsqlparser.statement.delete.Delete;
 				PageHelper.startPage(pageNo, pageSize);
 				List<WorkLog> workLoglist =workLogService.selectList(user.getUid(),workLogInfo,startTime,endTime);
 				
-				String start= startTime+" "+"00:00:00";
-				 String end = endTime+" "+"23:59:59";
-				
 				if(workLoglist.size()>0) {
 					rr.setStateCode(1);
 				}else {

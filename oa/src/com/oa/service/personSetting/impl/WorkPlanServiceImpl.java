@@ -115,7 +115,8 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 		}
 		if(endTime!=null && !(endTime.equals(""))) {
 			end = endTime+" "+"23:59:59";
-		}		 
+		}		
+		
 		return workPlanMapper.getList(uid,info,start,end);
 	}
 }

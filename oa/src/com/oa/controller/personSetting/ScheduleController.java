@@ -4,6 +4,7 @@ package com.oa.controller.personSetting;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -45,7 +46,8 @@ public class ScheduleController {
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
-			List<Schedule> schedulelist = scheduleService.selectSchedule(user.getUid());	
+			List<Schedule> schedulelist = scheduleService.selectSchedule(user.getUid());
+			
 			if(schedulelist.size()>0) {
 				rr.setStateCode(1);
 			}else {
@@ -60,6 +62,36 @@ public class ScheduleController {
 			e.printStackTrace();
 		}		
 		return "personSetting/personalSchedule";			
+	}
+	
+	@RequestMapping("/allSchedulelist")
+	@ResponseBody
+	public ResponseResult AllSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session,Map map) {
+		ResponseResult rr=new ResponseResult();
+		User user=(User) session.getAttribute("user");
+		try {
+			// startPage后紧跟着的就是一个分页查询
+			PageHelper.startPage(pageNo, pageSize);
+			List<Schedule> schedulelist = scheduleService.selectSchedule(user.getUid());
+			for (Schedule schedule : schedulelist) {
+				map.put("title", schedule.getTitle());
+				map.put("createTime", schedule.getCreateTime().getDate());
+			}
+			if(schedulelist.size()>0) {
+				rr.setStateCode(1);
+			}else {
+				rr.setMessage("未查询到数据");
+				rr.setStateCode(0);
+			}
+			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
+			PageInfo<Schedule> page = new PageInfo<Schedule>(schedulelist, 3);
+			model.addAttribute("pageInfo", page);
+			model.addAttribute("schedulelist", schedulelist);
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}		
+		return rr;			
 	}
 	/**
 	 * @param id
@@ -171,13 +203,15 @@ public class ScheduleController {
 	 */
 	@RequestMapping("/selectLikeSchedule")
 	public String selectLikeSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String Info,String startTime,String endTime,Model model) {
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, String Info,
+			String startTime,String endTime,Model model,HttpSession session) {
+		User user=(User) session.getAttribute("user");
 		ResponseResult rr=new ResponseResult();
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
 			List<Schedule> schedulelist =new ArrayList<>();
-			 schedulelist=scheduleService.selectLikeSchedule(Info, startTime, endTime);
+			 schedulelist=scheduleService.selectLikeSchedule(user.getUid(),Info, startTime, endTime);
 			PageInfo<Schedule> page = new PageInfo<Schedule>(schedulelist, 3);
 			model.addAttribute("pageInfo", page);
 			model.addAttribute("schedulelist",schedulelist);

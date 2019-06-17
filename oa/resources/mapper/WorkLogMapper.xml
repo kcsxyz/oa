@@ -260,7 +260,9 @@
   </update>
 	<select id="getWorkLogByCreateName" parameterType="String" resultMap="BaseResultMap">
  	select 
- 		a.*,b.* 
+ 		a.uid,
+ 		a.name,
+ 		b.* 
  	from 
  		t_user a,t_work_log b 
  	where 
@@ -268,19 +270,14 @@
  		and b.create_name=#{uid}
  </select>
  <select id="selectList" resultMap="BaseResultMap">
- 	select 
- 		a.uid,
- 		a.name,
- 		a.dept_id,
- 		a.role_id,
+ 	select 	
  		b.* 
  	from 
- 		t_user a,t_work_log b 
+ 		t_work_log b 
  	where
- 		and a.uid=b.create_name 
- 		and b.create_name=#{arg0}
+ 		b.create_name=#{arg0}
  		<if test="arg1 !=null ">
- 		and	b.content like CONCAT('%',#{arg1},'%') 
+ 		and b.title  like CONCAT('%',#{arg1},'%')
  		</if>
  		<if test="arg2 !=null ">
  		and	b.create_time &gt;=#{arg2}
