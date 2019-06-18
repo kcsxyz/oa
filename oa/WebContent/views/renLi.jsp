@@ -26,12 +26,7 @@
    <!--  时间插件css -->
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <!-- 时间插件js -->
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  
 </head>
 <body>
  <section id="container" >
@@ -125,7 +120,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                                <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" value=""  id="check_all" /></th>
                                   <th style="text-align:center;">工号</th>
                                   <th style="text-align:center;">姓名</th>
@@ -211,7 +206,12 @@
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
+  <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <!-- 时间插件js -->
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>

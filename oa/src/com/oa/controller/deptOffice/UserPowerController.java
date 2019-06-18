@@ -51,6 +51,7 @@ public class UserPowerController {
     public String  saveUser(HttpSession session,@PathParam("uid") String uid,User user) {
         User user1 = (User)session.getAttribute("user");
 	    String createName = user1.getUid();
+	    System.out.println(createName);
     	String password = "123456";
     	user.setUid(uid);
     	user.setCreateTime(new Date());
@@ -175,6 +176,26 @@ public class UserPowerController {
 			}
 			return rr;
 		}	
+		
+		       /**验证电话是否存在
+				 * @param uid
+				 * @return
+				 */
+				@RequestMapping("/checkUserByPhone")
+				@ResponseBody
+				public ResponseResult checkUserByPhone(String phone) {
+					ResponseResult rr = new ResponseResult();
+					int re= userPowerService.checkUerByPhone(phone);
+					if(re!=0) {
+						rr.setMessage("电话号码已存在");
+						rr.setStateCode(0);
+					}else {
+						rr.setMessage("电话号码可用");
+						rr.setStateCode(1);
+						
+					}
+					return rr;
+				}	
 		
 		  /**验证身份证是否存在
 				 * @param uid

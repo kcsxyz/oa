@@ -14,27 +14,18 @@
 	<!-- Bootstrap core CSS -->
     <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">
-       
-    
+
     <!-- Custom styles for this template -->
     <link href="/oa/assets/css/style.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"> 
-
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    
+	
 </head>
 <body>
  <section id="container" >
-            <%@include file="/nav.jsp" %>
+          <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -178,7 +169,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                                <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" value="" id="check_all"  /></th>
                                   <th style="text-align:center;">名称</th>
                                   <th style="text-align:center;">文件名</th>
@@ -255,14 +246,14 @@
           </section>
       </section>
   </section>
-   <!-- js placed at the end of the document so the pages load faster -->
+	   <!-- js placed at the end of the document so the pages load faster -->
+	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
-
-    <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
     

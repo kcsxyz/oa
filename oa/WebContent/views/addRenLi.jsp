@@ -315,6 +315,25 @@
 			}
 		});
 	});
+    
+	 //校验电话是否存在
+	$("#phone").change(function(){
+		var phone=this.value;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/userpower/checkUserByPhone",
+			type: "post",
+			data: "phone="+phone,
+			success:function(result){
+				if(result.stateCode==1){
+					valate_form_msg("#phone",'success',result.message);
+					$("#phone").attr("ajax-va","success");
+				}else if(result.stateCode==0){
+					valate_form_msg("#phone",'error',result.message);
+					$("#phone").attr("ajax-va","error");
+				}
+			}
+		});
+	});
     //校验idCard
 	$("#idCard").change(function(){
 		var idCard=this.value;
@@ -384,6 +403,9 @@
 			  return false;
 		  }  
 		 if($("#idCard").attr("ajax-va")=='error'){
+			  return false;
+		  } 
+		 if($("#phone").attr("ajax-va")=='error'){
 			  return false;
 		  }  
 		 else{
