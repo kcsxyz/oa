@@ -42,10 +42,13 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
+                      			 <div class="panel">
+							  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--修改工作日志</b></div>
+								</div>
+                      			<div class="panel panel-default" style="border:none;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
 					                  	  	 <a href="${pageContext.request.contextPath}/workLog/workLoglist">
@@ -57,7 +60,7 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" class="form-horizontal style-form" style="margin-top:80px;">
+	                            <form id="add-form" class="form-horizontal style-form">
 			                          <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">

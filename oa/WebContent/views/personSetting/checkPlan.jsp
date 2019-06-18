@@ -43,13 +43,16 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
+                      			 <div class="panel">
+							  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--审核工作计划</b></div>
+								</div>
+                      			<div class="panel panel-default" style="border:none;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
-					                  	  	 <a href="workPlanlist">
+					                  	  	 <a href="${pageContext.request.contextPath }/workPlan/workPlanlist">
 					                  	  	  <button type="button" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  返回上一级</span>
@@ -58,7 +61,7 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form action="${pageContext.request.contextPath }/workPlan/checkWorkPlan" class="form-horizontal style-form" method="post" tyle="margin-top:80px;">
+	                            <form action="${pageContext.request.contextPath }/workPlan/checkWorkPlan" class="form-horizontal style-form" method="post" >
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 	                            	<input type="hidden" name="id" value="${workPlan.id }"> 
 			                             <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">计划内容:</span>
@@ -66,18 +69,18 @@
 				                              <textarea readonly="readonly" name="content" style="height:200px;width:550px;">${workPlan.content }</textarea>				                                 
 				                              </div>
 			                        </div>
-			                        <div class="form-group" style="border:none;margin-top:30px;">
+			                        <div class="form-group" style="border:none;">
 			                             <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
-				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;"> 
+				                          <div class="col-sm-7" style="text-align:center;"> 
 				                          	<c:if test="${workPlan.type==0 }">
-				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
+				                              <div class="col-sm-1" style="text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   日计划
 				                              	</label>
 				                              </div>
 				                            </c:if>
 				                            <c:if test="${workPlan.type==1 }">
-				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
+				                              <div class="col-sm-2" style="margin-top:7px;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   周计划
 				                              	</label>	
@@ -99,7 +102,7 @@
 				                           </c:if>
 				                           </div>
 			                         </div>
-			                         <div class="form-group" style="border:none;margin-top:30px;">
+			                         <div class="form-group" style="border:none;">
 			                              <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">状态:</span>
 				                              <div class="col-sm-6">
 												<c:if test="${workPlan.status==0 }">

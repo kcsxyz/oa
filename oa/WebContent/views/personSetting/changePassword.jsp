@@ -33,10 +33,13 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-	                            <form class="form-horizontal style-form" method="post" style="margin-top:80px;">
+                      		<div class="panel">
+						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人设置--修改密码</b></div>
+							</div>
+	                            <form class="form-horizontal style-form" method="post" style="margin-top:10px;">
 	                            
 	                            
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
@@ -69,28 +72,18 @@
 			                          </div>
 			                          
 			                          <div class="form-group" style="border:none;margin-top:30px;">
-				                              <div class="col-sm-4" style="float:left; text-align:right;margin-left:30px;">
-					                              
-					                              <a href="">
+				                              <div class="col-sm-5" style="float:left; text-align:right;margin-left:30px;">
 							                  	  	  <button id="save_password" type="button" class="btn btn-round btn-default" >
 								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 								                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 	  </button>
-						                  	  	  </a>
 				                              </div>
-				                              <div class="col-sm-2" style="float:left; text-align:center;margin-left:30px;">
-					                              <a href="bulletinManage.jsp">
+				                              
+				                              <div class="col-sm-3" style="float:left; text-align:center;">
+					                              <a href="${pageContext.request.contextPath}/index.jsp">
 							                  	  	  <button type="button" class="btn btn-round btn-default">
 								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 								                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					                  	  	  	 	  </button>
-						                  	  	  </a>
-				                              </div>
-				                              <div class="col-sm-2" style="float:left; text-align:center;">
-					                              <a href="bulletinManage.jsp">
-							                  	  	  <button type="button" class="btn btn-round btn-default">
-								                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-								                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 	  </button>
 						                  	  	  </a>
 				                              </div>

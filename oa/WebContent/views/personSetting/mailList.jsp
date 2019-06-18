@@ -38,7 +38,9 @@
                   <div class="col-md-12"style="margin-top:10px;">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                          
+                          <div class="panel">
+						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--个人通讯录</b></div>
+							</div>
                           <!-- 上部放按钮的地方开始 -->
                           <form action="selectPersonTelLike" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
@@ -120,9 +122,9 @@
                           <!-- 表格部分结束-->
                           <!-- 显示分页条	 -->
 					<div class="row">
-						<div class="col-md-6">当前第${pageInfo.pageNum}页,共${pageInfo.pages}页,共${pageInfo.total}条记录</div>
-						<div class="col-md-6">
-							<nav aria-label="Page navigation">
+						<div class="col-md-5" style="height:50px;line-height:50px;text-align:left;margin-left:20px;">当前第${pageInfo.pageNum}页,共${pageInfo.pages}页,共${pageInfo.total}条记录</div>
+						<div class="col-md-6" style="height:50px;line-height:50px;text-align:right;margin-left:30px;">
+							<nav aria-label="Page navigation" style="border:none;margin-top:0px;height:60px;">
 								  <ul class="pagination">
 								  	<li><a href="getPersonTel?pageNo=1">首页</a></li>
 								    <li>

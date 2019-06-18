@@ -34,9 +34,12 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
+                      		<div class="panel">
+						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人设置--个人信息</b></div>
+							</div>
 	                            <form class="form-horizontal style-form" method="post" style="margin-top:80px;" enctyped="multiple/form-data">
 									<div class="form-group" style="border:none;margin-top:10px;">
 			                        	<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
