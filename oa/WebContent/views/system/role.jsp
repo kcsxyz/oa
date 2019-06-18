@@ -138,9 +138,6 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
@@ -759,7 +756,8 @@
 	                    $.modal.alertError("系统错误");
 	                },
 	                success: function (data) {
-	                    alert("授权成功")
+	                	 layer.msg('授权成功', {icon: 1});
+	                    //alert("授权成功")
 	                }
 	            });
 	        },

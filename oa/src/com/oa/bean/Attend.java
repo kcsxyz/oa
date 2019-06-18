@@ -2,7 +2,7 @@ package com.oa.bean;
 
 import java.util.Date;
 
-public class Attend {
+public class Attend extends BasePo{
     private Integer attendId;
 
     private String userId;
@@ -22,8 +22,31 @@ public class Attend {
     private Date attendNoonLeave;
 
     private Integer status;
+    
+    private User user;
+    
+    private Dept dept;
+    
+    
+    
 
-    public Integer getAttendId() {
+    public Dept getDept() {
+		return dept;
+	}
+
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getAttendId() {
         return attendId;
     }
 
@@ -102,4 +125,14 @@ public class Attend {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	@Override
+	public String toString() {
+		return "Attend [attendId=" + attendId + ", userId=" + userId + ", deptId=" + deptId + ", currDate=" + currDate
+				+ ", week=" + week + ", attendMorStart=" + attendMorStart + ", attendMorLeave=" + attendMorLeave
+				+ ", attendNoonStart=" + attendNoonStart + ", attendNoonLeave=" + attendNoonLeave + ", status=" + status
+				+ "]";
+	}
+    
+    
 }

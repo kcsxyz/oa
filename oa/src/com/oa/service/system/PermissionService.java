@@ -26,6 +26,9 @@ public interface PermissionService {
 	//验证权限是否存在
 	boolean checkPermName(String permName, Integer parentId);
 	
+	//根据用户角色获取权限
+	List<Permission> getPermissionListByUserRole(Integer roleId);
+	
 	
 
 }

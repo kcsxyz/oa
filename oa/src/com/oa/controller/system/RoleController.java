@@ -38,6 +38,7 @@ public class RoleController {
 	@ResponseBody
 	public ResponseResult saveRolePermission(Role role,Integer[] ids) {
 		ResponseResult rr =new ResponseResult();
+		System.out.println(ids);
 		int i =0;
 		System.out.println("-------"+role.getRoleId());
 		i = roleService.updateRolePermission(role,ids);

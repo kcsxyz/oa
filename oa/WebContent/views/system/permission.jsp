@@ -152,9 +152,6 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
@@ -215,7 +212,7 @@
 	</section>
 	
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
-	<script src="/oa/assets/lay/modules/layer.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/ztree/jquery.ztree.all-3.5.min.js"></script>
 	<script type="text/javascript">

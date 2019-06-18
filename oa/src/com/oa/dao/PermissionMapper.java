@@ -30,4 +30,6 @@ public interface PermissionMapper {
     
     List<Permission> selectByExampleWithPermission(PermissionExample example);
     
+    List<Permission> getPermissionListByUserRole(@Param("roleId") Integer roleId);
+    
 }

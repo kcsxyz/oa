@@ -6,11 +6,13 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 		
 	<!-- 配置要扫描的包 出控制器以外的包 -->
@@ -67,5 +69,23 @@
 	
 	<!-- 开启基于注解的事务 -->
 	<tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
-
+	
+	<bean id="threadPoolExecutor" class="java.util.concurrent.ThreadPoolExecutor">
+		<constructor-arg value="5" index="0"/>
+		<constructor-arg value="10" index="1"/>
+		<constructor-arg value="60" index="2"/>
+		<constructor-arg value="SECONDS" index="3" type="java.util.concurrent.TimeUnit"/>
+		<constructor-arg index="4">
+			<bean class="java.util.concurrent.LinkedBlockingQueue">
+				<constructor-arg value="100"/>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="5">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$DiscardOldestPolicy"/>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 定时统计任务 -->
+	<task:scheduler id="Scheduler" />
+	<task:annotation-driven scheduler="Scheduler" proxy-target-class="true"/>
 </beans>
