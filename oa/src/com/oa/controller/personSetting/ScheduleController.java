@@ -1,8 +1,11 @@
 ﻿
 package com.oa.controller.personSetting;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,7 @@ import com.oa.bean.User;
 import com.oa.bean.WorkLog;
 import com.oa.bean.WorkPlan;
 import com.oa.service.personSetting.ScheduleService;
+import com.oa.utils.timeConvert;
 
 @Controller
 @RequestMapping("schedule")
@@ -66,33 +70,41 @@ public class ScheduleController {
 	
 	@RequestMapping("/allSchedulelist")
 	@ResponseBody
-	public ResponseResult AllSchedule(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Model model,HttpSession session,Map map) {
-		ResponseResult rr=new ResponseResult();
+	public Map<String, String> AllSchedule(HttpSession session) {
+		Map<String, String> map = new HashMap<String,String>();
 		User user=(User) session.getAttribute("user");
+		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			// startPage后紧跟着的就是一个分页查询
-			PageHelper.startPage(pageNo, pageSize);
+			
 			List<Schedule> schedulelist = scheduleService.selectSchedule(user.getUid());
-			for (Schedule schedule : schedulelist) {
-				map.put("title", schedule.getTitle());
-				map.put("createTime", schedule.getCreateTime().getDate());
-			}
 			if(schedulelist.size()>0) {
-				rr.setStateCode(1);
-			}else {
-				rr.setMessage("未查询到数据");
-				rr.setStateCode(0);
+				for (Schedule schedule : schedulelist) {
+					map.put(sdFormat.format(schedule.getStartTime()),schedule.getTitle());
+				}
 			}
-			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
-			PageInfo<Schedule> page = new PageInfo<Schedule>(schedulelist, 3);
-			model.addAttribute("pageInfo", page);
-			model.addAttribute("schedulelist", schedulelist);
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}		
-		return rr;			
+		return map;			
 	}
+	
+	@RequestMapping("/getScheduleByDate")
+	@ResponseBody
+	public ResponseResult getScheduleByDate(String date,Model model) throws ParseException {
+		ResponseResult rr=new ResponseResult();
+		date="2019-06-12 15:03:11";
+		Schedule schedule=scheduleService.getScheduleByDate(date);
+		
+		model.addAttribute(schedule);
+		if(schedule!=null) {
+			rr.setStateCode(1);
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("未查询到数据");
+		}		
+		return rr;		
+	}
+	
 	/**
 	 * @param id
 	 * @param model

@@ -1,5 +1,6 @@
 package com.oa.dao;
 
+import com.mysql.fabric.xmlrpc.base.Data;
 import com.oa.bean.Schedule;
 import com.oa.bean.ScheduleExample;
 
@@ -33,5 +34,7 @@ public interface ScheduleMapper {
 	List<Schedule> selectSchedule(String string);
 
 	List<Schedule> getScheduleList(String uid, String info,String start, String end);
+
+	Schedule selectByDate(Date de);
    
 }

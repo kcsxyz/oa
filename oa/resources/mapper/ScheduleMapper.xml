@@ -304,10 +304,16 @@
  		and b.title  like CONCAT('%',#{arg1},'%')
  		</if>
  		<if test="arg2 !=null ">
- 		and	b.create_time &gt;=#{arg2}
+ 		and	b.start_time &gt;=#{arg2}
  		</if>
  		<if test="arg3 !=null ">
- 		 and b.create_time &lt;=#{arg3}
+ 		 and b.end_time &lt;=#{arg3}
  		</if>
  </select>
+ <select id="selectByDate" parameterType="date" resultMap="BaseResultMap">
+    select 
+    *
+    from t_schedule
+    where start_time = #{date}
+  </select>
 </mapper>
