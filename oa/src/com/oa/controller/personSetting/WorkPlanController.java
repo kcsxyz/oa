@@ -124,19 +124,18 @@ public class WorkPlanController {
 	 * 添加工作计划
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value="/addWorkPlan/{workPlan}", method=RequestMethod.POST)
+	@RequestMapping(value="/addWorkPlan", method=RequestMethod.POST)
 	public String addWorkPlan(WorkPlan workPlan,HttpSession session) throws ParseException {
 		ResponseResult rr=new ResponseResult();
-		if(workPlanService.getWorkPlanById(workPlan.getId())==null && workPlan.getContent()!=null) {
+		if(workPlan.getContent()!=null) {
 			User user=(User)session.getAttribute("user");
 			Date now = new Date();
 			// java.util.Date -> java.time.LocalDate
 			LocalDate localDate=now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			// java.time.LocalDate -> java.sql.Date
 			Date newDate=java.sql.Date.valueOf(localDate);
-			System.out.println(newDate);
 			workPlan.setCreateTime(newDate);			
-			//workPlan.setCreateName(user.getName());
+			workPlan.setCreateName(user.getUid());
 			workPlan.setStatus(0);
 			int i=workPlanService.addworkPlan(workPlan);
 			if(i<0) {				
@@ -175,6 +174,9 @@ public class WorkPlanController {
 				listId.add(Integer.parseInt(string));
 				workPlanService.deleteWorkPlanBatch(listId);
 			}
+		}else {
+			int id1= Integer.parseInt(id);
+			workPlanService.deleteWorkLog(id1);
 		}
 		return "redirect:/workPlan/workPlanlist";
 		

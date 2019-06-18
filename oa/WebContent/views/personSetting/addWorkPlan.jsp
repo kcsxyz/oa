@@ -60,7 +60,7 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan/${workPlan }" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
+	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
@@ -90,7 +90,7 @@
 			                         <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                  <textarea id="editor" name="content"style="height:400px"></textarea>
+				                                  <textarea id="editor" name="content" style="height:400px"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">

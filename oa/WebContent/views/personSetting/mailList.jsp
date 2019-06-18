@@ -52,13 +52,15 @@
 			                  	  	  删除</span>
 		                  	  	  </button>
 	                  	  	</div>
+	                  	  	
 	                  	  	<div class=" col-sm-4" style="float:left;">
 		                  	  	  <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
 		                  	  	  	<div class="col-sm-7">
 		                  	  	  	<select class="form-control" onchange="deptChange()">
 		                  	  	  		<option>请选择部门</option>
-										<option value="1">办公室</option>
-										<option value="2">开发部</option>
+										<c:forEach items="${deptlist }" var="dept">
+											<option value="${dept.deptId}">${dept.deptName }</option>
+										</c:forEach>
 									</select>  
 									</div>
 						    </div>						    

@@ -57,7 +57,7 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" class="form-horizontal style-form" method="post" style="margin-top:80px;">			                          
+	                            <form action="${pageContext.request.contextPath}/workLog/addWorkLog" class="form-horizontal style-form" method="post" style="margin-top:80px;">			                          
 	                            <div class="form-group" style="border:none;">
 			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
@@ -72,7 +72,7 @@
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 				                              <div class="col-sm-5" style="float:left; text-align:right;">
-							                  	  <button type="button" id="add-but" class="btn btn-round btn-default">
+							                  	  <button type="submit" id="add-but" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 </button>
@@ -122,22 +122,7 @@
 		});
 	</script>
 	 <script>
-	 $('#add-but').click(function(){
-        //读取用户的输入——表单序列化
-        var inputData = $('#add-form').serialize(); 
-		$.ajax({
-            type: 'POST',
-            url: '${pageContext.request.contextPath}/workLog/addWorkLog',
-            data: inputData,
-            success: function(xhr){
-                if(xhr.stateCode==1){  //成功
-                    window.location.href="${pageContext.request.contextPath}/workLog/workLoglist";
-                }else if(xhr.stateCode==0){ //失败
-                    alert(xhr.message);
-                }
-            }
-        });
-    });
+	
 	 $("#title").blur(function(){
 	        var data = $("#title").val();
 	        if (data == null || data == "") {

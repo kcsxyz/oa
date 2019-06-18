@@ -230,8 +230,7 @@
 			if(del_id_strs == ""){
 				//alert("请选择要删除的工作计划");
 				return false;
-			}
-			alert(del_id_strs);
+			}			
 			if(confirm("确定删除吗?")){
 				$.ajax({
 					url: "/oa/workLog/deleteWorkLog/"+del_id_strs,

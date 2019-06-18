@@ -139,8 +139,9 @@ public class ScheduleController {
 	@RequestMapping("/addSchedule")
 	public String addSchedule(Schedule schedule,Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
-		if(scheduleService.getScheduleById(schedule.getId())==null && schedule.getDescr()!=null) {
-			User user =(User) session.getAttribute("user");
+		User user =(User) session.getAttribute("user");
+		if(schedule.getDescr()!=null && schedule.getTitle()!=null) {
+			
 			schedule.setCreateName(user.getUid());
 			schedule.setCreateTime(new Date());
 			int i=scheduleService.addSchedule(schedule);
@@ -178,7 +179,10 @@ public class ScheduleController {
 			}
 			rr.setStateCode(1);
 		// 单个删除
-		} 
+		} else {
+			int id1= Integer.parseInt(id);
+			scheduleService.deleteSchedule(id1);
+		}
 		return rr;		
 	}
 	@RequestMapping("/deleteSchedule/{id}")
