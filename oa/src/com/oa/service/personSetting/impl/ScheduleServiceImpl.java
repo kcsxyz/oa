@@ -73,5 +73,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		// TODO Auto-generated method stub
 		return scheduleMapper.selectSchedule(string);
 	}
+
+	@Override
+	public Schedule getScheduleByDate(String date) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
+		Date date1 = formatter.parse(date);
+		return scheduleMapper.selectByDate(date1);
+	}
 	
 }
