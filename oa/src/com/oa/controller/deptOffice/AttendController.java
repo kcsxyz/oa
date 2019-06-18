@@ -37,7 +37,7 @@ public class AttendController {
 		return "system/workTime";
 	}
 	
-	@RequestMapping("/attentPage")
+	@RequestMapping("/attendPage")
 	public String attentPage() {
 		
 		return "deptOffice/attend";

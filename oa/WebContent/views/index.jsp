@@ -12,9 +12,9 @@
     <title>首页</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
     <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
@@ -25,7 +25,6 @@
 	<link href="/oa/assets/layui/css/layui.css" rel="stylesheet">
 	<link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="/oa/css/index.css">
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -36,7 +35,7 @@
   <body>
 
   <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="../nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
@@ -44,9 +43,10 @@
                       <!-- <div class="row mt" style=" height:380px;"> -->
                        <!-- SERVER STATUS PANELS -->
                       	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
-                      <div class="row mt" style=" height:380px;">
-                       <!-- SERVER STATUS PANELS -->
-                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;margin-left:10px;">
+                      		<div class="white-panel pn donut-chart" style="height:80%;">
+                      			<div class="white-header" >
+						  			<h5 >考勤管理</h5>
+                      			</div>
                       					<div class="">
                       					<div id="currentDate"></div>
 			                            <div class="WorkTime" align="left"><br>
@@ -83,6 +83,7 @@
 	                      		</div>
                       		</div>
                       	</div>
+                      	
 						<div class="col-md-4 col-md-4 mb" style="height:400px;">
 							<!--  WHITE PANEL - TOP USER  -->
 							<div class="white-panel pn" style="height:80%;">
@@ -302,6 +303,7 @@
 		   return Y+M+D+h+m+s;
 }
 </script>
+	
   
 
   </body>

@@ -97,9 +97,6 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
@@ -147,7 +144,8 @@
 	</section>
 	
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
-	<script src="/oa/assets/layui.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
+	<script src="/oa/assets/layui/layui.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/jquery.validate.min.js"></script>
 	<script src="/oa/assets/messages_zh.min.js"></script>
@@ -478,6 +476,7 @@
 			var leaveId = $("#leaveId").val();
 			var currentNo = $("#currentNo").val();
 			var opinion = $("#auditOpinion").val();
+			var processNo = $("#processNo").val();
 			var status = "";
 			if($(this).attr("id")=="reject"){
 				status = "拒绝";
@@ -486,7 +485,7 @@
 			}else{
 				status = "通过";
 			}
-			alert(status);
+			alert(leaveId+currentNo+opinion+status+isGreaterThree);
 			
 			$.ajax({
 				url: "/oa/process/updateProcess",
@@ -495,9 +494,9 @@
 					"leaveId":leaveId,
 					"currentNo":currentNo,
 					"opinion":opinion,
-					"status":status,
 					"isGreaterThree":isGreaterThree,
-					"processNo":processNo
+					"processNo":processNo/* ,
+					"status":status*/
 				},			
 				success:function(result){
 					//关闭对话框

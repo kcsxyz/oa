@@ -756,7 +756,8 @@
 	                    $.modal.alertError("系统错误");
 	                },
 	                success: function (data) {
-	                    alert("授权成功")
+	                	 layer.msg('授权成功', {icon: 1});
+	                    //alert("授权成功")
 	                }
 	            });
 	        },

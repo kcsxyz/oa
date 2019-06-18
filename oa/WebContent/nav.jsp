@@ -50,7 +50,7 @@
 									var permissionChildren = item.children;
 									str +="<ul class='sub'>";
 									$.each(permissionChildren,function(index,it){
-										str +=" <li><a  href='"+it.url+"'>"+it.permName+"</a></li>" ;
+										str +=" <li><a href='"+it.url+"'>"+it.permName+"</a></li>" ;
 									})
 									str +="</ul></li>";
 								}
@@ -76,7 +76,7 @@
             
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.jsp">logout</a></li>
+                    <li><a class="logout" href="/oa/user/outLogin">logout</a></li>
             	</ul>
             </div>
         </header>
@@ -118,7 +118,13 @@
      				}
      			}
       		})
-      	})
+      	});
+      	
+      	/* $(document).on("click",".sub>li>a",function(){
+      		alert();
+      		var url = $(this).attr('href')
+      		$("").load("");
+      	}) */
      </script>
 </body>
 </html>
