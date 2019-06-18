@@ -127,7 +127,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                              <tr class="bg-primary">
                               
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" id="check_all" value=""  /></th>
                                   <th style="text-align:center;">序号</th>
