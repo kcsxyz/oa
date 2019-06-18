@@ -286,7 +286,7 @@
         function getMapDates() {
             var map_ = new Map();
             $.ajaxSettings.async = false;
-            $.post("/schedule/ajaxgetMap", {}, function (data) {
+            $.post("/oa/schedule/allSchedulelist", {}, function (data) {
                 map_ = data;
             })
             return map_;

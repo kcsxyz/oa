@@ -62,7 +62,7 @@ public class AttendCountServiceImpl implements AttendCountService{
 		//每个线程处理30个用户
         final int count = 30;
         //所有用户
-        List<User> users = userMapper.selectUser();
+        List<User> users = userMapper.getUserList();
         List<List<User>> lists = getThreadCount(users, count);
 
         for (int i = 0; i < lists.size(); i++)
