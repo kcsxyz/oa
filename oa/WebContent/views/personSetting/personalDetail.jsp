@@ -40,8 +40,8 @@
                       		<div class="panel">
 						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人设置--个人信息</b></div>
 							</div>
-	                            <form class="form-horizontal style-form" method="post" style="margin-top:80px;" enctyped="multiple/form-data">
-									<div class="form-group" style="border:none;margin-top:10px;">
+	                            <form class="form-horizontal style-form" method="post" style="margin-top:5px;" enctyped="multiple/form-data">
+									<div class="form-group" style="border:none;">
 			                        	<span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
 				                        	<div class="col-xs-3 col-sm-4" >
 				                            	<img src="${user.headPic}" alt="选择并上传头像" id="avatar_img" style="width: 100px;height: 100px;left:0;top: 0;border-radius: 50%;">

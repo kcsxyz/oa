@@ -63,7 +63,7 @@
                           <!-- 上部放按钮的地方开始 -->
                          <form action="selectLikeWorkPlan" class="form-horizontal style-form" method="get" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
-	                          	<div class=" col-sm-5" style="float:left;">
+	                          	<div class=" col-sm-3" style="float:left;">
 	                          		
 			                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/workPlan/addWorkPlan'">
 				                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
@@ -75,7 +75,7 @@
 			                  	  	  </button>
 		                  	  	</div>
 	                  	  	 
-	                  	  	<div class=" col-sm-4" style="float:left;">
+	                  	  	<div class=" col-sm-4" style="float:left;margin-left:4%;">
 		                  	  	  <lable style="font-weight:bold;font-size:12px;"><div class="col-sm-3" style="margin-top:8px;">类型</div></lable>
 		                  	  	  	<div class="col-sm-6">
 		                  	  	  	<select class="form-control" id="planType" onchange = "planTypeChange()">
@@ -90,7 +90,7 @@
 						    </div> 
 						    
 						    <div class="form-group" style="border:none;">
-	                  	  	<div class=" col-sm-4" style="float:left;margin-left:8%;">
+	                  	  	<div class=" col-sm-3" style="float:left;margin-left:4%;">
 		                  	  	 <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
 				                  	  	  <input type="text" class="form-control round-form" id="startTime" name="startTime" placeholder="起始时间"  style="width:30%;height:28px;float:left;">
 				                  	  	 
@@ -113,7 +113,7 @@
 									</div>
 						    </div> 
 						      
-	                  	  	  <div class=" col-sm-3" style="float:left;">
+	                  	  	  <div class=" col-sm-3" style="float:left;margin-left:4%;">
                               		<input type="text" name="Info" class="form-control" style="width:55%;height:28px;float:left;">
                               		
                               		<button type="submit" class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;"

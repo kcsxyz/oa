@@ -64,16 +64,16 @@
 	                            </div>
 	                            <form id="add-form" action="${pageContext.request.contextPath}/schedule/updateSchedule/${schedule}" class="form-horizontal style-form" method="post" >
 			                          <div class="form-group" style="border:none;margin-top:30px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
 				                              	<input type="hidden" name="id" value="${schedule.id }">
-				                                  <input type="text" id="title" name="title" class="form-control" value="${schedule.title }"><font id="showResult1"></font>
+				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;" value="${schedule.title }"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea id="editor" name="descr" style="height:400px">${schedule.descr}</textarea>
+				                                  <textarea id="editor" name="descr" style="height:300px;width:800px;">${schedule.descr}</textarea>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">

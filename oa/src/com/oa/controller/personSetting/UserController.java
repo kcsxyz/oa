@@ -111,8 +111,12 @@ import com.oa.utils.md5;
 	 * //注销
 	 */
 	@RequestMapping("/outLogin")
-	public String outLogin(HttpSession session){		
-        session.invalidate();  //然后是让httpsession失效 
+	public String outLogin(HttpSession session){	
+		
+          //然后是让httpsession失效
+        if(session.getAttribute("user")!=null) {
+        	session.invalidate();
+        }
         return "personSetting/login";
     }
 	//跳转到修改密码页面

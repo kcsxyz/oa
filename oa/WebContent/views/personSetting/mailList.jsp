@@ -44,7 +44,7 @@
                           <!-- 上部放按钮的地方开始 -->
                           <form action="selectPersonTelLike" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
-                          	<div class="col-xs-6 col-sm-4" style="float:left;">
+                          	<div class="col-xs-6 col-sm-3" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/personTel/allPersonTel'">
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  增加</span>
@@ -66,7 +66,7 @@
 									</select>  
 									</div>
 						    </div>						    
-						    <div class=" col-sm-3" style="float:left;">
+						    <div class=" col-sm-3" style="float:left;margin-left:150px;">
                               		<input type="text" name="info" class="form-control" style="width:60%;height:28px;float:left;">
                               		
                               		<button type="submit"  class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">

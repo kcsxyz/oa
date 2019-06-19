@@ -106,13 +106,13 @@
 			                              <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">状态:</span>
 				                              <div class="col-sm-6">
 												<c:if test="${workPlan.status==0 }">
-			                                  	<button type="button" class="btn btn-warning btn-xs" >待审核</button>
+			                                  	<button type="button" class="btn btn-warning btn-xs" style="margin-left:30px;" >待审核</button>
 			                                  	</c:if>
 			                                  	<c:if test="${workPlan.status==1 }">
-			                                  	<button type="button" class="btn btn-success btn-xs" >通过</button>
+			                                  	<button type="button" class="btn btn-success btn-xs" style="margin-left:30px;">通过</button>
 			                                  	</c:if>
 												<c:if test="${workPlan.status==2 }">
-												<button type="button" class="btn btn-danger btn-xs" >驳回</button>
+												<button type="button" class="btn btn-danger btn-xs" style="margin-left:30px;">驳回</button>
 												</c:if>				                              
 					                  	  	  </div>
 			                        </div>

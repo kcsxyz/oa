@@ -64,15 +64,15 @@
 	                            </div>
 	                            <form id="add-form" action="${pageContext.request.contextPath}/schedule/addSchedule" class="form-horizontal style-form" method="post" style="margin-top:5px;">
 			                          <div class="form-group" style="border:none;margin-top:5px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
+				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea id="editor" name="descr" style="height:400px"></textarea><font id="showResult2"></font>
+				                                  <textarea id="editor" name="descr" style="height:300px;width:800px;"></textarea><font id="showResult2"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">

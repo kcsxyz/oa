@@ -62,17 +62,17 @@
 	                            </div>
 	                            <form id="add-form" class="form-horizontal style-form">
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
 				                              		<input type="hidden" name="logId" value="${workLog.logId }">
-				                                  <input type="text" name="title" id="title"class="form-control" value="${workLog.title }">
+				                                  <input type="text" name="title" id="title"class="form-control" style="width:800px;" value="${workLog.title }">
 				                                  <font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea id="editor" name="content" style="height:400px">${workLog.content }</textarea>
+				                                  <textarea id="editor" name="content" style="height:300px;width:800px;">${workLog.content }</textarea>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">

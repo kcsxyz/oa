@@ -62,15 +62,15 @@
 	                            </div>
 	                            <form action="${pageContext.request.contextPath}/workLog/addWorkLog" class="form-horizontal style-form" method="post" >			                          
 	                            <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
+				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
 				                              <div class="col-sm-6">
-				                                  <div id="editor" name="content" style="height:400px"></div>
+				                                  <div id="editor" name="content" style="height:300px;width:800px;"></div>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">

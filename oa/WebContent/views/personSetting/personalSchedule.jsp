@@ -47,7 +47,7 @@
                           <!-- 上部放按钮的地方开始 -->
                           <form action="selectLikeSchedule" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
-                          	<div class="col-xs-6 col-sm-4" style="float:left;">
+                          	<div class="col-xs-6 col-sm-3" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/schedule/toAddSchedule'">
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  增加</span>
@@ -57,7 +57,7 @@
 			                  	  	  删除</span>
 		                  	  	  </button>
 	                  	  	</div>
-	                  	  	<div class="col-xs-6 col-sm-4" style="float:left;">
+	                  	  	<div class="col-xs-6 col-sm-5" style="float:left;">
 		                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
 				                  	  	  <input type="text" name="startTime" id="startTime" class="form-control round-form" placeholder="起始时间" style="width:30%;height:28px;float:left;">
 				                  	  	 

@@ -64,7 +64,7 @@
 	                            <form action="${pageContext.request.contextPath }/workPlan/updateWorkPlan" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
 				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;"> 
 				                          <c:if test="${workPlan.type==0 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
@@ -165,9 +165,9 @@
 			                         </div> 
 			                         <div class="form-group" style="border:none;">
 			                         	<input type="hidden" name="id" value="${workPlan.id}">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-6">
-				                              <textarea id="editor" name="content"style="height:400px">${workPlan.content }</textarea>
+				                              <textarea id="editor" name="content"style="height:300px;width:800px;">${workPlan.content }</textarea>
 				                                 
 				                              </div>
 			                         </div>
