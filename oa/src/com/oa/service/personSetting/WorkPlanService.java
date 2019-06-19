@@ -28,5 +28,6 @@ public interface WorkPlanService {
 	
 	
 	List<WorkPlan> getWorkPlanList(String uid, String info, String startTime, String endTime);
+	List<WorkPlan> getWorkPlanList();
 
 }
