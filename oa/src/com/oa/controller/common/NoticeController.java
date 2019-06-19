@@ -98,11 +98,14 @@ public class NoticeController {
 	 * 通过最近时间查询
 	 * @return
 	 */
-	@RequestMapping("/findByNearTime")
-	public ResponseResult findByNearTime(Model model) {
+	@RequestMapping("/findByNearTime/{noticeId}")
+	public ResponseResult findByNearTime(@PathVariable Integer noticeId,Model model) {
 		ResponseResult rr = new ResponseResult();
 		List<Notice> noticeTime = noticeService.selectByTime(); 
-		 //model.addAttribute("findByNearTime",noticeTime);
+		 Notice notice = noticeService.selectByPrimaryKey(noticeId);
+		 List<Dept> depts = noticeService.selectByDept(null);
+		 model.addAttribute("noticeDept", depts);
+		 model.addAttribute("noticeFindById",notice);
 		rr.add("findByNearTime", noticeTime);
 		return rr;
 	

@@ -97,10 +97,9 @@ import net.sf.jsqlparser.statement.delete.Delete;
 		 * 新增日志
 		 */
 		@RequestMapping("/addWorkLog")
-		@ResponseBody
-		public ResponseResult addWorkLog(WorkLog workLog,HttpSession session) {
+		public String addWorkLog(WorkLog workLog,HttpSession session) {
 			ResponseResult rr=new ResponseResult();
-			if(workLogService.getWorkLogByLogid(workLog.getLogId())==null && workLog.getContent()!=null) {
+			if(workLog.getContent()!=null && workLog.getTitle()!=null) {
 				User user=(User) session.getAttribute("user");
 				workLog.setCreateTime(new Date());
 				workLog.setCreateName(user.getUid());
@@ -115,7 +114,7 @@ import net.sf.jsqlparser.statement.delete.Delete;
 				rr.setMessage("添加失败");
 				rr.setStateCode(0);
 			}
-			return rr;
+			return "redirect:/workLog/workLoglist";
 		}
 		@RequestMapping("/deleteWorkLog/{logId}")
 		public String Delete(@PathVariable("logId")Integer logId) {
@@ -139,7 +138,10 @@ import net.sf.jsqlparser.statement.delete.Delete;
 					listId.add(Integer.parseInt(string));
 					workLogService.deleteDeptBatch(listId);
 				}
-			} 
+			} else {
+				int id1= Integer.parseInt(logId);
+				workLogService.deleteWorkLog(id1);
+			}
 			return "redirect:/workLog/workLoglist";			
 		}
 		

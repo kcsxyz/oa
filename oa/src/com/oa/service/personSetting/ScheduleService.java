@@ -22,5 +22,8 @@ public interface ScheduleService {
 	//模糊查询
 	List<Schedule> selectLikeSchedule(String uid,String info, String startTime, String endTime ) throws ParseException;
 	
+	Schedule getScheduleByDate(String date) throws ParseException;
+	
+	
 
 }

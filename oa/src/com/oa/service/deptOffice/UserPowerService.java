@@ -66,5 +66,7 @@ public interface UserPowerService {
 	 * @return
 	 */
 	int checkUerByidCard(String idCard);
+	
+	int checkUerByPhone(String phone);
 }
 

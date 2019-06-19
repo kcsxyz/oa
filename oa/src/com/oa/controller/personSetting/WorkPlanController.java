@@ -55,18 +55,14 @@ public class WorkPlanController {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
 			List<WorkPlan> workPlanlist =new ArrayList<>();
-			if(user.getRole().getRoleName()=="员工") {
-				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());				
-			}else {
-				workPlanlist = workPlanService.selectWorkPlan(deptId);
+			if(user.getRole().getRoleName()=="总经理") {
+				workPlanlist = workPlanService.getWorkPlanList();				
+			}else if(user.getRole().getRoleName()=="部门经理"){
+				workPlanlist = workPlanService.selectWorkPlan(deptId);				
+			}else{
+				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());					
+			}			
 				
-			}			
-			if(workPlanlist.size()>0) {
-				rr.setStateCode(1);
-			}else {
-				rr.setMessage("未查询到数据");
-				rr.setStateCode(0);
-			}			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<WorkPlan> page = new PageInfo<WorkPlan>(workPlanlist, 3);
 			model.addAttribute("pageInfo", page);
@@ -124,19 +120,18 @@ public class WorkPlanController {
 	 * 添加工作计划
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value="/addWorkPlan/{workPlan}", method=RequestMethod.POST)
+	@RequestMapping(value="/addWorkPlan", method=RequestMethod.POST)
 	public String addWorkPlan(WorkPlan workPlan,HttpSession session) throws ParseException {
 		ResponseResult rr=new ResponseResult();
-		if(workPlanService.getWorkPlanById(workPlan.getId())==null && workPlan.getContent()!=null) {
+		if(workPlan.getContent()!=null) {
 			User user=(User)session.getAttribute("user");
 			Date now = new Date();
 			// java.util.Date -> java.time.LocalDate
 			LocalDate localDate=now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			// java.time.LocalDate -> java.sql.Date
 			Date newDate=java.sql.Date.valueOf(localDate);
-			System.out.println(newDate);
 			workPlan.setCreateTime(newDate);			
-			//workPlan.setCreateName(user.getName());
+			workPlan.setCreateName(user.getUid());
 			workPlan.setStatus(0);
 			int i=workPlanService.addworkPlan(workPlan);
 			if(i<0) {				
@@ -175,6 +170,9 @@ public class WorkPlanController {
 				listId.add(Integer.parseInt(string));
 				workPlanService.deleteWorkPlanBatch(listId);
 			}
+		}else {
+			int id1= Integer.parseInt(id);
+			workPlanService.deleteWorkLog(id1);
 		}
 		return "redirect:/workPlan/workPlanlist";
 		

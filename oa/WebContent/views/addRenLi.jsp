@@ -35,9 +35,12 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;" id="user_add">
+	          		<div class="col-md-12" id="user_add">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
+                      		     <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--人力资源管理--录入个人信息</b></div>
+				               	</div>
 	                            <form class="form-horizontal style-form" method="post" action="${pageContext.request.contextPath}/userpower/saveUser" onSubmit="return myCheck(this)" style="margin-top:80px;">
 	                            	 <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
@@ -96,7 +99,7 @@
 			                              <span style="color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
                               				<div class="col-sm-8">
                                   				<select name="deptId" class="selectpicker show-tick form-control" >
-                                  				    <option value="1" selected="selected">---请选择---</option>
+                                  				    <option value="0" selected="selected">---请选择---</option>
 													<c:forEach items="${userDept }" var="u" >
 												         <option value="${u.deptId }">
 		                                                           ${u.deptName }
@@ -315,6 +318,25 @@
 			}
 		});
 	});
+    
+	 //校验电话是否存在
+	$("#phone").change(function(){
+		var phone=this.value;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/userpower/checkUserByPhone",
+			type: "post",
+			data: "phone="+phone,
+			success:function(result){
+				if(result.stateCode==1){
+					valate_form_msg("#phone",'success',result.message);
+					$("#phone").attr("ajax-va","success");
+				}else if(result.stateCode==0){
+					valate_form_msg("#phone",'error',result.message);
+					$("#phone").attr("ajax-va","error");
+				}
+			}
+		});
+	});
     //校验idCard
 	$("#idCard").change(function(){
 		var idCard=this.value;
@@ -364,6 +386,16 @@
 			  form.idCard.focus();
 			  return false;
 		  }
+		  if(form.deptId.value==''||form.deptId.value==null||form.deptId.value==0){
+			  alert("请选择部门");
+			  form.deptId.focus();
+			  return false;
+			  }
+		  if(form.roleId.value==''||form.roleId.value==null||form.roleId.value==0){
+			  alert("请选择角色");
+			  form.roleId.focus();
+			  return false;
+			  }
 		  if(form.phone.value==''||form.phone.value==null){
 			  form.phone.focus();
 			  return false;
@@ -385,12 +417,17 @@
 		  }  
 		 if($("#idCard").attr("ajax-va")=='error'){
 			  return false;
+		  } 
+		 if($("#phone").attr("ajax-va")=='error'){
+			  return false;
 		  }  
 		 else{
 			  alert("录入成功");
 			  return true;
 		  }
+		 
 	  }
+	  
 	  
     </script> 
 

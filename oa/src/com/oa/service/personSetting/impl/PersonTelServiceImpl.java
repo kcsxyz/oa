@@ -45,4 +45,9 @@ public class PersonTelServiceImpl implements PersonTelService {
 		// TODO Auto-generated method stub
 		return personTelMapper.selectLike(uid,info);
 	}
+
+	@Override
+	public PersonTel getPersonTel(String uid, String pid) {
+		return personTelMapper.getPersonTel(uid,pid);
+	}
 }

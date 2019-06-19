@@ -44,11 +44,14 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
-		    						<div class="panel-body" style="border:none;height:80px;">
+                      		 <div class="panel">
+						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--工作日程添加</b></div>
+							</div>
+                      			<div class="panel panel-default" style="border:none;margin-top:0px;height:60px;">
+		    						<div class="panel-body" style="border:none;height:70px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
 					                  	  	 <a href="${pageContext.request.contextPath}/schedule/schedulelist">
 					                  	  	  <button type="button" class="btn btn-round btn-default">
@@ -59,17 +62,17 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" action="${pageContext.request.contextPath}/schedule/addSchedule" class="form-horizontal style-form" method="post" style="margin-top:80px;">
-			                          <div class="form-group" style="border:none;margin-top:30px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+	                            <form id="add-form" action="${pageContext.request.contextPath}/schedule/addSchedule" class="form-horizontal style-form" method="post" style="margin-top:5px;">
+			                          <div class="form-group" style="border:none;margin-top:5px;">
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
+				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
-				                                  <textarea id="editor" name="descr" style="height:400px"></textarea><font id="showResult2"></font>
+				                                  <textarea id="editor" name="descr" style="height:300px;width:800px;"></textarea><font id="showResult2"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">

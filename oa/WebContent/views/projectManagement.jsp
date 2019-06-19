@@ -25,11 +25,7 @@
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  
 </head>
 <body>
  <section id="container" >
@@ -38,15 +34,17 @@
       <section id="main-content">
           <section class="wrapper">
           <div class="row mt">
-                  <div class="col-md-12"style="margin-top:10px;">
+                  <div class="col-md-12">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                          
+                               <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--项目管理</b></div>
+				               	</div>
                           <!-- 上部放按钮的地方开始 -->
                          <form class="form-horizontal style-form" action="${ pageContext.request.contextPath }/project/selectByParams" method="get" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
-                          		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" style="background:#fff;">
+                          		<button type="button" class="btn btn-info" id="uploadBtn"  style="background:#fff;">
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  增加</span>
 		                  	  	  </button> 
@@ -168,7 +166,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                             <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" value="" id="check_all" /></th>
                                   <th style="text-align:center;">ID</th>
                                   <th style="text-align:center;">项目名</th>
@@ -242,7 +240,12 @@
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
+     
+    <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
@@ -338,7 +341,10 @@
 			if(projectName == ""){
 				valate_form_msg("#projectName",'error',"项目名称不能空");
 				return false;
-			}else{
+			}if($("#btn_push_project").attr("ajax-va","error")){
+				valate_form_msg("#projectName",'error',"请输入符合的项目名称");
+			}
+			else{
 				valate_form_msg("#projectName",'success',"");
 			}
 			return true;
@@ -420,6 +426,23 @@
 				  return true;
 			  }
 		  }
+		  
+		  
+		  function clear_form(ele){
+				//重置内容
+				$(ele)[0].reset();
+				//移除添加的雷和文本
+				$(ele).find("*").removeClass("has-success has-error");
+				$(ele).find(".help-block").text("");
+			}
+			$("#uploadBtn").click(function(){
+				//重置表单，清除数据
+				clear_form('#myModal form');
+				//显示模态框
+				$("#myModal").modal({
+					backdrop:'static'
+				});
+			});
   </script>
 </body>
 </html>

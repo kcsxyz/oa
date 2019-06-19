@@ -16,5 +16,7 @@ public interface PersonTelService {
 	List<PersonTel> selectByDept(String uid,Integer id);
 	
 	List<PersonTel> selectLike(String uid, String info);
+	
+	Object getPersonTel(String uid, String pid);
 
 }

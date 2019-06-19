@@ -42,10 +42,13 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
+	                      		<div class="panel">
+							  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--工作日志添加</b></div>
+								</div>
+                      			<div class="panel panel-default" style="border:none;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
 					                  	  	 <a href="${pageContext.request.contextPath}/workLog/workLoglist">
@@ -57,22 +60,22 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form id="add-form" class="form-horizontal style-form" method="post" style="margin-top:80px;">			                          
+	                            <form action="${pageContext.request.contextPath}/workLog/addWorkLog" class="form-horizontal style-form" method="post" >			                          
 	                            <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">标题:</span>
 				                              <div class="col-sm-6">
-				                                  <input type="text" id="title" name="title" class="form-control"><font id="showResult1"></font>
+				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">日志内容:</span>
 				                              <div class="col-sm-6">
-				                                  <div id="editor" name="content" style="height:400px"></div>
+				                                  <div id="editor" name="content" style="height:300px;width:800px;"></div>
 				                              </div>
 			                          </div>
 			                          <div class="form-group" style="border:none;margin-top:30px;">
 				                              <div class="col-sm-5" style="float:left; text-align:right;">
-							                  	  <button type="button" id="add-but" class="btn btn-round btn-default">
+							                  	  <button type="submit" id="add-but" class="btn btn-round btn-default">
 							                  	  <span style="color: rgb(0, 0, 0); font-size: 14px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 							                  	  	  &nbsp;&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					                  	  	  	 </button>
@@ -122,22 +125,7 @@
 		});
 	</script>
 	 <script>
-	 $('#add-but').click(function(){
-        //读取用户的输入——表单序列化
-        var inputData = $('#add-form').serialize(); 
-		$.ajax({
-            type: 'POST',
-            url: '${pageContext.request.contextPath}/workLog/addWorkLog',
-            data: inputData,
-            success: function(xhr){
-                if(xhr.stateCode==1){  //成功
-                    window.location.href="${pageContext.request.contextPath}/workLog/workLoglist";
-                }else if(xhr.stateCode==0){ //失败
-                    alert(xhr.message);
-                }
-            }
-        });
-    });
+	
 	 $("#title").blur(function(){
 	        var data = $("#title").val();
 	        if (data == null || data == "") {

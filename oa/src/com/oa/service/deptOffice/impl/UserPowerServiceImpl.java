@@ -95,6 +95,19 @@ public class UserPowerServiceImpl implements UserPowerService {
 		}
 		
 	}
+	
+	public int checkUerByPhone(String phone){
+		UserExample example = new UserExample();
+		Criteria c = example.createCriteria();
+		c.andPhoneEqualTo(phone);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
 
 
 	@Override

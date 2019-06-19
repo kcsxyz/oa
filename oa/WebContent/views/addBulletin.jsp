@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-	<title>添加公告</title>
+	<title>发布信息</title>
 	<!-- Bootstrap core CSS -->
     <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -47,9 +47,13 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
+                      		   <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>信息更新--信息管理--发布信息</b></div>
+				               	</div>
+                      		   
                       			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
