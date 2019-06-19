@@ -12,21 +12,16 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>个人日程</title>
 	<!-- Bootstrap core CSS -->
-    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
+   <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
-    
+
     <!-- Custom styles for this template -->
     <link href="/oa/assets/css/style.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"> 
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
+   
      <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
  	<script src="/oa/ueditor/ueditor.parse.js"></script>
@@ -69,7 +64,17 @@
 				                                  <input type="text" id="title" name="title" class="form-control" style="width:800px;"><font id="showResult1"></font>
 				                              </div>
 			                          </div>
-			                          <div class="form-group" style="border:none;">
+			                          <div class="col-xs-6 col-sm-6" style="float:left;margin-left:9%;">
+		                  	  	  <span style="font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;color:#000;font-size:15px;float:left;">日程时间：</span>
+				                  	  	  <input type="text" name="startTime" id="startTime" class="form-control round-form" placeholder="起始时间" style="width:30%;height:28px;color:#000;font-size:15px;float:left;">
+				                  	  	 
+				                  	  	  <span  style="color: rgb(0, 0, 0);float:left;height:28px;text-align:center;line-height:28px;
+				                  	  	  font-size: 24px; margin-left:3px;margin-right:3px;text-shadow: rgb(255, 0, 0) 0px 0px 0px;">
+										  -
+										  </span>
+				                  	  	  <input type="text" name="endTime" id="startTime" class="form-control round-form" placeholder="终止时间" style="width:30%;height:28px;color:#000;font-size:15px;float:left;">
+	                  	  			</div>
+			                          <div class="form-group" style="border:none;margin-top:60px;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">描述:</span>
 				                              <div class="col-sm-6">
 				                                  <textarea id="editor" name="descr" style="height:300px;width:800px;"></textarea><font id="showResult2"></font>
@@ -101,10 +106,13 @@
           </section>
       </section>
 </section>
- 	<!-- js placed at the end of the document so the pages load faster --> 
+ 	 <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
-   
+    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
     <!--script for this page-->
@@ -152,5 +160,16 @@ $("#editor").blur(function(){
         }
  });
 </script>
+ <!--  时间插件js -->
+	    <script type="text/javascript">
+	    	$("input[id='startTime']").datetimepicker({
+	    		todayBtn:1,
+	    		todayHighlight:1,
+	            format: 'yyyy-mm-dd',
+	            minView: "2",//
+	            language:  'zh-CN',
+	            autoclose:true //选择一个日期之后是否立即关闭此日期选择器
+	        });
+	    </script>
 </body>
 </html>

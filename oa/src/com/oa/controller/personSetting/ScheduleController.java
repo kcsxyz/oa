@@ -140,10 +140,15 @@ public class ScheduleController {
 	public String addSchedule(Schedule schedule,Model model,HttpSession session) {
 		ResponseResult rr=new ResponseResult();
 		User user =(User) session.getAttribute("user");
-		if(schedule.getDescr()!=null && schedule.getTitle()!=null) {
-			
+		if(schedule.getDescr()!=null && schedule.getTitle()!=null) {			
 			schedule.setCreateName(user.getUid());
 			schedule.setCreateTime(new Date());
+			if(schedule.getStartTime()==null) {
+				schedule.setStartTime(new Date());
+			}
+			if(schedule.getEndTime()==null) {
+				schedule.setEndTime(new Date());
+			}
 			int i=scheduleService.addSchedule(schedule);
 			if(i<0) {
 				model.addAttribute("schedule", schedule);

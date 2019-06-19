@@ -341,8 +341,6 @@
 			if(projectName == ""){
 				valate_form_msg("#projectName",'error',"项目名称不能空");
 				return false;
-			}if($("#btn_push_project").attr("ajax-va","error")){
-				valate_form_msg("#projectName",'error',"请输入符合的项目名称");
 			}
 			else{
 				valate_form_msg("#projectName",'success',"");
@@ -403,7 +401,8 @@
 						//关闭模态框
 						$('#myModal').modal('hide');
 						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
-						to_page(currentPage);
+						//to_page(currentPage);
+						window.location.href='${pageContext.request.contextPath }/project/selectByParams';
 					}
 				}
 			});

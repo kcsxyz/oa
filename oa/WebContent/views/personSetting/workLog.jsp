@@ -12,28 +12,18 @@
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<title>工作日志</title>
 	<!-- Bootstrap core CSS -->
-    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
+   <!-- Bootstrap core CSS -->
+   <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
-    
+
     <!-- Custom styles for this template -->
     <link href="/oa/assets/css/style.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
-
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <!--  时间插件css文件 -->
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"> 
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <!-- 时间插件js文件 -->
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  
+    
 </head>
 <body>
  <section id="container" >
@@ -156,18 +146,18 @@
           </section>
       </section>
   </section>
-   <!-- js placed at the end of the document so the pages load faster -->
-    
+   <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
-
     <!--common script for all pages-->
     <script src="/oa/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
-    
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
   <script>
       //custom select box
 
