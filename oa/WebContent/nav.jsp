@@ -59,7 +59,6 @@
 							//alert("--"+str);
 							$("#nav-accordion").append(str);
 						}
-						
 					}
 			});
 	    });

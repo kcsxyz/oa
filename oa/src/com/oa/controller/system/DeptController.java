@@ -67,7 +67,7 @@ public class DeptController {
 			for (String id : split_ids) {
 				listId.add(Integer.parseInt(id));
 				listUser = deptService.getUserList(Integer.parseInt(id));
-				if(listUser !=null) {
+				if(listUser.size()>0) {
 					rr.setStateCode(0);
 					rr.setMessage("部门已在使用中。。。");
 					return rr;
@@ -79,7 +79,7 @@ public class DeptController {
 		} else {
 			Integer id = Integer.parseInt(ids);
 			listUser = deptService.getUserList(id);
-			if(listUser !=null) {
+			if(listUser.size()>0) {
 				rr.setStateCode(0);
 				rr.setMessage("部门已在使用中。。。");
 				return rr;

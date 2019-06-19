@@ -55,7 +55,7 @@ public class ProcessController {
 		System.out.println(user.getName());
 		System.out.println(user.getRole().getRoleName());
 		if(status == "通过") {
-			if(user.getRole().getRoleName()=="部门经理" && isGreaterThree) {
+			if(user.getRole().getRoleName().equals("部门经理") && isGreaterThree) {
 				//插入数据到流程节点表
 				ProcessNode proNo = new ProcessNode(processNo, "总经理审批", "总经理", "提交总经理审批");
 				processSerivce.saveProcessNode(proNo);
@@ -71,7 +71,7 @@ public class ProcessController {
 				leave.setCurrentNo(proNodeId);
 				processSerivce.updateLeave(leave);
 				
-			}else if(user.getRole().getRoleName()=="总经理" && isGreaterThree) {
+			}else if(user.getRole().getRoleName().equals("总经理") && isGreaterThree) {
 				//插入数据到流程节点表
 				ProcessNode proNo = new ProcessNode(processNo, "老板审批", "Boss", "提交老板审批");
 				processSerivce.saveProcessNode(proNo);
@@ -163,11 +163,11 @@ public class ProcessController {
 		//List<Leave> leaveList = processSerivce.getNeedAuditLeaveList(queryStr,2,user.getRole().getRoleName());
 		//System.out.println(leaveList==null);
 		List<Leave> leaveList = null;
-		if(user.getRole().getRoleName()=="部门经理") {
+		if(user.getRole().getRoleName().equals("部门经理")) {
 			PageHelper.startPage(pageNo, pageSize);	
 			leaveList = processSerivce.getNeedAuditLeaveList(queryStr,user.getDeptId(),"部门经理");
 			//如果是总经理
-		}else if(user.getRole().getRoleName()=="总经理"){
+		}else if(user.getRole().getRoleName().equals("总经理")){
 			PageHelper.startPage(pageNo, pageSize);
 			leaveList = processSerivce.getAuditLeaveList(queryStr,"总经理");
 		}else {//如果是老板
@@ -249,7 +249,9 @@ public class ProcessController {
 		//1.员工请假
 		//返回流程节点
 		Integer processNodeId = 0;
-		if(user.getRole().getRoleName()=="员工") {
+		
+		if(user.getRole().getRoleName().equals("员工")) {
+			System.out.println(user.getRole().getRoleName());
 			Process process = new Process(processNo, "请假申请", "提交部门经理审批");
 			processSerivce.saveProcess(process);
 			
@@ -259,7 +261,7 @@ public class ProcessController {
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"部门经理");
 		//2.部门经理请假
-		}else if(user.getRole().getRoleName()=="部门经理") {
+		}else if(user.getRole().getRoleName().equals("部门经理")) {
 			Process process = new Process(processNo, "请假申请", "提交总经理审批");
 			processSerivce.saveProcess(process);
 			
@@ -267,7 +269,7 @@ public class ProcessController {
 			processSerivce.saveProcessNode(pn);
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"总经理");
-		}else if(user.getRole().getRoleName()=="总经理") {
+		}else if(user.getRole().getRoleName().equals("总经理")) {
 			Process process = new Process(processNo, "请假申请", "提交老板审批");
 			processSerivce.saveProcess(process);
 			

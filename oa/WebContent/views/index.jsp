@@ -30,10 +30,66 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+    	#notice li{
+    		text-align:none;
+    		list-style:disc;
+    		margin-top:5px;
+    		font-size: 15px;
+    	}
+    	#noticeBody{
+    		position: relative;
+    	}
+    	#notice>li>div{
+    		float:right;
+    		margin-right:25px;
+    		font-family: "Microsoft YaHei";
+			
+    	}
+    </style>
   </head>
-
   <body>
-
+	<!-- 修改部门模态框 -->
+	<div class="modal fade" id="noticeContent" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">信息详情</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标题
+							</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noticeTitle"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">发布时间</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noticeTime"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noContent"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
   <section id="container" >
             <%@include file="../nav.jsp" %>
        <!--main content start-->
@@ -44,7 +100,7 @@
                        <!-- SERVER STATUS PANELS -->
                       	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
                       		<div class="white-panel pn donut-chart" style="height:80%;">
-                      			<div class="white-header" >
+                      			<div class="white-header">
 						  			<h5 >考勤管理</h5>
                       			</div>
                       					<div class="">
@@ -90,12 +146,9 @@
 								<div class="white-header">
 									<h5>公告内容</h5>
 								</div>
-								<div class="row" style="color: red;">
-									<ul>
-										<li><span >开会</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:right !important;">2019-6-19</span></li>
-										<li></li>
-										<li></li>
-										<li></li>
+								<div class="row" id="noticeBody" style="text-align: justify;margin-left:40px;">
+									<ul id="notice">
+										<li ><a>yuyu</a><div><span>2019-10-18</span></div></li>
 									</ul>
 								</div>
 							</div>
@@ -151,29 +204,7 @@
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-    
-    <!-- js placed at the end of the document so the pages load faster -->
-    <!-- <script src="/oa/assets/jquery-2.1.0.min.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/layui/layui.js"></script>
-    <script src="/oa/assets/layer/layer.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script> -->
-	
-    
-<!--     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
-    <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="/oa/assets/js/jquery.sparkline.js"></script> -->
 
-
-    <!--common script for all pages-->
-   <!--  <script src="/oa/assets/js/common-scripts.js"></script>
-    <script type="text/javascript" src="/oa/assets/js/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="/oa/assets/js/gritter-conf.js"></script>
-
-    script for this page
-    <script src="/oa/assets/js/sparkline-chart.js"></script>    
-	<script src="/oa/assets/js/zabuto_calendar.js"></script>	 -->
 	<script>
 	$(function(){
 		$.ajax({
@@ -190,6 +221,26 @@
 			}
 		});
 	})
+	
+	$(function(){
+		$("#notice").empty();
+		$.ajax({
+			url : "/oa/notice/findByNearTime",
+			type : "post",
+			success : function(result) {
+				if(result.stateCode==1){
+					var notices = result.extend.findByNearTime;
+					var str ="";
+					$.each(notices,function(index,item){
+						str +="<li ><a href='"+item.title+"'></a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
+					})
+					str.append("#notice");
+				}
+			}
+		});
+	})
+	
+	
     //实时时间
     window.onload = function () {
         setInterval(function () {
@@ -333,6 +384,7 @@
 		   s = date.getSeconds();
 		   return h+m+s;
 	}
+    
 </script>
 	
   
