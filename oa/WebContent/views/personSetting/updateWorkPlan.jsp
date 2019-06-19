@@ -43,10 +43,13 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
+                      			 <div class="panel">
+							  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--修改工作计划</b></div>
+								</div>
+                      			<div class="panel panel-default" style="border:none;height:70px;">
 		    						<div class="panel-body" style="border:none;height:80px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
 					                  	  	 <a href="${pageContext.request.contextPath }/workPlan/workPlanlist">
@@ -61,7 +64,7 @@
 	                            <form action="${pageContext.request.contextPath }/workPlan/updateWorkPlan" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
 				                          <div class="col-sm-7" style="margin-top:7px;text-align:center;"> 
 				                          <c:if test="${workPlan.type==0 }">
 				                              <div class="col-sm-2" style="margin-top:7px;text-align:center;">
@@ -162,9 +165,9 @@
 			                         </div> 
 			                         <div class="form-group" style="border:none;">
 			                         	<input type="hidden" name="id" value="${workPlan.id}">
-			                              <span style="width:28%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
+			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-6">
-				                              <textarea id="editor" name="content"style="height:400px">${workPlan.content }</textarea>
+				                              <textarea id="editor" name="content"style="height:300px;width:800px;">${workPlan.content }</textarea>
 				                                 
 				                              </div>
 			                         </div>

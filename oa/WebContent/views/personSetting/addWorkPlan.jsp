@@ -45,11 +45,14 @@
       <section id="main-content">
           <section class="wrapper">
 	          <div class="row mt">
-	          		<div class="col-md-12"style="margin-top:40px;">
+	          		<div class="col-md-12">
                   		<div style="background:#fff; height:900px;">
                       		<div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                      			<div class="panel panel-default" style="border:none;margin-top:20px;height:70px;">
-		    						<div class="panel-body" style="border:none;height:80px;">
+	                      		 <div class="panel">
+							  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--工作计划添加</b></div>
+								</div>
+                      			<div class="panel panel-default" style="border:none;height:70px;">
+		    						<div class="panel-body" style="border:none;height:10px;">
 			                          	<div class="col-xs-6 col-sm-3" style="border:none;float:left;">
 					                  	  	 <a href="${pageContext.request.contextPath }/workPlan/workPlanlist">
 					                  	  	   <button type="button" class="btn btn-round btn-default">
@@ -60,7 +63,7 @@
 				                  	  	</div>
 		                            </div>	
 	                            </div>
-	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan/${workPlan }" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
+	                            <form action="${pageContext.request.contextPath }/workPlan/addWorkPlan" method="post" class="form-horizontal style-form"  style="margin-top:20px;">
 	                            	
 	                            	<div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
@@ -90,7 +93,7 @@
 			                         <div class="form-group" style="border:none;">
 			                              <span style="width:15%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">内容:</span>
 				                              <div class="col-sm-9">
-				                                  <textarea id="editor" name="content"style="height:400px"></textarea>
+				                                  <textarea id="editor" name="content" style="height:300px;"></textarea>
 				                              </div>
 			                         </div>
 			                         <div class="form-group" style="border:none;margin-top:30px;">

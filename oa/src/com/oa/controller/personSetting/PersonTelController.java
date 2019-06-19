@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.oa.bean.Dept;
 import com.oa.bean.PersonTel;
 import com.oa.bean.ResponseResult;
 import com.oa.bean.User;
 import com.oa.bean.WorkLog;
 import com.oa.service.personSetting.PersonTelService;
 import com.oa.service.personSetting.UserService;
+import com.oa.service.system.DeptService;
 
 /**
  * @author Administrator
@@ -34,6 +36,9 @@ public class PersonTelController {
 	private PersonTelService personTelService;	
 	@Resource
 	private UserService userService;
+	@Resource
+	private DeptService deptService;
+	
 	/**
 	 * @param uid
 	 * @param model
@@ -51,10 +56,12 @@ public class PersonTelController {
 			List<User> userlist=new ArrayList<>();
 			List<PersonTel> personTelList=personTelService.selectByUid(user.getUid());	
 			for (PersonTel personTel : personTelList) {
-				userlist.add(userService.getUser(personTel.getPersonId()));
+					userlist.add(userService.getUser(personTel.getPersonId()));							
 			}
+			List<Dept> deptlist=deptService.getDeptList();
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<PersonTel> page = new PageInfo<PersonTel>(personTelList, 3);
+			model.addAttribute("deptlist",deptlist);
 			model.addAttribute("pageInfo", page);
 			model.addAttribute("userlist",userlist);
 		} catch (Exception e) {
@@ -75,13 +82,10 @@ public class PersonTelController {
 		PersonTel personTel=new PersonTel();
 		personTel.setUserId(user.getUid());
 		personTel.setPersonId(pid);
-		int i=personTelService.addpersonTel(personTel);
-		if(i<0) {
-			rr.setStateCode(1);
-		}else {
-			rr.setStateCode(0);
-			rr.setMessage("添加失败");
-		}
+		if (personTelService.getPersonTel(user.getUid(),pid)==null) {
+			personTelService.addpersonTel(personTel);
+		}	
+		
 		return "redirect:/personTel/getPersonTel";
 	}
 	/**
@@ -112,7 +116,9 @@ public class PersonTelController {
 			for (String string : split_ids) {
 				personTelService.deletePersonTel(user.getUid(),string);
 			}
-		} 
+		} else {
+			personTelService.deletePersonTel(user.getUid(), logId);
+		}
 		return "redirect:/personTel/getPersonTel";			
 	}
 	/**
@@ -127,11 +133,14 @@ public class PersonTelController {
 		try {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
+			List<Dept> deptlist=deptService.getDeptList();
+			
 			List<User> userlist=userService.selectUser();		
 			
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量
 			PageInfo<User> page = new PageInfo<User>(userlist, 3);
 			model.addAttribute("pageInfo", page);
+			model.addAttribute("deptlist",deptlist);
 			model.addAttribute("userlist",userlist);
 		} catch (Exception e) {
 			e.printStackTrace();

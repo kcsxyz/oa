@@ -38,11 +38,13 @@
                   <div class="col-md-12"style="margin-top:10px;">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                          
+                          <div class="panel">
+						  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;font-size:15px;"><b>个人办公--个人通讯录</b></div>
+							</div>
                           <!-- 上部放按钮的地方开始 -->
                           <form action="selectPersonTelLike" class="form-horizontal style-form" method="post" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
-                          	<div class="col-xs-6 col-sm-4" style="float:left;">
+                          	<div class="col-xs-6 col-sm-3" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" style="background:#fff;" onclick="window.location.href='/oa/personTel/allPersonTel'">
 			                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 			                  	  	  增加</span>
@@ -52,17 +54,19 @@
 			                  	  	  删除</span>
 		                  	  	  </button>
 	                  	  	</div>
+	                  	  	
 	                  	  	<div class=" col-sm-4" style="float:left;">
 		                  	  	  <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">部门:</span>
 		                  	  	  	<div class="col-sm-7">
 		                  	  	  	<select class="form-control" onchange="deptChange()">
 		                  	  	  		<option>请选择部门</option>
-										<option value="1">办公室</option>
-										<option value="2">开发部</option>
+										<c:forEach items="${deptlist }" var="dept">
+											<option value="${dept.deptId}">${dept.deptName }</option>
+										</c:forEach>
 									</select>  
 									</div>
 						    </div>						    
-						    <div class=" col-sm-3" style="float:left;">
+						    <div class=" col-sm-3" style="float:left;margin-left:150px;">
                               		<input type="text" name="info" class="form-control" style="width:60%;height:28px;float:left;">
                               		
                               		<button type="submit"  class="btn btn-round btn-warning" style="height:28px;text-align:center;line-height:28px;">
@@ -76,7 +80,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                              <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" id="check_all" class="list-child" value=""  /></th>
                                   <th style="text-align:center;">序号</th>
                                   <th style="text-align:center;">员工编号</th>
@@ -118,9 +122,9 @@
                           <!-- 表格部分结束-->
                           <!-- 显示分页条	 -->
 					<div class="row">
-						<div class="col-md-6">当前第${pageInfo.pageNum}页,共${pageInfo.pages}页,共${pageInfo.total}条记录</div>
-						<div class="col-md-6">
-							<nav aria-label="Page navigation">
+						<div class="col-md-5" style="height:50px;line-height:50px;text-align:left;margin-left:20px;">当前第${pageInfo.pageNum}页,共${pageInfo.pages}页,共${pageInfo.total}条记录</div>
+						<div class="col-md-6" style="height:50px;line-height:50px;text-align:right;margin-left:30px;">
+							<nav aria-label="Page navigation" style="border:none;margin-top:0px;height:60px;">
 								  <ul class="pagination">
 								  	<li><a href="getPersonTel?pageNo=1">首页</a></li>
 								    <li>

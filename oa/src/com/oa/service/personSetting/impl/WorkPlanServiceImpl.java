@@ -119,4 +119,10 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 		
 		return workPlanMapper.getList(uid,info,start,end);
 	}
+
+	@Override
+	public List<WorkPlan> getWorkPlanList() {
+		// TODO Auto-generated method stub
+		return workPlanMapper.selectByExample(null);
+	}
 }
