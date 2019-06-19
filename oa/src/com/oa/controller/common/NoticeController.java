@@ -98,18 +98,33 @@ public class NoticeController {
 	 * 通过最近时间查询
 	 * @return
 	 */
-	@RequestMapping("/findByNearTime/{noticeId}")
-	public ResponseResult findByNearTime(@PathVariable Integer noticeId,Model model) {
+	@RequestMapping("/findByNearTime")
+	@ResponseBody
+	public ResponseResult findByNearTime() {
 		ResponseResult rr = new ResponseResult();
 		List<Notice> noticeTime = noticeService.selectByTime(); 
-		 Notice notice = noticeService.selectByPrimaryKey(noticeId);
-		 List<Dept> depts = noticeService.selectByDept(null);
-		 model.addAttribute("noticeDept", depts);
-		 model.addAttribute("noticeFindById",notice);
+		for (Notice notice : noticeTime) {
+			System.out.println(notice);
+		}
 		rr.add("findByNearTime", noticeTime);
 		return rr;
 	
 	}
+	
+	/**
+	 * 通过id查询
+	 * @return
+	 */
+	@RequestMapping("/findByNearTimeId/{noticeId}")
+	@ResponseBody
+	public ResponseResult findByNearTimeId(@PathVariable Integer noticeId) {
+		 ResponseResult rr = new ResponseResult();
+		 Notice notice = noticeService.selectByPrimaryKey(noticeId);
+		 rr.add("noticeFindById",notice);
+		return rr;
+	
+	}
+	
 	
 	/**根据id删除部门
 	 * @param ids
