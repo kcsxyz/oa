@@ -2,13 +2,15 @@ package com.oa.bean;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Schedule {
     private Integer id;
 
     private String userId;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
     private String createName;

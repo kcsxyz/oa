@@ -35,14 +35,14 @@
                         <!-- <div class="login-logo">
                             <a href="index.html"><span>Focus</span></a>
                         </div> -->
-                        <div class="login-interior text-center" style="/* filter:alpha(Opacity=80);-moz-opacity:0.5;opacity: 0.8; */">
+                        <div class="login-interior text-center" style="margin:20% 0 0 50% ">
                             <div class="login-title">
                             	OA系统 Login
                             </div>
                             
                             <form id="login-form" method="post" style="margin-top:20px;">
                                 <div class="login-uid">
-                                    <pd style="float:left;padding-left:10px;">工号</pd>
+                                    <pd style="float:left;padding-left:10px;"><b>工号</b></pd>
                                 </div>
                                 <div>
                                 	<input type="text" name="uid" id="uid" class="uid-password" required placeholder="工号" style="width:300px; padding-left:5px;">
@@ -50,7 +50,7 @@
                                 	<label id="showResult" style="width:350px;height:10px;display:block;text-align:right;padding:0px;margin:5px 0 0 0;"></label>
                                 </div>
                                 <div class="login-password">
-                                    <pd style="float:left;padding-left:10px;">密码</pd><font id="error2" style="color:red;"></font>
+                                    <pd style="float:left;padding-left:10px;"><b>密码</b></pd><font id="error2" style="color:red;"></font>
                                 </div>
                                 <div>
                                 	<input type="password" name="password" id="password" class="uid-password" required placeholder="密码" style="width:300px; padding-left:5px;">
