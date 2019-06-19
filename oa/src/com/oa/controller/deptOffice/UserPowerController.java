@@ -157,6 +157,48 @@ public class UserPowerController {
 
 	}
 	
+	@RequestMapping("/userManage")
+	public String userManage(
+			HttpSession session,
+		    String Info,
+			String uid,
+			Integer sex,
+			Integer deptId,
+			String createName,
+			String dateStart,
+			String finalTime,
+			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+            Model model
+			) {
+		  Map<String, String> map = new HashMap<String, String>();
+		  if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
+				 String startTime= dateStart+" "+"00:00:00";
+				 String endTime = finalTime+" "+"23:59:59";
+				 map.put("startTime", startTime);
+			     map.put("endTime", endTime);
+			 }
+		  if(sex != null ) {
+			  String sexs = sex.toString();
+				map.put("sex", sexs);
+		  }
+		  if(deptId != null) {
+				String deptIds = deptId.toString();
+		        map.put("deptId", deptIds);
+		  }
+		    map.put("Info", Info);
+			map.put("uid", uid);
+			map.put("createName",createName);
+		 PageHelper.startPage(pageNo, pageSize);
+		 List<User> users = userPowerService.selectByParams(map);
+		 PageInfo<User> page = new PageInfo<User>(users, 3);
+	    model.addAttribute("pageInfo", page);     
+	    List<Dept> depts = userPowerService.selectByDept();
+		 model.addAttribute("userDept", depts);
+		return "/system/userManage";
+
+	}
+	
 	  /**验证名称是否存在
 		 * @param uid
 		 * @return
