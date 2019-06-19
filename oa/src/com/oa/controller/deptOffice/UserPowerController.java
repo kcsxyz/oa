@@ -278,4 +278,5 @@ public class UserPowerController {
 				return "redirect:/userpower/findUser";
 		    }
     
+		    
 }
