@@ -232,7 +232,7 @@
 					var notices = result.extend.findByNearTime;
 					var str ="";
 					$.each(notices,function(index,item){
-						str +="<li ><a href='"+item.title+"'></a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
+						str +="<li><a class='noti' href='"+item.title+"'></a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
 					})
 					str.append("#notice");
 				}
@@ -363,6 +363,24 @@
             return map_;
         }
     });
+    
+    //查看公告
+    $(document).on("click",".noti",function(){
+    	var id=$(this).attr("href");
+    	$.ajax({
+			url : "/oa/notice/findByNearTimeId/"+id,
+			type : "post",
+			success : function(result) {
+					var notice = result.extend.noticeFindById;
+					$("#noticeTitle").text(notice.title);
+					$("#noticeTime").text(notice.createTime);
+					$("#noContent").text(notice.content);
+
+			}
+		});
+    	$("#noticeTitle")
+    	
+    })
     function timestampToTime(timestamp) {
 		   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 		   Y = date.getFullYear() + '-';
