@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,8 +77,15 @@
             <!--logo end-->
             
             <div class="top-menu">
-            	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="/oa/user/outLogin">logout</a></li>
+            	<ul class="nav pull-right top-menu" style="margin-right:30px;">
+            		<li style="color:white;font-size: 16px;font-weight: 800;">
+            		<h4 class="centered dropdown" >${sessionScope.user.name}  &nbsp; <span class="fa fa-caret-down dropdown-toggle" data-toggle="dropdown"></span>
+              	  		<ul class="dropdown-menu">
+	              	  		<li><a href="/oa/user/toupdatePassword">修改密码</a></li>
+	              	  		<li><a href="/oa/user/changeHead">修改头像</a></li>
+	              	  		<li><a href="/oa/user/outLogin">退出</a></li>
+              	  		</ul>
+              	  </h4>
             	</ul>
             </div>
         </header>
@@ -90,15 +98,8 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-              	  <p class="centered"><a href="profile.html"><img src="/oa/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered" style="margin-bottom:30px;">金咏琪</h5>
-              	  	
-                 <!--  <li class="mt">
-                      <a href="index.jsp">
-                          <i class="fa fa-dashboard"></i>
-                          <span>主页</span>
-                      </a>
-                  </li> -->
+              	  <p class="centered"><a href="#"><img src="/oa/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <h5 class="centered dropdown" >${sessionScope.user.name} </h5>
               </ul>
               <!-- sidebar menu end-->
           </div>

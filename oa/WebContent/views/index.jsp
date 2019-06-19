@@ -90,8 +90,13 @@
 								<div class="white-header">
 									<h5>公告内容</h5>
 								</div>
-								<div class="row">
-									
+								<div class="row" style="color: red;">
+									<ul>
+										<li><span >开会</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:right !important;">2019-6-19</span></li>
+										<li></li>
+										<li></li>
+										<li></li>
+									</ul>
 								</div>
 							</div>
 						</div>
