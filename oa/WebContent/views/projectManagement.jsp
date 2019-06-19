@@ -34,10 +34,12 @@
       <section id="main-content">
           <section class="wrapper">
           <div class="row mt">
-                  <div class="col-md-12"style="margin-top:10px;">
+                  <div class="col-md-12">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                          
+                               <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--项目管理</b></div>
+				               	</div>
                           <!-- 上部放按钮的地方开始 -->
                          <form class="form-horizontal style-form" action="${ pageContext.request.contextPath }/project/selectByParams" method="get" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
