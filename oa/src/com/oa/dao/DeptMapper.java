@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Dept;
 import com.oa.bean.DeptExample;
+import com.oa.bean.User;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,6 @@ public interface DeptMapper {
     int updateByPrimaryKeySelective(Dept record);
 
     int updateByPrimaryKey(Dept record);
+
+	List<User> getUserList(@Param("deptId") int deptId);
 }

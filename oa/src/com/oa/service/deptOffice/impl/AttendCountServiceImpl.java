@@ -46,7 +46,7 @@ public class AttendCountServiceImpl implements AttendCountService{
 	@Override
 	public List<AttendCount> selectAttendCountList(AttendCount attendCount) {
 		
-		return attendCountMapper.selectByExample(null);
+		return attendCountMapper.getAccountListWithUser();
 	}
 
 	@Override

@@ -100,12 +100,14 @@
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
-					<h4>
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>流程审批--我的待审</b></div>
+					</div>
+					<!-- <h4>
 						<button class="btn btn-primary btn-sm" id="leave_add">
 							<i class="glyphicon glyphicon-plus"></i>填写申请
 						</button>
-						<!-- <button class="btn btn-danger" id="dept_delete_all">删除</button> -->
-					</h4>
+					</h4> -->
 					<section id="unseen">
 					<table
 						class="table table-hover "
@@ -116,8 +118,9 @@
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
 								<th style="text-align: center;">流程编号</th>
+								<th style="text-align: center;">请假人</th>
 								<th style="text-align: center;">假期类型</th>
-								<th style="text-align: center;">创建时间</th>
+								<th style="text-align: center;">申请时间</th>
 								<th style="text-align: center;">状态</th>
 								<th style="text-align: center;">操作</th>
 							</tr>
@@ -272,7 +275,8 @@
 							item.processNo);
 					var leaveTypeTd = $("<td></td>").append(
 							item.leaveType);
-					
+					var leaveNameTd = $("<td></td>").append(
+							item.userName);
 					var createTimeTd = $("<td></td>").append(
 							timestampToTime(item.createTime));
 					var statusTd;
@@ -300,7 +304,7 @@
 							.append(" ").append("审核");
 					//为编辑按钮添加一个自定义属性，用于保存请假id	
 					editBtn.attr("edit-id", item.id);
-					var delBtn = $("<button></button>")
+					/* var delBtn = $("<button></button>")
 							.addClass(
 									"btn btn-danger btn-sm delete_btn")
 							.append(
@@ -309,11 +313,11 @@
 													"glyphicon glyphicon-trash"))
 							.append("删除");
 					//为删除按钮添加一个自定义属性，用于保存请假id
-					delBtn.attr("delete-id", item.id);
+					delBtn.attr("delete-id", item.id); */
 					var btnTd = $("<td></td>").append(editBtn)
-							.append(" ").append(delBtn);
+							.append(" ");
 					$("<tr></tr>").append(checkBoxTd).append(idTd)
-							.append(processNoTd)
+							.append(processNoTd).append(leaveNameTd)
 							.append(leaveTypeTd).append(createTimeTd).append(statusTd)
 							.append(btnTd)
 							.appendTo("#processData");

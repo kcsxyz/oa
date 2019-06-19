@@ -10,8 +10,18 @@ public class Dept {
     private Integer deptLevel;
 
     private String remark;
-
+    
+    private Dept dept;
+    
  
+	public Dept getDept() {
+		return dept;
+	}
+
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
+
 	public Integer getDeptId() {
         return deptId;
     }

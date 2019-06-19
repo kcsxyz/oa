@@ -18,16 +18,16 @@ import com.oa.bean.ResponseResult;
 import com.oa.service.deptOffice.AttendCountService;
 
 @Controller
-@RequestMapping("attnedCount")
+@RequestMapping("attendCount")
 public class AttendCountController {
 	
 	@Resource
 	private AttendCountService attendCountService;
 	
 	@RequestMapping("/tolist")
-    public String toList(Model model)
+    public String toList()
     {
-        return "deptOffice/attendCount";
+        return "/deptOffice/attendCount";
     }
 
 

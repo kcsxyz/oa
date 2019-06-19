@@ -3,6 +3,7 @@ package com.oa.service.system;
 import java.util.List;
 
 import com.oa.bean.Dept;
+import com.oa.bean.User;
 
 public interface DeptService {
 	
@@ -26,5 +27,7 @@ public interface DeptService {
 	
 	//验证部门名是否存在
 	int checkDeptName(String deptName);
+
+	List<User> getUserList(int deptId);
 
 }

@@ -71,7 +71,8 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>OA系统</b></a>
+           <!--  <img alt="" src="/oa/images/logo.png" width=100px height=50px style="margin:5px 0px 0 0;"> -->
+            <a href="#" class="logo"><b>OA系统</b></a>
             <!--logo end-->
             
             <div class="top-menu">
@@ -82,9 +83,7 @@
         </header>
       <!--header end-->
       
-      <!-- **********************************************************************************************************************************************************
-      MAIN SIDEBAR MENU
-      *********************************************************************************************************************************************************** -->
+      <!-- MAIN SIDEBAR MENU -->
       <!--sidebar start-->
       <aside>
           <div id="sidebar"  class="nav-collapse ">

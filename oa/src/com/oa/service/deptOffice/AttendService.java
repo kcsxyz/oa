@@ -17,4 +17,6 @@ public interface AttendService {
 
 	List<Attend> getAttendList();
 
+	WorkTime getWorkTime();
+
 }

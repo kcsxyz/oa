@@ -135,17 +135,16 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>系统设置--考勤记录</b></div>
+					</div>
 					<h4>
 						<button class="btn btn-primary btn-sm" id="dept_add">
 							<i class="glyphicon glyphicon-plus"></i>新增
 						</button>
-						<button class="btn btn-danger" id="dept_delete_all">删除</button>
 					</h4>
 					<section id="unseen">
 					<table
@@ -157,13 +156,12 @@
 									class="list-child"/></th>
 								<th style="text-align: center;">序号</th>
 								<th style="text-align: center;">姓名</th>
-								<th style="text-align: center;">部门</th>
 								<th style="text-align: center;">上午上班卡时间</th>
 								<th style="text-align: center;">上午下班打卡时间</th>
 								<th style="text-align: center;">下午上班打卡时间</th>
 								<th style="text-align: center;">下午下班打卡时间</th>
 								<th style="text-align: center;">星期</th>
-								<th style="text-align: center;">时间</th>
+								<th style="text-align: center;">状态</th>
 								<th style="text-align: center;">操作</th>
 							</tr>
 						</thead>
@@ -315,8 +313,8 @@
 								var idTd = $("<td></td>").append(index + 1);
 								var userNameTd = $("<td></td>").append(
 										item.user.name);
-								var deptTd = $("<td></td>").append(
-										item.dept.deptName);
+								/* var deptTd = $("<td></td>").append(
+										item.dept.deptName); */
 								var attenMorStartTd = $("<td></td>").append(
 										timestampToTime(item.attendMorStart));
 								var attendMorLeaveTd = $("<td></td>").append(
@@ -348,8 +346,8 @@
 								editBtn.attr("edit-id", item.deptId);
 								var btnTd = $("<td></td>").append(editBtn)
 								$("<tr></tr>").append(checkBoxTd).append(idTd)
-										.append(userNameTd).append(deptTd).append(attenMorStartTd).append(attendMorLeaveTd).append(attendNoonStartTd)
-										.append(attendNoonLeaveTd).
+										.append(userNameTd).append(attenMorStartTd).append(attendMorLeaveTd).append(attendNoonStartTd)
+										.append(attendNoonLeaveTd)
 										.append(weekTd).append(statusTd).append(btnTd)
 										.appendTo("#attendData");
 							});
@@ -605,6 +603,10 @@
 		});
 		
 		function timestampToTime(timestamp) {
+			//alert(timestamp);
+			if(timestamp==null){
+				return "";
+			}
 			   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 			   Y = date.getFullYear() + '-';
 			   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';

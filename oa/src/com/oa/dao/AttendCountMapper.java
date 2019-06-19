@@ -36,4 +36,6 @@ public interface AttendCountMapper {
      * 统计请假天数
      */
     List<Leave> selectByUserIdAndDate(Leave leaveForm);
+    
+    List<AttendCount> getAccountListWithUser();
 }

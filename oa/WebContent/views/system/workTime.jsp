@@ -20,7 +20,77 @@
 </head>
 <body>
 	<!-- 引入导航栏 -->
-
+	<!-- 新增时间模态框 -->
+	<div class="modal fade" id="workTime_add_model" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">时间添加</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上午上班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" pattern="hh:MM:ss" name="attendMorStartTime" style="width:190px !important;display:inline" class="form-control " id="attendMorStartTime"> -
+								<input type="time" name="attendMorEndTime" style="width:190px !important;display:inline" class="form-control" id="attendMorEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上班下班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="attendMorLeaveStartTime" style="width:190px !important;display:inline" class="form-control " id="attendMorLeaveStartTime"> -
+								<input type="time" name="attendMorLeaveEndTime" style="width:190px !important;display:inline" class="form-control" id="attendMorLeaveEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上午工作时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="workMorStartTime" style="width:190px !important;display:inline" class="form-control " id="workMorStartTime" > -
+								<input type="time" name="workMorEndTime" style="width:190px !important;display:inline" class="form-control" id="workMorEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午上班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" pattern="hh:MM:ss" name="attendAfternoonStartTime" style="width:190px !important;display:inline" class="form-control " id="attendAfternoonStartTime"> -
+								<input type="time" name="attendAfternoonEndTime" style="width:190px !important;display:inline" class="form-control" id="attendAfternoonEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午下班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="attendAfterLeaveStartTime" style="width:190px !important;display:inline" class="form-control " id="attendAfterLeaveStartTime"> -
+								<input type="time" name="attendAfterLeaveEndTime" style="width:190px !important;display:inline" class="form-control" id="attendAfterLeaveEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午工作时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="workStartTimeAfternoon" style="width:190px !important;display:inline" class="form-control " id="workStartTimeAfternoon"> -
+								<input type="time" name="workEndTimeAfternoon" style="width:190px !important;display:inline" class="form-control" id="workEndTimeAfternoon">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save_dept">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 修改部门模态框 -->
 	<div class="modal fade" id="dept_update_model" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
@@ -35,28 +105,52 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">部门名称</label>
-							<div class="col-sm-10">
-								<input type="hidden" name="deptId" id="deptId" > 
-								<!-- <p class="form-control-static" id="deptName_update"></p> -->
-								<input type="text" name="deptName" class="form-control"
-									id="deptName_update" placeholder="部门名称"> <span
-									class="help-block"></span>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上午上班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" pattern="hh:MM:ss" name="attendMorStartTime" style="width:190px !important;display:inline" class="form-control " id="attendMorStartTime"> -
+								<input type="time" name="attendMorEndTime" style="width:190px !important;display:inline" class="form-control" id="attendMorEndTime">
+									 <span class="help-block"></span>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">上级部门</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="deptPId" id="select_update_dept">
-								</select>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上班下班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="attendMorLeaveStartTime" style="width:190px !important;display:inline" class="form-control " id="attendMorLeaveStartTime"> -
+								<input type="time" name="attendMorLeaveEndTime" style="width:190px !important;display:inline" class="form-control" id="attendMorLeaveEndTime">
+									 <span class="help-block"></span>
 							</div>
-							
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">描述</label>
-							<div class="col-sm-10">
-								<textarea name="remark" id="remark_update" class="form-control" rows="3" ></textarea>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">上午工作时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="workMorStartTime" style="width:190px !important;display:inline" class="form-control " id="workMorStartTime" > -
+								<input type="time" name="workMorEndTime" style="width:190px !important;display:inline" class="form-control" id="workMorEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午上班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" pattern="hh:MM:ss" name="attendAfternoonStartTime" style="width:190px !important;display:inline" class="form-control " id="attendAfternoonStartTime"> -
+								<input type="time" name="attendAfternoonEndTime" style="width:190px !important;display:inline" class="form-control" id="attendAfternoonEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午下班打卡时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="attendAfterLeaveStartTime" style="width:190px !important;display:inline" class="form-control " id="attendAfterLeaveStartTime"> -
+								<input type="time" name="attendAfterLeaveEndTime" style="width:190px !important;display:inline" class="form-control" id="attendAfterLeaveEndTime">
+									 <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="col-sm-3 control-label">下午工作时间</label>
+							<div class="col-sm-9 ">
+								<input type="time" name="workStartTimeAfternoon" style="width:190px !important;display:inline" class="form-control " id="workStartTimeAfternoon"> -
+								<input type="time" name="workEndTimeAfternoon" style="width:190px !important;display:inline" class="form-control" id="workEndTimeAfternoon">
+									 <span class="help-block"></span>
 							</div>
 						</div>
 					</form>
@@ -68,76 +162,12 @@
 			</div>
 		</div>
 	</div>
-	<!-- 新增员工模态框 -->
-	<div class="modal fade" id="dept_add_model" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">部门添加</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">部门名称</label>
-							<div class="col-sm-10">
-								<input type="text" name="deptName" class="form-control"
-									id="deptName" placeholder="部门名称"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">上级部门</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="deptPId" id="select_add_dept">
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">部门描述</label>
-							<div class="col-sm-10">
-								<textarea name="remark" id="remark" class="form-control" rows="3" ></textarea>
-							</div>
-						</div>
-						<!-- <div class="form-group">
-							<label class="col-sm-2 control-label">Gender</label>
-							<div class="col-sm-10">
-								<label class="radio-inline"> <input type="radio"
-									name="gender" id="gender1" value="1" checked="checked">男
-								</label> <label class="radio-inline"> <input type="radio"
-									name="gender" id="gender2" value="0">女
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Dept</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="dId" id="select_add_dept">
-								</select>
-							</div>
-						</div> -->
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="save_dept">保存</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<section id="container"> 
 		<%@include file="/nav.jsp"%>
 	
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
@@ -316,7 +346,7 @@
 								var attendMorEndTd = $("<td></td>").append(
 										timestampToTime(item.attendMorLeaveStartTime)+"-"+timestampToTime(item.attendMorLeaveEndTime));
 								var workMorTd = $("<td></td>").append(
-										timestampToTime(item.workMorStartTime)+"-"+item.workMorEndTime);
+										timestampToTime(item.workMorStartTime)+"-"+timestampToTime(item.workMorEndTime));
 								var attendNoonStartTd = $("<td></td>").append(
 										timestampToTime(item.attendAfternoonStartTime)+"-"+timestampToTime(item.attendAfternoonEndTime));
 								var attendNoonEndTd = $("<td></td>").append(
@@ -384,11 +414,11 @@
 		//添加员工
 		$("#dept_add").click(function(){
 			//重置表单，清除数据
-			clear_form('#dept_add_model form');
+			clear_form('#workTime_add_model form');
 			//获取部门
 			create_dept("#select_add_dept");
 			//显示模态框
-			$("#dept_add_model").modal({
+			$("#workTime_add_model").modal({
 				backdrop:'static'
 			});
 		});
@@ -442,13 +472,13 @@
 			$.ajax({
 				url: "/oa/system/saveDept",
 				type: "get",
-				data: $('#dept_add_model form').serialize(),
+				data: $('#workTime_add_model form').serialize(),
 				success:function(result){
 					if(result.stateCode==0){
 						//alert(result.message);
 					}else if(result.stateCode==1){
 						//关闭模态框
-						$('#dept_add_model').modal('hide');
+						$('#workTime_add_model').modal('hide');
 						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
 						to_page(totalRecords);
 					}
@@ -459,11 +489,11 @@
 		//添加部门
 		$("#dept_add").click(function() {
 			//重置表单，清除数据
-			 clear_form('#dept_add_model form');
+			 clear_form('#workTime_add_model form');
 			//获取部门
 			create_dept("#select_add_dept");
 			//显示模态框
-			$("#dept_add_model").modal({
+			$("#workTime_add_model").modal({
 				backdrop : 'static'
 			});
 		});

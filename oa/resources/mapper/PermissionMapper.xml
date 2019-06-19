@@ -277,4 +277,12 @@
    <select id="getPermissionListByUserRole" parameterType="java.lang.Integer" resultType="com.oa.bean.Permission">
   		select p.* from t_permission p,t_role_permission rp  where p.perm_id = rp.perm_id and rp.role_id=#{roleId}
   </select>
+  
+   <select id="getRolePermission" parameterType="java.lang.Integer" resultType="com.oa.bean.RolePermission">
+  		select * from t_role_permission where perm_id =#{id}
+  </select>
+  
+  <select id="getParPermissionList" parameterType="java.lang.Integer" resultType="com.oa.bean.Permission">
+  		select * from  t_permission where parent_id =#{id}
+  </select>
 </mapper>

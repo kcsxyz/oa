@@ -14,6 +14,27 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+  <resultMap id="BaseResultMapWithUser" type="com.oa.bean.AttendCount">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="absence_count" jdbcType="INTEGER" property="absenceCount" />
+    <result column="date_year" jdbcType="CHAR" property="dateYear" />
+    <result column="date_moth" jdbcType="CHAR" property="dateMoth" />
+    <result column="leave_time_length" jdbcType="INTEGER" property="leaveTimeLength" />
+    <result column="late_time_length" jdbcType="INTEGER" property="lateTimeLength" />
+    <result column="late_count" jdbcType="INTEGER" property="lateCount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="user" javaType="com.oa.bean.User">
+    	<id column="uid" jdbcType="CHAR" property="uid" />
+    	<result column="name" jdbcType="VARCHAR" property="name" />
+    </association>
+  </resultMap>
+  
+ <select id="getAccountListWithUser" resultMap="BaseResultMapWithUser">
+ 	select a.*,u.uid,u.name from t_attend_count a ,t_user u where a.user_id=u.uid
+ </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

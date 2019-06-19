@@ -27,7 +27,7 @@
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"> 
 
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
+   <!--  <script src="/oa/assets/js/jquery.js"></script> -->
     <script src="/oa/assets/js/bootstrap.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>

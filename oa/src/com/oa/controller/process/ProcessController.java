@@ -52,6 +52,8 @@ public class ProcessController {
 		Integer proNodeId = 0;
 		//根据状态决定是否结束或往下
 		Leave leave = new Leave();
+		System.out.println(user.getName());
+		System.out.println(user.getRole().getRoleName());
 		if(status == "通过") {
 			if(user.getRole().getRoleName()=="部门经理" && isGreaterThree) {
 				//插入数据到流程节点表
@@ -69,6 +71,21 @@ public class ProcessController {
 				leave.setCurrentNo(proNodeId);
 				processSerivce.updateLeave(leave);
 				
+			}else if(user.getRole().getRoleName()=="总经理" && isGreaterThree) {
+				//插入数据到流程节点表
+				ProcessNode proNo = new ProcessNode(processNo, "老板审批", "Boss", "提交老板审批");
+				processSerivce.saveProcessNode(proNo);
+				proNodeId = processSerivce.getProcessNodeId(processNo,"Boss");
+				//保存流程线表
+				ProcessLine pl = new ProcessLine();
+				pl.setPreNodeId(currentNo);
+				pl.setNextNodeId(proNodeId);
+				processSerivce.saveProcessLine(pl);
+				
+				//保存请假的状态
+				leave.setId(leaveId);
+				leave.setCurrentNo(proNodeId);
+				processSerivce.updateLeave(leave);
 			}else{//这里就是通过，流程审批结束，保存请假和审批意见
 				//保存请假的状态
 				leave.setId(leaveId);
@@ -77,6 +94,8 @@ public class ProcessController {
 				processSerivce.updateLeave(leave);
 				
 			}/*若要增加审批手续可在这里继续判断*/
+			
+			
 			
 		}else if(status == "驳回") {
 			//保存请假的状态
@@ -140,18 +159,21 @@ public class ProcessController {
 		//根据角色获取本部门状态为0的请假申请
 		//如果是部门经理
 		//测试用
-		PageHelper.startPage(pageNo, pageSize);
-		List<Leave> leaveList = processSerivce.getNeedAuditLeaveList(queryStr,2,"部门经理");
+		//PageHelper.startPage(pageNo, pageSize);
+		//List<Leave> leaveList = processSerivce.getNeedAuditLeaveList(queryStr,2,user.getRole().getRoleName());
 		//System.out.println(leaveList==null);
-		/*if(user.getRole().getRoleName()=="部门经理") {
-			PageHelper.startPage(pageNo, pageSize);
+		List<Leave> leaveList = null;
+		if(user.getRole().getRoleName()=="部门经理") {
+			PageHelper.startPage(pageNo, pageSize);	
 			leaveList = processSerivce.getNeedAuditLeaveList(queryStr,user.getDeptId(),"部门经理");
 			//如果是总经理
 		}else if(user.getRole().getRoleName()=="总经理"){
 			PageHelper.startPage(pageNo, pageSize);
 			leaveList = processSerivce.getAuditLeaveList(queryStr,"总经理");
-		}*/
-		//如果是老板
+		}else {//如果是老板
+			leaveList = processSerivce.getAuditLeaveList(queryStr,"Boos");
+		}
+		
 		
 		PageInfo<Leave> pageInfo = new PageInfo<Leave>(leaveList,3);
 		rr.add("pageInfo", pageInfo);
@@ -184,7 +206,7 @@ public class ProcessController {
 	@RequestMapping("/leavePage")
 	public String leavePage() {
 		
-		return "process/leave";
+		return "/process/leave";
 	}
 	
 	/**得到请假列表
@@ -245,8 +267,19 @@ public class ProcessController {
 			processSerivce.saveProcessNode(pn);
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"总经理");
+		}else if(user.getRole().getRoleName()=="总经理") {
+			Process process = new Process(processNo, "请假申请", "提交老板审批");
+			processSerivce.saveProcess(process);
+			
+			ProcessNode pn = new ProcessNode(processNo, "请假申请", "Boss", "提交老板审批");
+			processSerivce.saveProcessNode(pn);
+			/*------------获得节点的id-------------*/
+			processNodeId = processSerivce.getProcessNodeId(processNo,"Boss");
+		}else {
+			rr.setStateCode(0);
+			rr.setMessage("请假异常。。。");
+			return rr;
 		}
-		
 		
 		//保存请假实体
 		

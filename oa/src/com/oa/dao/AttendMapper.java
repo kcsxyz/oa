@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Attend;
 import com.oa.bean.AttendExample;
+import com.oa.bean.WorkTime;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -38,5 +40,7 @@ public interface AttendMapper {
      * @return
      */
     List<Attend> selectByMothAndUserId(Attend attend);
+
+	WorkTime getWorkTime();
     
 }

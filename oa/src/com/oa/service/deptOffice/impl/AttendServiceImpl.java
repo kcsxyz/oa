@@ -191,4 +191,10 @@ public class AttendServiceImpl implements AttendService {
 		return listAttend;
 	}
 
+	@Override
+	public WorkTime getWorkTime() {
+		WorkTime  workTime = attendMapper.getWorkTime();
+		return workTime;
+	}
+
 }

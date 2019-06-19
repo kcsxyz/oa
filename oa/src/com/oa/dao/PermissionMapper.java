@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Permission;
 import com.oa.bean.PermissionExample;
+import com.oa.bean.RolePermission;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,5 +33,9 @@ public interface PermissionMapper {
     List<Permission> selectByExampleWithPermission(PermissionExample example);
     
     List<Permission> getPermissionListByUserRole(@Param("roleId") Integer roleId);
+
+	List<RolePermission> getRolePermission(Integer id);
+
+	List<Permission> getParPermissionList(Integer id);
     
 }

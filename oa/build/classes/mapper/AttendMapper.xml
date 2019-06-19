@@ -345,4 +345,8 @@
             </if>
         </where>
     </select>
+    
+    <select id="getWorkTime" resultType="com.oa.bean.WorkTime">
+    	select * from t_work_time where status=1
+    </select>
 </mapper>

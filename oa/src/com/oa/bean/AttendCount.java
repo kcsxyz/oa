@@ -24,8 +24,18 @@ public class AttendCount {
     private Date createTime;
 
     private Integer status;
+    
+    private User user;
+    
+    public User getUser() {
+		return user;
+	}
 
-    public Integer getId() {
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
         return id;
     }
 

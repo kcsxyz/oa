@@ -50,12 +50,12 @@
                       					<div class="">
                       					<div id="currentDate"></div>
 			                            <div class="WorkTime" align="left"><br>
-			                                                                                                                 上午上班打卡时间：<br><span>7:00-8:00</span><br>
+			                                                                                                                 上午上班打卡时间：<br><span id="morStart"></span><br>
 			
-			                               	上午下班打卡时间：<br><span>11:40-12:30</span><br>
+			                               	上午下班打卡时间：<br><span id="morEnd"></span><br>
 			
-			                                                                                                                 下午上班打卡时间：<br><span>13:00-12:00</span><br>
-			                                                                                                                下午 下班打卡时间：<br><span>15:30-6:00</span><br>
+			                                                                                                                 下午上班打卡时间：<br><span id="noonStart"></span><br>
+			                                                                                                                下午 下班打卡时间：<br><span id="noonEnd"></span><br>
 			                            </div>
 			                        </div>
 			                         <div class="lock">
@@ -170,7 +170,21 @@
     <script src="/oa/assets/js/sparkline-chart.js"></script>    
 	<script src="/oa/assets/js/zabuto_calendar.js"></script>	 -->
 	<script>
-
+	$(function(){
+		$.ajax({
+			url : "/oa/attend/worktime",
+			type : "post",
+			success : function(result) {
+				if(result.stateCode==1){
+					var workTime = result.extend.workTime;
+					$("#morStart").text(timestamp(workTime.attendMorStartTime)+"-"+timestamp(workTime.attendMorEndTime));
+					$("#morEnd").text(timestamp(workTime.attendMorLeaveStartTime)+"-"+timestamp(workTime.attendMorLeaveEndTime));
+					$("#noonStart").text(timestamp(workTime.attendAfternoonStartTime)+"-"+timestamp(workTime.attendAfternoonEndTime));
+					$("#noonEnd").text(timestamp(workTime.attendAfterLeaveStartTime)+"-"+timestamp(workTime.attendAfterLeaveEndTime));
+				}
+			}
+		});
+	})
     //实时时间
     window.onload = function () {
         setInterval(function () {
@@ -193,7 +207,7 @@
         $.post("/oa/attend/isAttend", {}, function (data) {
         	//alert(data);
             if (data != null && JSON.stringify(data).length > 2) {
-            	alert(data);
+            	//alert(data);
                 var time = timestampToTime(data);
                 var date = time.substring(10, time.length);
                 $("#attendTime").html(date);
@@ -226,6 +240,7 @@
                       isAttend();
                     } else if(data.stateCode == 1){
                     	layer.msg('签到成功！', {icon: 1});
+                    	isAttend();
                     }
                 }).error(function (data) {
                     //$.modal.alertError("系统错误！");
@@ -301,7 +316,18 @@
 		   m = date.getMinutes() + ':';
 		   s = date.getSeconds();
 		   return Y+M+D+h+m+s;
-}
+	}
+    
+    function timestamp(timestamp) {
+		   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		   Y = date.getFullYear() + '-';
+		   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		   D = date.getDate() + ' ';
+		   h = date.getHours() + ':';
+		   m = date.getMinutes() + ':';
+		   s = date.getSeconds();
+		   return h+m+s;
+	}
 </script>
 	
   

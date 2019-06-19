@@ -174,12 +174,12 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>个人办公--请假申请</b></div>
+					</div>
 					<h4>
 						<button class="btn btn-primary btn-sm" id="leave_add">
 							<i class="glyphicon glyphicon-plus"></i>填写申请
@@ -222,17 +222,11 @@
 	</section>
 	<script src="/oa/assets/js/jquery.js"></script>
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
 	<script src="/oa/assets/layui/layui.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<!-- <script>
-		//注意：导航 依赖 element 模块，否则无法进行功能性操作
-		layui.use('element', function() {
-			var element = layui.element;
-
-		});
-	</script> -->
 	<script type="text/javascript">
 	$("input[id='startTime']").datetimepicker({
 		todayBtn:1,
@@ -538,6 +532,7 @@
 				success:function(result){
 					if(result.stateCode==0){
 						//alert(result.message);
+						layer.msg(result.message, {time:1000, icon:5, shift:6});
 					}else if(result.stateCode==1){
 						//关闭模态框
 						$('#leave_add_model').modal('hide');

@@ -3,6 +3,7 @@ package com.oa.service.system;
 import java.util.List;
 
 import com.oa.bean.Permission;
+import com.oa.bean.RolePermission;
 
 public interface PermissionService {
 	
@@ -28,6 +29,10 @@ public interface PermissionService {
 	
 	//根据用户角色获取权限
 	List<Permission> getPermissionListByUserRole(Integer roleId);
+
+	List<RolePermission> getRolePermissionList(Integer id);
+
+	List<Permission> getParPermission(Integer id);
 	
 	
 

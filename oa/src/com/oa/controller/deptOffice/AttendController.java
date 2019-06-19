@@ -43,6 +43,19 @@ public class AttendController {
 		return "deptOffice/attend";
 	}
 	
+	 @RequestMapping("/worktime")
+	 @ResponseBody
+	 public ResponseResult worktime() {
+		 ResponseResult rr =new ResponseResult();
+		WorkTime workTime = attendService.getWorkTime();
+		if(workTime !=null) {
+			rr.setStateCode(1);
+			rr.add("workTime", workTime);
+		}else {
+			rr.setMessage("没有数据欸");
+		}
+		 return rr;
+	 }
 	
 	 @RequestMapping("/attendList")
 	 @ResponseBody
