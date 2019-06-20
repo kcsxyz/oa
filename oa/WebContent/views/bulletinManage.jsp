@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-	<title>信息管理</title>
+	<title>通知公告发布</title>
 	<!-- Bootstrap core CSS -->
     <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -44,25 +44,75 @@
     						<form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/notice/selectByParams" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
 		                          	<div class="col-xs-6 col-sm-3" style="float:left;">
+				                  		<c:if test="${user.role.roleName!='员工' }">
 				                  		<a href="${pageContext.request.contextPath }/notice/showPushNotice">
 				                  	  	  <button type="button" class="btn btn-info" style="background:#fff;">
 					                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-					                  	  	  增加</span>
+					                  	  	  发布</span>
 				                  	  	  </button>
 				                  		</a>
-
+                                      
                                         	<a href="${pageContext.request.contextPath }/notice/deleteNotice/{ids}"> </a>
 				                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="notice_delete_all" style="background:#fff;">
 					                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 					                  	  	  删除</span>
 				                  	  	  </button>
-				                  	  	 
+				                  	  	   </c:if>
 			                  	  	</div>
 			                  	  	
 			                  	  	
 			                  	  	
 			                  	  	 </div>
 			                  	  	 
+			                  	  	 
+			                  	  	 <!-- 公告模态框 -->
+									<div class="modal fade" id="noticeContent" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<h4 class="modal-title" id="myModalLabel">信息详情</h4>
+												</div>
+												<div class="modal-body">
+													<form class="form-horizontal">
+														<div class="form-group">
+															<label class="col-sm-2 control-label">标题
+															</label>
+															<div class="col-sm-10">
+																<p class="form-control-static" id="noticeTitle"></p>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label">发布时间</label>
+															<div class="col-sm-10">
+																<p class="form-control-static" id="noticeTime"></p>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label">发布人</label>
+															<div class="col-sm-10">
+																<p class="form-control-static" id="noticeName"></p>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label">内容</label>
+															<div class="col-sm-10">
+																<p class="form-control-static" id="noContent"></p>
+															</div>
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												</div>
+											</div>
+										</div>
+									</div>
+											                  	  	 
 			                  	  	 
 			                  	  	 <div class="form-group" style="border:none;margin-left:30px;">
 			                  	  	 
@@ -116,6 +166,7 @@
                                   <th style="text-align:center;">创建时间</th>
                                   <th style="text-align:center;">创建人</th>
                                   <th style="text-align:center;">操作</th>
+                           
                               </tr>
                               </thead>
                               <c:forEach items="${pageInfo.list }" var="page">
@@ -133,9 +184,11 @@
                                   <td style="text-align:center;">${page.createName }</td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <a href="${pageContext.request.contextPath }/notice/findBynoticeId/${page.noticeId }"> <button class="btn btn-primary btn-xs" edit-id="${page.noticeId}"><i class="fa fa-pencil"></i>编辑</button></a>
-                                    <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
-                                    
+                                   <button class="btn btn-primary btn-xs" id="notice" ><i class="fa fa-pencil"></i>查看</button>
+                                  <c:if test="${user.role.roleName!='员工' }">
+                                     <a href="${pageContext.request.contextPath }/notice/findBynoticeId/${page.noticeId }"> <button class="btn btn-primary btn-xs" edit-id="${page.noticeId}"><i class="fa fa-pencil"></i>编辑</button></a>
+                                     <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
+                                   </c:if> 
                                   </td>
                               </tr>
                               </tbody>
@@ -277,6 +330,33 @@ $("input[id='startTime']").datetimepicker({
 		           
 		        }
 		    }
+		  
+		  
+		  
+		//查看公告
+		    $(document).on("click","#notice",function(){
+		    	var id = $(this).parents("tr").find("td:eq(1)").text();
+		    	//var id = $(this).attr('edit-id');
+		    	 //alert(id);
+		    	$.ajax({
+					url : "/oa/notice/findByNearTimeId/"+id,
+					type : "post",
+					success : function(result) {
+							var notice = result.extend.noticeFindById;
+							$("#noticeTitle").text(notice.title);
+							$("#noticeTime").text(notice.createTime);
+							$("#noticeName").text(notice.createName);
+							$("#noContent").html(notice.content);
+							$("#noticeContent").modal({
+								backdrop:'static'
+							});
+
+					}
+				});
+		    	
+		    })
+		    
+
   </script>
 </body>
 </html>
