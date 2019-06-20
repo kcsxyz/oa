@@ -87,10 +87,6 @@ public class PermissionController {
 						}
 					}
 					
-					/*if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("办公室")) {
-						
-					}*/
-					
 					parent.getChildren().add(child);
 				}
 			}
