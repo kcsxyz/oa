@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.oa.bean.Permission;
 import com.oa.bean.PermissionExample;
 import com.oa.bean.PermissionExample.Criteria;
+import com.oa.bean.RolePermission;
 import com.oa.dao.PermissionMapper;
 import com.oa.service.system.PermissionService;
 
@@ -100,6 +101,25 @@ public class PermissionServiceImpl implements PermissionService {
 		}else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Permission> getPermissionListByUserRole(Integer roleId) {
+		
+		List<Permission> listPermission = permissionMapper.getPermissionListByUserRole(roleId);
+		return listPermission;
+	}
+
+	@Override
+	public List<RolePermission> getRolePermissionList(Integer id) {
+		List<RolePermission> list = permissionMapper.getRolePermission(id);
+		return list;
+	}
+
+	@Override
+	public List<Permission> getParPermission(Integer id) {
+		List<Permission> list = permissionMapper.getParPermissionList(id);
+		return list;
 	}
 	
 

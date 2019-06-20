@@ -24,27 +24,22 @@
     <link href="/oa/assets/css/style.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-       <!--  时间插件css -->
+         <!--  时间插件css -->
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-      <!-- 时间插件js -->
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 </head>
 <body>
  <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
           <div class="row mt">
-                  <div class="col-md-12"style="margin-top:10px;">
+                  <div class="col-md-12">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
+                              <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>信息更新--信息管理</b></div>
+				               	</div>
                           <!-- 上部放按钮的地方开始 -->
     						<form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/notice/selectByParams" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
@@ -57,7 +52,7 @@
 				                  		</a>
 
                                         	<a href="${pageContext.request.contextPath }/notice/deleteNotice/{ids}"> </a>
-				                  	  	  <button type="button" class="btn btn-danger" id="notice_delete_all" style="background:#fff;">
+				                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="notice_delete_all" style="background:#fff;">
 					                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 					                  	  	  删除</span>
 				                  	  	  </button>
@@ -113,7 +108,7 @@
                           <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                               <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" value=""  id="check_all"/></th>
                                   <th style="text-align:center;">ID</th>
                                   <th style="text-align:center;">标题</th>
@@ -139,7 +134,7 @@
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
                                       <a href="${pageContext.request.contextPath }/notice/findBynoticeId/${page.noticeId }"> <button class="btn btn-primary btn-xs" edit-id="${page.noticeId}"><i class="fa fa-pencil"></i>编辑</button></a>
-                                    <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/notice/deleteNotice/${page.noticeId }"> <button class="btn btn-danger btn-xs"  onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
                                     
                                   </td>
                               </tr>
@@ -194,6 +189,15 @@
       </section>
   </section>
    <!-- js placed at the end of the document so the pages load faster -->
+     <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+
+      <!-- 时间插件js -->
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
@@ -247,7 +251,7 @@ $("input[id='startTime']").datetimepicker({
 			noticeNames=noticeNames.substring(0,noticeNames.length-1);
 			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
 			if(del_id_strs == ""){
-				//alert("请选择要删除的公告");
+				alert("请选择要删除的公告");
 				return false;
 			}
 			alert(del_id_strs);
@@ -265,6 +269,14 @@ $("input[id='startTime']").datetimepicker({
 			}
 
 		});
+		
+		  function deledecfm() {
+		        if (!confirm("确认要删除吗？")) {
+		        	
+		            window.event.returnValue = false;
+		           
+		        }
+		    }
   </script>
 </body>
 </html>

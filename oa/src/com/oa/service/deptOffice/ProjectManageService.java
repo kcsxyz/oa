@@ -40,4 +40,10 @@ public interface ProjectManageService {
      * @return
      */
     List<Project> selectByExample(String Info,String startTime,String finalTime)throws ParseException;
+    /**
+     * 验证项目名是否相同
+     * @param projectName
+     * @return
+     */
+    int checkProjectByname(String projectName);
 }

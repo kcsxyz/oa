@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.oa.bean.Dept;
 import com.oa.bean.DeptExample;
 import com.oa.bean.DeptExample.Criteria;
+import com.oa.bean.User;
 import com.oa.dao.DeptMapper;
 import com.oa.service.system.DeptService;
 
@@ -74,6 +75,13 @@ public class DeptServiceImpl implements DeptService {
 		}else {
 			return 0;
 		}
+	}
+
+	@Override
+	public List<User> getUserList(int deptId) {
+		
+		List<User> userList = deptMapper.getUserList(deptId);
+		return userList;
 	}
 
 }

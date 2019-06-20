@@ -26,24 +26,21 @@
    <!--  时间插件css -->
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <!-- 时间插件js -->
-    <script src="/oa/assets/js/jquery.js"></script>
-    <script src="/oa/assets/js/bootstrap.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  
 </head>
 <body>
  <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="/nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
           <div class="row mt">
-                  <div class="col-md-12"style="margin-top:10px;">
+                  <div class="col-md-12">
                   	<div style="background:#fff; height:900px;">
                       <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                          
+                                <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--人力资源管理</b></div>
+				               	</div>
                           <!-- 上部放按钮的地方开始 -->
                          <form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/userpower/findUser" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
@@ -54,7 +51,7 @@
 				                  	  	  增加</span>
 			                  	  	  </button>
 			                  		</a>  
-			                  	  	  <button type="button" class="btn btn-danger" id="user_delete_all" style="background:#fff;">
+			                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="user_delete_all" style="background:#fff;">
 				                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
 				                  	  	  删除</span>
 			                  	  	  </button>
@@ -125,7 +122,7 @@
                            <!-- 表格部分开始-->
                            <table class="table table-striped table-advance table-hover">
                               <thead>
-                              <tr >
+                                <tr class="bg-primary">
                               	  <th style="text-align:center;"><input type="checkbox" class="list-child" value=""  id="check_all" /></th>
                                   <th style="text-align:center;">工号</th>
                                   <th style="text-align:center;">姓名</th>
@@ -156,11 +153,9 @@
                                   <td style="text-align:center;">${page.modifiedName }</td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                  
                                   	<a href="${pageContext.request.contextPath }/userpower/findByid/${page.uid }"><button class="btn btn-primary btn-xs" u-id="${page.uid}"><i class="fa fa-pencil"></i>编辑</button> </a>
-                                    
-                                     
-                                      <a href="${pageContext.request.contextPath }/userpower/deleteUser/${page.uid }"><button class="btn btn-danger btn-xs" ><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/userpower/deleteUser/${page.uid }"><button class="btn btn-danger btn-xs" onclick="deledecfm()" ><i class="fa fa-trash-o "></i>删除</button></a>
+                                    <a href="${pageContext.request.contextPath }/userpower/updateUserPassword?uid=${page.uid }"><button class="btn btn-danger btn-xs" onclick="javascript:delcfm()"  ><i class="fa fa-pencil" "></i>重置密码</button></a>
                                   </td>
                               </tr>
                                </c:forEach>
@@ -176,7 +171,7 @@
 								  	<li><a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo=1">首页</a></li>
 								    <li>
 								    	<c:if test="${pageInfo.hasPreviousPage}">
-								    		<a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo==${pageNum-1}" aria-label="Previous">
+								    		<a href="${ pageContext.request.contextPath }/userpower/findUser?pageNo=${pageNum-1}" aria-label="Previous">
 								        	<span aria-hidden="true">&laquo;</span>
 								      		</a>
 								    	</c:if>
@@ -213,7 +208,12 @@
     <script class="include" type="text/javascript" src="/oa/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-
+  <script src="/oa/assets/js/chart-master/Chart.js"></script>
+    <!-- 时间插件js -->
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
+    <script src="/oa/assets/js/bootstrap.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
@@ -284,7 +284,7 @@
   			userNames=userNames.substring(0,userNames.length-1);
   			del_id_strs=del_id_strs.substring(0,del_id_strs.length-1);
   			if(del_id_strs == ""){
-  				alert("请选择要删除的公告");
+  				alert("请选择要删除的个人信息");
   				return false;
   			}
   			alert(del_id_strs);
@@ -302,6 +302,21 @@
   			}
 
   		});
+  		
+  	   function delcfm() {
+  	        if (!confirm("确认要重置密码？")) {
+  	        	
+  	            window.event.returnValue = false;
+  	           
+  	        }
+  	    }
+  	  function deledecfm() {
+	        if (!confirm("确认要删除吗？")) {
+	        	
+	            window.event.returnValue = false;
+	           
+	        }
+	    }
   </script>
 </body>
 </html>

@@ -2,10 +2,13 @@ package com.oa.controller.system;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Permission;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.RolePermission;
+import com.oa.bean.User;
 import com.oa.service.system.PermissionService;
 
 @Controller
@@ -26,6 +31,43 @@ public class PermissionController {
 	@Resource
 	private PermissionService permissionService;
 	
+	
+	@RequestMapping("/permissionMenu")
+	@ResponseBody
+	public ResponseResult permissionMenu(HttpSession session) {
+		ResponseResult rr =new ResponseResult();
+		List<Permission> permissions = new ArrayList<Permission>();
+		User user = (User) session.getAttribute("user");
+		if(user != null) {
+			List<Permission> permissionList = permissionService.getPermissionListByUserRole(user.getRoleId());
+			Map<Integer, Permission> permissionMap = new HashMap<Integer, Permission>();
+			Permission root = null;
+			Set<String> uriSet = new HashSet<String>();
+			for (Permission permission : permissionList) {
+				permissionMap.put(permission.getPermId(), permission);
+				if (permission.getUrl() != null && !"".equals(permission.getUrl())) {
+					uriSet.add(session.getServletContext().getContextPath() + permission.getUrl());
+				}
+			}
+			if(session.getAttribute("authUriSet")!=null) {
+				session.removeAttribute("authUriSet");
+			}
+			session.setAttribute("authUriSet", uriSet);
+			for (Permission permission : permissionList) {
+				Permission child = permission;
+				if (child.getParentId() == 0) {
+					permissions.add(permission);
+				} else {
+					Permission parent = permissionMap.get(child.getParentId());
+					parent.getChildren().add(child);
+				}
+			}
+			//session.setAttribute("rootPermission", root);
+			rr.add("permissions", permissions);
+			rr.setStateCode(1);
+		}
+		return rr;
+	}
 	
 	/**验证权限名是否存在
 	 * @return
@@ -158,18 +200,50 @@ public class PermissionController {
 	@ResponseBody
 	public ResponseResult deletePermission(@PathVariable("ids") String ids) {
 		ResponseResult rr =new ResponseResult();
+		List<RolePermission> rolePermissionList = null;
+		List<Permission> listPermission = null;
 		if(ids.contains("-")) {
 			String[] split_ids = ids.split("-");
 			List<Integer> listId = new ArrayList<Integer>();
 			for(String id : split_ids) {
 				listId.add(Integer.parseInt(id));
+				rolePermissionList = permissionService.getRolePermissionList(Integer.parseInt(id));
+				if(rolePermissionList!=null) {
+					rr.setStateCode(0);
+					rr.setMessage("菜单已在使用中。。。");
+					return rr;
+				}
+				
+				listPermission = permissionService.getParPermission(Integer.parseInt(id));
+				if(listPermission!=null) {
+					rr.setStateCode(0);
+					rr.setMessage("该菜单已有子菜单，您无法删除");
+					return rr;
+				}
+				
 			}
 			permissionService.deletePermissionBatch(listId);
+			return rr.success();
 		}else {
 			Integer id = Integer.parseInt(ids);
+			rolePermissionList = permissionService.getRolePermissionList(id);
+			if(rolePermissionList!=null) {
+				rr.setStateCode(0);
+				rr.setMessage("菜单已在使用中。。。");
+				return rr;
+			}
+			
+			listPermission = permissionService.getParPermission(id);
+			if(listPermission!=null) {
+				rr.setStateCode(0);
+				rr.setMessage("该菜单已有子菜单，您无法删除");
+				return rr;
+			}
+			listPermission = permissionService.getParPermission(id);
 			permissionService.deletePermission(id);
+			return rr.success();
 		}
-		return rr.success();
+		
 	}
 
 }

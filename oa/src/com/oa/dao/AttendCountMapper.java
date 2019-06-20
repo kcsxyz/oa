@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.AttendCount;
 import com.oa.bean.AttendCountExample;
+import com.oa.bean.Leave;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,13 @@ public interface AttendCountMapper {
     int updateByPrimaryKeySelective(AttendCount record);
 
     int updateByPrimaryKey(AttendCount record);
+
+	Object deleteByPrimaryKeys(Integer[] ids);
+	
+	/**
+     * 统计请假天数
+     */
+    List<Leave> selectByUserIdAndDate(Leave leaveForm);
+    
+    List<AttendCount> getAccountListWithUser();
 }

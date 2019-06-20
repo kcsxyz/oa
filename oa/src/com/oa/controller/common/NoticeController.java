@@ -28,6 +28,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.Notice;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.service.common.NoticeService;
 
 @Controller
@@ -54,19 +55,29 @@ public class NoticeController {
 		return "addBulletin";
 	}
 	
-	@RequestMapping(value="/saveNotice",method=RequestMethod.POST)
-	public String  saveNotice(
-			 HttpSession session,
+	@RequestMapping(value="/saveNotice",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseResult  saveNotice(
+		    HttpSession session,
 			Notice notice,
 			Model model
 			){
+		        ResponseResult rr = new ResponseResult();
 	          	List<Notice> Notices = noticeService.selectByExample();
-		         String createName = (String) session.getAttribute("uid"); 
+	          	User user = (User)session.getAttribute("user");
+	     	    String createName = user.getUid();
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
-				 noticeService.saveNotice(notice);
+			     int i = noticeService.saveNotice(notice);
 			model.addAttribute("saveNotices",Notices);
-			return "redirect:/notice/selectByParams";
+			  if(i!=0) {
+				   rr.setStateCode(1);
+				   rr.setMessage("发布成功");
+			   }else {
+				   rr.setStateCode(0);
+					rr.setMessage("发布失败");
+			   }
+			return rr;
 	}
 	
 	/**
@@ -82,6 +93,38 @@ public class NoticeController {
 		return "updateBulletin";
 	
 	}
+	
+	/**
+	 * 通过最近时间查询
+	 * @return
+	 */
+	@RequestMapping("/findByNearTime")
+	@ResponseBody
+	public ResponseResult findByNearTime() {
+		ResponseResult rr = new ResponseResult();
+		List<Notice> noticeTime = noticeService.selectByTime(); 
+		for (Notice notice : noticeTime) {
+			System.out.println(notice);
+		}
+		rr.add("findByNearTime", noticeTime);
+		return rr;
+	
+	}
+	
+	/**
+	 * 通过id查询
+	 * @return
+	 */
+	@RequestMapping("/findByNearTimeId/{noticeId}")
+	@ResponseBody
+	public ResponseResult findByNearTimeId(@PathVariable Integer noticeId) {
+		 ResponseResult rr = new ResponseResult();
+		 Notice notice = noticeService.selectByPrimaryKey(noticeId);
+		 rr.add("noticeFindById",notice);
+		return rr;
+	
+	}
+	
 	
 	/**根据id删除部门
 	 * @param ids
@@ -123,7 +166,8 @@ public class NoticeController {
 			 Model model
 			){
 	         	ResponseResult rr = new ResponseResult();
-		         String createName = (String) session.getAttribute("uid");
+	         	User user = (User)session.getAttribute("user");
+	     	    String createName = user.getUid();
 			     notice.setNoticeId(noticeId);
 			     notice.setCreateName(createName);
 			     notice.setCreateTime(new Date());
@@ -163,16 +207,20 @@ public class NoticeController {
 			 String endTime = finalTime+" "+"23:59:59";
 			 System.out.println(startTime+endTime);
 			 map.put("startTime", startTime);
-		    	map.put("endTime", endTime);
+		     map.put("endTime", endTime);
 		 }
-	      String uDeptName = "办公室";
+		  User user = (User)session.getAttribute("user");
+	      String uDeptName = user.getDept().getDeptName();
+	      System.out.println(uDeptName);
 	      if(type !=null ) {
 	    	   map.put("type", type);
 	      }
 	      if(Info !=null ) {
 	    		map.put("Info", Info);
 	      }
-	     	map.put("browsePower", uDeptName);
+	      if(uDeptName !=null ) {
+	    	  map.put("browsePower", uDeptName);
+	      }
 	     	map.put("allDept", "所有部门");
 			PageHelper.startPage(pageNo, pageSize);
 			List<Notice> newNotices = noticeService.selectByParams(map);

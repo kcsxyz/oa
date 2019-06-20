@@ -17,10 +17,14 @@ import org.springframework.web.context.ServletContextAware;
 
 import com.oa.bean.Dept;
 import com.oa.bean.DeptExample;
+import com.oa.bean.Files;
+import com.oa.bean.FilesExample;
+import com.oa.bean.Role;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 import com.oa.bean.UserExample.Criteria;
 import com.oa.dao.DeptMapper;
+import com.oa.dao.RoleMapper;
 import com.oa.dao.UserMapper;
 import com.oa.service.deptOffice.UserPowerService;
 import com.oa.utils.md5;
@@ -31,6 +35,8 @@ public class UserPowerServiceImpl implements UserPowerService {
 	private UserMapper userMapper;
     @Resource
 	private DeptMapper  deptMapper;
+    @Resource
+   	private RoleMapper  roleMapper;
 	@Override
 	public int insertSelective(User user) {
 		String password = md5.GetMD5Code(user.getPassword());
@@ -75,6 +81,63 @@ public class UserPowerServiceImpl implements UserPowerService {
 	public List<Dept> selectByDept() {
 		 List<Dept> depts = deptMapper.selectByExample(null);
 		return depts;
+	}
+	
+	public int checkUerById(String uid){
+		UserExample example = new UserExample();
+		Criteria c = example.createCriteria();
+		c.andUidEqualTo(uid);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
+	
+	public int checkUerByPhone(String phone){
+		UserExample example = new UserExample();
+		Criteria c = example.createCriteria();
+		c.andPhoneEqualTo(phone);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
+
+
+	@Override
+	public int checkUerByidCard(String idCard) {
+		// TODO Auto-generated method stub
+		UserExample example = new UserExample();
+		Criteria c = example.createCriteria();
+		c.andIdCardEqualTo(idCard);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()!=0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+
+
+	@Override
+	public List<Role> selectByRole() {
+		List<Role> roles = roleMapper.selectByExample(null);
+		return roles;
+	}
+
+
+	@Override
+	public int updateByPassword(User user) {
+		String password = md5.GetMD5Code("123456");
+		user.setPassword(password);
+		int i = userMapper.updateByPrimaryKeySelective(user);
+		return i;
 	}
 	
 } 

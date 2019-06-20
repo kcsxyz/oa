@@ -2,6 +2,8 @@ package com.oa.dao;
 
 import com.oa.bean.Attend;
 import com.oa.bean.AttendExample;
+import com.oa.bean.WorkTime;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,18 @@ public interface AttendMapper {
     int updateByPrimaryKeySelective(Attend record);
 
     int updateByPrimaryKey(Attend record);
+    
+    Attend selectSaveDayIsAttend(@Param("userId") String userId);
+    
+    List<Attend> getAttendList();
+    
+    /**
+     * 列表
+     * @param attend
+     * @return
+     */
+    List<Attend> selectByMothAndUserId(Attend attend);
+
+	WorkTime getWorkTime();
+    
 }

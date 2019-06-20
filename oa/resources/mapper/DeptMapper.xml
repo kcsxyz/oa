@@ -208,4 +208,7 @@
       remark = #{remark,jdbcType=VARCHAR}
     where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
+  <select id="getUserList" parameterType="java.lang.Integer" resultType="com.oa.bean.User">
+  	select * from t_user where dept_id = #{deptId}
+   </select>
 </mapper>

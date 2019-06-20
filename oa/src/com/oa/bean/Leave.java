@@ -1,10 +1,11 @@
 package com.oa.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Leave {
+public class Leave extends BasePo{
     private Integer id;
 
     private String userId;
@@ -27,8 +28,18 @@ public class Leave {
     private Integer currentNo;
 
     private String status;
+    
+    private List<Audit> auditList;
 
-    public Integer getId() {
+    public List<Audit> getAuditList() {
+		return auditList;
+	}
+
+	public void setAuditList(List<Audit> auditList) {
+		this.auditList = auditList;
+	}
+
+	public Integer getId() {
         return id;
     }
 

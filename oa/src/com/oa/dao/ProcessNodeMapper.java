@@ -28,5 +28,5 @@ public interface ProcessNodeMapper {
 
     int updateByPrimaryKey(ProcessNode record);
     
-    Integer getProcessNodeId(String processNo);
+    Integer getProcessNodeId(@Param("processNo") String processNo,@Param("roleName")String roleName);
 }

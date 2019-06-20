@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oa.bean.Dept;
 import com.oa.bean.DeptExample;
+import com.oa.bean.Role;
 import com.oa.bean.User;
 import com.oa.bean.UserExample;
 
@@ -19,11 +20,15 @@ public interface UserPowerService {
 	 */
 	 int insertSelective(User user);
 	 /**
-	    * 单个修改
+	    * 修改信息
 	  * @param record
 	  * @return
 	  */
 	 int updateByPrimaryKeySelective(User user);
+	 /**
+	  * 
+	  */
+	 int updateByPassword(User user);
 	 /**
 	  * 根据id查询
 	  * @param uid
@@ -46,7 +51,22 @@ public interface UserPowerService {
 	 * @return
 	 */
 	List<User> selectByParams(@Param("param")Map<String, String> param);
+	
+	List<Role> selectByRole();
 	List<Dept> selectByDept();
-	  
+	/**
+	 * 异步校验uid
+	 * @param uid
+	 * @return
+	 */
+	int checkUerById(String uid);
+	/**
+	 * 异步校验idCard
+	 * @param idCard
+	 * @return
+	 */
+	int checkUerByidCard(String idCard);
+	
+	int checkUerByPhone(String phone);
 }
 

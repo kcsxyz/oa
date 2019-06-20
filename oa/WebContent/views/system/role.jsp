@@ -138,12 +138,12 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>系统设置--角色设置</b></div>
+					</div>
 					<div class="col-md-5">
 						<h4 >
 						<button class="btn btn-primary btn-sm" id="role_add">
@@ -759,7 +759,8 @@
 	                    $.modal.alertError("系统错误");
 	                },
 	                success: function (data) {
-	                    alert("授权成功")
+	                	 layer.msg('授权成功', {icon: 1});
+	                    //alert("授权成功")
 	                }
 	            });
 	        },

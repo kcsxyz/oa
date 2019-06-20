@@ -68,7 +68,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 新增员工模态框 -->
+	<!-- 新增部门模态框 -->
 	<div class="modal fade" id="dept_add_model" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -103,23 +103,6 @@
 								<textarea name="remark" id="remark" class="form-control" rows="3" ></textarea>
 							</div>
 						</div>
-						<!-- <div class="form-group">
-							<label class="col-sm-2 control-label">Gender</label>
-							<div class="col-sm-10">
-								<label class="radio-inline"> <input type="radio"
-									name="gender" id="gender1" value="1" checked="checked">男
-								</label> <label class="radio-inline"> <input type="radio"
-									name="gender" id="gender2" value="0">女
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Dept</label>
-							<div class="col-sm-3">
-								<select class="form-control" name="dId" id="select_add_dept">
-								</select>
-							</div>
-						</div> -->
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -131,16 +114,15 @@
 	</div>
 	<section id="container"> 
 		<%@include file="/nav.jsp"%>
-	
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>系统设置--部门设置</b></div>
+					</div>
 					<h4>
 						<button class="btn btn-primary btn-sm" id="dept_add">
 							<i class="glyphicon glyphicon-plus"></i>新增
@@ -184,6 +166,7 @@
 	</section>
 	
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
 	<script src="/oa/assets/layui.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<!-- <script>
@@ -313,7 +296,7 @@
 								/* var deptPIdTd = $("<td></td>").append(
 										item.deptPId); */
 								var deptLevelTd = $("<td></td>").append(
-										item.deptLevel);
+										item.deptPId);
 								var deptRemarkTd = $("<td></td>").append(
 										item.remark);
 								var editBtn = $("<button></button>")
@@ -373,7 +356,7 @@
 				}
 			});
 		}
-		//添加员工
+		//添加部门
 		$("#dept_add").click(function(){
 			//重置表单，清除数据
 			clear_form('#dept_add_model form');
@@ -385,7 +368,7 @@
 			});
 		});
 		
-		//校验表单员工信息
+		//校验表单部门信息
 		function validate_dept_form(){
 			var deptName=$('#deptName').val();
 			alert(deptName);
@@ -438,7 +421,7 @@
 				}
 			});
 		});
-		//保存员工操作
+		//保存部门操作
 		$("#save_dept").click(function(){
 			//1、对表单进行校验
 			if(!validate_dept_form()){
@@ -459,22 +442,10 @@
 					}else if(result.stateCode==1){
 						//关闭模态框
 						$('#dept_add_model').modal('hide');
-						//显示添加的员工，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
+						//显示添加的部门，即到最后一页,传一个最大的数就可以保证到最后一页，后台对数做了相应的处理
 						to_page(totalRecords);
 					}
 				}
-			});
-		});
-		
-		//添加部门
-		$("#dept_add").click(function() {
-			//重置表单，清除数据
-			 clear_form('#dept_add_model form');
-			//获取部门
-			create_dept("#select_add_dept");
-			//显示模态框
-			$("#dept_add_model").modal({
-				backdrop : 'static'
 			});
 		});
 		
@@ -483,16 +454,16 @@
 		$(document).on("click",".edit_btn",function(){
 			//1、查出部门
 			create_dept("#select_update_dept");
-			//2.得到员工
+			//2.得到部门
 			getDept($(this).attr("edit-id"));
-			//把员工id传给更新按钮
+			//把部门id传给更新按钮
 			$("#update_dept").attr("edit-id",$(this).attr("edit-id"));
 			//打开更新模态框
 			$("#dept_update_model").modal({
 				backdrop:'static'
 			});
 		});
-		//通过id获取员工
+		//通过id获取部门
 		function getDept(id){
 			$.ajax({
 				url: "/oa/system/getDeptById?id="+id,
@@ -510,7 +481,7 @@
 		//--------------更新部门-----------------------------
 		$('#update_dept').click(function(){
 			var deptName=$('#deptName_update').val();
-			alert(deptName);
+			//alert(deptName);
 			if(deptName == ""){
 				valate_form_msg("#deptName_update",'error',"部门名称不能为空");
 				return false;
@@ -532,7 +503,7 @@
 		
 		//删除部门
 		$(document).on("click",".delete_btn",function(){
-			//1、获得当前员工的名字
+			//1、获得当前部门的名字
 			var deptName=$(this).parents('tr').find('td:eq(2)').text();
 			var deptId = $(this).attr("delete-id");
 			//alert(deptId);
@@ -542,8 +513,11 @@
 					url: "/oa/system/deleteDept/"+deptId,
 					type: "post",		
 					success:function(result){
+						if(result.stateCode==0){
+							 layer.msg(result.message, {icon: 5});
+						}
 						//关闭对话框
-						alert(result.stateCode);
+						//alert(result.stateCode);
 						//回到当前页
 						to_page(currentPage);
 					}
@@ -579,12 +553,16 @@
 				alert("请选择要删除的部门");
 				return false;
 			}
-			alert(del_id_strs);
+			//alert(del_id_strs);
 			if(confirm("确定删除【"+deptNames+"】吗?")){
 				$.ajax({
 					url: "/oa/system/deleteDept/"+del_id_strs,
 					type: "post",		
 					success:function(result){
+						if(result.stateCode==0){
+							//alert(result.message);
+							 layer.msg(result.message, {icon: 5});
+						}
 						//关闭对话框
 						//alert(result.stateCode);
 						//回到当前页

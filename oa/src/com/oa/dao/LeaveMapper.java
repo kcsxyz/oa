@@ -28,9 +28,15 @@ public interface LeaveMapper {
 
     int updateByPrimaryKey(Leave record);
 
-	List<Leave> getNeedAuditLeave(String queryStr, Integer deptId,String roleName);
+	List<Leave> getNeedAuditLeave(@Param("queryStr")String queryStr,@Param("deptId") Integer deptId,@Param("roleName") String roleName);
 
-	List<Leave> getSeMaNeedLeaveList(String queryStr, String roleName);
+	List<Leave> getSeMaNeedLeaveList(@Param("queryStr")String queryStr, @Param("roleName") String roleName);
 	
+	Leave getLeaveById(@Param("id") Integer id);
+	
+	/**
+     * 统计请假天数
+     */
+    List<Leave> selectByUserIdAndDate(Leave leave);
 	
 }

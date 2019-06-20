@@ -18,6 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Dept;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.service.system.DeptService;
 
 /**
@@ -58,20 +59,35 @@ public class DeptController {
 	@ResponseBody
 	public ResponseResult deleteDept(@PathVariable("ids") String ids) {
 		ResponseResult rr = new ResponseResult();
+		List<User> listUser=null;
 		// 批量刪除
 		if (ids.contains("-")) {
 			List<Integer> listId = new ArrayList<>();
 			String[] split_ids = ids.split("-");
-			for (String string : split_ids) {
-				listId.add(Integer.parseInt(string));
+			for (String id : split_ids) {
+				listId.add(Integer.parseInt(id));
+				listUser = deptService.getUserList(Integer.parseInt(id));
+				if(listUser.size()>0) {
+					rr.setStateCode(0);
+					rr.setMessage("部门已在使用中。。。");
+					return rr;
+				}
 				deptService.deleteDeptBatch(listId);
 			}
+			return rr.success();
 		// 单个删除
 		} else {
 			Integer id = Integer.parseInt(ids);
+			listUser = deptService.getUserList(id);
+			if(listUser.size()>0) {
+				rr.setStateCode(0);
+				rr.setMessage("部门已在使用中。。。");
+				return rr;
+			}
 			deptService.deleteDept(id);
-				}
-		return rr.success();	
+			return rr.success();
+		}
+			
 	}
 	
 	/**修改部门

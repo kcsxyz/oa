@@ -12,81 +12,151 @@
     <title>首页</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
+    <link rel="stylesheet" type="text/css" href="/oa/css/index.css">
     <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
-
-    <script src="assets/js/chart-master/Chart.js"></script>
-    
+    <link href="/oa/assets/css/style.css" rel="stylesheet">
+    <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
+	<link href="/oa/assets/layui/css/layui.css" rel="stylesheet">
+	<link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+     <link rel="stylesheet" type="text/css" href="/oa/css/index.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+    	#notice li{
+    		text-align:none;
+    		list-style:disc;
+    		margin-top:5px;
+    		font-size: 15px;
+    	}
+    	#noticeBody{
+    		position: relative;
+    	}
+    	#notice>li>div{
+    		float:right;
+    		margin-right:25px;
+    		font-family: "Microsoft YaHei";
+			
+    	}
+    </style>
   </head>
-
   <body>
-
+	<!-- 修改部门模态框 -->
+	<div class="modal fade" id="noticeContent" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">信息详情</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标题
+							</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noticeTitle"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">发布时间</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noticeTime"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noContent"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
   <section id="container" >
-            <%@include file="nav.jsp" %>
+            <%@include file="../nav.jsp" %>
        <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
               <div class="row" style="margin-top:40px; ">   
-                      <div class="row mt" style=" height:380px;">
+                      <!-- <div class="row mt" style=" height:380px;"> -->
                        <!-- SERVER STATUS PANELS -->
-                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;margin-left:10px;">
+                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
                       		<div class="white-panel pn donut-chart" style="height:80%;">
-                      			<div class="white-header" >
+                      			<div class="white-header">
 						  			<h5 >考勤管理</h5>
                       			</div>
-                      			<div class="row">
-									
-	                      		</div>
-	                      		<div class="centered">
-									
-	                      		</div>
-	                      	</div> <!--/grey-panel -->
+                      					<div class="">
+                      					<div id="currentDate"></div>
+			                            <div class="WorkTime" align="left"><br>
+			                                                                                                                 上午上班打卡时间：<br><span id="morStart"></span><br>
+			
+			                               	上午下班打卡时间：<br><span id="morEnd"></span><br>
+			
+			                                                                                                                 下午上班打卡时间：<br><span id="noonStart"></span><br>
+			                                                                                                                下午 下班打卡时间：<br><span id="noonEnd"></span><br>
+			                            </div>
+			                        </div>
+			                         <div class="lock">
+			                            <img onclick="attend()" src="/oa/images/lock.png" class="img-circle">
+			                           
+			                            <div align="center" class="Attendtips">
+			                                	签到时间：<span  id="attendTime">无</span>
+			                            </div>
+			                            <div align="center" id="isAttend" class="Attendtips">未签</div>
+			                        </div>
+	                      	</div>
                       	</div>
-                      	<div class="col-md-4 col-sm-4 mb" style="height:400px;margin-right:5px;">
+                      	<div class="col-md-4 col-sm-4 mb" style="height:400px;">
                       		<div class="white-panel pn" style="height:80%;">
-                      			<div class="white-header">
-						  			<h5>日程表</h5>
+                      			<div class="white-header" id="clander">
+						  			<p>日程表</p>
                       			</div>
-								<div class="row">
+								<!-- <div class="row">
 									
-	                      		</div>
+	                      		</div> -->
 	                      		<div class="centered">
-									
+									<div class="calendar">
+                    					<div id="calendar"></div>
+                					</div>
 	                      		</div>
                       		</div>
                       	</div>
                       	
-						<div class="col-md-4 col-md-4 mb" style="width:420px; height:400px;margin-right:5px;">
+						<div class="col-md-4 col-md-4 mb" style="height:400px;">
 							<!--  WHITE PANEL - TOP USER  -->
 							<div class="white-panel pn" style="height:80%;">
 								<div class="white-header">
 									<h5>公告内容</h5>
 								</div>
-								<div class="row">
-									
+								<div class="row" id="noticeBody" style="text-align: justify;margin-left:40px;">
+									<ul id="notice">
+										<li ><a>yuyu</a><div><span>2019-10-18</span></div></li>
+									</ul>
 								</div>
 							</div>
 						</div>
                     </div> 
-                    </div>
                                         
                     <div class="row" style="height:420px;">   
-                      <div class="row mt">
-                       <!-- SERVER STATUS PANELS -->
-                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;margin-left:10px;">
+                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
                       		<div class="white-panel pn donut-chart" style="height:80%;">
                       			<div class="white-header" >
 						  			<h5 >我的待办</h5>
@@ -113,26 +183,6 @@
                       		</div>
                       	</div>
                      </div>
-                     </div>
-					
-                        <!-- CALENDAR-->
-                        <!-- <div id="firstrow" >
-                        	<div id="left1"></div>
-                        </div> -->
-                        <div id="calendar" class="mb">
-                            <div class="panel green-panel no-margin">
-                                <div class="panel-body">
-                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                        <div class="arrow"></div>
-                                        <h3 class="popover-title" style="disadding: none;"></h3>
-                                        <div id="date-popover-content" class="popover-content"></div>
-                                    </div>
-                                    <div id="my-calendar"></div>
-                                </div>
-                            </div>
-                        </div><!-- / calendar 
-                      
-                  </div><!-- /col-lg-3 -->
           </section>
       </section>
 
@@ -147,83 +197,214 @@
           </div>
       </footer>
       <!--footer end-->
-  </section>
+  	</section>
+	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
+	<script src="/oa/assets/layui/layui.js"></script>
+	<script src="/oa/assets/js/bootstrap.min.js"></script>
+	<script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
-    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/jquery-1.8.3.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="assets/js/jquery.sparkline.js"></script>
-
-
-    <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
-    
-    <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
-
-    <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-	<script src="assets/js/zabuto_calendar.js"></script>	
+	<script>
+	$(function(){
+		$.ajax({
+			url : "/oa/attend/worktime",
+			type : "post",
+			success : function(result) {
+				if(result.stateCode==1){
+					var workTime = result.extend.workTime;
+					$("#morStart").text(timestamp(workTime.attendMorStartTime)+"-"+timestamp(workTime.attendMorEndTime));
+					$("#morEnd").text(timestamp(workTime.attendMorLeaveStartTime)+"-"+timestamp(workTime.attendMorLeaveEndTime));
+					$("#noonStart").text(timestamp(workTime.attendAfternoonStartTime)+"-"+timestamp(workTime.attendAfternoonEndTime));
+					$("#noonEnd").text(timestamp(workTime.attendAfterLeaveStartTime)+"-"+timestamp(workTime.attendAfterLeaveEndTime));
+				}
+			}
+		});
+	})
 	
-	<!-- <script type="text/javascript">
-        $(document).ready(function () {
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Welcome to Dashgum!',
-            // (string | mandatory) the text inside the notification
-            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
-            // (string | optional) the image to display on the left
-            image: 'assets/img/ui-sam.jpg',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: true,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: '',
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
+	$(function(){
+		$("#notice").empty();
+		$.ajax({
+			url : "/oa/notice/findByNearTime",
+			type : "post",
+			success : function(result) {
+				if(result.stateCode==1){
+					var notices = result.extend.findByNearTime;
+					var str ="";
+					$.each(notices,function(index,item){
+						str +="<li><a class='noti' href='"+item.title+"'></a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
+					})
+					str.append("#notice");
+				}
+			}
+		});
+	})
+	
+	
+    //实时时间
+    window.onload = function () {
+        setInterval(function () {
+            var date = new Date();
+            var year = date.getFullYear(); //获取当前年份
+            var mon = date.getMonth() + 1; //获取当前月份
+            var da = date.getDate(); //获取当前日
+            var day = date.getDay(); //获取当前星期几
+            var h = date.getHours(); //获取小时
+            var m = date.getMinutes(); //获取分钟
+            var s = date.getSeconds(); //获取秒
+            var week =['一','二','三','四','五','六','日'];
+            var d = document.getElementById('currentDate');
+            d.innerHTML ='当前时间：'+ year + '年' + mon + '月' + da + '日' + '星期 ' + week[day-1] +" " + h + ':' + m + ':' + s;
+        }, 1000)
+    }
+
+
+    function isAttend() {
+        $.post("/oa/attend/isAttend", {}, function (data) {
+        	//alert(data);
+            if (data != null && JSON.stringify(data).length > 2) {
+            	//alert(data);
+                var time = timestampToTime(data);
+                var date = time.substring(10, time.length);
+                $("#attendTime").html(date);
+                $("#isAttend").html('已签到');
+            }
+        })
+    }
+    isAttend();
+
+    //点击打卡
+    function attend() {
+        //判断是否已经签到了
+        $.post("/oa/attend/isAttend", {}, function (data) {
+        	if(data!=null && data!=""){
+        		layer.alert('您已签到', {icon: 1});
+        		return ;
+        	}
+        	//layer.alert('酷毙了', {icon: 1});
+            layer.confirm("是否签到？", {
+                icon: 3,
+                title: "系统提示",
+                btn: ["确认", "取消"],
+                btnclass: ["btn btn-primary", "btn btn-danger"]
+            }, function (index) {
+                layer.close(index);
+                $.post("/oa/attend/addSave", {}, function (data) {
+                    if (data.stateCode == 0) {
+                      //layer.msg("已签到", {icon: 1, time: 500, shade: [0.1, "#8F8F8F"]});
+                      layer.msg(data.message, {icon: 5});
+                      isAttend();
+                    } else if(data.stateCode == 1){
+                    	layer.msg('签到成功！', {icon: 1});
+                    	isAttend();
+                    }
+                }).error(function (data) {
+                    //$.modal.alertError("系统错误！");
+                })
+            })
+        })
+    }
+
+
+    //查看通知信息
+    function checkMeetMsg(id) {
+        $.modal.openFull("会议详情", "/oa/editMeet/" + id);
+    }
+
+    //查看公告
+    function checkNoticeMsg(id) {
+        $.modal.openFull("公告详情", "/oa/editNotice/" + id);
+    }
+
+    //查看任务
+    function checkTaskMsg(formKey, procInstId, taskId) {
+        layer.open({
+            type: 2,
+            area: ["800px", ($(window).height() - 50) + "px"],
+            fix: false,
+            maxmin: true,
+            shade: 0.3,
+            title: "查看申请消息",
+            content: "/task/edit/" + formKey + "/" + procInstId + "/" + taskId
+        })
+    }
+
+    //查看便签
+    function checkNoteMsg(id) {
+        $.modal.open("修改便签", "/note/edit/" + id);
+    }
+
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //直接嵌套显示
+        laydate.render({
+            elem: '#calendar'
+            , position: 'static'
+            , showBottom: false
+            , type: 'datetime'
+            , format: 'yyyy-MM-dd HH:mm:ss'
+            , calendar: true
+            , theme: 'molv'
+            , mark: getMapDates()
+            , done: function (value, date, enddate) {
+                var url = "/schedule/editMore/" + value;
+                $.modal.open("日程查看", url);
+
+            }
         });
 
-        return false;
-        });
-	</script> -->
-	
-	<script type="application/javascript">
-        $(document).ready(function () {
-            $("#date-popover").popover({html: true, trigger: "manual"});
-            $("#date-popover").hide();
-            $("#date-popover").click(function (e) {
-                $(this).hide();
-            });
-        
-            $("#my-calendar").zabuto_calendar({
-                action: function () {
-                    return myDateFunction(this.id, false);
-                },
-                action_nav: function () {
-                    return myNavFunction(this.id);
-                },
-                ajax: {
-                    url: "show_data.php?action=1",
-                    modal: true
-                },
-                legend: [
-                    {type: "text", label: "Special event", badge: "00"},
-                    {type: "block", label: "Regular event", }
-                ]
-            });
-        });
-        
-        
-        function myNavFunction(id) {
-            $("#date-popover").hide();
-            var nav = $("#" + id).data("navigation");
-            var to = $("#" + id).data("to");
-            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        function getMapDates() {
+            var map_ = new Map();
+            $.ajaxSettings.async = false;
+            $.post("/oa/schedule/allSchedulelist", {}, function (data) {
+                map_ = data;
+            })
+            return map_;
         }
-    </script>
+    });
+    
+    //查看公告
+    $(document).on("click",".noti",function(){
+    	var id=$(this).attr("href");
+    	$.ajax({
+			url : "/oa/notice/findByNearTimeId/"+id,
+			type : "post",
+			success : function(result) {
+					var notice = result.extend.noticeFindById;
+					$("#noticeTitle").text(notice.title);
+					$("#noticeTime").text(notice.createTime);
+					$("#noContent").text(notice.content);
+
+			}
+		});
+    	$("#noticeTitle")
+    	
+    })
+    function timestampToTime(timestamp) {
+		   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		   Y = date.getFullYear() + '-';
+		   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		   D = date.getDate() + ' ';
+		   h = date.getHours() + ':';
+		   m = date.getMinutes() + ':';
+		   s = date.getSeconds();
+		   return Y+M+D+h+m+s;
+	}
+    
+    function timestamp(timestamp) {
+		   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		   Y = date.getFullYear() + '-';
+		   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		   D = date.getDate() + ' ';
+		   h = date.getHours() + ':';
+		   m = date.getMinutes() + ':';
+		   s = date.getSeconds();
+		   return h+m+s;
+	}
+    
+</script>
+	
   
 
   </body>

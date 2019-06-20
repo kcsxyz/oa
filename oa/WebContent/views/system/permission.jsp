@@ -152,12 +152,12 @@
 		<!--main content start--> 
 		<section id="main-content"> 
 			<section class="wrapper">
-		<h3>
-			<i class="fa fa-angle-right"></i>
-		</h3>
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
+					<div class="panel">
+				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>系统设置--菜单设置</b></div>
+					</div>
 					<div class="col-md-5">
 						<h4 >
 						<button class="btn btn-primary btn-sm" id="permission_add">
@@ -215,7 +215,7 @@
 	</section>
 	
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
-	<script src="/oa/assets/lay/modules/layer.js"></script>
+	<script src="/oa/assets/layer/layer.js"></script>
 	<script src="/oa/assets/js/bootstrap.min.js"></script>
 	<script src="/oa/assets/ztree/jquery.ztree.all-3.5.min.js"></script>
 	<script type="text/javascript">
@@ -778,7 +778,7 @@
 			var permName=$(this).parents('tr').find('td:eq(2)').text();
 			var parentId = $(this).attr("delete-id");
 			//alert(deptId);
-			layer.alert('酷毙了', {icon: 1});
+			//layer.alert('酷毙了', {icon: 1});
 			if(confirm("确定删除【"+permName+"】吗")){
 				//发送请求删除
 				$.ajax({
@@ -786,7 +786,10 @@
 					type: "post",		
 					success:function(result){
 						//关闭对话框
-						alert(result.stateCode);
+						//alert(result.stateCode);
+						if(result.stateCode==0){
+							 layer.msg(result.message, {icon: 5});
+						}
 						//回到当前页
 						to_page(currentPage);
 					}
@@ -830,6 +833,9 @@
 					success:function(result){
 						//关闭对话框
 						//alert(result.stateCode);
+						if(result.stateCode==0){
+							 layer.msg(result.message, {icon: 5});
+						}
 						//回到当前页
 						to_page(currentPage);
 					}

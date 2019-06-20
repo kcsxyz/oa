@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Files;
 import com.oa.bean.Project;
 import com.oa.bean.ResponseResult;
+import com.oa.bean.User;
 import com.oa.service.deptOffice.FilesService;
 @Controller
 @RequestMapping("files")
@@ -60,6 +62,7 @@ public class FilesController {
 	    		Integer project,
 	    		String descr,
 	    		HttpServletRequest request) throws IOException{  
+	    	ResponseResult rr = new ResponseResult();
 	    	if(!file.isEmpty()) {
 	        String path = request.getSession().getServletContext().getRealPath("upload");  
 	        String fileName = file.getOriginalFilename(); 
@@ -68,12 +71,13 @@ public class FilesController {
 	        if(!dir.exists()){  
 	            dir.mkdirs();  
 	        }  
-	        System.out.println(path+fileName);
+	        //System.out.println(path+fileName);
 	        String[] strArray = fileName.split("\\.");
 	        int suffixIndex = strArray.length -1;
 	        String type = strArray[suffixIndex];
 	        System.out.println(strArray[suffixIndex]);
-	        String uploadUser = (String) request.getSession().getAttribute("uid");
+	        User user = (User) request.getSession().getAttribute("user");
+	        String uploadUser = user.getUid();
 	        String size = String.valueOf(fileName.length());
 	        file.transferTo(dir);  
 	        files.setUploadUser(uploadUser);
@@ -82,9 +86,10 @@ public class FilesController {
             files.setFileSize(size);
             files.setFileType(type);
             filesService.insertSelective(files);
-	        return "redirect:/files/findAll";
+           
+    		return  "redirect:/files/findAll";
 	        } 
-			return "false";
+			return  "false";
 	    }  
 	    /**
 	         * 文件下载功能
@@ -95,6 +100,7 @@ public class FilesController {
 	    @RequestMapping("/download")
 	    public void down(HttpServletRequest request,HttpServletResponse response, String filesName) throws Exception{
 	        //模拟文件，myfile.txt为需要下载的文件
+	        System.out.println(filesName);
 	        String path = request.getSession().getServletContext().getRealPath("upload")+"\\"+filesName;
 	        File file = new File(path);
 	        if (!file.exists()) {
@@ -137,6 +143,7 @@ public class FilesController {
 	     */
       @RequestMapping("/findAll")  
 	    public String findAll(
+	    		HttpSession session,
 	    		Model model,
 	    		String Info,
 	    		String dateStart,
@@ -144,6 +151,9 @@ public class FilesController {
 	    		@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 				@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
 	    		) throws ParseException {
+    	  User user = (User)session.getAttribute("user");
+   	        String role = user.getRole().getRoleName();
+   	        System.out.println(role);
 	    	Map<String, String> map = new HashMap<String, String>();
 	    	  if(dateStart != null&&!dateStart.equals("") && finalTime != null&& !finalTime.equals("")) {
 					 String startTime= dateStart+" "+"00:00:00";
@@ -223,4 +233,25 @@ public class FilesController {
 		return rr;
     	
     }
+    
+    /**验证名称是否存在
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping("/checkfileId")
+	@ResponseBody
+	public ResponseResult checkFileId(String fileId) {
+		ResponseResult rr = new ResponseResult();
+		int i= filesService.checkFileById(fileId);
+		if(i!=0) {
+			rr.setMessage("名称已存在");
+			rr.setStateCode(0);
+		}else {
+			rr.setMessage("名称可用");
+			rr.setStateCode(1);
+			
+		}
+		return rr;
+	}
+    
 }

@@ -5,13 +5,37 @@
     <id column="attend_id" jdbcType="INTEGER" property="attendId" />
     <result column="user_id" jdbcType="CHAR" property="userId" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
-    <result column="curr_date" jdbcType="TIMESTAMP" property="currDate" />
+    <result column="curr_date" jdbcType="DATE" property="currDate" />
     <result column="week" jdbcType="CHAR" property="week" />
-    <result column="attend_mor_start" jdbcType="TIMESTAMP" property="attendMorStart" />
-    <result column="attend_mor_leave" jdbcType="TIMESTAMP" property="attendMorLeave" />
-    <result column="attend_noon_start" jdbcType="TIMESTAMP" property="attendNoonStart" />
-    <result column="attend_noon_leave" jdbcType="TIMESTAMP" property="attendNoonLeave" />
+    <result column="attend_mor_start" jdbcType="TIME" property="attendMorStart" />
+    <result column="attend_mor_leave" jdbcType="TIME" property="attendMorLeave" />
+    <result column="attend_noon_start" jdbcType="TIME" property="attendNoonStart" />
+    <result column="attend_noon_leave" jdbcType="TIME" property="attendNoonLeave" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="user" javaType="com.oa.bean.User">
+          <result column="name" property="name"/>
+    </association>
+    <association property="dept" javaType="com.oa.bean.Dept">
+         <result column="deptName" property="deptName"/>
+    </association>
+  </resultMap>
+  <resultMap id="BaseResultMapWithUser" type="com.oa.bean.Attend">
+    <id column="attend_id" jdbcType="INTEGER" property="attendId" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="curr_date" jdbcType="DATE" property="currDate" />
+    <result column="week" jdbcType="CHAR" property="week" />
+    <result column="attend_mor_start" jdbcType="TIME" property="attendMorStart" />
+    <result column="attend_mor_leave" jdbcType="TIME" property="attendMorLeave" />
+    <result column="attend_noon_start" jdbcType="TIME" property="attendNoonStart" />
+    <result column="attend_noon_leave" jdbcType="TIME" property="attendNoonLeave" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="user" javaType="com.oa.bean.User">
+    	<id column="uid" jdbcType="CHAR" property="uid" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+	    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -111,8 +135,8 @@
       attend_mor_leave, attend_noon_start, attend_noon_leave, 
       status)
     values (#{attendId,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{deptId,jdbcType=INTEGER}, 
-      #{currDate,jdbcType=TIMESTAMP}, #{week,jdbcType=CHAR}, #{attendMorStart,jdbcType=TIMESTAMP}, 
-      #{attendMorLeave,jdbcType=TIMESTAMP}, #{attendNoonStart,jdbcType=TIMESTAMP}, #{attendNoonLeave,jdbcType=TIMESTAMP}, 
+      #{currDate,jdbcType=DATE}, #{week,jdbcType=CHAR}, #{attendMorStart,jdbcType=TIME}, 
+      #{attendMorLeave,jdbcType=TIME}, #{attendNoonStart,jdbcType=TIME}, #{attendNoonLeave,jdbcType=TIME}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Attend">
@@ -160,22 +184,22 @@
         #{deptId,jdbcType=INTEGER},
       </if>
       <if test="currDate != null">
-        #{currDate,jdbcType=TIMESTAMP},
+        #{currDate,jdbcType=DATE},
       </if>
       <if test="week != null">
         #{week,jdbcType=CHAR},
       </if>
       <if test="attendMorStart != null">
-        #{attendMorStart,jdbcType=TIMESTAMP},
+        #{attendMorStart,jdbcType=TIME},
       </if>
       <if test="attendMorLeave != null">
-        #{attendMorLeave,jdbcType=TIMESTAMP},
+        #{attendMorLeave,jdbcType=TIME},
       </if>
       <if test="attendNoonStart != null">
-        #{attendNoonStart,jdbcType=TIMESTAMP},
+        #{attendNoonStart,jdbcType=TIME},
       </if>
       <if test="attendNoonLeave != null">
-        #{attendNoonLeave,jdbcType=TIMESTAMP},
+        #{attendNoonLeave,jdbcType=TIME},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -201,22 +225,22 @@
         dept_id = #{record.deptId,jdbcType=INTEGER},
       </if>
       <if test="record.currDate != null">
-        curr_date = #{record.currDate,jdbcType=TIMESTAMP},
+        curr_date = #{record.currDate,jdbcType=DATE},
       </if>
       <if test="record.week != null">
         week = #{record.week,jdbcType=CHAR},
       </if>
       <if test="record.attendMorStart != null">
-        attend_mor_start = #{record.attendMorStart,jdbcType=TIMESTAMP},
+        attend_mor_start = #{record.attendMorStart,jdbcType=TIME},
       </if>
       <if test="record.attendMorLeave != null">
-        attend_mor_leave = #{record.attendMorLeave,jdbcType=TIMESTAMP},
+        attend_mor_leave = #{record.attendMorLeave,jdbcType=TIME},
       </if>
       <if test="record.attendNoonStart != null">
-        attend_noon_start = #{record.attendNoonStart,jdbcType=TIMESTAMP},
+        attend_noon_start = #{record.attendNoonStart,jdbcType=TIME},
       </if>
       <if test="record.attendNoonLeave != null">
-        attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIMESTAMP},
+        attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIME},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
@@ -231,12 +255,12 @@
     set attend_id = #{record.attendId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=CHAR},
       dept_id = #{record.deptId,jdbcType=INTEGER},
-      curr_date = #{record.currDate,jdbcType=TIMESTAMP},
+      curr_date = #{record.currDate,jdbcType=DATE},
       week = #{record.week,jdbcType=CHAR},
-      attend_mor_start = #{record.attendMorStart,jdbcType=TIMESTAMP},
-      attend_mor_leave = #{record.attendMorLeave,jdbcType=TIMESTAMP},
-      attend_noon_start = #{record.attendNoonStart,jdbcType=TIMESTAMP},
-      attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIMESTAMP},
+      attend_mor_start = #{record.attendMorStart,jdbcType=TIME},
+      attend_mor_leave = #{record.attendMorLeave,jdbcType=TIME},
+      attend_noon_start = #{record.attendNoonStart,jdbcType=TIME},
+      attend_noon_leave = #{record.attendNoonLeave,jdbcType=TIME},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -252,22 +276,22 @@
         dept_id = #{deptId,jdbcType=INTEGER},
       </if>
       <if test="currDate != null">
-        curr_date = #{currDate,jdbcType=TIMESTAMP},
+        curr_date = #{currDate,jdbcType=DATE},
       </if>
       <if test="week != null">
         week = #{week,jdbcType=CHAR},
       </if>
       <if test="attendMorStart != null">
-        attend_mor_start = #{attendMorStart,jdbcType=TIMESTAMP},
+        attend_mor_start = #{attendMorStart,jdbcType=TIME},
       </if>
       <if test="attendMorLeave != null">
-        attend_mor_leave = #{attendMorLeave,jdbcType=TIMESTAMP},
+        attend_mor_leave = #{attendMorLeave,jdbcType=TIME},
       </if>
       <if test="attendNoonStart != null">
-        attend_noon_start = #{attendNoonStart,jdbcType=TIMESTAMP},
+        attend_noon_start = #{attendNoonStart,jdbcType=TIME},
       </if>
       <if test="attendNoonLeave != null">
-        attend_noon_leave = #{attendNoonLeave,jdbcType=TIMESTAMP},
+        attend_noon_leave = #{attendNoonLeave,jdbcType=TIME},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -279,13 +303,50 @@
     update t_attend
     set user_id = #{userId,jdbcType=CHAR},
       dept_id = #{deptId,jdbcType=INTEGER},
-      curr_date = #{currDate,jdbcType=TIMESTAMP},
+      curr_date = #{currDate,jdbcType=DATE},
       week = #{week,jdbcType=CHAR},
-      attend_mor_start = #{attendMorStart,jdbcType=TIMESTAMP},
-      attend_mor_leave = #{attendMorLeave,jdbcType=TIMESTAMP},
-      attend_noon_start = #{attendNoonStart,jdbcType=TIMESTAMP},
-      attend_noon_leave = #{attendNoonLeave,jdbcType=TIMESTAMP},
+      attend_mor_start = #{attendMorStart,jdbcType=TIME},
+      attend_mor_leave = #{attendMorLeave,jdbcType=TIME},
+      attend_noon_start = #{attendNoonStart,jdbcType=TIME},
+      attend_noon_leave = #{attendNoonLeave,jdbcType=TIME},
       status = #{status,jdbcType=INTEGER}
     where attend_id = #{attendId,jdbcType=INTEGER}
   </update>
+  
+    <!--   查询当天是否已经打了考勤 -->
+  <select id="selectSaveDayIsAttend" resultMap="BaseResultMap" parameterType="String">
+        SELECT * FROM t_attend WHERE user_id=#{userId} and curr_date=CURRENT_DATE()
+   </select>
+    
+    <select id="getAttendList" resultMap="BaseResultMapWithUser" >
+        SELECT at.*,u.name,u.uid,u.dept_id,u.role_id FROM t_attend at,t_user u WHERE at.user_id=u.uid
+    </select>
+    
+    <!--  按月查询 -->
+    <select id="selectByMothAndUserId" parameterType="com.oa.bean.Attend" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,u.dept,
+        u.name,
+        d.deptName
+        FROM
+        t_user u
+        RIGHT JOIN t_attend a ON a.user_id = u.uid
+        LEFT JOIN t_dept d ON d.dept_id = a.dept_id
+        <where>
+            <if test="userId !=null and userId !=''">
+                and userId=#{user_id}
+            </if>
+            <if test="beginTime !=null">
+                <![CDATA[   and DATE_FORMAT(curr_date, '%Y-%m-%d')>=  DATE_FORMAT(#{beginTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="overTime !=null">
+                <![CDATA[  and DATE_FORMAT(curr_date, '%Y-%m-%d') <= DATE_FORMAT(#{overTime}, '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+    </select>
+    
+    <select id="getWorkTime" resultType="com.oa.bean.WorkTime">
+    	select * from t_work_time where status=1
+    </select>
 </mapper>
