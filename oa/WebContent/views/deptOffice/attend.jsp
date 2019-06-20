@@ -162,7 +162,6 @@
 								<th style="text-align: center;">下午下班打卡时间</th>
 								<th style="text-align: center;">星期</th>
 								<th style="text-align: center;">状态</th>
-								<th style="text-align: center;">操作</th>
 							</tr>
 						</thead>
 						<tbody id="attendData">
@@ -348,7 +347,7 @@
 								$("<tr></tr>").append(checkBoxTd).append(idTd)
 										.append(userNameTd).append(attenMorStartTd).append(attendMorLeaveTd).append(attendNoonStartTd)
 										.append(attendNoonLeaveTd)
-										.append(weekTd).append(statusTd).append(btnTd)
+										.append(weekTd).append(statusTd)
 										.appendTo("#attendData");
 							});
 		}

@@ -46,10 +46,13 @@
     		font-family: "Microsoft YaHei";
 			
     	}
+    	#notice>li>div>span{
+    		text-align:left;
+    	}
     </style>
   </head>
   <body>
-	<!-- 修改部门模态框 -->
+	<!-- 公告模态框 -->
 	<div class="modal fade" id="noticeContent" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -74,6 +77,12 @@
 							<label class="col-sm-2 control-label">发布时间</label>
 							<div class="col-sm-10">
 								<p class="form-control-static" id="noticeTime"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">发布人</label>
+							<div class="col-sm-10">
+								<p class="form-control-static" id="noticeName"></p>
 							</div>
 						</div>
 						<div class="form-group">
@@ -228,14 +237,12 @@
 			url : "/oa/notice/findByNearTime",
 			type : "post",
 			success : function(result) {
-				if(result.stateCode==1){
 					var notices = result.extend.findByNearTime;
 					var str ="";
 					$.each(notices,function(index,item){
-						str +="<li><a class='noti' href='"+item.title+"'></a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
+						str +="<li><a class='noti' href='#' id='"+item.noticeId+"'>"+item.title+"</a><div><span>"+timestampToTime(item.createTime)+"</span></div></li>";
 					})
-					str.append("#notice");
-				}
+					$("#notice").append(str);
 			}
 		});
 	})
@@ -311,28 +318,6 @@
         $.modal.openFull("会议详情", "/oa/editMeet/" + id);
     }
 
-    //查看公告
-    function checkNoticeMsg(id) {
-        $.modal.openFull("公告详情", "/oa/editNotice/" + id);
-    }
-
-    //查看任务
-    function checkTaskMsg(formKey, procInstId, taskId) {
-        layer.open({
-            type: 2,
-            area: ["800px", ($(window).height() - 50) + "px"],
-            fix: false,
-            maxmin: true,
-            shade: 0.3,
-            title: "查看申请消息",
-            content: "/task/edit/" + formKey + "/" + procInstId + "/" + taskId
-        })
-    }
-
-    //查看便签
-    function checkNoteMsg(id) {
-        $.modal.open("修改便签", "/note/edit/" + id);
-    }
 
 
     layui.use('laydate', function () {
@@ -366,7 +351,7 @@
     
     //查看公告
     $(document).on("click",".noti",function(){
-    	var id=$(this).attr("href");
+    	var id=$(this).attr("id");
     	$.ajax({
 			url : "/oa/notice/findByNearTimeId/"+id,
 			type : "post",
@@ -374,11 +359,14 @@
 					var notice = result.extend.noticeFindById;
 					$("#noticeTitle").text(notice.title);
 					$("#noticeTime").text(notice.createTime);
-					$("#noContent").text(notice.content);
+					$("#noticeName").text(notice.createName);
+					$("#noContent").html(notice.content);
+					$("#noticeContent").modal({
+						backdrop:'static'
+					});
 
 			}
 		});
-    	$("#noticeTitle")
     	
     })
     function timestampToTime(timestamp) {

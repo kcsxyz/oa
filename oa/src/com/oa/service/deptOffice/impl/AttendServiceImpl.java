@@ -102,7 +102,7 @@ public class AttendServiceImpl implements AttendService {
         {
             if (currDate > attendEndMorTime)
             {
-                attend.setStatus(1);
+                attend.setStatus(0);
             }
         }
 
@@ -145,7 +145,7 @@ public class AttendServiceImpl implements AttendService {
             if (currDate > afterNoonStarWorkTime)
             {
                 //迟到
-                attend.setStatus(1);
+                attend.setStatus(0);
             }
             attend.setAttendNoonStart(date);
         }

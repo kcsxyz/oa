@@ -59,6 +59,38 @@ public class PermissionController {
 					permissions.add(permission);
 				} else {
 					Permission parent = permissionMap.get(child.getParentId());
+					
+					if(child.getPermName().equals("项目管理") || child.getPermName().equals("文件管理")) {
+						if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("办公室")) {
+							continue;
+						}
+					}
+					if(child.getPermName().equals("项目管理") ||child.getPermName().equals("文件管理")) {
+						if(user.getRole().getRoleName().equals("部门经理") && user.getDept().getDeptName().equals("开发部")) {
+							continue;
+						}
+					}
+					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤记录")) {
+						if(user.getRole().getRoleName().equals("部门经理") && user.getDept().getDeptName().equals("办公室")) {
+							continue;
+						}
+					}
+					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤记录")) {
+						if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("办公室")) {
+							continue;
+						}
+					}
+					
+					if(child.getPermName().equals("项目管理")) {
+						if(user.getRole().getRoleName().equals("员工")) {
+							continue;
+						}
+					}
+					
+					/*if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("办公室")) {
+						
+					}*/
+					
 					parent.getChildren().add(child);
 				}
 			}

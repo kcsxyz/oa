@@ -104,7 +104,7 @@ public class AttendController {
 		ResponseResult rr =new ResponseResult();
 		try {
 			User user = (User) session.getAttribute("user");
-			attend.setUserId("admin");
+			attend.setUserId(user.getUid());
 			int i = attendService.insertAttend(attend);
 			rr.setStateCode(1);
 		} catch (Exception e) {
@@ -122,7 +122,7 @@ public class AttendController {
     public Date isAttend(HttpSession session)
     {
 		User user = (User) session.getAttribute("user");
-        Attend attend = attendService.selectSaveDayIsAttend("admin");
+        Attend attend = attendService.selectSaveDayIsAttend(user.getUid());
       // System.out.println("attend"+attend.toString());
         WorkTime workShif = attendService.selectUsing();
         Date date = new Date();
