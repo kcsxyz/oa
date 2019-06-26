@@ -36,7 +36,7 @@
 				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--文件管理</b></div>
 				               	</div>
                           <!-- 上部放按钮的地方开始 -->
-                         <form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/files/findAll" style="margin-top:10px;text-align:center;">
+                        	 <form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/files/findAll" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
 		                  	  	  <button type="button" class="btn btn-info" id="uploadBtn" style="background:#fff;">
@@ -50,10 +50,8 @@
 	                  	  	</div>
 	                  	  	
 	                  	  	
-	                  	  	
-	                  	  	
-	                  	  	
 	                  	  	</div>
+	                  	  
 	                  	  	<div class="form-group" style="border:none;margin-top:10px;">
 	                  	  	 
 	                  	  	 <div class="col-xs-6 col-sm-5" style="float:left;margin-left:90px;">
@@ -116,9 +114,9 @@
 					                          <div class="form-group" style="border:none;margin-top:30px;">
 					                              <span class="col-sm-2" style="color:#000;font-size:16px;float:left;height:28px;text-align:right;line-height:28px;">选择文件:</span>
 						                              <div class=" col-sm-8">
-									                    <input id="lefile" type="file" name="file"   style="display:none">
+									                    <input id="lefile" type="file" name="file"   style="display:none;">
 															<div class="input-append">
-																<input id="photoCover"  readonly="readonly" class="input-large" type="text" style="width:62%;height:30px;">
+																<input id="photoCover"  readonly="readonly" class="input-large" type="text" style="width:60%;height:30px;">
 																	<a class="btn" onclick="$('input[id=lefile]').click();">
 																		<span class="btn btn-primary">
 												                            <i class="glyphicon glyphicon-folder-open"></i>  

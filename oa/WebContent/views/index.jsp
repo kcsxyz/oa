@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -165,7 +166,7 @@
                     </div> 
                                         
                     <div class="row" style="height:420px;">   
-                      	<div class="col-md-4 col-sm-4 mb" style=" height:400px;">
+                      	<!-- <div class="col-md-4 col-sm-4 mb" style=" height:400px;">
                       		<div class="white-panel pn donut-chart" style="height:80%;">
                       			<div class="white-header" >
 						  			<h5 >我的待办</h5>
@@ -176,8 +177,8 @@
 	                      		<div class="centered">
 									
 	                      		</div>
-	                      	</div> <!--/grey-panel -->
-                      	</div>
+	                      	</div>
+                      	</div> -->
                       	<div class="col-md-4 col-sm-4 mb" style="height:400px;margin-right:5px;">
                       		<div class="white-panel pn" style="height:80%;">
                       			<div class="white-header">
@@ -358,7 +359,7 @@
 			success : function(result) {
 					var notice = result.extend.noticeFindById;
 					$("#noticeTitle").text(notice.title);
-					$("#noticeTime").text(notice.createTime);
+					$("#noticeTime").text(timestampToTime(notice.createTime));
 					$("#noticeName").text(notice.createName);
 					$("#noContent").html(notice.content);
 					$("#noticeContent").modal({

@@ -16,7 +16,7 @@
     <link href="/oa/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="/oa/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/oa/assets/css/zabuto_calendar.css"> -->
     <link rel="stylesheet" type="text/css" href="/oa/assets/js/gritter/css/jquery.gritter.css" />
     <link rel="stylesheet" type="text/css" href="/oa/assets/lineicons/style.css">    
     
@@ -24,8 +24,9 @@
     <link href="/oa/assets/css/style.css" rel="stylesheet">
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 	<script src="/oa/assets/jquery-2.1.0.min.js"></script>
-    <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    
+	<script src="/oa/assets/js/jquery.scrollTo.min.js"></script>
+	<script src="/oa/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <!-- <script src="/oa/assets/js/common-scripts.js"></script> -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -85,6 +86,7 @@
 	              	  		<li><a href="/oa/user/outLogin">退出</a></li>
               	  		</ul>
               	  </h4>
+	              	 
             	</ul>
             </div>
         </header>
@@ -96,9 +98,14 @@
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
-              
-              	  <p class="centered"><a href="#"><img src="/oa/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <p class="centered"><a href="#"><img src="${sessionScope.user.headPic}" class="img-circle" width="60"></a></p>
               	  <h5 class="centered dropdown" >${sessionScope.user.name} </h5>
+	              	 <li class="sub-menu"><!-- mt -->
+	                      <a href="/oa/user/showIndex">
+	                          <i class="fa fa-dashboard"></i>
+	                          <span>主页</span>
+	                      </a>
+	                  </li>
               </ul>
               <!-- sidebar menu end-->
           </div>

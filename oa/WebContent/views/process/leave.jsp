@@ -380,7 +380,7 @@
 					var createTimeTd = $("<td></td>").append(
 							timestampToTime(item.createTime));
 					var statusTd;
-					if(item.status =="审核中"){
+					if(item.status.indexOf("审核中") != -1){
 						statusTd = $("<td></td>").append($("<button></button>").addClass(
 						"btn btn-warning btn-xs status").append(
 								item.status));
@@ -621,9 +621,9 @@
 		//删除部门
 		$(document).on("click",".delete_btn",function(){
 			//1、获得当前员工的名字
-			var processNo=$(this).parents('tr').find('td:eq(2)').text();
+			var processNo=$(this).parents('tr').find('td:eq(1)').text();
 			var leaveId = $(this).attr("delete-id");
-			//alert(deptId);
+			//alert(processNo);
 			if(confirm("确定撤销申请吗?")){
 				//发送请求删除
 				$.ajax({
@@ -636,7 +636,7 @@
 					},
 					success:function(result){
 						//关闭对话框
-						alert(result.stateCode);
+						//alert(result.stateCode);
 						//回到当前页
 						to_page(currentPage);
 					}

@@ -141,11 +141,11 @@
 					<div class="panel">
 				  		<div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>系统设置--考勤记录</b></div>
 					</div>
-					<h4>
+					<!-- <h4>
 						<button class="btn btn-primary btn-sm" id="dept_add">
 							<i class="glyphicon glyphicon-plus"></i>新增
 						</button>
-					</h4>
+					</h4> -->
 					<section id="unseen">
 					<table
 						class="table table-hover "

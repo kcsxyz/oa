@@ -24,7 +24,7 @@
     <link href="/oa/assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
-    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
     <script src="/oa/assets/js/bootstrap.min.js"></script>
      <!-- 富文本编辑器 -->
  	<script src="/oa/ueditor/ueditor.config.js"></script>
@@ -73,7 +73,7 @@
 			                             <span style="width:30%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">类型:</span>
 				                          <div class="col-sm-7" style="text-align:center;"> 
 				                          	<c:if test="${workPlan.type==0 }">
-				                              <div class="col-sm-1" style="text-align:center;">
+				                              <div class="col-sm-2" style="text-align:center;">
 				                              	<label style="font-size:15px;color: rgb(0, 0, 0);">
 				                                   日计划
 				                              	</label>

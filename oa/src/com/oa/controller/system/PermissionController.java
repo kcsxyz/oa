@@ -46,7 +46,8 @@ public class PermissionController {
 			for (Permission permission : permissionList) {
 				permissionMap.put(permission.getPermId(), permission);
 				if (permission.getUrl() != null && !"".equals(permission.getUrl())) {
-					uriSet.add(session.getServletContext().getContextPath() + permission.getUrl());
+					uriSet.add(permission.getUrl());
+					//System.out.println("menu"+session.getServletContext().getContextPath() + permission.getUrl());
 				}
 			}
 			if(session.getAttribute("authUriSet")!=null) {
@@ -66,17 +67,17 @@ public class PermissionController {
 						}
 					}
 					if(child.getPermName().equals("项目管理") ||child.getPermName().equals("文件管理")) {
-						if(user.getRole().getRoleName().equals("部门经理") && user.getDept().getDeptName().equals("开发部")) {
-							continue;
-						}
-					}
-					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤记录")) {
 						if(user.getRole().getRoleName().equals("部门经理") && user.getDept().getDeptName().equals("办公室")) {
 							continue;
 						}
 					}
-					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤记录")) {
-						if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("办公室")) {
+					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤管理")) {
+						if(user.getRole().getRoleName().equals("部门经理") && user.getDept().getDeptName().equals("开发部")) {
+							continue;
+						}
+					}
+					if(child.getPermName().equals("人力资源管理") ||child.getPermName().equals("考勤管理")) {
+						if(user.getRole().getRoleName().equals("员工") && user.getDept().getDeptName().equals("开发部")) {
 							continue;
 						}
 					}
@@ -236,14 +237,14 @@ public class PermissionController {
 			for(String id : split_ids) {
 				listId.add(Integer.parseInt(id));
 				rolePermissionList = permissionService.getRolePermissionList(Integer.parseInt(id));
-				if(rolePermissionList!=null) {
+				if(rolePermissionList.size()>0) {
 					rr.setStateCode(0);
 					rr.setMessage("菜单已在使用中。。。");
 					return rr;
 				}
 				
 				listPermission = permissionService.getParPermission(Integer.parseInt(id));
-				if(listPermission!=null) {
+				if(listPermission.size()>0) {
 					rr.setStateCode(0);
 					rr.setMessage("该菜单已有子菜单，您无法删除");
 					return rr;
@@ -255,14 +256,14 @@ public class PermissionController {
 		}else {
 			Integer id = Integer.parseInt(ids);
 			rolePermissionList = permissionService.getRolePermissionList(id);
-			if(rolePermissionList!=null) {
+			if(rolePermissionList.size()>0) {
 				rr.setStateCode(0);
 				rr.setMessage("菜单已在使用中。。。");
 				return rr;
 			}
 			
 			listPermission = permissionService.getParPermission(id);
-			if(listPermission!=null) {
+			if(listPermission.size()>0) {
 				rr.setStateCode(0);
 				rr.setMessage("该菜单已有子菜单，您无法删除");
 				return rr;

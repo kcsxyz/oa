@@ -371,7 +371,7 @@
 		//校验表单部门信息
 		function validate_dept_form(){
 			var deptName=$('#deptName').val();
-			alert(deptName);
+			///alert(deptName);
 			if(deptName == ""){
 				valate_form_msg("#deptName",'error',"部门名称不能空");
 				return false;

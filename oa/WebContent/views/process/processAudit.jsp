@@ -280,7 +280,7 @@
 					var createTimeTd = $("<td></td>").append(
 							timestampToTime(item.createTime));
 					var statusTd;
-					if(item.status =="审核中"){
+					if(item.status.indexOf("审核中") != -1){
 						statusTd = $("<td></td>").append($("<button></button>").addClass(
 						"btn btn-warning btn-xs status").append(
 								item.status));
@@ -489,7 +489,7 @@
 			}else{
 				status = "通过";
 			}
-			alert(leaveId+currentNo+opinion+status+isGreaterThree);
+			//alert(leaveId+currentNo+opinion+status+isGreaterThree);
 			
 			$.ajax({
 				url: "/oa/process/updateProcess",
@@ -499,8 +499,8 @@
 					"currentNo":currentNo,
 					"opinion":opinion,
 					"isGreaterThree":isGreaterThree,
-					"processNo":processNo/* ,
-					"status":status*/
+					"processNo":processNo ,
+					"status":status
 				},			
 				success:function(result){
 					//关闭对话框

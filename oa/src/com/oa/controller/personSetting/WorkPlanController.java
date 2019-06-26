@@ -55,12 +55,16 @@ public class WorkPlanController {
 			// startPage后紧跟着的就是一个分页查询
 			PageHelper.startPage(pageNo, pageSize);
 			List<WorkPlan> workPlanlist =new ArrayList<>();
-			if(user.getRole().getRoleName()=="总经理") {
-				workPlanlist = workPlanService.getWorkPlanList();				
-			}else if(user.getRole().getRoleName()=="部门经理"){
-				workPlanlist = workPlanService.selectWorkPlan(deptId);				
+			System.out.println(user.getRole().getRoleName());
+			if(user.getRole().getRoleName().equals("总经理")) {
+				workPlanlist = workPlanService.getWorkPlanList();
+				System.out.println(1);
+			}else if(user.getRole().getRoleName().equals("部门经理")){
+				workPlanlist = workPlanService.selectWorkPlan(deptId);
+				System.out.println(2);
 			}else{
-				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());					
+				workPlanlist = workPlanService.getWorkPlanByUid(user.getUid());	
+				System.out.println(3);
 			}			
 				
 			// 用PageInfo对查询后的结果进行包装，然后放到页面即可，第二个参数为navigatePages 页码数量

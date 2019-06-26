@@ -22,7 +22,7 @@ a, a:hover, a:focus {
 }
 ::selection {
 
-    background: #68dff0;
+    background: #1e282c;
     color: #fff;
 }
 ::-moz-selection {
@@ -43,7 +43,7 @@ a, a:hover, a:focus {
 }
 /* Bootstrap Modifications */
 .modal-header {
-	background: #68dff0;
+	background: #3c8dbc;
 }
 
 .modal-title {
@@ -231,7 +231,8 @@ ul.top-menu > li > .logout {
     width: 210px;
     height: 100%;
     position: fixed;
-    background: #ed7d31;
+    background: #222d32;
+    overflow: hidden;
 }
 
 #sidebar h5 {
@@ -294,10 +295,11 @@ ul.sidebar-menu {
 }
 
 ul.sidebar-menu li ul.sub li{
-    background: #c65911;
+    background: #2c3b41;
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
+    color:white;
 }
 
 ul.sidebar-menu li ul.sub li:last-child{
@@ -352,7 +354,7 @@ ul.sidebar-menu li a{
     color: #ffffff;
     text-decoration: none;
     display: block;
-    padding: 15px 0 15px 10px;
+    padding: 10px 0 15px 10px;
     font-size: 12px;
     outline: none;
     -webkit-transition: all 0.3s ease;
@@ -363,7 +365,7 @@ ul.sidebar-menu li a{
 }
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
-    background: #68dff0;
+    background: #1e282c;
     color: #fff;
     display: block;
 
@@ -413,8 +415,8 @@ ul.sidebar-menu li a.active i {
 }
 
 .black-bg {
-    background: #ff8306;
-    border-bottom: 1px solid #e17100;
+    background: #3c8dbc;
+    border-bottom: 1px solid #3c8dbc;
 }
 
 .wrapper {

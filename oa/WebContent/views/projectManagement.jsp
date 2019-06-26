@@ -41,7 +41,7 @@
 				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>部门办公--项目管理</b></div>
 				               	</div>
                           <!-- 上部放按钮的地方开始 -->
-                         <form class="form-horizontal style-form" action="${ pageContext.request.contextPath }/project/selectByParams" method="get" style="margin-top:10px;text-align:center;">
+                        	 <form class="form-horizontal style-form" action="${ pageContext.request.contextPath }/project/selectByParams" method="get" style="margin-top:10px;text-align:center;">
 			                 <div class="form-group" style="border:none;margin-top:10px;">
                           	<div class="col-xs-6 col-sm-4" style="float:left;">
                           		<button type="button" class="btn btn-info" id="uploadBtn"  style="background:#fff;">
@@ -56,7 +56,7 @@
 	                  	  	</div>
 	                  	  	
 	                  	  	
-	                  	  	
+	                  	  
 	                  	  	<div class="col-xs-6 col-sm-4" style="float:left;">
 		                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:3px;height:28px;text-align:center;line-height:28px;">创建时间：</span>
 				                  	  	  <input type="text" class="form-control round-form" name="dateStart" id="startTime" placeholder="起始时间" style="width:30%;height:28px;float:left;">

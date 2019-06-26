@@ -96,7 +96,7 @@
                                   <td style="text-align:center;"><fmt:formatDate  pattern="yyyy-MM-dd" value="${workLog.createTime }" type="date"/></td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->
-                                      <button class="btn btn-primary btn-xs" edit-id="${workLog.logId}" onclick="window.location.href='/oa/workLog/getWorkLogById/${workLog.logId}'"><i class="fa fa-pencil"></i>编辑</button>
+                                      <button class="btn btn-primary btn-xs" edit-id="${workLog.logId}" onclick="window.location.href='/oa/workLog/getWorkLogById/${workLog.logId}'"><i class="fa fa-pencil"></i>查看</button>
                                       <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workLog/deleteWorkLog/${workLog.logId}'"><i class="fa fa-trash-o "></i>删除</button>
                                   </td>
                               </tr>

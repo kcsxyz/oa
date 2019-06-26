@@ -568,7 +568,7 @@
 			permName = $("#permName").val();
 			
 			if(permName == ""){
-				alert(permName);
+				//alert(permName);
 				valate_form_msg("#permName",'error',"菜单名称不能为空");
 				return false;
 				

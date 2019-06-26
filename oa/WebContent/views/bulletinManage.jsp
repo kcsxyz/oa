@@ -28,44 +28,7 @@
     <link href="/oa/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 </head>
 <body>
- <section id="container" >
-            <%@include file="/nav.jsp" %>
-       <!--main content start-->
-      <section id="main-content">
-          <section class="wrapper">
-          <div class="row mt">
-                  <div class="col-md-12">
-                  	<div style="background:#fff; height:900px;">
-                      <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
-                              <div class="panel">
-				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>信息更新--信息管理</b></div>
-				               	</div>
-                          <!-- 上部放按钮的地方开始 -->
-    						<form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/notice/selectByParams" style="margin-top:10px;text-align:center;">
-			                 <div class="form-group" style="border:none;margin-top:10px;">
-		                          	<div class="col-xs-6 col-sm-3" style="float:left;">
-				                  		<c:if test="${user.role.roleName!='员工' }">
-				                  		<a href="${pageContext.request.contextPath }/notice/showPushNotice">
-				                  	  	  <button type="button" class="btn btn-info" style="background:#fff;">
-					                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-					                  	  	  发布</span>
-				                  	  	  </button>
-				                  		</a>
-                                      
-                                        	<a href="${pageContext.request.contextPath }/notice/deleteNotice/{ids}"> </a>
-				                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="notice_delete_all" style="background:#fff;">
-					                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
-					                  	  	  删除</span>
-				                  	  	  </button>
-				                  	  	   </c:if>
-			                  	  	</div>
-			                  	  	
-			                  	  	
-			                  	  	
-			                  	  	 </div>
-			                  	  	 
-			                  	  	 
-			                  	  	 <!-- 公告模态框 -->
+ <!-- 公告模态框 -->
 									<div class="modal fade" id="noticeContent" tabindex="-1"
 										role="dialog" aria-labelledby="myModalLabel">
 										<div class="modal-dialog" role="document">
@@ -111,7 +74,45 @@
 												</div>
 											</div>
 										</div>
-									</div>
+						</div>
+ <section id="container" >
+            <%@include file="/nav.jsp" %>
+       <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          <div class="row mt">
+                  <div class="col-md-12">
+                  	<div style="background:#fff; height:900px;">
+                      <div class="content-panel"style="box-shadow:0px 3px 2px #fff">
+                              <div class="panel">
+				  		           <div class="panel-title" style="margin-left:10px;padding-bottom:5px;"><b>通知公告</b></div>
+				               	</div>
+                          <!-- 上部放按钮的地方开始 -->
+    						<form class="form-horizontal style-form" method="get" action="${pageContext.request.contextPath }/notice/selectByParams" style="margin-top:10px;text-align:center;">
+			                 <div class="form-group" style="border:none;margin-top:10px;">
+		                          	<div class="col-xs-6 col-sm-3" style="float:left;">
+				                  		<c:if test="${user.role.roleName!='员工' }">
+				                  		<a href="${pageContext.request.contextPath }/notice/showPushNotice">
+				                  	  	  <button type="button" class="btn btn-info" style="background:#fff;">
+					                  	  	  <span class="glyphicon glyphicon-plus" style="color: rgb(0, 0, 255); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+					                  	  	  发布</span>
+				                  	  	  </button>
+				                  		</a>
+                                      
+                                        	<a href="${pageContext.request.contextPath }/notice/deleteNotice/{ids}"> </a>
+				                  	  	  <button type="button" class="btn btn-danger"  onclick="deledecfm()" id="notice_delete_all" style="background:#fff;">
+					                  	  	  <span class="glyphicon glyphicon-trash" style="color: rgb(255, 0, 0); font-size: 10px; text-shadow: rgb(255, 0, 0) 0px 0px 0px;"> 
+					                  	  	  删除</span>
+				                  	  	  </button>
+				                  	  	   </c:if>
+			                  	  	</div>
+			                  	  	
+			                  	  	
+			                  	  	
+			                   </div>
+			                  	  	 
+			                  	  	 
+			                  	  	
 											                  	  	 
 			                  	  	 
 			                  	  	 <div class="form-group" style="border:none;margin-left:30px;">
@@ -130,7 +131,7 @@
 	                  	  	
 	                  	  	
 								      <div class="col-xs-6 col-sm-3" style="float:left;margin-left:10px;">
-				                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:5px;height:28px;text-align:center;line-height:28px;">类型:</span>
+				                  	  	  <span style="font-weight:bold;font-size:10px;float:left;margin-right:5px;height:25px;text-align:center;line-height:28px;">类型:</span>
 				                  	  	  	<div class="col-sm-7">
 				                  	  	  	<select name="type" class="form-control">
 				                  	  	  		<option></option>
@@ -271,12 +272,7 @@ $("input[id='startTime']").datetimepicker({
             language:  'zh-CN',
             autoclose:true //选择一个日期之后是否立即关闭此日期选择器
            
-        });
-      
-      
-      $(function(){
-          $('select.styled').customSelect();
-      });
+        });      
 
       
     //完成全选/全部选

@@ -1,16 +1,26 @@
 body {
 	width: 100%;
 	margin: 0 auto;
+	background:url(/oa/images/login-background.jpg) no-repeat center fixed rgba(0,0,0,0.2) !important;
+	background-size:100% !important;
+	
 }
-
+.form-control{
+}
 .login-exterior {
-	margin: 30px;
+	margin-left:900px;
+	margin-top:100px;
+	opacity: 0.8;
+	
 }
 
 .login-interior {
 	width: 400px;
 	height: 400px;
 	background: #ffffff;
+	margin-right:30px;
+	margin-top:50px;
+	border-radius:5px;
 }
 
 .login-uid {
@@ -28,7 +38,6 @@ body {
 	height: 25px;
 	background: #ffffff;
 }
-
 .login-verifyCode {
 	margin-top: 30px;
 	width: 300px;
@@ -68,7 +77,12 @@ body {
 	box-shadow: none;
 	border-color: #e7e7e7;
 }
-
+#bt-login{
+	margin-left:53px;
+}
+#code{
+	margin-left:100px;
+}
 .uid-password:focus, .uid-password.active {
 	box-shadow: none;
 	border-color: #878787;

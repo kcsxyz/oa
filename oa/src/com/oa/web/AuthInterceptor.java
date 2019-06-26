@@ -23,6 +23,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		// 获取用户的请求地址
 		String uri = request.getRequestURI();
+		System.out.println(uri);
 		String path = request.getSession().getServletContext().getContextPath();
 
 		// 判断当前路径是否需要进行权限验证。
@@ -30,8 +31,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		List<Permission> permissions = permissionService.getParentPermissionList();
 		Set<String> uriSet = new HashSet<String>();
 		for (Permission permission : permissions) {
+			//System.out.println(permission.getUrl());
 			if (permission.getUrl() != null && !"".equals(permission.getUrl())) {
-				uriSet.add(path + permission.getUrl());
+				uriSet.add(permission.getUrl());
 			}
 		}
 
@@ -43,7 +45,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			} else {
 				//无权限
-				response.sendRedirect(path + "/error");
+				response.sendRedirect(path + "/user/auth");
 				return false;
 			}
 		} else {

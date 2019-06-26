@@ -50,7 +50,7 @@ public class UserPowerController {
     @RequestMapping("/saveUser")
     public String  saveUser(HttpSession session,@PathParam("uid") String uid,User user) {
         User user1 = (User)session.getAttribute("user");
-	    String createName = user1.getUid();
+	    String createName = user1.getName();
 	    System.out.println(createName);
     	String password = "123456";
     	user.setUid(uid);

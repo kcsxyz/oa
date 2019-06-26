@@ -291,7 +291,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
  <select id="selectSchedule" parameterType="String" resultMap="BaseResultMap">
- 	select a.*,b.* from t_user a,t_schedule b where a.uid=b.create_name and b.create_name=#{uid}
+ 	select b.* from t_schedule b where b.create_name=#{uid}
  </select>
  <select id="getScheduleList" resultMap="BaseResultMap">
  	select 	

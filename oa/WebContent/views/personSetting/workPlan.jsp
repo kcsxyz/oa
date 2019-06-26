@@ -25,7 +25,7 @@
 
     <script src="/oa/assets/js/chart-master/Chart.js"></script>
     <!-- 时间插件js文件 -->
-    <script src="/oa/assets/js/jquery.js"></script>
+    <script src="/oa/assets/jquery-2.1.0.min.js"></script>
     <script src="/oa/assets/js/bootstrap.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/oa/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -102,7 +102,7 @@
 		                  	  	  	<select class="form-control" id="planStatus" onchange = "planStatusChange()">
 													<option>全部</option>
 													<option value="0">待审核</option>
-													<option value="1">已审核</option>
+													<option value="1">通过</option>
 													<option value="2">驳回</option>
 									</select>  
 									</div>
@@ -180,11 +180,11 @@
                                   </td>
                                   <td style="text-align:center;">
                                   <!-- 你根据原型图修改操作的地方 -->  
-                                  <c:if test="${sessionScope.user.uid !=workPlan.user.uid && workPlan.status==0}"> 
+                                  <c:if test="${sessionScope.user.uid !=workPlan.createName && workPlan.status==0}"> 
                                   		<button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/toCheckedWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>审核</button>                               	
                                   </c:if>
-                                  <c:if test="${sessionScope.user.uid==workPlan.user.uid && workPlan.status!=1}">
-                                      <button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>编辑</button>
+                                  <c:if test="${sessionScope.user.uid==workPlan.createName && workPlan.status!=1}">
+                                      <button class="btn btn-primary btn-xs" edit-id="${workPlan.id}" onclick="window.location.href='/oa/workPlan/updateWorkPlan/${workPlan.id }'"><i class="fa fa-pencil"></i>查看</button>
                                      <button class="btn btn-danger btn-xs" onclick="window.location.href='/oa/workPlan/deleteWorkPlan/${workPlan.id }'"><i class="fa fa-trash-o "></i>删除</button>
                                  </c:if>
                                   </td>

@@ -44,7 +44,7 @@
 	                            	 <div class="form-group" style="border:none;margin-top:30px;">
 			                              <span style="width:35%;color:#000;font-size:15px;float:left;height:28px;text-align:right;line-height:28px;">头像:</span>
 				                        	<div class="col-xs-3 col-sm-4" >
-				                            	<img src="/oa/images/ui-sam.jpg" alt="选择并上传头像" id="avatar_img" style="width: 100px;height: 100px;left:0;top: 0;border-radius: 50%;">
+				                            	<img src="${user.headPic}" alt="选择并上传头像" id="avatar_img" style="width: 100px;height: 100px;left:0;top: 0;border-radius: 50%;">
 				                            	<input type="file" id="avatar_file" name="headPic" accept="image/jpg,image/png,image/gif" style="width: 100%;height:100%;opacity: 0;position: absolute;left:0;top: 0;"/> 
 											</div>
 			                          </div>

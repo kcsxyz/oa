@@ -26,18 +26,19 @@
     <script src="<%=basePath%>assets/jquery.validate.min.js" type="text/javascript"></script>
 </head>
 
-<body style="background-image:url(/oa/images/bodybackground.jpg); background-size:100%;">
+<body >
     <div class="unix-login">
         <div class="container-fluid" >
-            <div class="row justify-content-center" style="background:url("/oa/images/bodybackground.jpg"),background-size:contain;">
+            <div class="row justify-content-center">
+            <!-- 	<img alt="" src="/oa/images/logo.png" id="logoImage"> -->
                 <div class="login-exterior">
                     <div class="login-content">
                         <!-- <div class="login-logo">
                             <a href="index.html"><span>Focus</span></a>
                         </div> -->
-                        <div class="login-interior text-center" style="margin:20% 0 0 50% ">
+                        <div class="login-interior" style="">
                             <div class="login-title">
-                            	OA系统 Login
+                            	用户登录
                             </div>
                             
                             <form id="login-form" method="post" style="margin-top:20px;">
@@ -45,7 +46,7 @@
                                     <pd style="float:left;padding-left:10px;"><b>工号</b></pd>
                                 </div>
                                 <div>
-                                	<input type="text" name="uid" id="uid" class="uid-password" required placeholder="工号" style="width:300px; padding-left:5px;">
+                                	<input type="text" name="uid" id="uid" class="uid-password form-control" required placeholder="工号" style="width:300px; padding-left:5px;margin:0 auto;">
                                 	
                                 	<label id="showResult" style="width:350px;height:10px;display:block;text-align:right;padding:0px;margin:5px 0 0 0;"></label>
                                 </div>
@@ -53,10 +54,10 @@
                                     <pd style="float:left;padding-left:10px;"><b>密码</b></pd><font id="error2" style="color:red;"></font>
                                 </div>
                                 <div>
-                                	<input type="password" name="password" id="password" class="uid-password" required placeholder="密码" style="width:300px; padding-left:5px;">
+                                	<input type="password" name="password" id="password" class="uid-password form-control" required placeholder="密码" style="width:300px; padding-left:5px;margin:0 auto;">
                                 </div>
 	                            <div class="login-verifyCode">
-	                                <input type="text" name="code" id="code" placeholder="验证码" style="width:150px;margin-left:40px; padding-left:5px;">
+	                                <input type="text" name="code" id="code" placeholder="验证码" style="width:150px;margin-left:53px; padding-left:5px;">
 	        						<img id="imgs" src="/oa/getVerify" onclick="changeImage()" alt="verifycodes" src="verifyCodeAction" width="80px" height="30px" />
                                 </div>
                                 <div class="remember text-center">
@@ -64,7 +65,7 @@
 										<input type="checkbox" id="ck_rmbUser" value="0"> 记住我
 									</pd>
                                 </div>
-                                <Button type="button" class="btn" id="bt-login"><div>登录</div></Button>
+                                <Button type="button" class="btn btn-primary" id="bt-login"><div>登录</div></Button>
                             </form>
                         </div>
                     </div>

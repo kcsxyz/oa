@@ -170,7 +170,7 @@
 	$("#save_password").click(function(){
 		var uid=$("#uid").val;
 		var oldPassword=$("#password").val();
-		var newPassword=$("#new_password").val();
+		var newPassword=$("#newPassword").val();
 		$.ajax({
 			url :"${pageContext.request.contextPath}/user/updatePassword",
 			data : "password="+oldPassword+"&repassword="+newPassword,
@@ -178,7 +178,7 @@
 			dataType : "json",			
 			success : function(data){
 				if(data.stateCode==1){
-					alert("01");
+					
 					location.href="${pageContext.request.contextPath}/user/toLogin";
 				}else if(data.stateCode==0){
 					$(".retu").html(data.message);

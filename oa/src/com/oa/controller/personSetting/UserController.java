@@ -44,6 +44,17 @@ import com.oa.utils.md5;
 			return "index";
 		}
 		
+		@RequestMapping("error")
+		public String error() {
+			
+			return "error";
+		}
+		@RequestMapping("auth")
+		public String auth() {
+			
+			return "auth";
+		}
+		
 		/**
 		 * @param uid
 		 * @return
@@ -139,7 +150,7 @@ import com.oa.utils.md5;
 		String pwd=md5.GetMD5Code(password);
 		String repwd=md5.GetMD5Code(repassword);
 		User user=(User) session.getAttribute("user");
-		if(pwd.equals(userService.getUser(user.getUid()).getPassword())) {			
+		if(pwd.equals(user.getPassword())) {			
 			userService.updatePassword(user.getUid(),repwd);
 			//System.out.println("密码修改成功");
 			rr.setStateCode(1);

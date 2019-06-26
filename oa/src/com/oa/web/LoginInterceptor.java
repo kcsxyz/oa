@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 		if (loginUser == null) {
 			String path = session.getServletContext().getContextPath();
-			response.sendRedirect(path + "/login");
+			response.sendRedirect(path + "/user/toLogin");
 			return false;
 		} else {
 			return true;

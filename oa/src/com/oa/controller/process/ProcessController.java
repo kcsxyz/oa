@@ -260,6 +260,14 @@ public class ProcessController {
 			processSerivce.saveProcessNode(pn);
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"部门经理");
+			
+			leave.setUserId(user.getUid());
+			leave.setUserName(user.getName());
+			leave.setCreateTime(new Date());
+			leave.setProcessNo(processNo);
+			leave.setCurrentNo(processNodeId);
+			leave.setStatus("部门经理审批中");
+			processSerivce.saveLeave(leave);
 		//2.部门经理请假
 		}else if(user.getRole().getRoleName().equals("部门经理")) {
 			Process process = new Process(processNo, "请假申请", "提交总经理审批");
@@ -267,6 +275,14 @@ public class ProcessController {
 			
 			ProcessNode pn = new ProcessNode(processNo, "请假申请", "总经理", "提交总经理审批");
 			processSerivce.saveProcessNode(pn);
+			
+			leave.setUserId(user.getUid());
+			leave.setUserName(user.getName());
+			leave.setCreateTime(new Date());
+			leave.setProcessNo(processNo);
+			leave.setCurrentNo(processNodeId);
+			leave.setStatus("总经理审批中");
+			processSerivce.saveLeave(leave);
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"总经理");
 		}else if(user.getRole().getRoleName().equals("总经理")) {
@@ -277,6 +293,14 @@ public class ProcessController {
 			processSerivce.saveProcessNode(pn);
 			/*------------获得节点的id-------------*/
 			processNodeId = processSerivce.getProcessNodeId(processNo,"Boss");
+			
+			leave.setUserId(user.getUid());
+			leave.setUserName(user.getName());
+			leave.setCreateTime(new Date());
+			leave.setProcessNo(processNo);
+			leave.setCurrentNo(processNodeId);
+			leave.setStatus("老板审批中");
+			processSerivce.saveLeave(leave);
 		}else {
 			rr.setStateCode(0);
 			rr.setMessage("请假异常。。。");
@@ -284,14 +308,6 @@ public class ProcessController {
 		}
 		
 		//保存请假实体
-		
-		leave.setUserId(user.getUid());
-		leave.setUserName(user.getName());
-		leave.setCreateTime(new Date());
-		leave.setProcessNo(processNo);
-		leave.setCurrentNo(processNodeId);
-		leave.setStatus("审核中");
-		processSerivce.saveLeave(leave);
 		rr.setStateCode(1);
 		return rr;
 	}
